@@ -1,0 +1,58 @@
+&run_setup
+        lattice = newlat.lte,
+        !lattice = linac1.lte,
+        default_order = 2,
+        use_beamline = bl,
+        p_central = 70
+        sigma = %s.sig,
+        centroid = %s.cen,
+        output = %s.out,
+        !final = %s.fin,
+        print_statistics = 1
+        !parameters = %s.param
+&end
+
+!&sasefel
+!        output = %s.sase,
+!        beta = 1,
+!        undulator_K = 3.1,
+!        undulator_period = 0.033,
+!&end
+
+&run_control
+        n_steps = 1
+&end
+
+!&slice_analysis
+!  output = %s.slice,
+!  n_slices=20
+!  final_values_only=1    
+!&
+
+&bunched_beam
+        n_particles_per_bunch = 2500,
+        one_random_bunch=0,
+        emit_nx = 2.0e-6,
+        emit_ny = 2.0e-6,
+        beta_x = 20, alpha_x = 10,
+        beta_y = 20, alpha_y = 10,
+        sigma_dp = 0.001,
+        sigma_s = 300e-6,
+        distribution_type[0] = 3*"gaussian",
+        distribution_cutoff[0] = 3*3,
+        symmetrize = 1,
+        enforce_rms_values[0] = 1,1,1,
+        !bunch = %s.bun
+&end
+ 
+!&sdds_beam
+!        input                     = E0_7um-R1_2mm-G8ps-C0_7nC-200k.sdds,
+!        input_type                = "elegant",
+!        sample_interval           = 1,
+!        p_lower                   = 0,
+!        p_upper                   = 1e10,
+!        reuse_bunch               = 0
+!&end
+
+
+&track &end
