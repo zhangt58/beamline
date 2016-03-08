@@ -11,7 +11,6 @@ import beamline
 import os
 import unittest
 
-
 class BeamlineLteParserTest(unittest.TestCase):
     def setUp(self):
         latticePath = os.path.join(os.getcwd(), '../lattice')
@@ -116,23 +115,71 @@ class IsBeamlineTest(BeamlineLatticeTest):
         self.assertFalse(self.lins.isBeamline('bl01'))
         self.assertFalse(self.lins.isBeamline('q02'))
 
-class ShowBeamlines(BeamlineLatticeTest):
+class ShowBeamlinesTest(BeamlineLatticeTest):
     # show all beamlines
     def runTest(self):
         self.assertEqual(self.lins.showBeamlines(), 
                 "11 beamlines: BL;CHI;TRIP3;BI2S;BI2B;A1;A3;A2;A4;DOUB2;DOUB1")
 
-class GenerateLattice(BeamlineLatticeTest):
+class GenerateLatticeTest(BeamlineLatticeTest):
     # generateLattice by beamline keyword
     def runTest(self):
         latticefile = os.path.join(os.getcwd(), 'tracking/newlat.lte')
         self.assertTrue(self.lins.generateLattice('bl', latticefile, format = 'elegant'))
 
-class RinseElement(BeamlineLatticeTest):
+class RinseElementTest(BeamlineLatticeTest):
     # rinse element test
     def runTest(self):
         self.assertEqual(self.lins.rinseElement('18*aip'), {'name':'aip', 'num':18})
         self.assertEqual(self.lins.rinseElement('q01'),    {'num':1, 'name':'q01'})
+
+class OrderLatticeTest(BeamlineLatticeTest):
+    def runTest(self):
+        chi_ordered = [(u'dbll2', u'LSCDRIF', 1), (u'dqd3', u'LSCDRIF', 2), (u'q05', u'QUAD', 1), (u'dqd2', u'LSCDRIF', 3), (u'q06', u'QUAD', 2), (u'dqd3', u'LSCDRIF', 4), (u'dp4fh', u'LSCDRIF', 5), (u'dp4sh', u'LSCDRIF', 6), (u'dbll5', u'LSCDRIF', 7), (u'dbd', u'LSCDRIF', 8), (u'b11', u'CSRCSBEN', 1), (u'db11', u'CSRDRIF', 1), (u'b12', u'CSRCSBEN', 2), (u'db12', u'CSRDRIF', 2), (u'pf2', u'PFILTER', 1), (u'db13', u'CSRDRIF', 3), (u'b13', u'CSRCSBEN', 3), (u'db14', u'CSRDRIF', 4), (u'b14', u'CSRCSBEN', 4), (u'dbd', u'LSCDRIF', 9), (u'dbll5', u'LSCDRIF', 10), (u'dqd3', u'LSCDRIF', 11), (u'q07', u'QUAD', 3), (u'dqd2', u'LSCDRIF', 12), (u'q08', u'QUAD', 4), (u'dqd3', u'LSCDRIF', 13), (u'dp5fh', u'LSCDRIF', 14), (u'dp5sh', u'LSCDRIF', 15), (u'dbll2', u'LSCDRIF', 16), (u'pstn1', u'MARK', 1)]
+        self.assertEqual(self.lins.orderLattice('chi'), chi_ordered)
+
+class GetElementByNameTest(BeamlineLatticeTest):
+    def runTest(self):
+        self.assertEqual(self.lins.getElementByName('chi','dbll2'), 
+                [(u'dbll2', u'LSCDRIF', 1), (u'dbll2', u'LSCDRIF', 16)])
+
+class GetElementByOrderTest(BeamlineLatticeTest):
+    def runTest(self):
+        bl   = 'chi'
+        type = 'lscdrif'
+        # single index
+        self.assertEqual(self.lins.getElementByOrder(bl, type, -1), [(u'dbll2', u'LSCDRIF', 16)])
+        # multi index
+        self.assertEqual(self.lins.getElementByOrder(bl, type, '0,1,2'), [(u'dbll2', u'LSCDRIF', 1), (u'dqd3', u'LSCDRIF', 2), (u'dqd2', u'LSCDRIF', 3)])
+        # index range
+        self.assertEqual(self.lins.getElementByOrder(bl, type, '1:5:2'), [(u'dqd3', u'LSCDRIF', 2), (u'dqd3', u'LSCDRIF', 4)])
+        self.assertEqual(self.lins.getElementByOrder(bl, type, 'all'),[(u'dbll2', u'LSCDRIF', 1), (u'dqd3', u'LSCDRIF', 2), (u'dqd2', u'LSCDRIF', 3), (u'dqd3', u'LSCDRIF', 4), (u'dp4fh', u'LSCDRIF', 5), (u'dp4sh', u'LSCDRIF', 6), (u'dbll5', u'LSCDRIF', 7), (u'dbd', u'LSCDRIF', 8), (u'dbd', u'LSCDRIF', 9), (u'dbll5', u'LSCDRIF', 10), (u'dqd3', u'LSCDRIF', 11), (u'dqd2', u'LSCDRIF', 12), (u'dqd3', u'LSCDRIF', 13), (u'dp5fh', u'LSCDRIF', 14), (u'dp5sh', u'LSCDRIF', 15), (u'dbll2', u'LSCDRIF', 16)])
+
+class GetElementPropertiesTest(BeamlineLatticeTest):
+    def runTest(self):
+        kw = 'bpm02'
+        self.assertEqual(self.lins.getElementProperties(kw), 
+                         {'type':'moni', 'properties':None})
+
+        kw = 'q01'
+        self.assertEqual(self.lins.getElementProperties(kw)['properties'],
+                         {u'k1': 0.0, u'l': 0.05})
+
+class ManipulateLatticeTest(BeamlineLatticeTest):
+    def runTest(self):
+        ele = self.lins.getElementByOrder('chi', type = 'quad', irange = 0)[0][0]
+        k1_old = self.lins.getElementProperties(ele)['properties']['k1']
+        self.lins.manipulateLattice('chi', type = 'quad', irange = 0, 
+                                     property = 'k1', opstr = '+100%')
+        k1_new = self.lins.getElementProperties(ele)['properties']['k1']
+        self.assertEqual(k1_new, 2.0*k1_old)
+        
+    def genltefileTest(self):
+        latticefile1 = os.path.join(os.getcwd(), 'tracking/newlat1.lte')
+        latticefile2 = os.path.join(os.getcwd(), 'tracking/newlat2.lte')
+        self.lins.generateLattice('bl', latticefile1, format = 'elegant')
+        self.lins.manipulateLattice('chi', type = 'quad', property = 'k1', irange = 'all', opstr = '+100%')
+        self.lins.generateLattice('bl', latticefile2, format = 'elegant')
 
 def testfun():
     latticePath = os.path.join(os.getcwd(), '../lattice')
@@ -146,14 +193,39 @@ def testfun():
 #    tl = lins.manipulateLattice('bl')
 #    print tl
 
-    for (ename,etype,eid) in lins.orderLattice('chi'):
-        print('{x:10s}:{y:10s}:{z:3d}'.format(x=ename,y=etype,z=eid))
+#    print lins.orderLattice('chi')
+
+#    for (ename,etype,eid) in lins.orderLattice('chi'):
+#        print('{x:10s}:{y:10s}:{z:3d}'.format(x=ename,y=etype,z=eid))
 #    print lins.getFullBeamline('bl')
 #    print lins.getFullBeamline('a1', extend = True)
 #    print lins.getFullBeamline('l1')
 #    print lins.getFullBeamline('2l1', extend = True)
 #    print lins.getFullBeamline('bltest')
 #    print lins.getFullBeamline('bltest', extend = True)
+    
+#    print lins.getFullBeamline('chi', extend = True)
+#    print lins.getElementByName('chi','dbll2')
+#    # single index
+#    print lins.getElementByOrder('chi','lscdrif', -1)
+#    # multi index
+#    print lins.getElementByOrder('chi','lscdrif', '0,1,2')
+#    # index range
+#    print lins.getElementByOrder('chi','lscdrif', '1:5:2')
+#    print lins.getElementByOrder('chi','lscdrif', 'all')
+
+#    lins.manipulateLattice('chi', type = 'quad', irange = 0, opstr = '+100%')
+#    for ename, etype, eid in lins.getElementByOrder('chi', type = 'quad', irange = 0):
+#        print lins.getElementProperties(ename)['properties']
+
+#    print lins.getElementProperties('q01')['properties']
+
+    # double quad k1 in chi
+    latticefile1 = os.path.join(os.getcwd(), 'tracking/newlat1.lte')
+    latticefile2 = os.path.join(os.getcwd(), 'tracking/newlat2.lte')
+    lins.generateLattice('bl', latticefile1, format = 'elegant')
+    lins.manipulateLattice('chi', type = 'quad', property = 'k1', irange = 'all', opstr = '+100%')
+    lins.generateLattice('bl', latticefile2, format = 'elegant')
 
 if __name__ == '__main__':
     testfun()
