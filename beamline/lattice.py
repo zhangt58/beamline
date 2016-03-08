@@ -1,10 +1,25 @@
 #!/usr/bin/env python
 
-#
-# convert lte -> json
-# 
-# 2016-01-28
-#
+# -*- coding: utf-8 -*-
+
+"""
+Classes/routines to handle lattice issues for online model and runtime calculation
+
+class LteParser: parse elegant lattice definition files for simulation
+    1: convert lte file into dict/json format for further usage;
+    2: resolve rpn expressions within element definitions;
+    3: retain prefixed information of lte file as '_prefixstr' key in json/dict;
+
+class Lattice: handle lattice issues from json/dict definition
+    1: instantiate with json/dict lattice definition, e.g. from LteParser.file2json();
+    2: generate lte file for elegant simulation;
+    3: iteratively expand the beamline definition in lte file;
+    4: generate lte file after manipulations.
+
+Author      : Tong Zhang
+Created     : 2016-01-28
+Last updated: 2016-03-08
+"""
 
 import json
 import time
@@ -36,7 +51,7 @@ class LteParser(object):
             :param kw: element name
             return: one line of configuration string
 
-        USAGE: conf_str = getKw('Q10')
+        USAGE: getKw('Q10')
         """
         ikw = kw.lower()
         line_continue_flag = ''
@@ -426,37 +441,113 @@ class Lattice(object):
 
         return zip(ele_name_list, ele_type_list, order_list)
 
-    def getElementByOrder(self, type, range):
-        """
-        range = 1,     first one 'type' element;
-        range = all,   all 'type' element;
-        range = 1,3,4, the first, third and fourth 'type' element
-        range = 2:10:1, start:end:setp range
-        range = -1, last one
-        """
-        pass
+    def getElementByOrder(self, beamline, type, irange):
+        """ return element list by appearance order in beamline, 
+            which could be returned by orderLattice(beamline)
 
-    def getElementByName(self, name):
+        possible irange definitions:
+            irange = 0,      first one 'type' element;
+            irange = -1,     last one
+            irange = 0,2,3,  the first, third and fourth 'type' element
+            irange = 2:10:1, start:end:setp range
+            irange = 'all',    all
         """
+        try:
+            assert beamline.upper() in self.kws_bl
+        except AssertionError:
+            print('%s is not a defined beamline.' % beamline)
+            return ''
+
+        try:
+            orderedLattice_list = self.orderLattice(beamline)
+            allmatchedlist = [val for idx, val in enumerate(orderedLattice_list) if val[1] == type.upper()]
+            if ',' in str(irange):
+                retlist = [allmatchedlist[int(num)] for num in str(irange).split(',')]
+            elif ':' in str(irange):
+                idxlist = map(int, irange.split(':'))
+                if len(idxlist) == 2:
+                    idxlist.append(1)
+                idx_start, idx_stop, idx_step = idxlist[0], idxlist[1], idxlist[2]
+                retlist = allmatchedlist[slice(idx_start, idx_stop, idx_step)]
+            elif str(irange) == 'all':
+                retlist = allmatchedlist[:]
+            else:
+                retlist = [allmatchedlist[int(irange)]]
+            return retlist
+        except: 
+            #print('Can not find %s in %s.' % (type, beamline))
+            return ''
+
+    def getElementByName(self, beamline, name):
+        """ return element list by literal name in beamline
+            each element is tuple like (name, type, order)
         """
+        try:
+            assert beamline.upper() in self.kws_bl
+        except AssertionError:
+            print('%s is not a defined beamline.' % beamline)
+            return ''
+
+        try:
+            assert name.lower() in self.getFullBeamline(beamline, extend = True)
+            orderedLattice_list = self.orderLattice(beamline)
+            retlist = [val for idx, val in enumerate(orderedLattice_list) if val[0] == name.lower()]
+            return retlist
+
+        except AssertionError:
+            print('%s is not in %s.' % (name, beamline))
+            return ''
     
-    def manipulateLattice(self, beamline, type = 'quad', opstr = '+'):
+    def manipulateLattice(self, beamline, type = 'quad', 
+                                irange = 'all', property = 'k1', 
+                                opstr = '+0%'):
         """ manipulate element with type, e.g. quad
 
             input parameters:
             beamline: beamline definition keyword
             type    : element type, case insensitive
-            opstr   : operation, '+[-]n[%]'
+            irange  : slice index, see getElementByOrder()
+            property: element property, e.g. 'k1' for 'quad' strength
+            opstr   : operation, '+[-]n%' or '+[-*/]n'
         """
-        lattice_list = self.getFullBeamline(beamline)
-        type_list = []
-        for ele in lattice_list:
-            elename = self.rinseElement(ele)['name']
-            type_list.append(self.getElementType(elename))
+        #lattice_list = self.getFullBeamline(beamline, extend = True)
+        #orderedLattice_list = self.orderLattice(beamline)
+        opele_list = self.getElementByOrder(beamline, type, irange)
 
-        return type_list
-        
-        
+        opr = opstr[0]
+        opn = float(opstr[1:].strip('%'))
+
+        if  opstr[-1] == '%':
+            opn /= 100.0
+            opsdict = {'+': lambda a, p: a*(1+p), 
+                       '-': lambda a, p: a*(1-p)}
+        else:
+            opsdict = {'+': lambda a, p: a + p, 
+                       '-': lambda a, p: a - p,
+                       '*': lambda a, p: a * p,
+                       '/': lambda a, p: a / float(p)}
+            
+        for ename,etype,eid in opele_list:
+            val0_old = self.all_elements[ename.upper()].values()[0].get(property.lower())
+            val0_new = opsdict[opr](val0_old, opn)
+            self.all_elements[ename.upper()].values()[0][property.lower()] = val0_new
+
+        return True
+
+    def getElementProperties(self, name):
+        """ return element properties
+        """
+        try:
+            allp = self.all_elements[name.upper()]
+            if isinstance(allp, dict):
+                type = allp.keys()[0]
+                properties =  allp.values()[0]
+                return {'type': type, 'properties': properties}
+            else:
+                type = allp
+                return {'type': type, 'properties': None}
+        except:
+            pass
         
 #===========================================================================
 
