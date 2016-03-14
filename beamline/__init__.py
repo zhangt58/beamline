@@ -1,10 +1,11 @@
-from .elements  import Drift, Rbend, Undulator, Quadrupole
-from .pltutils  import plotLattice, makeBeamline
-from .blparser  import madParser
-from .lattice   import Lattice, LteParser
-from .datautils import DataExtracter
+from .elements   import Drift, Rbend, Undulator, Quadrupole
+from .pltutils   import plotLattice, makeBeamline
+from .blparser   import madParser
+from .lattice    import Lattice, LteParser
+from .simulation import Simulator
+from .datautils  import DataExtracter
 
-__version__ = "1.1.1"
+__version__ = "1.1.3"
 __author__ = "Tong Zhang"
 
 __doc__ = """
@@ -27,4 +28,5 @@ def testf(arg1, arg2='arg2'):
 __all__ = [Drift, Rbend, Undulator, Quadrupole, 
            plotLattice, makeBeamline, madParser, 
            Lattice, LteParser,
+           Simulator,
            DataExtracter]
