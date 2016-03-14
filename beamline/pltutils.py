@@ -44,7 +44,7 @@ def makeBeamline(beamlinelist, startpoint=(0, 0)):
 
     Input parameters:
     :param beamlinelist: list, which elements are dict, each dict is the description for magnetic element,
-                  should be returned from module 'blparser', function madParser
+                         should be returned from module 'blparser', function madParser
     """
     latticelist = []
     anglenow = 0.0
