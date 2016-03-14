@@ -227,6 +227,19 @@ def testfun():
     lins.manipulateLattice('chi', type = 'quad', property = 'k1', irange = 'all', opstr = '+100%')
     lins.generateLattice('bl', latticefile2, format = 'elegant')
 
+    # use datautils and simulation modules
+    simpath = os.path.join(os.getcwd(), 'tracking')
+    ltefile = latticefile1
+    elefile = os.path.join(simpath, 'test.ele')
+    A = beamline.Simulator()
+    A.setMode('elegant')
+    A.setScript('runElegant.sh')
+    A.setExec('elegant')
+    A.setPath(simpath)
+    A.setInputfiles(ltefile = ltefile, elefile = elefile)
+    A.doSimulation()
+    data = A.getOutput(file = 'test.out', data = ('t','p'))
+
 if __name__ == '__main__':
     testfun()
-    unittest.main()
+    #unittest.main()

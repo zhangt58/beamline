@@ -1,5 +1,5 @@
 &run_setup
-        lattice = newlat.lte,
+        lattice = newlat1.lte,
         !lattice = linac1.lte,
         default_order = 2,
         use_beamline = bl,

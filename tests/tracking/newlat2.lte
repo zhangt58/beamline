@@ -3,7 +3,7 @@
 !                 could be used as elegant lattice file.                 !
 !                          --------------------                          !
 !               Author: Tong Zhang (zhangtong@sinap.ac.cn)               !
-!                Generated Date: 2016-03-14 15:11:45 CST                 !
+!                Generated Date: 2016-03-14 15:14:52 CST                 !
 !------------------------------------------------------------------------!
 
 ! Global variable definitions:                                            
@@ -60,10 +60,10 @@ PSTN2 :      MARK, fitpoint = "1.0"
 Q     :    CHARGE, total = "2.5e-10"
 Q01   :      QUAD, k1 = "0.0", l = "0.05"
 Q02   :      QUAD, k1 = "-0.0", l = "0.05"
-Q05   :      QUAD, k1 = "-16.7669295321", l = "0.1"
-Q06   :      QUAD, k1 = "16.0472011268", l = "0.1"
-Q07   :      QUAD, k1 = "-17.1750184852", l = "0.1"
-Q08   :      QUAD, k1 = "11.3417757407", l = "0.1"
+Q05   :      QUAD, k1 = "-33.5338590643", l = "0.1"
+Q06   :      QUAD, k1 = "32.0944022535", l = "0.1"
+Q07   :      QUAD, k1 = "-34.3500369704", l = "0.1"
+Q08   :      QUAD, k1 = "22.6835514815", l = "0.1"
 Q09   :      QUAD, k1 = "10.0", l = "0.05"
 Q10   :      QUAD, k1 = "-10.0", l = "0.1"
 W00   :     WATCH, mode = "coord", filename = "%s.w00"
