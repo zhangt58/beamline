@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-#
 # -*- coding: utf8 -*-
-#
 
 """
 functions for matplotlib plotting.

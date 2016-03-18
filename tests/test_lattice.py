@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-
-#
 # -*- coding: utf-8 -*-
-#
+
 # Tong Zhang
 # 2016-03-03
 #
@@ -238,7 +236,7 @@ def testfun():
     A.setPath(simpath)
     A.setInputfiles(ltefile = ltefile, elefile = elefile)
     A.doSimulation()
-    data = A.getOutput(file = 'test.out', data = ('t','p'))
+    data = A.getOutput(file = 'test.out', data = ('t','p'), dump = 'test.h5')
 
 if __name__ == '__main__':
     testfun()

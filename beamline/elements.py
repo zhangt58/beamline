@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-#
 # -*- coding: utf8 -*-
-#
 
 import matplotlib.pyplot as plt
 import matplotlib.path as path

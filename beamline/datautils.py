@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#sddsprintout test.cen -col=s,format="%.8e" -col=Cx,format="%.8e" -notitle -nolabels | graph -T X -C
+# -*- coding: utf-8 -*-
 
 import h5py
 import numpy as np
@@ -8,7 +8,7 @@ import os
 
 class DataExtracter(object):
     """ extract required data from a sdds formated file, 
-        to put into hdf5 formated file 
+        to put into hdf5 formated file or just RAM
 
         Author: Tong Zhang
         Date  : 2016-03-10
@@ -80,6 +80,54 @@ class DataExtracter(object):
             dset[...] = v
         f.close()
 
+class DataVisualizer(object):
+    """ for data visualization purposes
+
+        Author: Tong Zhang
+        Date  : 2016-03-14
+    """
+    def __init__(self, data):
+        self.data = data
+    
+    def inspectDataFile(self):
+        """ inspect hdf5 data file
+        """
+        pass
+
+    def illustrate(self, xlabel, ylabel):
+        """ plot x, y w.r.t. xlabel and ylabel
+        """
+        pass
+
+    def saveArtwork(self, name = 'image', fmt = 'jpg'):
+        """ save figure by default name of image.jpg
+        """
+        pass
+    
+class DataStorage(object):
+    """ for data storage management, 
+        communicate with database like mongodb, mysql, sqlite, etc.
+
+        Author: Tong Zhang
+        Date  : 2016-03-14
+    """
+    def __init__(self, data):
+        self.data = data
+
+    def configDatabase(self):
+        """ configure database
+        """
+        pass
+
+    def putData(self):
+        """ put data into database 
+        """
+        pass
+
+    def getData(self):
+        """ get data from database
+        """
+        pass
 #--------------------------------------------------------------------------------------
 
 def test():
