@@ -42,7 +42,12 @@ class LteParser(object):
         tmpstrlist = []
         for line in open(self.infile, 'r'):
             if line.startswith('%'):
-                tmpstrlist.append(line.strip())
+                stolist = line.replace('%','').split('sto')
+                rpnexp = stolist[0] # rpn expression
+                rpnvar = stolist[1].strip() # rpn variable
+                rpnval = rpn.Rpn.solve_rpn(rpnexp)
+                stostr = '% {val} sto {var}'.format(val = rpnval, var = rpnvar)
+                tmpstrlist.append(stostr)
         self.prestrdict['_prefixstr'] = tmpstrlist
 
     def getKw(self, kw):
@@ -70,7 +75,7 @@ class LteParser(object):
                 if line_continue_flag != '&': appendflag = False
             conf_str = ''.join(conflist).replace('&',',')
             if 'line' in conf_str.split('=')[0]: # if bl defines lattice
-                conf_str = conf_str.replace(',',' ').replace('line','beamline,lattice',1)
+                conf_str = conf_str.replace(',',' ')[::-1].replace('enil','beamline,lattice'[::-1],1)[::-1] # avoid the case with bl keyword has 'line'
         except:
             conf_str = ''
 
@@ -116,6 +121,13 @@ class LteParser(object):
         """
         return json.dumps(idict)
 
+    def getKwAsJson(self, kw):
+        """ return keyword configuration as a json
+
+        Usage: rjson = getKwAsJson(kw)
+        """
+        return self.dict2json(self.getKwAsDict(kw))
+
     def getKwAsDict(self, kw):
         """ return keyword configuration as a dict
 
@@ -151,7 +163,8 @@ class LteParser(object):
         kwslist = self.detectAllKws()
         kwsdict = {}
         idx = 0
-        for kw in kwslist:
+        for kw in sorted(kwslist, key = str.lower):
+            #print kw
             idx += 1
             tdict = self.getKwAsDict(kw)
             self.rpn2val(tdict)
