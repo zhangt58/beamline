@@ -34,7 +34,8 @@ class LteParser(object):
         self.confjson = {}   # configuration string line to json
         self.prestrdict = {} # prefix string line to dict, e.g. line starts with '%'
         
-        self.resolvePrefix()
+        self.stodict = {}    # sto key-value dict
+        self.resolvePrefix() # sto string information
 
     def resolvePrefix(self):
         """ extract prefix information into dict with the key of '_prefixstr'
@@ -48,6 +49,7 @@ class LteParser(object):
                 rpnval = rpn.Rpn.solve_rpn(rpnexp)
                 stostr = '% {val} sto {var}'.format(val = rpnval, var = rpnvar)
                 tmpstrlist.append(stostr)
+                self.stodict[rpnvar] = rpnval
         self.prestrdict['_prefixstr'] = tmpstrlist
 
     def getKw(self, kw):
@@ -63,9 +65,9 @@ class LteParser(object):
         try:
             for line in open(self.infile, 'r'):
                 if line.strip() == '': continue
-                line = ' '.join(line.lower().strip().split())
+                line = ' '.join(line.strip().split())
                 if line.startswith('!'): continue
-                if line.startswith(ikw + ' :') or line.startswith(ikw + ':'):
+                if line.lower().startswith(ikw + ' :') or line.lower().startswith(ikw + ':'):
                     conflist = [] # list to put into element configuration
                     conflist.append(line)
                     appendflag = True
@@ -74,8 +76,8 @@ class LteParser(object):
                 line_continue_flag = line[-1]
                 if line_continue_flag != '&': appendflag = False
             conf_str = ''.join(conflist).replace('&',',')
-            if 'line' in conf_str.split('=')[0]: # if bl defines lattice
-                conf_str = conf_str.replace(',',' ')[::-1].replace('enil','beamline,lattice'[::-1],1)[::-1] # avoid the case with bl keyword has 'line'
+            if 'line' in conf_str.lower().split('=')[0]: # if bl defines lattice
+                conf_str = conf_str.lower().replace(',',' ')[::-1].replace('enil','beamline,lattice'[::-1],1)[::-1] # avoid the case with bl keyword has 'line'
         except:
             conf_str = ''
 
@@ -177,6 +179,14 @@ class LteParser(object):
             pass
         return json.dumps(kwsdict)
 
+    def scanStoVars(self, strline):
+        """ scan input string line, replace sto parameters with calculated results.
+        """
+        for wd in strline.split():
+            if self.stodict.has_key(wd):
+                strline = strline.replace(wd, str(self.stodict[wd]))
+        return strline
+
     def rpn2val(self, rdict):
         # {"b11": {"csrcsben": {"hgap": "1.500000000e-02", "integration_order": "4", "nonlinear": "1", "angle": "10.24pi*180/", "n_kicks": "100", "l": "0.210.24pi*180/*10.24pi*180/sin/", "edge1_effects": "1", "edge2_effects": "1", "block_csr": "0", "sg_halfwidth": "1", "csr": "csr_on_off", "e1": "0.000000000e+00", "bins": "512", "e2": "10.24pi*180/"}}}
         """ Resolve the rpn string into calulated float number
@@ -193,6 +203,7 @@ class LteParser(object):
             if kw_type != 'beamline':
                 for k,v in kw_param.items():
                     try:
+                        v = self.scanStoVars(v)
                         kw_param[k] = rpn.Rpn.solve_rpn(v) # update rpn string to float
                     except: # cannot solve rpn string
                         pass
@@ -396,15 +407,17 @@ class Lattice(object):
         f.write('!{str1:<72s}!\n'.format(str1='-'*72))
         f.write('\n')
         
+        """ do not need to dump stoed variables now, 2016-03-21
         # write global variables
         f.write('! {str1:<72s}\n'.format(str1= 'Global variable definitions:'))
         f.write('\n'.join(self.all_elements['_prefixstr']))
         f.write('\n')
         f.write('\n')
+        """
         
         # write element definitions and lattice
         f.write('! {str1:<72s}\n'.format(str1= 'Element definitions:'))
-        elelist = self.getFullBeamline(beamline)
+        elelist = self.getFullBeamline(beamline, extend = True)
         for ele in sorted(set(elelist)):
             elestring = self.rinseElement(ele)['name']
             f.write(self.formatElement(elestring, format = 'elegant') + '\n')
