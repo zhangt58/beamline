@@ -237,6 +237,11 @@ class Lattice(object):
 
         self.kws_ele, self.kws_bl = self.getAllKws()
 
+    def dumpAllElements(self):
+        """ dump all element configuration lines as json format.
+        """
+        return json.dumps(self.all_elements)
+
     def getAllEle(self):
         """ return all element keywords
         """
@@ -246,7 +251,7 @@ class Lattice(object):
         """ return all beamline keywords
         """
         return self.kws_bl
-
+    
     def getBeamline(self, beamlineKw):
         """ get beamline definition from all_elements, return as a list
         """
@@ -312,14 +317,13 @@ class Lattice(object):
             return (kws_ele, kws_bl)
         """
         kws_ele = []
-        kws_bl = []
+        kws_bl  = []
         for ele in self.all_elements:
-            try:
-                if self.getElementType(ele).lower() == u'beamline':
-                    kws_bl.append(ele)
-                else:
-                    kws_ele.append(ele)
-            except:
+            if ele == '_prefixstr':
+                continue
+            elif self.getElementType(ele).lower() == u'beamline':
+                kws_bl.append(ele)
+            else:
                 kws_ele.append(ele)
 
         return tuple((kws_ele, kws_bl))
@@ -380,10 +384,20 @@ class Lattice(object):
 
         return fmtstring
 
-    def generateBeamline(self,):
-        """ construct a new beamline
+    def generateLatticeLine(self, latname = 'newline', line = None):
+        """ construct a new lattice line
         """
-        pass
+        latticeline = []
+        for e in line:
+            if isinstance(e, list):
+                latticeline.extend(e)
+            else:
+                latticeline.append(e)
+
+        newblele = {latname.upper():{'beamline':{'lattice':'('+' '.join(latticeline)+')'}}}
+        self.all_elements.update(newblele)
+        self.kws_bl.append(latname.upper())
+        return newblele
 
     def generateLatticeFile(self, beamline, filename, format = 'elegant'):
         """ generate simulation files for lattice analysis,
@@ -395,6 +409,13 @@ class Lattice(object):
             format: madx, elegant, 
                     'elegant' by default, generated lattice is for elegant tracking
         """
+
+        """
+        if not self.isBeamline(beamline):
+            print("%s is a valid defined beamline, do not process." % (beamline))
+            return False
+        """
+
         f = open(os.path.expanduser(filename), 'w')
 
         # write filehead, mainly resolving prefix string lines
@@ -423,6 +444,8 @@ class Lattice(object):
         # write element definitions and lattice
         f.write('! {str1:<72s}\n'.format(str1= 'Element definitions:'))
         elelist = self.getFullBeamline(beamline, extend = True)
+        if self.getElementType(elelist[0]) != 'CHARGE':
+            elelist.insert(0, self.getChargeElement())
         for ele in sorted(set(elelist)):
             elestring = self.rinseElement(ele)['name']
             f.write(self.formatElement(elestring, format = 'elegant') + '\n')
@@ -470,6 +493,14 @@ class Lattice(object):
             order_list[idx] = ele_type_dict_uniq[etype]
 
         return zip(ele_name_list, ele_type_list, order_list)
+
+    def getChargeElement(self):
+        """ return charge element name
+        """
+        for k in self.getAllEle():
+            if self.getElementType(k) == 'CHARGE':
+                return k
+        return ''
 
     def getElementByOrder(self, beamline, type, irange):
         """ return element list by appearance order in beamline, 
