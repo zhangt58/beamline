@@ -356,14 +356,20 @@ class Lattice(object):
             etype = self.all_elements.get(elementKw.upper())
         return etype.upper()
 
-    def getElementConf(self, elementKw):
+    def getElementConf(self, elementKw, raw = False):
         """ return configuration for given element keyword,
             e.g. getElementConf('Q01') should return dict: {u'k1': 0.0, u'l': 0.05}
         """
-        try:
-            econf = self.all_elements.get(elementKw.upper()).values()[0]
-        except:
-            return {}
+        if raw == True:
+            try:
+                econf = self.all_elements.get(elementKw.upper())
+            except:
+                return {}
+        else:
+            try:
+                econf = self.all_elements.get(elementKw.upper()).values()[0]
+            except:
+                return {}
         return econf
 
     def formatElement(self, kw, format = 'elegant'):
