@@ -12,12 +12,36 @@ Last updated: 2016-03-24
 import json
 
 class MagBlock(object):
-    objcnt = 0
-    info = {}
+    objcnt = 0      # object counter
+    comminfo = {}
     def __init__(self, name = None):
         MagBlock.objcnt += 1
-        self._name = name
-        self.info = {k:v for k,v in MagBlock.info.items()}
+        self._name = name # element name
+        self.comminfo = {k:v for k,v in MagBlock.comminfo.items()} # common information
+
+        self.simuinfo = {} # simulation information
+        self.ctrlinfo = {} # control information
+        self.miscinfo = {} # other information
+
+        self.simukeys = [] # keywords of simulation information
+        self.ctrlkeys = [] # keywords of control information
+        self.misckeys = [] # keywords of other information
+        
+        self.setConfDict = {'simu': self._setSimuConf, 
+                            'ctrl': self._setCtrlConf, 
+                            'misc': self._setMiscConf}
+
+        self.prtConfigDict = {'simu': self._printSimuConf, 
+                              'ctrl': self._printCtrlConf, 
+                              'misc': self._printMiscConf,
+                              'comm': self._printCommConf,
+                              'all' : self._printAllConf}
+
+        self.dumpConfigDict = {'simu': self._dumpSimuConf, 
+                               'ctrl': self._dumpCtrlConf, 
+                               'misc': self._dumpMiscConf,
+                               'comm': self._dumpCommConf,
+                               'all' : self._dumpAllConf}
 
     @property
     def name(self):
@@ -33,7 +57,7 @@ class MagBlock(object):
     
     @staticmethod
     def setCommInfo(infostr):
-        """ set common information,
+        """ set common information, to dict: info
             input parameter:
             :param infostr:
                 1 infostr is a dict
@@ -41,21 +65,12 @@ class MagBlock(object):
         """
         if isinstance(infostr, dict):
             for k,v in infostr.items():
-                MagBlock.info[k] = v
+                MagBlock.comminfo[k] = v
         elif isinstance(infostr, str):
             for k,v in MagBlock.str2dict(infostr).items():
-                MagBlock.info[k] = v
+                MagBlock.comminfo[k] = v
         else:
             print("Information string ERROR.")
-
-    def setConf(self, conf):
-        if conf == None:
-            return
-        else:
-            if isinstance(conf, str):
-                self.info.update(MagBlock.str2dict(conf))
-            else:
-                self.info.update(conf)
 
     @staticmethod
     def str2dict(istr):
@@ -67,22 +82,92 @@ class MagBlock(object):
         v = [i.strip() for i in tmpstr[1::2]]
         return dict(zip(k,v))
 
-    def printConfig(self):
-        print("\n")
+    def setConf(self, conf, type = 'simu'):
+        """ set information for different type dict,
+            :param conf: configuration information, str or dict
+            :param type: simu, ctrl, misc
+        """
+        if conf == None:
+            return
+        else:
+            if isinstance(conf, str):
+                conf = MagBlock.str2dict(conf)
+            self.setConfDict[type](conf)
+
+    def printConfig(self, type = 'simu'):
+        """ print information about element
+            :param type: comm, simu, ctrl, misc, all
+        """
         print("{s1}{s2:^22s}{s1}".format(s1="-"*10,s2="Configuration START"))
-        for k,v in sorted(self.info.items(), reverse=True):
-            print("{k} is {v}".format(k=k,v=v))
+        print("class name: " + self.__class__.__name__)
+        self.prtConfigDict[type]()
         print("{s1}{s2:^22s}{s1}".format(s1="-"*10,s2="Configuration END"))
 
-    def dumpConfig(self, format = 'elegant'):
+   
+    def dumpConfig(self, type = 'simu', format = 'elegant'):
         """ dump element configuration to given format,
             inpurt parameters:
+            :param type: comm, simu, ctrl, misc, all
             :param format: elegant/mad, elegant by default
         """
-        return {self.name.upper(): {self.typename: {k:self.info[k] for k in self.keylist}}}
+        return self.dumpConfigDict[type](format)
+
+    def _setSimuConf(self, conf):
+        self.simuinfo.update(conf)
+        self.simukeys.extend(conf.keys())
+        self.simukeys = list(set(self.simukeys))
+
+    def _setCtrlConf(self, conf):
+        self.ctrlinfo.update(conf)
+        self.ctrlkeys.extend(conf.keys())
+        self.ctrlkeys = list(set(self.ctrlkeys))
+
+    def _setMiscConf(self, conf):
+        self.miscinfo.update(conf)
+        self.misckeys.extend(conf.keys())
+        self.misckeys = list(set(self.misckeys))
+
+    def _printSimuConf(self):
+        for k,v in sorted(self.simuinfo.items(), reverse=True):
+            print("{k} is {v}".format(k=k,v=v))
+
+    def _printCommConf(self):
+        for k,v in sorted(self.comminfo.items(), reverse=True):
+            print("{k} is {v}".format(k=k,v=v))
+
+    def _printCtrlConf(self):
+        for k,v in sorted(self.ctrlinfo.items(), reverse=True):
+            print("{k} is {v}".format(k=k,v=v))
+
+    def _printMiscConf(self):
+        for k,v in sorted(self.miscinfo.items(), reverse=True):
+            print("{k} is {v}".format(k=k,v=v))
+
+    def _printAllConf(self):
+        allinfo = {}
+        map(allinfo.update, [self.comminfo, self.ctrlinfo, self.miscinfo, self.simuinfo])
+        for k,v in sorted(allinfo.items(), reverse=True):
+            print("{k} is {v}".format(k=k,v=v))
+
+    def _dumpSimuConf(self, format):
+        return {self.name.upper(): {self.typename: {k:self.simuinfo[k] for k in self.simukeys}}}
+
+    def _dumpMiscConf(self, format):
+        return {self.name.upper(): {self.typename: {k:self.miscinfo[k] for k in self.misckeys}}}
+
+    def _dumpCtrlConf(self, format):
+        return {self.name.upper(): {self.typename: {k:self.ctrlinfo[k] for k in self.ctrlkeys}}}
+
+    def _dumpCommConf(self, format):
+        return {self.name.upper(): {self.typename: {k:self.comminfo[k] for k in self.comminfo.keys()}}}
+
+    def _dumpAllConf(self, format):
+        allinfo = {}
+        map(allinfo.update, [self.comminfo, self.ctrlinfo, self.miscinfo, self.simuinfo])
+        return {self.name.upper(): {self.typename: {k:allinfo[k] for k in allinfo.keys()}}}
 
     def __str__(self):
-        """ return configuration dict as json string format
+        """ return simulation configuration dict as json string format
         """
         return json.dumps(self.dumpConfig())
 
@@ -92,12 +177,7 @@ class ElementCharge(MagBlock):
     def __init__(self, name = None, config = None):
         MagBlock.__init__(self, name)
         self.typename = 'CHARGE'
-        self.keylist = ['total']
         self.setConf(config)
-
-    #def dumpConfig(self, format = 'elegant'):
-    #    return {self.name: {self.typename: {k:self.info[k] for k in self.keylist}}}
-
 
 class ElementCsrcsben(MagBlock):
     """ csrcsben element
@@ -105,7 +185,6 @@ class ElementCsrcsben(MagBlock):
     def __init__(self, name = None, config = None):
         MagBlock.__init__(self, name)
         self.typename = 'CSRCSBEN'
-        self.keylist = ['l','angle']
         self.setConf(config)
 
 class ElementCsrdrift(MagBlock):
@@ -114,7 +193,6 @@ class ElementCsrdrift(MagBlock):
     def __init__(self, name = None, config = None):
         MagBlock.__init__(self, name)
         self.typename = 'CSRDRIFT'
-        self.keylist = ['l']
         self.setConf(config)
 
 class ElementDrift(MagBlock):
@@ -123,32 +201,39 @@ class ElementDrift(MagBlock):
     def __init__(self, name = None, config = None):
         MagBlock.__init__(self, name)
         self.typename = 'DRIFT'
-        self.keylist = ['l']
         self.setConf(config)
 
 class ElementKicker(MagBlock):
     """ kicker element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'KICKER'
+        self.setConf(config)
 
 class ElementLscdrift(MagBlock):
     """ lscdrift element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'LSCDRIFT'
+        self.setConf(config)
 
 class ElementMark(MagBlock):
     """ mark element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'MARK'
+        self.setConf(config)
 
 class ElementMoni(MagBlock):
     """ moni element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'MONI'
+        self.setConf(config)
 
 class ElementQuad(MagBlock):
     """ quad element
@@ -156,32 +241,39 @@ class ElementQuad(MagBlock):
     def __init__(self, name = None, config = None):
         MagBlock.__init__(self, name)
         self.typename = 'QUAD'
-        self.keylist = ['l', 'k1']
         self.setConf(config)
 
 class ElementRfcw(MagBlock):
     """ rfcw element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'RFCW'
+        self.setConf(config)
 
 class ElementRfdf(MagBlock):
     """ rfdf element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'RFDF'
+        self.setConf(config)
 
 class ElementWake(MagBlock):
     """ wake element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'WAKE'
+        self.setConf(config)
 
 class ElementWatch(MagBlock):
     """ watch element
     """
-    def __init__(self):
-        MagBlock.__init__(self)
+    def __init__(self, name = None, config = None):
+        MagBlock.__init__(self, name)
+        self.typename = 'WATCH'
+        self.setConf(config)
 
 class ElementBeamline(MagBlock):
     """ beamline element
@@ -189,76 +281,75 @@ class ElementBeamline(MagBlock):
     def __init__(self, name = 'bl', config = None):
         MagBlock.__init__(self, name)
         self.typename = 'BEAMLINE'
-        self.keylist  = ['lattice']
         self.setConf(config)
 
 def test():
-    #dinfo = {'DATE': '2016-03-22', 'AUTHOR': 'Tong Zhang'}
-    dinfo = 'DATE = 2016-03-22, AUTHOR = Tong Zhang'
-    MagBlock.setCommInfo(dinfo)
+    """ For example, define lattice configuration for a 4-dipole chicane with quads
+                    |-|---|-|  
+                    /       \
+          ---||---|-|       |-|---||---
 
-    #CH = ElementCharge()
+        i.e.   drift + quad  + drift 
+            + dipole + drift + dipole + drift 
+            + dipole + drift + dipole
+            + drift  + quad  + drift
+    """
+    # typical workflow:
+
+    ## STEP 1: define common information, two different input parameter formats
+    #commdinfo = {'DATE': '2016-03-22', 'AUTHOR': 'Tong Zhang'}
+    comminfo = 'DATE = 2016-03-24, 16:05, AUTHOR = Tong Zhang'
+    MagBlock.setCommInfo(comminfo)
+    
+    ## STEP 2: create element
+
+    # charge
     chconf = {'total':1e-9}
-    #CH.setConf(chconf)
-
     CH = ElementCharge(name = 'Q1', config = chconf)
-    CH.printConfig()
-    print CH.name
-    print str(CH)
 
-    D0 = ElementDrift()
-    d0conf = {'l':1.0}
-    D0.setConf(d0conf)
-    D0.name = 'D0'
-    D0.printConfig()
-    print str(D0)
+    # csrcsben
+    simconf = {"edge1_effects": 1,
+               "edge2_effects":1,
+               "hgap":0.015,
+               "csr":0,
+               "nonlinear":1,
+               "n_kicks":100,
+               "integration_order":4,
+               "bins":512,
+               "sg_halfwidth":1,
+               "block_csr":0,
+               'l':0.5,}
+    angle = 0.2
 
+    B1 = ElementCsrcsben(name = 'b1', config = {'angle':angle, 'e1':0, 'e2':angle})
+    B1.setConf(simconf, type = 'simu')
+    #B1.setConf("pv=sxfel:lattice:b1",  type = 'ctrl')
+    
+    B2 = ElementCsrcsben(name = 'b2', config = {'angle':-angle, 'e1':-angle, 'e2':0})
+    B3 = ElementCsrcsben(name = 'b3', config = {'angle':-angle, 'e1':0,      'e2':-angle})
+    B4 = ElementCsrcsben(name = 'b4', config = {'angle': angle, 'e1':angle,  'e2':0})
+    B2.setConf(simconf, type = 'simu')
+    B3.setConf(simconf, type = 'simu')
+    B4.setConf(simconf, type = 'simu')
+
+    # drift
+    D0 = ElementDrift(name = 'D0', config = "l=1.0")
+
+    # quad
     Q1 = ElementQuad(name = 'Q1', config = "k1 = 10, l = 0.1")
-    print str(Q1)
+    dftconf = {'tilt':"pi 4 /"}
+    Q1.setConf(dftconf, type = 'simu')
 
-    bl = ElementBeamline(name = 'bl1', config = {'lattice':'(q,d0,q1)'})
-    bl = ElementBeamline(name = 'bl1', config = "lattice = (q,d0,q1)")
-    bl = ElementBeamline(name = 'bl1', config = "lattice = ()")
-    bl.setConf("lattice = (d,q,b)")
-    print str(bl)
-    """
-
-    B1 = ElementCsrcsben()
-    b1conf = {'l':0.5,'angle':5}
-    B1.setConf(b1conf)
-    """
-
-    """
-    D1 = ElementCsrdrift()
-    B2 = ElementCsrcsben()
-    D2 = ElementCsrdrift()
-    B3 = ElementCsrcsben()
-    D3 = ElementCsrdrift()
-    B4 = ElementCsrcsben()
-    D4 = ElementCsrdrift()
-    Q1 = ElementQuad()
-    D5 = ElementDrift()
-    Q2 = ElementQuad()
-    D6 = ElementDrift()
-    Q3 = ElementQuad()
-    D7 = ElementDrift()
-    """
+    # beamline
+    latele = [obj.name for obj in [D0, Q1, D0, B1, D0, B2, D0, D0, B3, D0, B4, D0, Q1, D0]]
+    latstr = '(' + ' '.join(latele) + ')'
+    
+    bl = ElementBeamline(name = 'bl', config = {'lattice':latstr})
+    #bl = ElementBeamline(name = 'bl1', config = "lattice = (q d0 q1)")
+    #bl.setConf("lattice = (d,q,b)", type = 'simu')
+    print bl
 
     #print MagBlock.sumObjNum()
-    #CH.printConfig()
-    #D0.printConfig()
-    #B1.printConfig()
-    #dconf1 = CH.dumpConfig('C')
-    #dconf2 = D0.dumpConfig('D0')
-    #dconf3 = B1.dumpConfig('B1')
-    #dconf = {}
-    #for i in [dconf1, dconf2, dconf3]:
-    #    dconf.update(i)
-
-    #import json
-    #print json.dumps(dconf)
-
-    
 
 if __name__ == '__main__':
     test()
