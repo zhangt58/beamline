@@ -1,8 +1,7 @@
 &run_setup
-        lattice = newlat1.lte,
-        !lattice = linac1.lte,
+        lattice = test.lte,
         default_order = 2,
-        use_beamline = bl,
+        use_beamline = BLCHI,
         p_central = 70
         sigma = %s.sig,
         centroid = %s.cen,
@@ -12,22 +11,10 @@
         !parameters = %s.param
 &end
 
-!&sasefel
-!        output = %s.sase,
-!        beta = 1,
-!        undulator_K = 3.1,
-!        undulator_period = 0.033,
-!&end
 
 &run_control
         n_steps = 1
 &end
-
-!&slice_analysis
-!  output = %s.slice,
-!  n_slices=20
-!  final_values_only=1    
-!&
 
 &bunched_beam
         n_particles_per_bunch = 2500,
@@ -45,14 +32,4 @@
         !bunch = %s.bun
 &end
  
-!&sdds_beam
-!        input                     = E0_7um-R1_2mm-G8ps-C0_7nC-200k.sdds,
-!        input_type                = "elegant",
-!        sample_interval           = 1,
-!        p_lower                   = 0,
-!        p_upper                   = 1e10,
-!        reuse_bunch               = 0
-!&end
-
-
 &track &end

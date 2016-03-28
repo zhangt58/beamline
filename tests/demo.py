@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" workflow example for lattice online modeling.
+""" workflow example for online modeling.
     
     Author: Tong Zhang
     Dated : 2016-03-25
@@ -96,8 +96,21 @@ def modelWorkflow():
     ## STEP 4: create Lattice instance, make simulation required input files
     # e.g. '.lte' for elegant tracking, require all configurations
     latins = beamline.Lattice(latline.getAllConfig())
-    latfile = os.path.join(os.getcwd(), 'test_models/test.lte')
+    latfile = os.path.join(os.getcwd(), 'tracking/test.lte')
     latins.generateLatticeFile(latline.name, latfile)
+
+    ## STEP 5: simulation with generated lattice file
+    simpath = os.path.join(os.getcwd(), 'tracking')
+    elefile = os.path.join(simpath, 'test.ele')
+    h5out   = os.path.join(simpath, 'tpout.h5')
+    elesim = beamline.Simulator()
+    elesim.setMode('elegant')
+    elesim.setScript('runElegant.sh')
+    elesim.setExec('elegant')
+    elesim.setPath(simpath)
+    elesim.setInputfiles(ltefile = latfile, elefile = elefile)
+    elesim.doSimulation()
+    data = elesim.getOutput(file = 'test.out', data = ('t', 'p'), dump = h5out)
 
 if __name__ == '__main__':
     modelWorkflow()
