@@ -129,26 +129,38 @@ class MagBlock(object):
         self.misckeys = list(set(self.misckeys))
 
     def _printSimuConf(self):
-        for k,v in sorted(self.simuinfo.items(), reverse=True):
-            print("{k} is {v}".format(k=k,v=v))
+        if self.simuinfo:
+            print("Simulation configs:")
+            for k,v in sorted(self.simuinfo.items(), reverse=True):
+                print("  {k:6s} = {v:6s}".format(k=k,v=v))
 
     def _printCommConf(self):
-        for k,v in sorted(self.comminfo.items(), reverse=True):
-            print("{k} is {v}".format(k=k,v=v))
+        if self.comminfo:
+            print("Common configs:")
+            for k,v in sorted(self.comminfo.items(), reverse=True):
+                print("  {k:6s} = {v:6s}".format(k=k,v=v))
 
     def _printCtrlConf(self):
-        for k,v in sorted(self.ctrlinfo.items(), reverse=True):
-            print("{k} is {v}".format(k=k,v=v))
+        if self.ctrlinfo:
+            print("Control configs:")
+            for k,v in sorted(self.ctrlinfo.items(), reverse=True):
+                print("  {k:6s} = {v:6s}".format(k=k,v=v))
 
     def _printMiscConf(self):
-        for k,v in sorted(self.miscinfo.items(), reverse=True):
-            print("{k} is {v}".format(k=k,v=v))
+        if self.miscinfo:
+            print("Miscellaneous configs:")
+            for k,v in sorted(self.miscinfo.items(), reverse=True):
+                print("  {k:6s} = {v:6s}".format(k=k,v=v))
 
     def _printAllConf(self):
-        allinfo = {}
-        map(allinfo.update, [self.comminfo, self.ctrlinfo, self.miscinfo, self.simuinfo])
-        for k,v in sorted(allinfo.items(), reverse=True):
-            print("{k} is {v}".format(k=k,v=v))
+        #allinfo = {}
+        #map(allinfo.update, [self.comminfo, self.ctrlinfo, self.miscinfo, self.simuinfo])
+        #for k,v in sorted(allinfo.items(), reverse=True):
+        #    print("{k:6s} = {v:6s}".format(k=k,v=v))
+        self._printCommConf()
+        self._printSimuConf()
+        self._printCtrlConf()
+        self._printMiscConf()
 
     def _dumpSimuConf(self, format):
         return {self.name.upper(): {self.typename: {k:self.simuinfo[k] for k in self.simukeys}}}
