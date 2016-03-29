@@ -13,18 +13,36 @@ Last updated: 2016-03-24
 """
 
 import element
+import json
+import copy
+import epics
 
 class Models(object):
-    def __init__(self, name = 'bl'):
-        """ make lattice configuration (json) for lattice.Lattice
+    """ make lattice configuration (json) for lattice.Lattice
+        return instance as a json string file with all configuration.
+        get lattice name by instance.name.
+    """
+    def __init__(self, name = 'BL', mode = 'simu'):
+        """ create Models instance,
+            :param name: lattice name, 'BL' by defualt
+            :param mode: 'simu' or 'online' mode,
+                if 'online' is defined, the lattice should be update the ctrl
+                configuration before dumping configuration string by calling
+                method: getCtrlConf()
         """
-        self._lattice_name     = name  # lattice name
-        self._lattice_elecnt   = 0     # lattice element counter
-        self._lattice_elelist  = []    # lattice element list
-        self._lattice_confdict = {}    # lattice configuration dict
+        self._mode             = mode.lower()   # 'simu' (simulation) or 'online' (online) mode
+        self._lattice_name     = name.upper()   # lattice name
+        self._lattice_elecnt   = 0      # lattice element counter
+        self._lattice_elenamelist = []  # lattice element name list
+        self._lattice_eleobjlist  = []  # lattice element object list
+        self._lattice_confdict = {}     # lattice configuration dict
         self._lattice = element.ElementBeamline(
                             name   = self._lattice_name,
                             config = "lattice = ()") # initial lattice configuration
+
+    @property
+    def mode(self):
+        return self._mode
 
     @property
     def name(self):
@@ -34,21 +52,53 @@ class Models(object):
     def name(self, name):
         self._lattice_name = name.upper()
 
+    @mode.setter
+    def mode(self, mode):
+        self._mode = mode.lower()
+
     def addElement(self, *ele):
         """ add element to lattice element list
             input parameters:
             :param ele: magnetic element defined in element module
             return total element number
         """
-        for e in list(Models.flatten(ele)):
-            self._lattice_elelist.append(e.name)
-            self._lattice_confdict.update(e.dumpConfig())
+        for el in list(Models.flatten(ele)):
+            e = copy.deepcopy(el)
+            self._lattice_eleobjlist.append(e)
+            self._lattice_elenamelist.append(e.name)
             self._lattice_elecnt += 1
         # update lattice, i.e. beamline element
-        self._lattice.setConf(Models.makeLatticeString(self._lattice_elelist))
-        self._lattice_confdict.update(self._lattice.dumpConfig())
+        self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
         return self._lattice_elecnt
     
+    def getCtrlConf(self):
+        """ get control configurations regarding to the PV names,
+            read PV value
+            return the counted number of visited PVs
+        """
+        getcnt = 0
+        if self.mode == 'online':
+            for e in self._lattice_eleobjlist:
+                for k in (set(e.simukeys) & set(e.ctrlkeys)):
+                    getcnt += 1
+                    try:
+                        pvval = epics.PV(e.ctrlinfo[k]).get()
+                        e.simuinfo[k] = pvval
+                    except:
+                        pass
+        else: # self.mode is 'simu' do nothing
+            pass
+        return getcnt
+
+    def getAllConfig(self):
+        """ return all element configurations as json string file.
+            could be further processed by beamline.Lattice class
+        """
+        for e in self._lattice_eleobjlist:
+            self._lattice_confdict.update(e.dumpConfig(type='simu'))
+        self._lattice_confdict.update(self._lattice.dumpConfig())
+        return json.dumps(self._lattice_confdict)
+
     @staticmethod
     def makeLatticeString(ele):
         """ return string like "lattice = (q b d)"
@@ -73,7 +123,7 @@ class Models(object):
     def LatticeList(self):
         """ show lattice element list
         """
-        return self._lattice_elelist
+        return self._lattice_elenamelist
 
     @property
     def LatticeDict(self):
@@ -81,24 +131,8 @@ class Models(object):
         """
         return self._lattice_confdict
 
-    """
-    def __init__(self, *pvs):
-        self.pvs = pvs
-        print self.concatenateList(*pvs)
-
-    def concatenateList(self, *e):
-        tmpe = []
-        for i in e:
-            if isinstance(i, list):
-                tmpe.extend(i)
-            else:
-                tmpe.append(i)
-        return tmpe
-
-    def readParams(self, eType, ePv):
-        pass
-    """
-
+    def __str__(self):
+        return self.getAllConfig()
 
 def test():
     #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
