@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """ workflow example for online modeling.
     
@@ -24,7 +24,7 @@ def modelWorkflow():
 
     ## STEP 1: define common information, two different input parameter formats
     #commdinfo = {'DATE': '2016-03-22', 'AUTHOR': 'Tong Zhang'}
-    comminfo = 'DATE = 2016-03-24, 16:05, AUTHOR = Tong Zhang'
+    comminfo = 'DATE = 2016-03-24, AUTHOR = Tong Zhang'
     beamline.MagBlock.setCommInfo(comminfo)
     
     ## STEP 2: create element
@@ -63,8 +63,12 @@ def modelWorkflow():
 
     # quad
     Q1 = beamline.ElementQuad(name = 'Q1', config = "k1 = 10, l = 0.1")
-    dftconf = {'tilt':"pi 4 /"}
-    Q1.setConf(dftconf, type = 'simu')
+    simuconf = {'tilt':"pi 4 /"}
+    Q1.setConf(simuconf, type = 'simu')
+    # control configurations for Q1
+    ctrlconf = {"k1":"sxfel:lattice:Q09"}
+    Q1.setConf(ctrlconf, type = 'ctrl')
+    #print Q1.dumpConfig(type='online')
 
 
     ## STEP 3: make lattice beamline
@@ -82,22 +86,20 @@ def modelWorkflow():
 
     # METHOD 2: CAN get all configurations
     # use 'Models' class of 'models' module
-    latline = beamline.Models(name = 'blchi')
+    latline_online = beamline.Models(name = 'blchi', mode = 'online')
     qline = (D0, Q1, D0)
     chi   = (B1, D0, B2, D0, D0, B3, D0, B4)
-    latline.addElement(q, qline, chi, qline)
-    #print latline.LatticeList
-    #print latline.LatticeDict[latline.name]
-    #print latline
+    latline_online.addElement(q, qline, chi, qline)
+    latline_online.getCtrlConf()
     
     # show defined elements number
     #print beamline.MagBlock.sumObjNum()
 
     ## STEP 4: create Lattice instance, make simulation required input files
     # e.g. '.lte' for elegant tracking, require all configurations
-    latins = beamline.Lattice(latline.getAllConfig())
+    latins = beamline.Lattice(latline_online.getAllConfig())
     latfile = os.path.join(os.getcwd(), 'tracking/test.lte')
-    latins.generateLatticeFile(latline.name, latfile)
+    latins.generateLatticeFile(latline_online.name, latfile)
 
     ## STEP 5: simulation with generated lattice file
     simpath = os.path.join(os.getcwd(), 'tracking')
@@ -110,7 +112,9 @@ def modelWorkflow():
     elesim.setPath(simpath)
     elesim.setInputfiles(ltefile = latfile, elefile = elefile)
     elesim.doSimulation()
+    # data columns could be extracted from simulation output files, to memory or h5 files.
     data = elesim.getOutput(file = 'test.out', data = ('t', 'p'), dump = h5out)
+    
 
 if __name__ == '__main__':
     modelWorkflow()
