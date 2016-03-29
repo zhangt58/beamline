@@ -41,7 +41,8 @@ class MagBlock(object):
                                'ctrl': self._dumpCtrlConf, 
                                'misc': self._dumpMiscConf,
                                'comm': self._dumpCommConf,
-                               'all' : self._dumpAllConf}
+                               'all' : self._dumpAllConf,
+                               'online': self._dumpOnlineConf}
 
     @property
     def name(self):
@@ -104,10 +105,10 @@ class MagBlock(object):
         print("{s1}{s2:^22s}{s1}".format(s1="-"*10,s2="Configuration END"))
 
    
-    def dumpConfig(self, type = 'simu', format = 'elegant'):
+    def dumpConfig(self, type = 'online', format = 'elegant'):
         """ dump element configuration to given format,
             inpurt parameters:
-            :param type: comm, simu, ctrl, misc, all
+            :param type: comm, simu, ctrl, misc, all, online (default)
             :param format: elegant/mad, elegant by default
         """
         return self.dumpConfigDict[type](format)
@@ -163,8 +164,21 @@ class MagBlock(object):
 
     def _dumpAllConf(self, format):
         allinfo = {}
-        map(allinfo.update, [self.comminfo, self.ctrlinfo, self.miscinfo, self.simuinfo])
+        map(allinfo.update, [self.comminfo, self.miscinfo, self.simuinfo, self.ctrlinfo])
         return {self.name.upper(): {self.typename: {k:allinfo[k] for k in allinfo.keys()}}}
+
+    def _dumpOnlineConf(self, format):
+        """ dump element configuration json string for online modeling,
+            in which control configuration should be overwritten simulation conf,
+            e.g. in simuinfo: {'k1':10,'l':1}, ctrlinfo: {'k1':pv_name,...}
+            the k1 value should be replaced by pv_name, and from which 
+            the value read into, take note the simuinfo and ctrlinfo
+            would not be changed.
+        """
+        oinfod = {k:v for k,v in self.simuinfo.items()}
+        for k in (set(oinfod.keys()) & set(self.ctrlkeys)):
+            oinfod[k] = self.ctrlinfo[k]
+        return {self.name.upper(): {self.typename: oinfod}}
 
     def __str__(self):
         """ return simulation configuration dict as json string format
