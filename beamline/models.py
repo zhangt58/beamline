@@ -69,35 +69,71 @@ class Models(object):
             self._lattice_elecnt += 1
         # update lattice, i.e. beamline element
         self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
+        self._lattice_eleobjlist_copy = copy.deepcopy(self._lattice_eleobjlist)
         return self._lattice_elecnt
     
-    def getCtrlConf(self):
+    def getCtrlConf(self, msgout=True):
         """ get control configurations regarding to the PV names,
             read PV value
+            :param msgout: print information if True (be default)
             return the counted number of visited PVs
         """
         getcnt = 0
         if self.mode == 'online':
-            for e in self._lattice_eleobjlist:
+            for e in self._lattice_eleobjlist_copy:
                 for k in (set(e.simukeys) & set(e.ctrlkeys)):
                     getcnt += 1
                     try:
-                        pvval = epics.PV(e.ctrlinfo[k]).get()
-                        e.simuinfo[k] = pvval
+                        if msgout:
+                            print("Reading from %s..." % e.ctrlinfo[k]['pv'])
+                        pvval = epics.caget(e.ctrlinfo[k]['pv'])
+                        if not pvval is None:
+                            e.simuinfo[k] = pvval
+                            if msgout:
+                                print("  Done.") 
+                        else: 
+                            if msgout:
+                                print("  Failed.")
                     except:
                         pass
         else: # self.mode is 'simu' do nothing
             pass
         return getcnt
 
-    def getAllConfig(self):
-        """ return all element configurations as json string file.
-            could be further processed by beamline.Lattice class
+    def putCtrlConf(self, eleobj, ctrlkey, val):
+        """ put the value to control PV field
         """
-        for e in self._lattice_eleobjlist:
+        if ctrlkey in eleobj.ctrlkeys:
+            newval = val
+            epics.caput(eleobj.ctrlinfo[ctrlkey]['pv'], newval)
+            return True
+        else:
+            return False
+
+    def getAllConfig(self, fmt = 'json'):
+        """
+            return all element configurations as json string file.
+            could be further processed by beamline.Lattice class
+            input parameter:
+            :param fmt: 'json' (default) or 'dict'
+        """
+        self.getCtrlConf(msgout=False)
+        for e in self._lattice_eleobjlist_copy:
             self._lattice_confdict.update(e.dumpConfig(type='simu'))
         self._lattice_confdict.update(self._lattice.dumpConfig())
-        return json.dumps(self._lattice_confdict)
+        if fmt == 'json':
+            return json.dumps(self._lattice_confdict)
+        else:
+            return self._lattice_confdict
+
+    def updateConfig(self, eleobj, config, type = 'simu'):
+        """ write new configuration to element
+            input parameters:
+            :param eleobj: define element object
+            :param config: new configuration for element, string or dict
+            :param type: 'simu' by default, could be online, misc, comm, ctrl
+        """
+        eleobj.setConf(config, type = type)
 
     @staticmethod
     def makeLatticeString(ele):
@@ -133,6 +169,25 @@ class Models(object):
 
     def __str__(self):
         return self.getAllConfig()
+
+    def getElementsByName(self, name):
+        """ get element with given name (exclusively)
+            return element object regarding to 'name'
+            :param name: element name, case sensitive
+        """
+        try:
+            return filter(lambda x:x.name == name, self._lattice_eleobjlist)[0]
+        except:
+            return ''
+
+    def printAllElements(self):
+        """ print out all modeled elements
+        """
+        cnt = 1
+        print("{id:<3s}: {name:<12s} {type:<10s} {classname:<10s}".format(id='ID',name='Name',type='Type',classname='Class Name'))
+        for e in self._lattice_eleobjlist:
+            print("{cnt:>03d}: {name:<12s} {type:<10s} {classname:<10s}".format(cnt=cnt,name=e.name,type=e.typename,classname=e.__class__.__name__))
+            cnt += 1
 
 def test():
     #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
