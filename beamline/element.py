@@ -10,6 +10,7 @@ Last updated: 2016-03-24
 """
 
 import json
+import epics
 
 class MagBlock(object):
     objcnt = 0      # object counter
@@ -103,7 +104,6 @@ class MagBlock(object):
         print("class name: " + self.__class__.__name__)
         self.prtConfigDict[type]()
         print("{s1}{s2:^22s}{s1}".format(s1="-"*10,s2="Configuration END"))
-
    
     def dumpConfig(self, type = 'online', format = 'elegant'):
         """ dump element configuration to given format,
@@ -132,25 +132,31 @@ class MagBlock(object):
         if self.simuinfo:
             print("Simulation configs:")
             for k,v in sorted(self.simuinfo.items(), reverse=True):
-                print("  {k:6s} = {v:6s}".format(k=k,v=v))
+                print("  {k:6s} = {v:6s}".format(k=str(k),v=str(v)))
 
     def _printCommConf(self):
         if self.comminfo:
             print("Common configs:")
             for k,v in sorted(self.comminfo.items(), reverse=True):
-                print("  {k:6s} = {v:6s}".format(k=k,v=v))
+                print("  {k:6s} = {v:6s}".format(k=str(k),v=str(v)))
 
     def _printCtrlConf(self):
+        """ get PV value and print out
+        """
         if self.ctrlinfo:
             print("Control configs:")
             for k,v in sorted(self.ctrlinfo.items(), reverse=True):
-                print("  {k:6s} = {v:6s}".format(k=k,v=v))
+                pv  = v['pv']
+                val = epics.caget(pv)
+                if val is None:
+                    val = ''
+                print("  {k:6s} = {pv:6s}, {val:6s}".format(k=str(k),pv=str(pv),val=str(val)))
 
     def _printMiscConf(self):
         if self.miscinfo:
             print("Miscellaneous configs:")
             for k,v in sorted(self.miscinfo.items(), reverse=True):
-                print("  {k:6s} = {v:6s}".format(k=k,v=v))
+                print("  {k:6s} = {v:6s}".format(k=str(k),v=str(v)))
 
     def _printAllConf(self):
         #allinfo = {}
