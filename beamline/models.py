@@ -69,20 +69,18 @@ class Models(object):
             self._lattice_elecnt += 1
         # update lattice, i.e. beamline element
         self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
-        self._lattice_eleobjlist_copy = copy.deepcopy(self._lattice_eleobjlist)
         return self._lattice_elecnt
     
     def getCtrlConf(self, msgout=True):
         """ get control configurations regarding to the PV names,
             read PV value
             :param msgout: print information if True (be default)
-            return the counted number of visited PVs
+            return updated element object list
         """
-        getcnt = 0
+        _lattice_eleobjlist_copy = copy.deepcopy(self._lattice_eleobjlist)
         if self.mode == 'online':
-            for e in self._lattice_eleobjlist_copy:
+            for e in _lattice_eleobjlist_copy:
                 for k in (set(e.simukeys) & set(e.ctrlkeys)):
-                    getcnt += 1
                     try:
                         if msgout:
                             print("Reading from %s..." % e.ctrlinfo[k]['pv'])
@@ -98,7 +96,7 @@ class Models(object):
                         pass
         else: # self.mode is 'simu' do nothing
             pass
-        return getcnt
+        return _lattice_eleobjlist_copy
 
     def putCtrlConf(self, eleobj, ctrlkey, val, type = 'raw'):
         """ put the value to control PV field
@@ -126,8 +124,7 @@ class Models(object):
             input parameter:
             :param fmt: 'json' (default) or 'dict'
         """
-        self.getCtrlConf(msgout=False)
-        for e in self._lattice_eleobjlist_copy:
+        for e in self.getCtrlConf(msgout=False):
             self._lattice_confdict.update(e.dumpConfig(type='simu'))
         self._lattice_confdict.update(self._lattice.dumpConfig())
         if fmt == 'json':
