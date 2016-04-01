@@ -4,7 +4,7 @@
 """
 Module designed for online modeling:
 *elegant tracking with lte/ele files*:
-    1: lte file should be generated from lattice.Lattice.generateLattice() method;
+    1: lte file should be generated from lattice.Lattice.generateLatticeFile() method;
     2: take ele file as initialization parameter, but could be changed;
     3: output tracking results as hdf5 file (hard drive) and numpy array (memory);
     
@@ -105,7 +105,7 @@ class Simulator(object):
         data = dh.extractData().getH5Data()
         return data
 
-    def _getOutputMad(self, *kws):
+    def _getOutputMad(self, **kws):
         pass
 
     def setInputfiles(self, **infiles):
