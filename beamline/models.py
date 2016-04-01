@@ -88,7 +88,7 @@ class Models(object):
                             print("Reading from %s..." % e.ctrlinfo[k]['pv'])
                         pvval = epics.caget(e.ctrlinfo[k]['pv'])
                         if not pvval is None:
-                            e.simuinfo[k] = pvval
+                            e.simuinfo[k] = e.unitTrans(pvval, direction = '+')
                             if msgout:
                                 print("  Done.") 
                         else: 
@@ -100,11 +100,20 @@ class Models(object):
             pass
         return getcnt
 
-    def putCtrlConf(self, eleobj, ctrlkey, val):
+    def putCtrlConf(self, eleobj, ctrlkey, val, type = 'raw'):
         """ put the value to control PV field
+            :param eleobj: element object in lattice
+            :param ctrlkey: element control property, PV name
+            :param val: new value for ctrlkey
+            :param type: set in 'raw' or 'real' mode, 'raw' by default
+                         'raw': set PV with the value of 'val',
+                         'real': set PV with the value translated from 'val'
         """
         if ctrlkey in eleobj.ctrlkeys:
-            newval = val
+            if type == 'raw':
+                newval = val
+            else: # val should be translated
+                newval = eleobj.unitTrans(val, direction = '-')
             epics.caput(eleobj.ctrlinfo[ctrlkey]['pv'], newval)
             return True
         else:
