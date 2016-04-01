@@ -27,6 +27,7 @@ class MagBlock(object):
         self.simukeys = [] # keywords of simulation information
         self.ctrlkeys = [] # keywords of control information
         self.misckeys = [] # keywords of other information
+        self.transfun = None # unit translation function
         
         self.setConfDict = {'simu': self._setSimuConf, 
                             'ctrl': self._setCtrlConf, 
@@ -147,10 +148,15 @@ class MagBlock(object):
             print("Control configs:")
             for k,v in sorted(self.ctrlinfo.items(), reverse=True):
                 pv  = v['pv']
-                val = epics.caget(pv)
-                if val is None:
+                rval = epics.caget(pv)
+                if rval is None:
                     val = ''
-                print("  {k:6s} = {pv:6s}, {val:6s}".format(k=str(k),pv=str(pv),val=str(val)))
+                else:
+                    val = self.unitTrans(rval,direction = '+')
+                print("  {k:6s} = {pv:6s}, raw: {rval:>6s}, real: {val:>6s}".format(k   = str(k),
+                                                                                    pv  = str(pv),
+                                                                                    rval= str(rval),
+                                                                                    val = str(val)))
 
     def _printMiscConf(self):
         if self.miscinfo:
@@ -197,6 +203,16 @@ class MagBlock(object):
         for k in (set(oinfod.keys()) & set(self.ctrlkeys)):
             oinfod[k] = self.ctrlinfo[k]
         return {self.name.upper(): {self.typename: oinfod}}
+
+    def unitTrans(self, inval, direction = '+', transfun = None):
+        """ unit translation between EPICS PV and physical values,
+            :param inval: input val,
+            :param direction: '+': PV->physical, '-': physical->PV, '+' by default,
+            :param transfun: userdefined translation function, None by default,
+                             could be defined through creating obj.transfun
+        """
+        outval = inval
+        return outval
 
     def __str__(self):
         """ return simulation configuration dict as json string format
@@ -274,6 +290,17 @@ class ElementQuad(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'QUAD'
         self.setConf(config)
+
+    def unitTrans(self, inval, direction = '+', transfun = None):
+        transfun = self.transfun
+        if transfun != None:
+            outval = transfun(inval, direction)
+        else: # use builtin translation rules
+            if direction == '+': # PV->physical
+                outval = 2*inval
+            elif direction == '-': # physical->PV
+                outval = 0.5*inval
+        return outval
 
 class ElementRfcw(MagBlock):
     """ rfcw element
