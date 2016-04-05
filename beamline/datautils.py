@@ -6,6 +6,7 @@ import numpy as np
 import subprocess
 import os
 
+
 class DataExtracter(object):
     """ extract required data from a sdds formated file, 
         to put into hdf5 formated file or just RAM
@@ -15,25 +16,26 @@ class DataExtracter(object):
     """
     def __init__(self, sddsfile, *kws):
         self.sddsfile = sddsfile
-        self.kwslist  = kws
+        self.kwslist = kws
 
         self.precision = '%.16e'
         self.dcmdline = 'sddsprintout {fn} -notitle -nolabel'.format(fn=self.sddsfile)
 
         self.h5data = ''
-    
-    def getAllCols(self, sddsfile = None):
+
+    def getAllCols(self, sddsfile=None):
         """ return all data collum names
+        :param sddsfile: sdds file name
         """
-        if sddsfile == None:
+        if sddsfile is None:
             sddsfile = self.sddsfile
-        return subprocess.check_output(['sddsquery','-col',sddsfile]).split()
+        return subprocess.check_output(['sddsquery', '-col',  sddsfile]).split()
 
     def extractData(self):
         """ extract data as numpy array, with given required fields
         """
         for k in self.kwslist:
-            self.dcmdline += ' -col={kw},format={p}'.format(kw = k, p = self.precision)
+            self.dcmdline += ' -col={kw},format={p}'.format(kw=k, p=self.precision)
         cmdlist = ['bash', self.dscript, self.dpath, self.dcmdline]
         retlist = []
         proc = subprocess.Popen(cmdlist, stdout=subprocess.PIPE)
@@ -57,11 +59,13 @@ class DataExtracter(object):
 
     def setDataPath(self, path):
         """ set full dir path of data files
+        :param path: data path
         """
         self.dpath = os.path.expanduser(path)
 
     def setH5file(self, h5filepath):
         """ set h5file full path name
+        :param h5filepath: path for hdf5 file
         """
         self.h5file = os.path.expanduser(h5filepath)
 
@@ -74,11 +78,12 @@ class DataExtracter(object):
         """ dump extracted data into a single hdf5file
         """
         f = h5py.File(self.h5file, 'w')
-        for i,k in enumerate(self.kwslist):
-            v = self.h5data[:,i]
-            dset = f.create_dataset(k, shape = v.shape, dtype = v.dtype)
+        for i, k in enumerate(self.kwslist):
+            v = self.h5data[:, i]
+            dset = f.create_dataset(k, shape=v.shape, dtype=v.dtype)
             dset[...] = v
         f.close()
+
 
 class DataVisualizer(object):
     """ for data visualization purposes
@@ -88,7 +93,7 @@ class DataVisualizer(object):
     """
     def __init__(self, data):
         self.data = data
-    
+
     def inspectDataFile(self):
         """ inspect hdf5 data file
         """
@@ -96,14 +101,19 @@ class DataVisualizer(object):
 
     def illustrate(self, xlabel, ylabel):
         """ plot x, y w.r.t. xlabel and ylabel
+        :param ylabel: xlabel
+        :param xlabel: ylabel
         """
         pass
 
-    def saveArtwork(self, name = 'image', fmt = 'jpg'):
+    def saveArtwork(self, name='image', fmt='jpg'):
         """ save figure by default name of image.jpg
+        :param name: image name, 'image' by default
+        :param fmt: image format, 'jpg' by default
         """
         pass
-    
+
+
 class DataStorage(object):
     """ for data storage management, 
         communicate with database like mongodb, mysql, sqlite, etc.
@@ -128,11 +138,13 @@ class DataStorage(object):
         """ get data from database
         """
         pass
+
 #--------------------------------------------------------------------------------------
+
 
 def test():
     # workflow
-    datafields = ['s','Sx','Sy','enx','eny']
+    datafields = ['s', 'Sx', 'Sy', 'enx', 'eny']
     datascript = '~/Programming/projects/beamline/scripts/sddsprintdata.sh'
     datapath   = '~/Programming/projects/beamline/tests/tracking'
     hdf5file   = os.path.join(os.path.expanduser(datapath), 'test.h5')

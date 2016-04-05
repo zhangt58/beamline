@@ -16,48 +16,52 @@ Last updated: 2016-03-08
 
 import subprocess
 import os
-#import datautils
 from . import datautils
 
+
 class Simulator(object):
-    def __init__(self, infile = ''):
-        self.mode = 'mad' # call setMode(mode = 'elegant') to change mode, or 'mad' by default
-        self.lattice_file = infile # .lte file for elegant mode, or .mad[x] file for mad mode
+    def __init__(self, infile=''):
+        self.mode = 'mad'           # call setMode(mode = 'elegant') to change mode, or 'mad' by default
+        self.lattice_file = infile  # .lte file for elegant mode, or .mad[x] file for mad mode
         self.elegant_file = ''
         self.set_file = {
                         'elegant': self._setElegant,
-                        'mad'    : self._setMad
+                        'mad': self._setMad
                         }
 
         self.sim_case = {
                         'elegant': self._doElegant,
-                        'mad'    : self._doMad
+                        'mad': self._doMad
                         }
 
         self.get_output = {
                           'elegant': self._getOutputElegant,
-                          'mad'    : self._getOutputMad
+                          'mad': self._getOutputMad
                           }
         self.sim_exec = 'mad'
         self.sim_path = os.path.expanduser('~')
 
-    def setMode(self, mode = 'elegant'):
+    def setMode(self, mode='elegant'):
         """ set simulation mode, define mode parameter of 'elegant' or 'mad'
+        :param mode: simulation mode
         """
         self.mode = mode.lower()
 
     def setScript(self, fullname):
         """ set bash shell script full path name for simulation
+        :param fullname: set 'runElegant.sh', which should be available after installed beamline package
         """
         self.sim_script = fullname
 
     def setExec(self, execpath):
         """ set executable for simulation
+        :param execpath: elegant or madx full path
         """
         self.sim_exec = execpath
 
     def setPath(self, simpath):
         """ set simulation path where data should be put into
+        :param simpath: where simulations take place, all data files should be found there
         """
         self.sim_path = simpath
 
@@ -93,13 +97,13 @@ class Simulator(object):
              - 'dump': h5file name, if defined, dump data to hdf5 format
         """
         datascript = "sddsprintdata.sh"
-        datapath   = self.sim_path
+        datapath = self.sim_path
         trajparam_list = kws['data']
         sddsfile = os.path.expanduser(os.path.join(self.sim_path, kws['file']))
         dh = datautils.DataExtracter(sddsfile, *trajparam_list)
         dh.setDataScript(datascript)
         dh.setDataPath(datapath)
-        if kws.has_key('dump'):
+        if 'dump' in kws:
             dh.setH5file(kws['dump'])
             dh.extractData().dump()
         data = dh.extractData().getH5Data()
@@ -129,12 +133,13 @@ class Simulator(object):
                 'lat file = {lattice_file:5s}\n'
                 'ele file = {elegant_file:5s}\n'
                 'sim exec = {sscript_path:5s}\n').format(
-                    mode         = self.mode,
-                    lattice_file = self.lattice_file,
-                    elegant_file = self.elegant_file,
-                    sscript_path = self.sim_script)
+                    mode=self.mode,
+                    lattice_file=self.lattice_file,
+                    elegant_file=self.elegant_file,
+                    sscript_path=self.sim_script)
 
 #----------------------------------------------------------------------------------------
+
 
 def test():
     import os
@@ -150,10 +155,10 @@ def test():
     A.setScript(os.path.join(os.getcwd(), '../scripts/runElegant.sh'))
     A.setExec('/home/tong/APS/epics/../oag/apps/bin/linux-x86_64/elegant')
     A.setPath(simtestpath)
-    A.setInputfiles(ltefile = ltefile, elefile = elefile)
+    A.setInputfiles(ltefile=ltefile, elefile=elefile)
     A.doSimulation()
-    data = A.getOutput(file = 'test.sig', data = ('s','Sx'))
-    data = A.getOutput(file = 'test.sig', data = ('s','Sx'), dump = 'test.h5')
+    data = A.getOutput(file='test.sig', data=('s', 'Sx'))
+    data = A.getOutput(file='test.sig', data=('s', 'Sx'), dump='test.h5')
 
     """
     # mad workflow 1

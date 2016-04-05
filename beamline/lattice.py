@@ -25,17 +25,18 @@ import time
 import os
 from pyrpn import rpn
 
+
 class LteParser(object):
     def __init__(self, infile):
         self.infile = infile
 
-        self.confstr = ''    # configuration string line for given element
-        self.confdict = {}   # configuration string line to dict
-        self.confjson = {}   # configuration string line to json
-        self.prestrdict = {} # prefix string line to dict, e.g. line starts with '%'
-        
-        self.stodict = {}    # sto key-value dict
-        self.resolvePrefix() # sto string information
+        self.confstr = ''  # configuration string line for given element
+        self.confdict = {}  # configuration string line to dict
+        self.confjson = {}  # configuration string line to json
+        self.prestrdict = {}  # prefix string line to dict, e.g. line starts with '%'
+
+        self.stodict = {}  # sto key-value dict
+        self.resolvePrefix()  # sto string information
 
     def resolvePrefix(self):
         """ extract prefix information into dict with the key of '_prefixstr'
@@ -43,11 +44,11 @@ class LteParser(object):
         tmpstrlist = []
         for line in open(self.infile, 'r'):
             if line.startswith('%'):
-                stolist = line.replace('%','').split('sto')
-                rpnexp = stolist[0] # rpn expression
-                rpnvar = stolist[1].strip() # rpn variable
+                stolist = line.replace('%', '').split('sto')
+                rpnexp = stolist[0]  # rpn expression
+                rpnvar = stolist[1].strip()  # rpn variable
                 rpnval = rpn.Rpn.solve_rpn(rpnexp)
-                stostr = '% {val} sto {var}'.format(val = rpnval, var = rpnvar)
+                stostr = '% {val} sto {var}'.format(val=rpnval, var=rpnvar)
                 tmpstrlist.append(stostr)
                 self.stodict[rpnvar] = rpnval
         self.prestrdict['_prefixstr'] = tmpstrlist
@@ -64,20 +65,24 @@ class LteParser(object):
         appendflag = False
         try:
             for line in open(self.infile, 'r'):
-                if line.strip() == '': continue
+                if line.strip() == '':
+                    continue
                 line = ' '.join(line.strip().split())
-                if line.startswith('!'): continue
+                if line.startswith('!'):
+                    continue
                 if line.lower().startswith(ikw + ' :') or line.lower().startswith(ikw + ':'):
-                    conflist = [] # list to put into element configuration
+                    conflist = []  # list to put into element configuration
                     conflist.append(line)
                     appendflag = True
                 elif appendflag and line_continue_flag == '&':
                     conflist.append(line)
                 line_continue_flag = line[-1]
-                if line_continue_flag != '&': appendflag = False
-            conf_str = ''.join(conflist).replace('&',',')
-            if 'line' in conf_str.lower().split('=')[0]: # if bl defines lattice
-                conf_str = conf_str.lower().replace(',',' ')[::-1].replace('enil','beamline,lattice'[::-1],1)[::-1] # avoid the case with bl keyword has 'line'
+                if line_continue_flag != '&':
+                    appendflag = False
+            conf_str = ''.join(conflist).replace('&', ',')
+            if 'line' in conf_str.lower().split('=')[0]:  # if bl defines lattice
+                conf_str = conf_str.lower().replace(',', ' ')[::-1].replace('enil', 'beamline,lattice'[::-1], 1)[
+                           ::-1]  # avoid the case with bl keyword has 'line'
         except:
             conf_str = ''
 
@@ -98,19 +103,20 @@ class LteParser(object):
         """ convert str to dict format
 
         USAGE: rdict = str2dict(rawstr)
+        :param rawstr: raw configuration string of element
         """
         kw_list = []
-        sp1     = rawstr.split(':')
+        sp1 = rawstr.split(':')
         kw_name = sp1[0].strip().upper()
         kw_desc = sp1[1:]
-        sp2     = kw_desc[0].replace(',',';;',1).split(';;')
+        sp2 = kw_desc[0].replace(',', ';;', 1).split(';;')
         kw_type = sp2[0].strip()
         try:
-            kw_vals = sp2[1].replace(",",'=').split('=')
+            kw_vals = sp2[1].replace(",", '=').split('=')
             [(not (i.isspace() or i == '')) and kw_list.append(i) for i in kw_vals]
             ks = [k.strip() for k in kw_list[0::2]]
-            vs = [v.strip().replace('"','').replace("'",'') for v in kw_list[1::2]]
-            kw_vals_dict = dict(zip(ks,vs))
+            vs = [v.strip().replace('"', '').replace("'", '') for v in kw_list[1::2]]
+            kw_vals_dict = dict(zip(ks, vs))
             rdict = {kw_name: {kw_type: kw_vals_dict}}
         except:
             rdict = {kw_name: kw_type}
@@ -127,6 +133,7 @@ class LteParser(object):
         """ return keyword configuration as a json
 
         Usage: rjson = getKwAsJson(kw)
+        :param kw: element keyword
         """
         return self.dict2json(self.getKwAsDict(kw))
 
@@ -145,15 +152,16 @@ class LteParser(object):
         """
         kwslist = []
         for line in open(self.infile, 'r'):
-            #if line.strip() == '': continue
+            # if line.strip() == '': continue
             line = ''.join(line.strip().split())
-            if line.startswith("!"): continue
-            #if ':' in line and not "line" in line:
+            if line.startswith("!"):
+                continue
+            # if ':' in line and not "line" in line:
             if ':' in line:
                 kwslist.append(line.split(':')[0])
         return kwslist
 
-    def file2json(self, jsonfile = None):
+    def file2json(self, jsonfile=None):
         """ Convert entire lte file into json like format
         
         USAGE: 1: kwsdictstr = file2json()
@@ -161,12 +169,13 @@ class LteParser(object):
 
         show pretty format with pipeline: | jshon, or | pjson
         if jsonfile is defined, dump to defined file before returning json string
+        :param jsonfile: filename to dump json strings
         """
         kwslist = self.detectAllKws()
         kwsdict = {}
         idx = 0
-        for kw in sorted(kwslist, key = str.lower):
-            #print kw
+        for kw in sorted(kwslist, key=str.lower):
+            # print kw
             idx += 1
             tdict = self.getKwAsDict(kw)
             self.rpn2val(tdict)
@@ -183,32 +192,31 @@ class LteParser(object):
         """ scan input string line, replace sto parameters with calculated results.
         """
         for wd in strline.split():
-            if self.stodict.has_key(wd):
+            if wd in self.stodict:
                 strline = strline.replace(wd, str(self.stodict[wd]))
         return strline
 
     def rpn2val(self, rdict):
-        # {"b11": {"csrcsben": {"hgap": "1.500000000e-02", "integration_order": "4", "nonlinear": "1", "angle": "10.24pi*180/", "n_kicks": "100", "l": "0.210.24pi*180/*10.24pi*180/sin/", "edge1_effects": "1", "edge2_effects": "1", "block_csr": "0", "sg_halfwidth": "1", "csr": "csr_on_off", "e1": "0.000000000e+00", "bins": "512", "e2": "10.24pi*180/"}}}
         """ Resolve the rpn string into calulated float number
 
         USAGE: rpn2val(rdict)
             :param rdict: json like dict
         """
 
-        kw_name  = rdict.keys()[0] # b11
-        kw_val   = rdict[kw_name] 
+        kw_name = rdict.keys()[0]  # b11
+        kw_val = rdict[kw_name]
         try:
-            kw_type  = kw_val.keys()[0] # csrcsben
+            kw_type = kw_val.keys()[0]  # csrcsben
             kw_param = kw_val.values()[0]
             if kw_type != 'beamline':
-                for k,v in kw_param.items():
+                for k, v in kw_param.items():
                     try:
                         v = self.scanStoVars(v)
-                        kw_param[k] = rpn.Rpn.solve_rpn(v) # update rpn string to float
-                    except: # cannot solve rpn string
+                        kw_param[k] = rpn.Rpn.solve_rpn(v)  # update rpn string to float
+                    except:  # cannot solve rpn string
                         pass
-        except: 
-            pass # element that only has type name, e.g. {'bpm01': 'moni'}
+        except:
+            pass  # element that only has type name, e.g. {'bpm01': 'moni'}
 
     def solve_rpn(self):
         """ solve rpn string in self.confdict, and update self.confdict
@@ -219,20 +227,22 @@ class LteParser(object):
         self.rpn2val(self.confdict)
         return self
 
-#===========================================================================
+
+# ===========================================================================
 
 class Lattice(object):
     """ class for handling lattice configurations and operations
     """
+
     def __init__(self, elements):
         """ initialize the class with input elements
 
             elements should be dict converted from json, 
             if not convert first by json.loads(elements)
         """
-        if isinstance(elements, str): 
+        if isinstance(elements, str):
             self.all_elements = json.loads(elements)
-        else: # elements is dict already
+        else:  # elements is dict already
             self.all_elements = elements
 
         self.kws_ele, self.kws_bl = self.getAllKws()
@@ -251,14 +261,15 @@ class Lattice(object):
         """ return all beamline keywords
         """
         return self.kws_bl
-    
+
     def getBeamline(self, beamlineKw):
         """ get beamline definition from all_elements, return as a list
+        :param beamlineKw: keyword of beamline
         """
         lattice_string = self.all_elements.get(beamlineKw.upper()).values()[0].get('lattice')
-        return lattice_string[1:-1].split() # drop leading '(' and trailing ')' and split into list
+        return lattice_string[1:-1].split()  # drop leading '(' and trailing ')' and split into list
 
-    def getFullBeamline(self, beamlineKw, extend = False):
+    def getFullBeamline(self, beamlineKw, extend=False):
         """ get beamline definition from all_elements,
             expand iteratively with the elements from all_elements
             e.g. 
@@ -273,11 +284,15 @@ class Lattice(object):
             since:
             getBeamline('doub1') = [u'dqd3', u'q05', u'dqd2', u'q06', u'dqd3'] = A
             getBeamline('doub2') = [u'dqd3', u'q05', u'dqd2', u'q06', u'dqd3'] = B
-            getBeamline('chi') = [u'dbll2', u'doub1', u'dp4fh', u'dp4sh', u'dbll5', u'dbd', u'b11', u'db11', u'b12', u'db12', u'pf2', u'db13', u'b13', u'db14', u'b14', u'dbd', u'dbll5', u'doub2', u'dp5fh', u'dp5sh', u'dbll2', u'pstn1']
+            getBeamline('chi') = [u'dbll2', u'doub1', u'dp4fh', u'dp4sh', u'dbll5', u'dbd', u'b11', u'db11', u'b12',
+                                  u'db12', u'pf2', u'db13', u'b13', u'db14', u'b14', u'dbd', u'dbll5', u'doub2',
+                                  u'dp5fh', u'dp5sh', u'dbll2', u'pstn1']
 
             thus: getFullBeamline('chi') should return:
-            [u'dbll2', A, u'dp4fh', u'dp4sh', u'dbll5', u'dbd', u'b11', u'db11', u'b12', u'db12', u'pf2', u'db13', u'b13', u'db14', u'b14', u'dbd', u'dbll5', B, u'dp5fh', u'dp5sh', u'dbll2', u'pstn1']
+            [u'dbll2', A, u'dp4fh', u'dp4sh', u'dbll5', u'dbd', u'b11', u'db11', u'b12', u'db12', u'pf2', u'db13',
+             u'b13', u'db14', u'b14', u'dbd', u'dbll5', B, u'dp5fh', u'dp5sh', u'dbll2', u'pstn1']
 
+            :param extend: if extend mode should be envoked, by default False
             if extend = True, element like '2*D01' would be expended to be D01, D01
         """
         try:
@@ -288,15 +303,15 @@ class Lattice(object):
                 for ele in rawbl:
                     if self.isBeamline(ele):
                         fullbl.extend(self.getFullBeamline(ele))
-                    else: # if not beamline, do not expand
+                    else:  # if not beamline, do not expand
                         fullbl.append(ele)
-            else: # extend
+            else:  # extend
                 for ele in rawbl:
                     ele_num_name_dict = self.rinseElement(ele)
                     elename = ele_num_name_dict['name']
-                    elenum  = ele_num_name_dict['num']
+                    elenum = ele_num_name_dict['num']
                     if self.isBeamline(elename):
-                        fullbl.extend(self.getFullBeamline(elename, extend = True) * elenum)
+                        fullbl.extend(self.getFullBeamline(elename, extend=True) * elenum)
                     else:
                         fullbl.extend([elename] * elenum)
             return fullbl
@@ -305,9 +320,10 @@ class Lattice(object):
 
     def isBeamline(self, kw):
         """ test if kw is a beamline
+        :param kw: keyword
         """
         return kw.upper() in self.kws_bl
-            
+
     def getAllKws(self):
         """ extract all keywords into two categories
             
@@ -317,7 +333,7 @@ class Lattice(object):
             return (kws_ele, kws_bl)
         """
         kws_ele = []
-        kws_bl  = []
+        kws_bl = []
         for ele in self.all_elements:
             if ele == '_prefixstr':
                 continue
@@ -335,13 +351,13 @@ class Lattice(object):
         blidlist = []
         for k in self.all_elements:
             try:
-                if self.all_elements.get(k).has_key('beamline'):
+                if 'beamline' in self.all_elements.get(k):
                     cnt += 1
                     blidlist.append(k)
             except:
                 pass
-        retstr = '{total:<3d}beamlines: {allbl}'.format(total = cnt,
-                allbl = ';'.join(blidlist))
+        retstr = '{total:<3d}beamlines: {allbl}'.format(total=cnt,
+                                                        allbl=';'.join(blidlist))
         print(retstr)
 
         return retstr
@@ -356,11 +372,12 @@ class Lattice(object):
             etype = self.all_elements.get(elementKw.upper())
         return etype.upper()
 
-    def getElementConf(self, elementKw, raw = False):
+    def getElementConf(self, elementKw, raw=False):
         """ return configuration for given element keyword,
             e.g. getElementConf('Q01') should return dict: {u'k1': 0.0, u'l': 0.05}
+            :param elementKw: element keyword
         """
-        if raw == True:
+        if raw is True:
             try:
                 econf = self.all_elements.get(elementKw.upper())
             except:
@@ -372,26 +389,30 @@ class Lattice(object):
                 return {}
         return econf
 
-    def formatElement(self, kw, format = 'elegant'):
+    def formatElement(self, kw, format='elegant'):
         """ convert json/dict of element configuration into elegant/mad format
+        :param kw: keyword
         """
-        etype = self.getElementType(kw) 
+        etype = self.getElementType(kw)
         econf_dict = self.getElementConf(kw)
         econf_str = ''
-        for k,v in econf_dict.items():
+        for k, v in econf_dict.items():
             econf_str += (k + ' = ' + '"' + str(v) + '"' + ', ')
-        
+
         if format == 'elegant':
-            fmtstring = '{eid:<6s}:{etype:>10s}, {econf}'.format(eid   = kw.upper(),
-                                                                 etype = etype.upper(),
-                                                                 econf = econf_str[:-2]) # [:-2] slicing to remove trailing space and ','
+            fmtstring = '{eid:<6s}:{etype:>10s}, {econf}'.format(eid=kw.upper(),
+                                                                 etype=etype.upper(),
+                                                                 econf=econf_str[
+                                                                       :-2])
+            # [:-2] slicing to remove trailing space and ','
         elif format == 'mad':
             pass
 
         return fmtstring
 
-    def generateLatticeLine(self, latname = 'newline', line = None):
+    def generateLatticeLine(self, latname='newline', line=None):
         """ construct a new lattice line
+        :param latname: name for generated new lattice
         """
         latticeline = []
         for e in line:
@@ -400,20 +421,20 @@ class Lattice(object):
             else:
                 latticeline.append(e)
 
-        newblele = {latname.upper():{'beamline':{'lattice':'('+' '.join(latticeline)+')'}}}
+        newblele = {latname.upper(): {'beamline': {'lattice': '(' + ' '.join(latticeline) + ')'}}}
         self.all_elements.update(newblele)
         self.kws_bl.append(latname.upper())
         return newblele
 
-    def generateLatticeFile(self, beamline, filename, format = 'elegant'):
+    def generateLatticeFile(self, beamline, filename, format='elegant'):
         """ generate simulation files for lattice analysis,
             e.g. ".lte" for elegant, ".madx" for madx
 
             input parameters:
-            beamline: keyword for beamline
-            filename: name of lte/mad file
-            format: madx, elegant, 
-                    'elegant' by default, generated lattice is for elegant tracking
+            :param beamline: keyword for beamline
+            :param filename: name of lte/mad file
+            :param format: madx, elegant,
+                'elegant' by default, generated lattice is for elegant tracking
         """
 
         """
@@ -428,17 +449,17 @@ class Lattice(object):
         cl1 = "This file is automatically generated by 'generateLatticeFile()' method,"
         cl2 = 'could be used as ' + format + ' lattice file.'
         cl3 = 'Author: Tong Zhang (zhangtong@sinap.ac.cn)'
-        cl4 = 'Generated Date: ' + time.strftime('%Y-%m-%d %H:%M:%S %Z',time.localtime())
+        cl4 = 'Generated Date: ' + time.strftime('%Y-%m-%d %H:%M:%S %Z', time.localtime())
 
-        f.write('!{str1:<73s}!\n'.format(str1='-'*73))
+        f.write('!{str1:<73s}!\n'.format(str1='-' * 73))
         f.write('!{str1:^73s}!\n'.format(str1=cl1))
         f.write('!{str1:^73s}!\n'.format(str1=cl2))
-        f.write('!{str1:^73s}!\n'.format(str1='-'*24))
+        f.write('!{str1:^73s}!\n'.format(str1='-' * 24))
         f.write('!{str1:^73s}!\n'.format(str1=cl3))
         f.write('!{str1:^73s}!\n'.format(str1=cl4))
-        f.write('!{str1:<73s}!\n'.format(str1='-'*73))
+        f.write('!{str1:<73s}!\n'.format(str1='-' * 73))
         f.write('\n')
-        
+
         """ do not need to dump stoed variables now, 2016-03-21
         # write global variables
         f.write('! {str1:<73s}\n'.format(str1= 'Global variable definitions:'))
@@ -446,21 +467,21 @@ class Lattice(object):
         f.write('\n')
         f.write('\n')
         """
-        
+
         # write element definitions and lattice
-        f.write('! {str1:<72s}\n'.format(str1= 'Element definitions:'))
-        elelist = self.getFullBeamline(beamline, extend = True)
+        f.write('! {str1:<72s}\n'.format(str1='Element definitions:'))
+        elelist = self.getFullBeamline(beamline, extend=True)
         if self.getElementType(elelist[0]) != 'CHARGE':
             elelist.insert(0, self.getChargeElement())
         for ele in sorted(set(elelist)):
             elestring = self.rinseElement(ele)['name']
-            f.write(self.formatElement(elestring, format = 'elegant') + '\n')
+            f.write(self.formatElement(elestring, format='elegant') + '\n')
 
         # write beamline lattice definition
         f.write('\n')
-        f.write('! {str1:<72s}\n'.format(str1= 'Beamline definitions:'))
-        f.write('{bl:<6s}: line = ({lattice})'.format(bl      = beamline.upper(), 
-                                                      lattice = ', '.join(elelist)))
+        f.write('! {str1:<72s}\n'.format(str1='Beamline definitions:'))
+        f.write('{bl:<6s}: line = ({lattice})'.format(bl=beamline.upper(),
+                                                      lattice=', '.join(elelist)))
         f.close()
 
         # if everything's OK, return True
@@ -469,14 +490,15 @@ class Lattice(object):
     def rinseElement(self, ele):
         """ resolve element case with multiply format,
             e.g. rinseElement('10*D01') should return dict {'num': 10; 'name' = 'D01'}
+            :param ele: element string
         """
         if '*' in ele:
             tmplist = ''.join(ele.split()).split('*')
             tmplist_num = tmplist[[x.isdigit() for x in tmplist].index(True)]
             tmplist_ele = tmplist[[x.isdigit() for x in tmplist].index(False)]
-            return dict(zip(('num','name'), (int(tmplist_num), tmplist_ele)))
+            return dict(zip(('num', 'name'), (int(tmplist_num), tmplist_ele)))
         else:
-            return dict(zip(('num','name'),(1, ele)))
+            return dict(zip(('num', 'name'), (1, ele)))
 
     def orderLattice(self, beamline):
         """ ordering element type appearance sequence for each element of beamline
@@ -488,10 +510,10 @@ class Lattice(object):
              (u'q02', u'QUAD',     2), 
              (u'b12', u'CSRCSBEN', 2)]
 
-        """ 
-        ele_name_list = self.getFullBeamline(beamline, extend = True)
+        """
+        ele_name_list = self.getFullBeamline(beamline, extend=True)
         ele_type_list = [self.getElementType(ele) for ele in ele_name_list]
-        order_list   = [0] * len(ele_name_list)
+        order_list = [0] * len(ele_name_list)
         ele_type_dict_uniq = dict(zip(ele_type_list, order_list))
         for idx in xrange(len(ele_name_list)):
             etype = ele_type_list[idx]
@@ -511,6 +533,10 @@ class Lattice(object):
     def getElementByOrder(self, beamline, type, irange):
         """ return element list by appearance order in beamline, 
             which could be returned by orderLattice(beamline)
+
+            :param beamline: beamline name
+            :param type: element type name
+            :param irange: selected element range
 
         possible irange definitions:
             irange = 0,      first one 'type' element;
@@ -541,13 +567,15 @@ class Lattice(object):
             else:
                 retlist = [allmatchedlist[int(irange)]]
             return retlist
-        except: 
-            #print('Can not find %s in %s.' % (type, beamline))
+        except:
+            # print('Can not find %s in %s.' % (type, beamline))
             return ''
 
     def getElementByName(self, beamline, name):
         """ return element list by literal name in beamline
             each element is tuple like (name, type, order)
+            :param beamline: beamline name
+            :param name: element literal name
         """
         try:
             assert beamline.upper() in self.kws_bl
@@ -556,7 +584,7 @@ class Lattice(object):
             return ''
 
         try:
-            assert name.lower() in self.getFullBeamline(beamline, extend = True)
+            assert name.lower() in self.getFullBeamline(beamline, extend=True)
             orderedLattice_list = self.orderLattice(beamline)
             retlist = [val for idx, val in enumerate(orderedLattice_list) if val[0] == name.lower()]
             return retlist
@@ -564,37 +592,37 @@ class Lattice(object):
         except AssertionError:
             print('%s is not in %s.' % (name, beamline))
             return ''
-    
-    def manipulateLattice(self, beamline, type = 'quad', 
-                                irange = 'all', property = 'k1', 
-                                opstr = '+0%'):
+
+    def manipulateLattice(self, beamline, type='quad',
+                          irange='all', property='k1',
+                          opstr='+0%'):
         """ manipulate element with type, e.g. quad
 
             input parameters:
-            beamline: beamline definition keyword
-            type    : element type, case insensitive
-            irange  : slice index, see getElementByOrder()
-            property: element property, e.g. 'k1' for 'quad' strength
-            opstr   : operation, '+[-]n%' or '+[-*/]n'
+            :param beamline: beamline definition keyword
+            :param type: element type, case insensitive
+            :param irange: slice index, see getElementByOrder()
+            :param property: element property, e.g. 'k1' for 'quad' strength
+            :param opstr: operation, '+[-]n%' or '+[-*/]n'
         """
-        #lattice_list = self.getFullBeamline(beamline, extend = True)
-        #orderedLattice_list = self.orderLattice(beamline)
+        # lattice_list = self.getFullBeamline(beamline, extend = True)
+        # orderedLattice_list = self.orderLattice(beamline)
         opele_list = self.getElementByOrder(beamline, type, irange)
 
         opr = opstr[0]
         opn = float(opstr[1:].strip('%'))
 
-        if  opstr[-1] == '%':
+        if opstr[-1] == '%':
             opn /= 100.0
-            opsdict = {'+': lambda a, p: a*(1+p), 
-                       '-': lambda a, p: a*(1-p)}
+            opsdict = {'+': lambda a, p: a * (1 + p),
+                       '-': lambda a, p: a * (1 - p)}
         else:
-            opsdict = {'+': lambda a, p: a + p, 
+            opsdict = {'+': lambda a, p: a + p,
                        '-': lambda a, p: a - p,
                        '*': lambda a, p: a * p,
                        '/': lambda a, p: a / float(p)}
-            
-        for ename,etype,eid in opele_list:
+
+        for ename, etype, eid in opele_list:
             val0_old = self.all_elements[ename.upper()].values()[0].get(property.lower())
             val0_new = opsdict[opr](val0_old, opn)
             self.all_elements[ename.upper()].values()[0][property.lower()] = val0_new
@@ -603,74 +631,78 @@ class Lattice(object):
 
     def getElementProperties(self, name):
         """ return element properties
+        :param name: element name
         """
         try:
             allp = self.all_elements[name.upper()]
             if isinstance(allp, dict):
                 type = allp.keys()[0]
-                properties =  allp.values()[0]
+                properties = allp.values()[0]
                 return {'type': type, 'properties': properties}
             else:
                 type = allp
                 return {'type': type, 'properties': None}
         except:
             pass
-        
-#===========================================================================
+
+
+# ===========================================================================
 
 def test2():
-    latticepath=os.path.join(os.getcwd(), '../lattice')
+    latticepath = os.path.join(os.getcwd(), '../lattice')
     infile = os.path.join(latticepath, 'linac.lte')
 
-    #kw = 'B11'
-    #kw = 'bl'
-    #kw = 'BPM01'
-    #kw = 'dp4fh'
-    #kw = 'a1i'
-    #kw = 'q'
+    # kw = 'B11'
+    # kw = 'bl'
+    # kw = 'BPM01'
+    # kw = 'dp4fh'
+    # kw = 'a1i'
+    # kw = 'q'
     lpins = LteParser(infile)
-    #print lpins.prestrdict
-    #lpins.getKw(kw)
-    #print lpins.confstr
-    #lpins.getKw(kw).toDict().solve_rpn()
-    #print lpins.confdict
-    
-    #print lpins.detectAllKws()
+    # print lpins.prestrdict
+    # lpins.getKw(kw)
+    # print lpins.confstr
+    # lpins.getKw(kw).toDict().solve_rpn()
+    # print lpins.confdict
+
+    # print lpins.detectAllKws()
     # print the whole lte file into json format, to show by: cat output | jshon [pjson]
-    #allLatticeElements_str = lpins.file2json(jsonfile = 'jfile.dat')
+    # allLatticeElements_str = lpins.file2json(jsonfile = 'jfile.dat')
     allLatticeElements_str = lpins.file2json()
-    #print type(allLatticeElements_str)
-    #allLatticeElements_dict = json.loads(allLatticeElements_str)
-    #print type(allLatticeElements_dict)
-    #print allLatticeElements_dict.values()
-    
+    # print type(allLatticeElements_str)
+    # allLatticeElements_dict = json.loads(allLatticeElements_str)
+    # print type(allLatticeElements_dict)
+    # print allLatticeElements_dict.values()
+
     latins = Lattice(allLatticeElements_str)
-    #print latins.getElementType('Q01')
-    #print latins.getElementConf('q01')
-    #print latins.all_elements['BL']['beamline']['lattice']
-    
-    #latins.showBeamlines()
-    #print latins.getBeamline('doub1')
-    #print latins.getBeamline('doub2')
-    #print latins.getBeamline('chi')
-    #print latins.getFullBeamline('chi')
+    # print latins.getElementType('Q01')
+    # print latins.getElementConf('q01')
+    # print latins.all_elements['BL']['beamline']['lattice']
 
-    #print latins.getFullBeamline('bl')
+    # latins.showBeamlines()
+    # print latins.getBeamline('doub1')
+    # print latins.getBeamline('doub2')
+    # print latins.getBeamline('chi')
+    # print latins.getFullBeamline('chi')
 
-    #print latins.formatElement('q01')
-    #print latins.formatElement('q06')
-    #print latins.formatElement('B11')
-    #print latins.formatElement('BPM01')
+    # print latins.getFullBeamline('bl')
+
+    # print latins.formatElement('q01')
+    # print latins.formatElement('q06')
+    # print latins.formatElement('B11')
+    # print latins.formatElement('BPM01')
 
     testingpath = os.path.join(os.getcwd(), '../tests/tracking')
     outlatfile = os.path.join(testingpath, 'tmp.lte')
     latins.generateLatticeFile('bl', outlatfile)
 
-    #print latins.kws_ele
-    #print latins.kws_bl
+    # print latins.kws_ele
+    # print latins.kws_bl
+
 
 def main():
     test2()
+
 
 if __name__ == '__main__':
     main()

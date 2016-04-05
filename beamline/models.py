@@ -17,12 +17,13 @@ import json
 import copy
 import epics
 
+
 class Models(object):
     """ make lattice configuration (json) for lattice.Lattice
         return instance as a json string file with all configuration.
         get lattice name by instance.name.
     """
-    def __init__(self, name = 'BL', mode = 'simu'):
+    def __init__(self, name='BL', mode='simu'):
         """ create Models instance,
             :param name: lattice name, 'BL' by defualt
             :param mode: 'simu' or 'online' mode,
@@ -30,15 +31,15 @@ class Models(object):
                 configuration before dumping configuration string by calling
                 method: getCtrlConf()
         """
-        self._mode             = mode.lower()   # 'simu' (simulation) or 'online' (online) mode
-        self._lattice_name     = name.upper()   # lattice name
-        self._lattice_elecnt   = 0      # lattice element counter
-        self._lattice_elenamelist = []  # lattice element name list
-        self._lattice_eleobjlist  = []  # lattice element object list
-        self._lattice_confdict = {}     # lattice configuration dict
+        self._mode = mode.lower()           # 'simu' (simulation) or 'online' (online) mode
+        self._lattice_name = name.upper()   # lattice name
+        self._lattice_elecnt = 0            # lattice element counter
+        self._lattice_elenamelist = []      # lattice element name list
+        self._lattice_eleobjlist = []       # lattice element object list
+        self._lattice_confdict = {}         # lattice configuration dict
         self._lattice = element.ElementBeamline(
-                            name   = self._lattice_name,
-                            config = "lattice = ()") # initial lattice configuration
+                            name=self._lattice_name,
+                            config="lattice = ()")  # initial lattice configuration
 
     @property
     def mode(self):
@@ -85,8 +86,8 @@ class Models(object):
                         if msgout:
                             print("Reading from %s..." % e.ctrlinfo[k]['pv'])
                         pvval = epics.caget(e.ctrlinfo[k]['pv'])
-                        if not pvval is None:
-                            e.simuinfo[k] = e.unitTrans(pvval, direction = '+')
+                        if pvval is not None:
+                            e.simuinfo[k] = e.unitTrans(pvval, direction='+')
                             if msgout:
                                 print("  Done.") 
                         else: 
@@ -94,11 +95,11 @@ class Models(object):
                                 print("  Failed.")
                     except:
                         pass
-        else: # self.mode is 'simu' do nothing
+        else:  # self.mode is 'simu' do nothing
             pass
         return _lattice_eleobjlist_copy
 
-    def putCtrlConf(self, eleobj, ctrlkey, val, type = 'raw'):
+    def putCtrlConf(self, eleobj, ctrlkey, val, type='raw'):
         """ put the value to control PV field
             :param eleobj: element object in lattice
             :param ctrlkey: element control property, PV name
@@ -110,14 +111,14 @@ class Models(object):
         if ctrlkey in eleobj.ctrlkeys:
             if type == 'raw':
                 newval = val
-            else: # val should be translated
-                newval = eleobj.unitTrans(val, direction = '-')
+            else:  # val should be translated
+                newval = eleobj.unitTrans(val, direction='-')
             epics.caput(eleobj.ctrlinfo[ctrlkey]['pv'], newval)
             return True
         else:
             return False
 
-    def getAllConfig(self, fmt = 'json'):
+    def getAllConfig(self, fmt='json'):
         """
             return all element configurations as json string file.
             could be further processed by beamline.Lattice class
@@ -132,18 +133,19 @@ class Models(object):
         else:
             return self._lattice_confdict
 
-    def updateConfig(self, eleobj, config, type = 'simu'):
+    def updateConfig(self, eleobj, config, type='simu'):
         """ write new configuration to element
             input parameters:
             :param eleobj: define element object
             :param config: new configuration for element, string or dict
             :param type: 'simu' by default, could be online, misc, comm, ctrl
         """
-        eleobj.setConf(config, type = type)
+        eleobj.setConf(config, type=type)
 
     @staticmethod
     def makeLatticeString(ele):
         """ return string like "lattice = (q b d)"
+        :param ele: element list
         """
         return 'lattice = (' + ' '.join(ele) + ')'
 
@@ -151,7 +153,7 @@ class Models(object):
     def flatten(ele):
         """ flatten recursively defined list,
             e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,'x']]]]]
-
+            :param ele: recursive list, i.e. list in list in list ...
             return generator object
         """
         for el in ele:
@@ -182,7 +184,7 @@ class Models(object):
             :param name: element name, case sensitive
         """
         try:
-            return filter(lambda x:x.name == name, self._lattice_eleobjlist)[0]
+            return filter(lambda x: x.name == name, self._lattice_eleobjlist)[0]
         except:
             return ''
 
@@ -190,10 +192,13 @@ class Models(object):
         """ print out all modeled elements
         """
         cnt = 1
-        print("{id:<3s}: {name:<12s} {type:<10s} {classname:<10s}".format(id='ID',name='Name',type='Type',classname='Class Name'))
+        print("{id:<3s}: {name:<12s} {type:<10s} {classname:<10s}"
+              .format(id='ID', name='Name', type='Type', classname='Class Name'))
         for e in self._lattice_eleobjlist:
-            print("{cnt:>03d}: {name:<12s} {type:<10s} {classname:<10s}".format(cnt=cnt,name=e.name,type=e.typename,classname=e.__class__.__name__))
+            print("{cnt:>03d}: {name:<12s} {type:<10s} {classname:<10s}"
+                  .format(cnt=cnt, name=e.name, type=e.typename, classname=e.__class__.__name__))
             cnt += 1
+
 
 def test():
     #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
