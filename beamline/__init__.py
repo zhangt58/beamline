@@ -15,7 +15,7 @@ from .element    import ElementBeamline
 from .models     import Models
 
 
-__version__ = "1.1.4"
+__version__ = "1.1.6"
 __author__ = "Tong Zhang"
 
 __doc__ = """

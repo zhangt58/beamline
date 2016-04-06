@@ -21,8 +21,9 @@ Last updated: 2016-03-08
 """
 
 import json
-import time
 import os
+import time
+
 from pyrpn import rpn
 
 

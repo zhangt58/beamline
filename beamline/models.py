@@ -12,10 +12,12 @@ Created     : 2016-03-18
 Last updated: 2016-03-24
 """
 
-import element
-import json
 import copy
+import json
+
 import epics
+
+from . import element
 
 
 class Models(object):

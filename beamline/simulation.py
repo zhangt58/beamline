@@ -14,8 +14,9 @@ Created     : 2016-03-08
 Last updated: 2016-03-08
 """
 
-import subprocess
 import os
+import subprocess
+
 from . import datautils
 
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-import matplotlib.pyplot as plt
-import matplotlib.path as path
 import matplotlib.patches as patches
+import matplotlib.path as path
+import matplotlib.pyplot as plt
 import numpy as np
 
 """
@@ -131,7 +131,7 @@ class Undulator(object):
                  south_color   = 'blue',
                  link_node     = (0, 0),
                  ratio         = [2.5,1.5],
-                 spacing       = 1.5, 
+                 spacing       = 1.5,
                  _alpha        = 0.8):
         pole_width  = 0.5 * period_length
         pole_height = ratio[0] * pole_width

@@ -10,13 +10,14 @@ Last updated: 2016-03-24
 """
 
 import json
+
 import epics
 
 
 class MagBlock(object):
     objcnt = 0  # object counter
     comminfo = {}  # common information
-    _styleconfig_dict = {
+    __styleconfig_dict = {
         'quad':
             {'h': 1.00, 'color': 'red', 'alpha': 0.5},
         'bend':
@@ -24,7 +25,7 @@ class MagBlock(object):
         'drift':
             {'h': 0.05, 'color': 'black', 'alpha': 0.8},
     }  # global configuration for element style, dict
-    _styleconfig_json = json.dumps(_styleconfig_dict)
+    __styleconfig_json = json.dumps(__styleconfig_dict)
 
     def __init__(self, name=None):
         MagBlock.objcnt += 1
@@ -109,27 +110,27 @@ class MagBlock(object):
         """
         if help:
             print("The input configuration string should be with the format like:")
-            print(MagBlock._styleconfig_json)
+            print(MagBlock._MagBlock__styleconfig_json)
             print("with all or part of new properties, e.g.")
             print(json.dumps({'quad': {'color': 'blue'}}))
         else:
             if config is None:
-                config = MagBlock._styleconfig_dict
+                config = MagBlock._MagBlock__styleconfig_dict
             if isinstance(config, dict):
-                for k in set(config.keys()) & set(MagBlock._styleconfig_dict.keys()):
-                    for k1 in set(config[k].keys()) & set(MagBlock._styleconfig_dict[k].keys()):
-                        MagBlock._styleconfig_dict[k][k1] = config[k][k1]
-                MagBlock._styleconfig_json = json.dumps(MagBlock._styleconfig_dict)
+                for k in set(config.keys()) & set(MagBlock._MagBlock__styleconfig_dict.keys()):
+                    for k1 in set(config[k].keys()) & set(MagBlock._MagBlock__styleconfig_dict[k].keys()):
+                        MagBlock._MagBlock__styleconfig_dict[k][k1] = config[k][k1]
+                MagBlock._MagBlock__styleconfig_json = json.dumps(MagBlock._MagBlock__styleconfig_dict)
             elif isinstance(config, str):
                 config = json.loads(config)
-                for k in set(config.keys()) & set(MagBlock._styleconfig_dict.keys()):
-                    for k1 in set(config[k].keys()) & set(MagBlock._styleconfig_dict[k].keys()):
-                        MagBlock._styleconfig_dict[k][k1] = config[k][k1]
-                MagBlock._styleconfig_json = json.dumps(MagBlock._styleconfig_dict)
+                for k in set(config.keys()) & set(MagBlock._MagBlock__styleconfig_dict.keys()):
+                    for k1 in set(config[k].keys()) & set(MagBlock._MagBlock__styleconfig_dict[k].keys()):
+                        MagBlock._MagBlock__styleconfig_dict[k][k1] = config[k][k1]
+                MagBlock._MagBlock__styleconfig_json = json.dumps(MagBlock._MagBlock__styleconfig_dict)
             else:
                 print("Information string ERROR.")
 
-            return MagBlock._styleconfig_dict
+            return MagBlock._MagBlock__styleconfig_dict
 
     def setConf(self, conf, type='simu'):
         """ set information for different type dict,
@@ -146,6 +147,11 @@ class MagBlock(object):
     def setStyle(self, **style):
         """ set element style configuration
             :param style: dict of keys: 'color', 'h', 'alpha'
+        """
+        pass
+
+    def setDraw(self):
+        """ set element visualization drawing
         """
         pass
 
@@ -290,7 +296,7 @@ class ElementCsrcsben(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'CSRCSBEN'
         self.setConf(config)
-        self._style = {k: v for k, v in MagBlock._styleconfig_dict['bend'].items()}
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['bend'].items()}
 
     @property
     def style(self):
@@ -309,7 +315,7 @@ class ElementCsrdrift(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'CSRDRIFT'
         self.setConf(config)
-        self._style = {k: v for k, v in MagBlock._styleconfig_dict['drift'].items()}
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
 
     @property
     def style(self):
@@ -328,7 +334,7 @@ class ElementDrift(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'DRIFT'
         self.setConf(config)
-        self._style = {k: v for k, v in MagBlock._styleconfig_dict['drift'].items()}
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
 
     @property
     def style(self):
@@ -357,7 +363,7 @@ class ElementLscdrift(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'LSCDRIFT'
         self.setConf(config)
-        self._style = {k: v for k, v in MagBlock._styleconfig_dict['drift'].items()}
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
 
     @property
     def style(self):
@@ -396,7 +402,7 @@ class ElementQuad(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'QUAD'
         self.setConf(config)
-        self._style = {k: v for k, v in MagBlock._styleconfig_dict['quad'].items()}
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['quad'].items()}
 
     def unitTrans(self, inval, direction='+', transfun=None):
         transfun = self.transfun
