@@ -16,6 +16,7 @@ import copy
 import json
 
 import epics
+import matplotlib.pyplot as plt
 
 from . import element
 
@@ -201,15 +202,54 @@ class Models(object):
                   .format(cnt=cnt, name=e.name, type=e.typename, classname=e.__class__.__name__))
             cnt += 1
 
+    def draw(self, startpoint=(0, 0), showfig=False):
+        """ lattice visualization
+            
+            :param startpoint: start drawing point coords, default: (0, 0)
+            :param showfig: show figure or not, default: False
+        """
+        p0 = startpoint
+        angle = 0.0
+        patchlist = []
+        xmin0, xmax0, ymin0, ymax0 = 0, 0, 0, 0
+        xmin, xmax, ymin, ymax = 0, 0, 0, 0
+        for ele in self._lattice_eleobjlist:
+            ele.setDraw(p0=p0, angle=angle)
+            angle += ele.next_inc_angle
+            #print ele.name, ele.next_inc_angle, angle
+            patchlist.extend(ele._patches)
+            try:
+                p0 = ele.next_p0
+                xyrange = ele._patches[0].get_path().get_extents()
+                xmin, xmax = xyrange.xmin, xyrange.xmax
+                ymin, ymax = xyrange.ymin, xyrange.ymax
+            except:
+                pass
+            xmin0 = min(xmin, xmin0)
+            xmax0 = max(xmax, xmax0)
+            ymin0 = min(ymin, ymin0)
+            ymax0 = max(ymax, ymax0)
+        
+        # show figure or not
+        if showfig:
+            fig = plt.figure()
+            ax = fig.add_subplot(111, aspect='equal')
+            [ax.add_patch(i) for i in patchlist]
+            ax.set_xlim([xmin0*2, xmax0*2])
+            ax.set_ylim([ymin0*2, ymax0*2])
+            plt.show()
+
+        return patchlist, (xmin0, xmax0), (ymin0, ymax0)
+
 
 def test():
     #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
     #A = Models(*pvs)
-    latline = Models(name = 'BL')
+    latline = Models(name='BL')
  
-    ch = element.ElementCharge(name = 'q',  config = "total = 1e-9")
-    d1 = element.ElementDrift (name = 'd1', config = "l = 1.0")
-    q1 = element.ElementQuad  (name = 'Q1', config = "l = 1.0, k1 = 10")
+    ch = element.ElementCharge(name='q',  config="total = 1e-9")
+    d1 = element.ElementDrift(name='d1', config="l = 1.0")
+    q1 = element.ElementQuad(name='Q1', config="l = 1.0, k1 = 10")
     lat1 = [d1, q1, q1] * 10
     latline.addElement(ch, lat1)
     latdict = latline.LatticeDict
@@ -222,6 +262,7 @@ def test():
     #print latins.getAllBl()
     latfile = "/home/tong/Programming/projects/beamline/tests/test_models/fortest.lte"
     latins.generateLatticeFile(latline.name, latfile)
+
 
 def test1():
     #
@@ -251,7 +292,7 @@ def test1():
 
     #for e in latins.getFullBeamline('bl', extend = True):
     #    print latins.getElementType(e)
-    print latins.getElementConf('c', raw = True)
+    print latins.getElementConf('c', raw=True)
     print latins.getElementProperties('c')
 
     """
