@@ -12,6 +12,10 @@ Last updated: 2016-03-24
 import json
 
 import epics
+import matplotlib.patches as patches
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.path import Path
 
 
 class MagBlock(object):
@@ -19,11 +23,11 @@ class MagBlock(object):
     comminfo = {}  # common information
     __styleconfig_dict = {
         'quad':
-            {'h': 1.00, 'color': 'red', 'alpha': 0.5},
+            {'h': 1.00, 'color': 'red', 'alpha': 0.50},
         'bend':
-            {'h': 0.35, 'color': 'blue', 'alpha': 0.5},
+            {'h': 0.5, 'color': 'blue', 'alpha': 0.50},
         'drift':
-            {'h': 0.05, 'color': 'black', 'alpha': 0.8},
+            {'linewidth': 2, 'color': 'black', 'alpha': 0.75},
     }  # global configuration for element style, dict
     __styleconfig_json = json.dumps(__styleconfig_dict)
 
@@ -60,6 +64,8 @@ class MagBlock(object):
                                'online': self._dumpOnlineConf}
 
         self.styledict = {}  # style dict
+        self._patches = []   # patches list, empty
+        self.next_inc_angle = 0  # for visualization, initial incremental angle
 
     @property
     def name(self):
@@ -68,6 +74,28 @@ class MagBlock(object):
     @name.setter
     def name(self, name):
         self._name = name
+
+    @staticmethod
+    def rot(input, theta=0, pc=(0, 0)):
+        """ rotate input array with angle of theta
+            :param input: input array or list,
+                e.g. np.array([[0,0],[0,1],[0,2]]) or [[0,0],[0,1],[0,2]]
+            :param theta: rotation angle in degree
+            :param pc: central point coords (x,y) regarding to rotation
+            :return: rotated numpy array
+        """
+        if not isinstance(input, np.ndarray):
+            input = np.array(input)
+
+        if not isinstance(pc, np.ndarray):
+            pc = np.array(pc)
+
+        theta = theta/180.0*np.pi  # degree to rad
+        mr = np.array([
+                [np.cos(theta), -np.sin(theta)],
+                [np.sin(theta),  np.cos(theta)],
+                ])
+        return np.dot(mr, (input-pc).transpose()).transpose() + pc.transpose()
 
     @staticmethod
     def sumObjNum():
@@ -150,10 +178,11 @@ class MagBlock(object):
         """
         pass
 
-    def setDraw(self):
+    def setDraw(self, p0=(0, 0), angle=0):
         """ set element visualization drawing
+        :param p0: start drawing point coords, (x, y)
         """
-        pass
+        self.next_p0 = p0
 
     def printConfig(self, type='simu'):
         """ print information about element
@@ -171,6 +200,13 @@ class MagBlock(object):
             :param format: elegant/mad, elegant by default
         """
         return self.dumpConfigDict[type](format)
+
+    def getConfig(self, type='online', format='elegant'):
+        """ only dump configuration part, dict
+            :param type: comm, simu, ctrl, misc, all, online (default)
+            :param format: elegant/mad, elegant by default
+        """
+        return self.dumpConfigDict[type](format).values()[0].values()[0]
 
     def _setSimuConf(self, conf):
         self.simuinfo.update(conf)
@@ -277,6 +313,30 @@ class MagBlock(object):
         """
         return json.dumps(self.dumpConfig())
 
+    def showDraw(self, fignum=1):
+        if self._patches == []:
+            return
+        else:
+            fig = plt.figure(fignum)
+            fig.clear()
+            ax = fig.add_subplot(111, aspect='equal')
+            [ax.add_patch(i) for i in self._patches]
+            bbox = self._patches[0].get_path().get_extents()
+            x0 = 2.0*min(bbox.xmin, bbox.ymin)
+            x1 = 2.0*max(bbox.xmax, bbox.ymax)
+            ax.set_xlim(x0, x1)
+            ax.set_ylim(x0, x1)
+            # x1,y1=tuple(self.nextp0)
+            # x2,y2=tuple(self.nextp1)
+            # x3,y3=tuple(self.nextpc)
+            # ax.plot([x1,x2,x3], [y1,y2,y3], 'o')#, ms=5, fc='b', ec='b')
+            x, y = tuple(self.next_p0)
+            ax.plot(x, y, 'o', ms=10, c='b')
+
+            fig.canvas.draw()
+            plt.grid()
+            plt.show()
+
 
 class ElementCharge(MagBlock):
     """ charge element
@@ -306,6 +366,86 @@ class ElementCsrcsben(MagBlock):
         for k in set(style.keys()) & set(self._style.keys()):
             self._style[k] = style[k]
 
+    def setDraw(self, p0=(0, 0), angle=0):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: rotation angle [deg] of drawing central point,
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+        """
+        sconf = self.getConfig(type='simu')
+        self._style['w'] = float(sconf['l'])  # element width
+        self._style['angle'] = float(sconf['angle'])/np.pi*180  # bending angle, [deg]
+        _width = self._style['w']*1.0
+        _height = self._style['h']*1.0
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        _angle = self._style['angle']
+        
+        #   p1---p6---p2
+        #   |         |
+        # --p0   pc   p3-- 
+        #   |         |
+        #   p5---p7---p4
+        x0, y0 = p0
+        x1, y1 = x0, y0 + _height*0.5
+        x6, y6 = x1 + _width*0.5, y1
+        x2, y2 = x0 + _width, y1
+        x3, y3 = x2, y0
+        x4, y4 = x3, y0 - _height*0.5
+        x7, y7 = x6, y4
+        x5, y5 = x0, y4
+        pc = x0 + _width*0.5, y0
+
+        # pth0 = Path.circle(center=pc,radius=_whmax*0.5)
+
+        vs0 = [
+                (x0, y0),
+                (x1, y1),
+                (x6, y6),
+                (x2, y2),
+                (x3, y3),
+                (x4, y4),
+                (x7, y7),
+                (x5, y5),
+                (x0, y0),
+            ]
+        # vs0 = pth0.vertices
+        # vs = MagBlock.rot(vs0, theta=angle, pc=pc)
+        vs = MagBlock.rot(vs0, theta=angle, pc=p0)
+        # cs = [
+        #        Path.MOVETO,
+        #        Path.LINETO,
+        #        Path.LINETO,
+        #        Path.LINETO,
+        #        Path.LINETO,
+        #        Path.LINETO,
+        #        Path.LINETO,
+        #        Path.LINETO,
+        #        Path.CLOSEPOLY,
+        #    ]
+        cs = [
+                Path.MOVETO,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+            ]
+        #cs = pth0.codes
+        pth = Path(vs, cs)
+        ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha)
+        self._patches = []
+        self._patches.append(ptch)
+        #self.next_p0 = tuple(MagBlock.rot((x3, y3), theta=angle, pc=pc).tolist())
+        self.next_p0 = tuple(MagBlock.rot((x3, y3), theta=angle, pc=p0).tolist())
+        #self.next_p0 = (x3,y3)
+        self.next_inc_angle = _angle
+
 
 class ElementCsrdrift(MagBlock):
     """ csrdrift element
@@ -325,6 +465,56 @@ class ElementCsrdrift(MagBlock):
         for k in set(style.keys()) & set(self._style.keys()):
             self._style[k] = style[k]
 
+    def setDraw(self, p0=(0, 0), angle=0):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+        """
+        sconf = self.getConfig(type='simu')
+        self._style['length'] = float(sconf['l'])
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _linewidth = self._style['linewidth']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        x0, y0 = p0
+        x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+        vs = [(x0, y0), (x1, y1)]
+        cs = [Path.MOVETO, Path.LINETO]
+        pth = Path(vs, cs)
+        ptch = patches.PathPatch(pth, lw=_linewidth, fc=_color, ec=_color, alpha=_alpha)
+        self._patches = []
+        self._patches.append(ptch)
+        self.next_p0 = x1, y1
+        self.next_inc_angle = 0
+
+    @staticmethod
+    def copy_patches(ptches0):
+        """ return a list of copied input matplotlib patches 
+            
+            :param ptches0: list of matploblib.patches objects
+        """
+        if not isinstance(ptches0, list):
+            ptches0 = list(ptches0)
+        copyed_ptches = []
+        for pt in ptches0:
+            pth = pt.get_path().deepcopy()
+            ptch = patches.PathPatch(pth,
+                                     lw=pt.get_lw(),
+                                     fc=pt.get_fc(),
+                                     ec=pt.get_ec(),
+                                     alpha=pt.get_alpha())
+            copyed_ptches.append(ptch)
+        return copyed_ptches
+
 
 class ElementDrift(MagBlock):
     """ drift element
@@ -343,6 +533,37 @@ class ElementDrift(MagBlock):
     def setStyle(self, **style):
         for k in set(style.keys()) & set(self._style.keys()):
             self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+        """
+        sconf = self.getConfig(type='simu')
+        self._style['length'] = float(sconf['l'])
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _linewidth = self._style['linewidth']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        x0, y0 = p0
+        x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+        vs = [(x0, y0), (x1, y1)]
+        cs = [Path.MOVETO, Path.LINETO]
+        pth = Path(vs, cs)
+        ptch = patches.PathPatch(pth, lw=_linewidth, fc=_color, ec=_color, alpha=_alpha)
+        self._patches = []
+        self._patches.append(ptch)
+        self.next_p0 = x1, y1
+        self.next_inc_angle = 0
 
 
 class ElementKicker(MagBlock):
@@ -422,6 +643,72 @@ class ElementQuad(MagBlock):
     def setStyle(self, **style):
         for k in set(style.keys()) & set(self._style.keys()):
             self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: rotation angle [deg] of drawing central point,
+                angle is rotating from x-axis to be '+' or '-',
+                '+': anticlockwise, '-': clockwise
+        """
+
+        sconf = self.getConfig(type='simu')
+        self._style['w'] = float(sconf['l'])  # element width
+        _width = self._style['w']*1.0
+        _height = self._style['h']*1.0
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+
+        #       p1
+        #     /    \
+        # --p0  pc  p2(nextp0)---
+        #     \    /
+        #       p3
+        """
+        x0, y0 = p0
+        pc = x0 + _width*0.5, y0
+        ptch0 = patches.Ellipse(pc, _width, _height, angle=0, 
+                                fc=_color, ec=_color, alpha=_alpha)
+        
+        pth0 = ptch0.get_path()
+        vs0 = pth0.vertices
+        cs = pth0.codes
+        vs = MagBlock.rot(vs0, theta=angle, pc=p0)
+        pth = Path(vs0, cs)
+        ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha)
+        """
+
+        x0, y0 = p0
+        x1, y1 = x0 + _width*0.5, y0 + _height*0.5
+        x2, y2 = x1 + _width*0.5, y0
+        x3, y3 = x1, y0 - _height*0.5
+        pc = x0 + _width*0.5, y0
+
+        vs0 = [
+              (x0, y0),
+              (x1, y1), 
+              (x2, y2), 
+              (x3, y3), 
+              (x0, y0)
+              ]
+        vs = MagBlock.rot(vs0, theta=angle, pc=p0)
+        cs = [
+              Path.MOVETO,
+              Path.CURVE3,
+              Path.CURVE3,
+              Path.CURVE3,
+              Path.CURVE3
+              ]
+        pth = Path(vs, cs)
+        ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha)
+
+        self._patches = []
+        self._patches.append(ptch)
+        pout = x0+_width, y0   # the right most point in x-axis
+        # self.next_p0 = tuple(MagBlock.rot(pout, theta=angle, pc=pc).tolist())
+        self.next_p0 = tuple(MagBlock.rot(pout, theta=angle, pc=p0).tolist())
+        self.next_inc_angle = 0
 
 
 class ElementRfcw(MagBlock):
@@ -545,3 +832,4 @@ def test():
 
 if __name__ == '__main__':
     test()
+
