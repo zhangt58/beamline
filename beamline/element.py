@@ -76,16 +76,16 @@ class MagBlock(object):
         self._name = name
 
     @staticmethod
-    def rot(input, theta=0, pc=(0, 0)):
+    def rot(inputArray, theta=0, pc=(0, 0)):
         """ rotate input array with angle of theta
-            :param input: input array or list,
+            :param inputArray: input array or list,
                 e.g. np.array([[0,0],[0,1],[0,2]]) or [[0,0],[0,1],[0,2]]
             :param theta: rotation angle in degree
             :param pc: central point coords (x,y) regarding to rotation
             :return: rotated numpy array
         """
-        if not isinstance(input, np.ndarray):
-            input = np.array(input)
+        if not isinstance(inputArray, np.ndarray):
+            inputArray = np.array(inputArray)
 
         if not isinstance(pc, np.ndarray):
             pc = np.array(pc)
@@ -95,7 +95,7 @@ class MagBlock(object):
                 [np.cos(theta), -np.sin(theta)],
                 [np.sin(theta),  np.cos(theta)],
                 ])
-        return np.dot(mr, (input-pc).transpose()).transpose() + pc.transpose()
+        return np.dot(mr, (inputArray-pc).transpose()).transpose() + pc.transpose()
 
     @staticmethod
     def sumObjNum():
@@ -129,14 +129,14 @@ class MagBlock(object):
         return dict(zip(k, v))
 
     @staticmethod
-    def setStyleConfig(config=None, help=False):
+    def setStyleConfig(config=None, showhelp=False):
         """ set/update global style configurations for magblock elements
             update Magblock._styleconfig_dict and _styleconfig_json
         :param config: configuration dict or json
-        :param help: if True, print help information, default is False
+        :param showhelp: if True, print showhelp information, default is False
         :return: new style config dict
         """
-        if help:
+        if showhelp:
             print("The input configuration string should be with the format like:")
             print(MagBlock._MagBlock__styleconfig_json)
             print("with all or part of new properties, e.g.")
@@ -180,6 +180,7 @@ class MagBlock(object):
 
     def setDraw(self, p0=(0, 0), angle=0):
         """ set element visualization drawing
+        :param angle: rotation angle
         :param p0: start drawing point coords, (x, y)
         """
         self.next_p0 = p0
