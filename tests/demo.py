@@ -45,6 +45,10 @@ import copy
 comminfo = 'DATE = 2016-03-24, AUTHOR = Tong Zhang'
 beamline.MagBlock.setCommInfo(comminfo)
 
+# set visualization style
+beamline.MagBlock.setStyleConfig(
+        config={'quad':{'fc':'white'},
+                'bend':{'fc':'white'}})
 
 # #### STEP 2: create elements
 
@@ -142,7 +146,7 @@ latline_online.addElement(q, qline, chi, qline)
 # In[181]:
 
 # get 'b1' element from created model
-eleb1 = latline_online.getElementsByName('b1')
+eleb1 = latline_online.getElementsByName('b1')[0]
 print eleb1.name
 # change b1 configuration, e.g. angle
 eleb1.setConf('angle=0.5', type = 'simu')
@@ -162,9 +166,11 @@ eleb1.printConfig()
 
 # In[183]:
 
-eleQ1 = latline_online.getElementsByName('Q1')
-eleQ1.printConfig(type='all')
+eleQ1all = latline_online.getElementsByName('Q1')
+map(lambda x: x.setStyle(fc='orange'), eleQ1all)
 
+eleQ1 = latline_online.getElementsByName('Q1')[0]
+eleQ1.printConfig(type='all')
 
 # In[184]:
 
