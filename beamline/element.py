@@ -23,9 +23,9 @@ class MagBlock(object):
     comminfo = {}  # common information
     __styleconfig_dict = {
         'quad':
-            {'h': 1.00, 'color': 'red', 'alpha': 0.50},
+            {'h': 1.0, 'fc': 'red', 'ec': 'red', 'alpha': 0.50,},
         'bend':
-            {'h': 0.5, 'color': 'blue', 'alpha': 0.50},
+            {'h': 0.5, 'fc': 'blue', 'ec':'blue', 'alpha': 0.50,},
         'drift':
             {'lw': 2, 'color': 'black', 'alpha': 0.75},
     }  # global configuration for element style, dict
@@ -159,7 +159,7 @@ class MagBlock(object):
             print("The input configuration string should be with the format like:")
             print(MagBlock._MagBlock__styleconfig_json)
             print("with all or part of new properties, e.g.")
-            print(json.dumps({'quad': {'color': 'blue'}}))
+            print(json.dumps({'quad': {'fc': 'blue'}}))
         else:
             if config is None:
                 config = MagBlock._MagBlock__styleconfig_dict
@@ -402,7 +402,8 @@ class ElementCsrcsben(MagBlock):
         self._style['angle'] = float(sconf['angle'])/np.pi*180  # bending angle, [deg]
         _width = self._style['w']*1.0
         _height = self._style['h']*1.0
-        _color = self._style['color']
+        _fc = self._style['fc']
+        _ec = self._style['ec']
         _alpha = self._style['alpha']
         _angle = self._style['angle']
         _lw = self._style['lw']
@@ -431,7 +432,7 @@ class ElementCsrcsben(MagBlock):
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x0, y0)]
             cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha, lw=_lw)
+            ptch = patches.PathPatch(pth, fc=_fc, ec=_ec, alpha=_alpha, lw=_lw)
             self._patches = []
             self._patches.append(ptch)
             self.next_p0 = x3, y3
@@ -477,7 +478,7 @@ class ElementCsrcsben(MagBlock):
                     Path.CURVE3,
                 ]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha, lw=_lw)
+            ptch = patches.PathPatch(pth, fc=_fc, ec=_ec, alpha=_alpha, lw=_lw)
             self._patches = []
             self._patches.append(ptch)
             self.next_p0 = tuple(MagBlock.rot((x3, y3), theta=angle, pc=p0).tolist())
@@ -748,7 +749,8 @@ class ElementQuad(MagBlock):
         self._style['w'] = float(sconf['l'])  # element width
         _width = self._style['w']*1.0
         _height = self._style['h']*1.0
-        _color = self._style['color']
+        _fc = self._style['fc']
+        _ec = self._style['ec']
         _alpha = self._style['alpha']
         _kval = float(sconf['k1'])
         _lw = self._style['lw']
@@ -779,7 +781,7 @@ class ElementQuad(MagBlock):
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x0, y0)]
             cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha, lw=_lw)
+            ptch = patches.PathPatch(pth, fc=_fc, ec=_ec, alpha=_alpha, lw=_lw)
 
             self._patches = []
             self._patches.append(ptch)
@@ -814,7 +816,7 @@ class ElementQuad(MagBlock):
                   Path.CURVE3
                   ]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, fc=_color, ec=_color, alpha=_alpha, lw=_lw)
+            ptch = patches.PathPatch(pth, fc=_fc, ec=_ec, alpha=_alpha, lw=_lw)
 
             self._patches = []
             self._patches.append(ptch)
