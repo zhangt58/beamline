@@ -202,11 +202,12 @@ class Models(object):
                   .format(cnt=cnt, name=e.name, type=e.typename, classname=e.__class__.__name__))
             cnt += 1
 
-    def draw(self, startpoint=(0, 0), showfig=False):
+    def draw(self, startpoint=(0, 0), mode='plain', showfig=False):
         """ lattice visualization
             
             :param startpoint: start drawing point coords, default: (0, 0)
             :param showfig: show figure or not, default: False
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         p0 = startpoint
         angle = 0.0
@@ -214,7 +215,7 @@ class Models(object):
         xmin0, xmax0, ymin0, ymax0 = 0, 0, 0, 0
         xmin, xmax, ymin, ymax = 0, 0, 0, 0
         for ele in self._lattice_eleobjlist:
-            ele.setDraw(p0=p0, angle=angle)
+            ele.setDraw(p0=p0, angle=angle, mode=mode)
             angle += ele.next_inc_angle
             #print ele.name, ele.next_inc_angle, angle
             patchlist.extend(ele._patches)
