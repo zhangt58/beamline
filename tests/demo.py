@@ -285,22 +285,9 @@ plt.plot(thetaArray, dxArray, 'r')
 
 # #### Lattice layout visualization
 
-ptches, xr, yr = latline_online.draw(showfig=False)
+ptches, xr, yr = latline_online.draw(mode='plain', showfig=False)
 
-def copy_patches(ptches0):
-    copyed_ptches = []
-    for pt in ptches0:
-        pth = pt.get_path().deepcopy()
-        ptch = patches.PathPatch(pth, 
-                        lw=pt.get_lw(), 
-                        fc=pt.get_fc(), 
-                        ec=pt.get_ec(), 
-                        alpha=pt.get_alpha())
-        copyed_ptches.append(ptch)
-
-    return copyed_ptches
-
-newptches = copy_patches(ptches)
+newptches = beamline.MagBlock.copy_patches(ptches)
 
 #for i,val in enumerate(newptches):
 #    print id(newptches[i]), id(ptches[i])
