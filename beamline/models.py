@@ -182,14 +182,14 @@ class Models(object):
         return self.getAllConfig()
 
     def getElementsByName(self, name):
-        """ get element with given name (exclusively)
-            return element object regarding to 'name'
+        """ get element with given name,
+            return list of element objects regarding to 'name'
             :param name: element name, case sensitive
         """
         try:
-            return filter(lambda x: x.name == name, self._lattice_eleobjlist)[0]
+            return filter(lambda x: x.name == name, self._lattice_eleobjlist)
         except:
-            return ''
+            return []
 
     def printAllElements(self):
         """ print out all modeled elements
