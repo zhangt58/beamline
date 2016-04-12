@@ -3,8 +3,9 @@
 """
     Demonstration to modeling accelerator with the lte file.
 
-    Author: Tong Zhang
-    Date  : 2016-04-12 10:11:06 CST
+    Author       : Tong Zhang
+    Created      : 2016-04-12 10:11:06 AM CST
+    Last updated : 2016-04-12 21:20:16 PM CST
 """
 
 import beamline

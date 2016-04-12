@@ -12,6 +12,9 @@ from .element    import ElementKicker
 from .element    import ElementMark, ElementWatch, ElementMoni
 from .element    import ElementRfcw, ElementRfdf, ElementWake
 from .element    import ElementBeamline
+from .element    import ElementCsrdrift as ElementCsrdrif
+from .element    import ElementLscdrift as ElementLscdrif
+from .element    import ElementDrift as ElementDrif
 from .models     import Models
 
 
@@ -29,7 +32,8 @@ __doc__ = """
 """ % (__version__)
 
 allElements = [ElementCharge,   ElementCsrcsben, ElementQuad, 
-               ElementCsrdrift, ElementDrift,    ElementLscdrift,
+               ElementCsrdrift, ElementCsrdrif,  ElementDrift,    
+               ElementDrif,     ElementLscdrift, ElementLscdrif,
                ElementKicker,   ElementMark,     ElementWatch, 
                ElementMoni,     ElementRfcw,     ElementRfdf, 
                ElementWake,     ElementBeamline]
