@@ -17,7 +17,7 @@ class Lattice: handle lattice issues from json/dict definition
 
 Author      : Tong Zhang
 Created     : 2016-01-28
-Last updated: 2016-03-08
+Last updated: 2016-04-12 09:15:27 PM CST
 """
 
 import json
@@ -26,6 +26,7 @@ import time
 
 from pyrpn import rpn
 
+from . import element
 
 class LteParser(object):
     def __init__(self, infile):
@@ -57,7 +58,10 @@ class LteParser(object):
     def getKw(self, kw):
         """ Extract doc snippet for element configuration,
             :param kw: element name
-            return: one line of configuration string
+            :return: instance itself
+                1 call getKwAsDict() to return config as a dict
+                2 call getKwAsJson() to return config as json string
+                3 call getKwAsString() to return config as a raw string
 
         USAGE: getKw('Q10')
         """
@@ -146,6 +150,13 @@ class LteParser(object):
         self.getKw(kw)
         return self.str2dict(self.confstr)
 
+    def getKwAsString(self, kw):
+        """ return keyword configuration as a string
+
+        Usage: rstr = getKwAsString(kw)
+        """
+        return self.getKw(kw).confstr
+
     def detectAllKws(self):
         """ Detect all keyword from infile, return as a list
         
@@ -188,6 +199,30 @@ class LteParser(object):
         except:
             pass
         return json.dumps(kwsdict)
+
+    def getKwType(self, kw):
+        """ return the type of kw, upper cased string
+
+        USAGE: rtype = getKwType(kw)
+        """
+        return self.getKwAsDict(kw).values()[0].keys()[0].upper()
+
+    def getKwConfig(self, kw):
+        """ return the configuration of kw, dict
+
+        USAGE: rdict = getKwConfig(kw)
+        """
+        confd = self.getKwAsDict(kw).values()[0].values()[0]
+        return {k.lower():v for k,v in confd.items()}
+
+    def makeElement(self, kw):
+        """ return element object regarding the keyword configuration
+        """
+        kw_name = kw
+        kw_type = self.getKwType(kw_name)
+        kw_config = {k.lower():v for k,v in self.getKwConfig(kw_name).items()}
+        objtype='Element' + kw_type.capitalize()
+        return getattr(element, objtype)(name=kw_name, config=kw_config)
 
     def scanStoVars(self, strline):
         """ scan input string line, replace sto parameters with calculated results.
@@ -488,6 +523,14 @@ class Lattice(object):
         # if everything's OK, return True
         return True
 
+    def getElementList(self, bl):
+        """ return the elements list according to the appearance order 
+            in beamline named 'bl'
+
+            :param bl: beamline name
+        """
+        return self.getFullBeamline(bl, extend=True)
+
     def rinseElement(self, ele):
         """ resolve element case with multiply format,
             e.g. rinseElement('10*D01') should return dict {'num': 10; 'name' = 'D01'}
@@ -645,6 +688,15 @@ class Lattice(object):
                 return {'type': type, 'properties': None}
         except:
             pass
+
+    def makeElement(self, kw):
+        """ return element object regarding the keyword configuration
+        """
+        kw_name = kw
+        kw_type = self.getElementType(kw_name)
+        kw_config = {k.lower():v for k,v in self.getElementConf(kw_name).items()}
+        objtype='Element' + kw_type.capitalize()
+        return getattr(element, objtype)(name=kw_name, config=kw_config)
 
 
 # ===========================================================================
