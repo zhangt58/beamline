@@ -6,7 +6,7 @@ This module defines all kinds of magnet components/elements.
 
 Author      : Tong Zhang
 Created     : 2016-03-22
-Last updated: 2016-03-24
+Last updated: 2016-04-12 08:48:50 PM CST
 """
 
 import json

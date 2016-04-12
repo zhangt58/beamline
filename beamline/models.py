@@ -9,7 +9,7 @@ This module is written for the purposes of elements modeling:
 
 Author      : Tong Zhang
 Created     : 2016-03-18
-Last updated: 2016-03-24
+Last updated: 2016-04-12 08:49:18 PM CST
 """
 
 import copy
@@ -72,7 +72,10 @@ class Models(object):
             self._lattice_elenamelist.append(e.name)
             self._lattice_elecnt += 1
         # update lattice, i.e. beamline element
-        self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
+
+        #self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
+        self._lattice.setConf(Models.makeLatticeDict(self._lattice_elenamelist))
+
         return self._lattice_elecnt
     
     def getCtrlConf(self, msgout=True):
@@ -151,6 +154,13 @@ class Models(object):
         :param ele: element list
         """
         return 'lattice = (' + ' '.join(ele) + ')'
+    
+    @staticmethod
+    def makeLatticeDict(ele):
+        """ return lattice dict conf like {"lattice": "(q b d)"}
+        :param ele: element list
+        """
+        return {"lattice": '(' + ' '.join(ele) + ')'}
 
     @staticmethod
     def flatten(ele):
