@@ -335,7 +335,10 @@ class MagBlock(object):
         return json.dumps(self.dumpConfig())
 
     def showDraw(self, fignum=1):
+        """ show the element drawing
+        """
         if self._patches == []:
+            print "Please setDraw() before showDraw(), then try again."
             return
         else:
             fig = plt.figure(fignum)
@@ -366,6 +369,15 @@ class ElementCharge(MagBlock):
     def __init__(self, name=None, config=None):
         MagBlock.__init__(self, name)
         self.typename = 'CHARGE'
+        self.setConf(config)
+
+
+class ElementCenter(MagBlock):
+    """ center element
+    """
+    def __init__(self, name=None, config=None):
+        MagBlock.__init__(self, name)
+        self.typename = 'CENTER'
         self.setConf(config)
 
 
@@ -485,7 +497,6 @@ class ElementCsrcsben(MagBlock):
             self.next_inc_angle = _angle
 
 
-
 class ElementCsrdrift(MagBlock):
     """ csrdrift element
     """
@@ -514,7 +525,10 @@ class ElementCsrdrift(MagBlock):
             :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
-        self._style['length'] = float(sconf['l'])
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
         self._style['angle'] = angle
         _theta = angle/180.0*np.pi  # deg to rad
         _length = self._style['length']
@@ -577,7 +591,10 @@ class ElementDrift(MagBlock):
             :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
-        self._style['length'] = float(sconf['l'])
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
         self._style['angle'] = angle
         _theta = angle/180.0*np.pi  # deg to rad
         _length = self._style['length']
@@ -620,6 +637,62 @@ class ElementKicker(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'KICKER'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
 
 
 class ElementLscdrift(MagBlock):
@@ -650,7 +723,10 @@ class ElementLscdrift(MagBlock):
             :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
-        self._style['length'] = float(sconf['l'])
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['lemgth'] = 0
         self._style['angle'] = angle
         _theta = angle/180.0*np.pi  # deg to rad
         _length = self._style['length']
@@ -693,6 +769,62 @@ class ElementMark(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'MARK'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
 
 
 class ElementMoni(MagBlock):
@@ -703,6 +835,62 @@ class ElementMoni(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'MONI'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
 
 
 class ElementQuad(MagBlock):
@@ -833,6 +1021,63 @@ class ElementRfcw(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'RFCW'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+
 
 
 class ElementRfdf(MagBlock):
@@ -843,6 +1088,62 @@ class ElementRfdf(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'RFDF'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
 
 
 class ElementWake(MagBlock):
@@ -853,6 +1154,62 @@ class ElementWake(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'WAKE'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
 
 
 class ElementWatch(MagBlock):
@@ -863,6 +1220,62 @@ class ElementWatch(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'WATCH'
         self.setConf(config)
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+
+    @property
+    def style(self):
+        return self._style
+
+    def setStyle(self, **style):
+        for k in set(style.keys()) & set(self._style.keys()):
+            self._style[k] = style[k]
+
+    def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
+        """ set element visualization drawing
+            
+            :param p0: start drawing position, (x,y)
+            :param angle: angle [deg] between x-axis
+                angle is rotating from x-axis to be '+' or '-',
+                '+': clockwise, '-': anticlockwise
+            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        """
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            self._style['length'] = float(sconf['l'])
+        else:
+            self._style['length'] = 0
+        self._style['angle'] = angle
+        _theta = angle/180.0*np.pi  # deg to rad
+        _length = self._style['length']
+        _lw = self._style['lw']
+        _color = self._style['color']
+        _alpha = self._style['alpha']
+        
+        #
+        # --p0-------p1--
+        # 
+        if mode == 'plain':
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
+        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            x0, y0 = p0
+            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            vs = [(x0, y0), (x1, y1)]
+            cs = [Path.MOVETO, Path.LINETO]
+            pth = Path(vs, cs)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            self._patches = []
+            self._patches.append(ptch)
+            self.next_p0 = x1, y1
+            self.next_inc_angle = 0
 
 
 class ElementBeamline(MagBlock):
