@@ -1079,7 +1079,6 @@ class ElementRfcw(MagBlock):
             self.next_inc_angle = 0
 
 
-
 class ElementRfdf(MagBlock):
     """ rfdf element
     """
@@ -1287,6 +1286,10 @@ class ElementBeamline(MagBlock):
         self.typename = 'BEAMLINE'
         self.setConf(config)
 
+
+ElementDrif = ElementDrift
+ElementLscdrif = ElementLscdrift
+ElementCsrdrif = ElementCsrdrift
 
 def test():
     """ For example, define lattice configuration for a 4-dipole chicane with quads
