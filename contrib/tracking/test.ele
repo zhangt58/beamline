@@ -1,0 +1,45 @@
+&run_setup
+        lattice = test.lte,
+        default_order = 2,
+        use_beamline = BLCHI,
+        p_central = 70
+        sigma = %s.sig,
+        centroid = %s.cen,
+        output = %s.out,
+        magnets = %s.mag
+        !final = %s.fin,
+        print_statistics = 1
+        !parameters = %s.param
+&end
+
+&twiss_output
+    filename = %s.twi
+    matched = 0
+    alpha_x = 0
+    alpha_y = 0
+    beta_x  = 10
+    beta_y  = 10
+&end
+
+
+&run_control
+        n_steps = 1
+&end
+
+&bunched_beam
+        n_particles_per_bunch = 2500,
+        one_random_bunch=0,
+        emit_nx = 2.0e-6,
+        emit_ny = 2.0e-6,
+        beta_x = 20, alpha_x = 10,
+        beta_y = 20, alpha_y = 10,
+        sigma_dp = 0.001,
+        sigma_s = 300e-6,
+        distribution_type[0] = 3*"gaussian",
+        distribution_cutoff[0] = 3*3,
+        symmetrize = 1,
+        enforce_rms_values[0] = 1,1,1,
+        !bunch = %s.bun
+&end
+ 
+&track &end
