@@ -18,3 +18,12 @@ Author: Tong Zhang &copy; 2015-2016
 *  Feeding defined elements with new configuration, interfacing with EPICS environment, to form
    the close-loop online system.
 *  Visualizing the lattice layout by predefined elements' style.
+
+### Screenshots:
+
+* Lattice visualization after modeling,
+
+<p>
+    <img src=/contrib/sxfel_lattice_layout.png?raw=true alt="sxfel lattice" width="400"></img>
+    <img src=/contrib/demo1_screenshot.png?raw=true alt="tracking output" width="400"></img>
+</p>
