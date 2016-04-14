@@ -9,7 +9,7 @@ This module is written for the purposes of elements modeling:
 
 Author      : Tong Zhang
 Created     : 2016-03-18
-Last updated: 2016-04-12 08:49:18 PM CST
+Last updated: 2016-04-14 09:56:45 PM CST
 """
 
 import copy
@@ -222,6 +222,7 @@ class Models(object):
         p0 = startpoint
         angle = 0.0
         patchlist = []
+        anotelist = []
         xmin0, xmax0, ymin0, ymax0 = 0, 0, 0, 0
         xmin, xmax, ymin, ymax = 0, 0, 0, 0
         for ele in self._lattice_eleobjlist:
@@ -229,6 +230,7 @@ class Models(object):
             angle += ele.next_inc_angle
             #print ele.name, ele.next_inc_angle, angle
             patchlist.extend(ele._patches)
+            if hasattr(ele, '_anote'): anotelist.append(ele._anote)
             try:
                 p0 = ele.next_p0
                 xyrange = ele._patches[0].get_path().get_extents()
@@ -246,11 +248,18 @@ class Models(object):
             fig = plt.figure()
             ax = fig.add_subplot(111, aspect='equal')
             [ax.add_patch(i) for i in patchlist]
+            [ax.annotate(s=i['name'],
+                         xy=i['xypos'],
+                         xytext=i['textpos'],
+                         arrowprops=dict(arrowstyle='->'),
+                         rotation=-90,
+                         fontsize='small') 
+                         for i in anotelist]
             ax.set_xlim([xmin0*2, xmax0*2])
             ax.set_ylim([ymin0*2, ymax0*2])
             plt.show()
 
-        return patchlist, (xmin0, xmax0), (ymin0, ymax0)
+        return patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
 
 
 def test():
