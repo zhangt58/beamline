@@ -24,9 +24,15 @@ Author: Tong Zhang &copy; 2015-2016
 * Lattice visualization after modeling,
 
 <p>
+<<<<<<< HEAD
     <img src=/contrib/demo1_screenshot.png?raw=true alt="tracking output" width="400"></img>
 </p>
 
 <p>
     <img src=/contrib/sxfel_lattice_layout.png?raw=true alt="sxfel lattice" width="800"></img>
 </p>
+=======
+    <img src=/contrib/sxfel_lattice_layout.png?raw=true alt="sxfel lattice" width="400"></img>
+    <img src=/contrib/demo1_screenshot.png?raw=true alt="tracking output" width="400"></img>
+</p>
+>>>>>>> 1d11d731afe809390e03ad4ca97dbf04af4b7e85
