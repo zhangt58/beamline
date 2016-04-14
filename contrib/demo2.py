@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 """
     Demonstration to modeling accelerator with the lte file.
+    SXFEL
 
     Author       : Tong Zhang
     Created      : 2016-04-12 10:11:06 AM CST
@@ -33,7 +34,6 @@ newlatins = beamline.Lattice(newlpins.file2json())
 #                                      t=newlpins.getKwType(kw)))
 
 # demonstrate to create a new element from keyword name,
-# the regarding element object name is keywork name with postfix of '_eobj'
 # there are two approaches to create:
 #   1: use element classes from element module
 #   2: use makeElement() method from LteParser class or Lattice class
@@ -51,7 +51,7 @@ kw_eobj_name = newlpins.makeElement(kw_name)
 #kw_eobj_name = newlatins.makeElement(kw_name)
 
 ## show element drawing:
-kw_eobj_name.setDraw(mode='fancy') # or mode='plain'
+#kw_eobj_name.setDraw(mode='fancy') # or mode='plain'
 #kw_eobj_name.showDraw()
 
 ### STEP 2: initialise all element objects for beamline model
@@ -71,7 +71,11 @@ latmodel.addElement(*ele_eobj_list)
 Q11BI1H_list = latmodel.getElementsByName('Q11BI1H'.lower())
 
 # add other configurations, e.g. control configurations, etc.
-Q11BI1H_list[0].printConfig()
+Q11BI1H_list[0].printConfig(type='all')
+
+# csrcsben example: 
+B1LH_list = latmodel.getElementsByName('B1LH'.lower())
+B1LH_list[0].printConfig()
 
 ### STEP 3: do tracking with the modeled lattice
 finlatins = beamline.Lattice(latmodel.getAllConfig())
@@ -135,7 +139,8 @@ plt.plot(thetaArray, dxArray, 'r')
 # #### Lattice layout visualization
 
 # generate lattice drawing plotting objects
-ptches, xr, yr = latmodel.draw(mode='fancy', showfig=False)
+ptches, anotes, xr, yr = latmodel.draw(mode='fancy', showfig=False)
+#ptches, anotes, xr, yr = latmodel.draw(mode='plain', showfig=False)
 
 # show drawing 
 fig3 = plt.figure(2)
@@ -161,12 +166,34 @@ ax3.grid()
 newptches = beamline.MagBlock.copy_patches(ptches)
 #for i,val in enumerate(newptches):
 #    print id(newptches[i]), id(ptches[i])
-fig4 = plt.figure(4)
+fig4 = plt.figure(4, figsize=(24,6), dpi=90)
 ax4 = fig4.add_subplot(111,aspect=10)
 [ax4.add_patch(i) for i in newptches]
-#ax4.set_xlim(x0*0.5, x1*1.0)
+[ax4.annotate(s=i['name'],
+              xy=i['xypos'],
+              xytext=(i['textpos'][0], i['textpos'][1] - 0.1),
+              arrowprops=dict(arrowstyle='->'),
+              alpha = 0.8,
+              color='m',
+              rotation=-60,
+              fontsize='xx-small')
+              for i in anotes if i['type'] == 'QUAD']
+
+[ax4.annotate(s=i['name'],
+              xy=i['xypos'],
+              xytext=(i['textpos'][0], i['textpos'][1] - 0.1),
+              arrowprops=dict(arrowstyle='->'),
+              alpha = 0.8,
+              color='b',
+              rotation=-60,
+              fontsize='xx-small')
+              for i in anotes if i['type'] == 'CSRCSBEN']
+
+ax4.set_yticks([])
 ax4.set_xlim(-1,125)
-ax4.set_ylim(y0*1.1, y1*1.1)
+ax4.set_ylim(y0*2.2, y1*1.1)
+fig4.tight_layout()
+ax4.set_title('SXFEL Lattice Layout', fontsize=24, color='m', fontweight='bold')
 
 plt.show()
 

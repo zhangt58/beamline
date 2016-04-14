@@ -1,0 +1,61 @@
+&run_setup
+        lattice = dcls.lte,
+        default_order =2,
+        use_beamline = bl,
+        expand_for = eleastra.ini,
+        sigma = %s.sig,
+        centroid = %s.cen,
+        output = %s.out,
+        final = %s.fin,
+        magnets = %s.mag,
+        print_statistics = 1
+        always_change_p0 = 1
+&end
+
+&run_control
+        n_steps = 1
+&end
+
+!&error_control  error_log = %s.erl &end
+
+!&error_element 
+!        name=B1*
+!        element_type = *BEN*
+!        item = FSE
+!        amplitude=1e-4
+!        bind=0
+!&end
+
+
+&sdds_beam
+        input = eleastra.ini
+        input_type = elegant
+        sample_interval = 1,
+        p_lower = 0,
+        p_upper = 1e10,
+        reuse_bunch = 1
+&end
+
+&twiss_output
+        filename = %s.twi,
+        matched = 0,
+        beta_x = 10.03,
+        beta_y = 10.05,
+        alpha_x = -0.7432,
+        alpha_y = -0.7435,
+        concat_order = 1
+&end
+
+!&matrix_output
+!    printout = %s.mpr,
+!    printout_order = 1,
+!    full_matrix_only = 0,
+ !   SDDS_output = NULL,
+ !   SDDS_output_order = 1,
+ !   individual_matrices = 0,
+ !   SDDS_output_match = NULL,
+ !   output_at_each_step = 0,
+ !   start_from = B11
+! &end
+
+&track &end

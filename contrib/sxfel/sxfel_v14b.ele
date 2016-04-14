@@ -1,0 +1,39 @@
+&run_setup
+        lattice = sxfel_v14b.lte,
+        default_order = 2,
+        use_beamline = bl,
+        expand_for = "linac3.0860.1M256S.sdds",
+        sigma = %s.sig,
+        centroid = %s.cen,
+        output = %s.out,
+        final = %s.fin,
+        magnets = %s.mag,
+        print_statistics = 1
+        always_change_p0 = 1
+        parameters= %s.param
+&end
+
+&run_control
+        n_steps = 1
+&end
+
+&twiss_output
+        filename = %s.twi,
+        matched = 0,
+        beta_x = 20.682477,
+        beta_y = 20.702226,
+        alpha_x = -1.462668,
+        alpha_y = -1.464092,
+        concat_order = 3
+&end
+
+&sdds_beam
+        input = "linac3.0860.1M256S.sdds",
+        input_type = "elegant",
+        sample_interval = 1000,
+        p_lower = 0,
+        p_upper = 1e10,
+        reuse_bunch = 1
+&end
+
+&track &end

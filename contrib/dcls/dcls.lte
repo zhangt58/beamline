@@ -1,0 +1,403 @@
+! DCL:    2012/10/10 by zhangmeng
+% 1 sto lsc_on_off
+% 1 sto csr_on_off
+
+!charge
+q     : charge,total=0.5e-9
+
+!acctubes
+!=======
+
+A2   : RFCW,FREQ= 2.856000000E+09,L=3.07, &
+        VOLT=" 40E+06 1.0000 * ", &
+        PHASE="-23.6 90 + 0. -", &
+        CHANGE_P0=1,END1_FOCUS=1,END2_FOCUS=1,CELL_LENGTH=0.035, &
+        ZWAKEFILE="Sz_5um_10mm.sdds", &
+        TRWAKEFILE="Sx_5um_10mm.sdds", &
+        TCOLUMN="t",WXCOLUMN="W",WYCOLUMN="W",WZCOLUMN="W", &
+        INTERPOLATE=1,N_KICKS=25,SMOOTHING=1, &
+        lsc="lsc_on_off",LSC_BINS=512,LSC_INTERPOLATE=1, &
+        LSC_HIGH_FREQUENCY_CUTOFF0=0.25,LSC_HIGH_FREQUENCY_CUTOFF1=0.30
+A3   : RFCW,FREQ= 2.856000000E+09,L= 3.07, &
+        VOLT=" 40E+06 1.0000 * ", &
+        PHASE="-23.6 90 + 0. -", &
+        CHANGE_P0=1,END1_FOCUS=1,END2_FOCUS=1,CELL_LENGTH=0.035, &
+        ZWAKEFILE="Sz_5um_10mm.sdds", &
+        TRWAKEFILE="Sx_5um_10mm.sdds", &
+        TCOLUMN="t",WXCOLUMN="W",WYCOLUMN="W",WZCOLUMN="W", &
+        INTERPOLATE=1,N_KICKS=25,SMOOTHING=1, &
+        lsc="lsc_on_off", LSC_BINS=512,LSC_INTERPOLATE=1, &
+        LSC_HIGH_FREQUENCY_CUTOFF0=0.25,LSC_HIGH_FREQUENCY_CUTOFF1=0.30
+
+
+A4   : RFCW,FREQ= 2.856000000E+09,L= 3.07, &
+        VOLT=" 46.5E+06 1.0000 * ", &
+        PHASE=" 2.200000000E+01 90 + 0. -", &
+        CHANGE_P0=1,END1_FOCUS=1,END2_FOCUS=1,CELL_LENGTH=0.035, &
+        ZWAKEFILE="Sz_5um_10mm.sdds", &
+        TRWAKEFILE="Sx_5um_10mm.sdds", &
+        TCOLUMN="t",WXCOLUMN="W",WYCOLUMN="W",WZCOLUMN="W", &
+        INTERPOLATE=1,N_KICKS=25,SMOOTHING=1, &
+        lsc="lsc_on_off", LSC_BINS=512,LSC_INTERPOLATE=1, &
+        LSC_HIGH_FREQUENCY_CUTOFF0=0.25,LSC_HIGH_FREQUENCY_CUTOFF1=0.30
+A5   : RFCW,FREQ= 2.856000000E+09,L= 3.07, &
+        VOLT=" 46.5E+06 1.0000 * ", &
+        PHASE=" 2.200000000E+01 90 + 0. -", &
+        CHANGE_P0=1,END1_FOCUS=1,END2_FOCUS=1,CELL_LENGTH=0.035, &
+        ZWAKEFILE="Sz_5um_10mm.sdds", &
+        TRWAKEFILE="Sx_5um_10mm.sdds", &
+        TCOLUMN="t",WXCOLUMN="W",WYCOLUMN="W",WZCOLUMN="W", &
+        INTERPOLATE=1,N_KICKS=25,SMOOTHING=1, &
+        lsc="lsc_on_off", LSC_BINS=512,LSC_INTERPOLATE=1, &
+        LSC_HIGH_FREQUENCY_CUTOFF0=0.25,LSC_HIGH_FREQUENCY_CUTOFF1=0.30
+A6   : RFCW,FREQ= 2.856000000E+09,L= 3.07, &
+        VOLT=" 46.5E+06 1.0000 * ", &
+        PHASE=" 2.200000000E+01 90 + 0. -", &
+        CHANGE_P0=1,END1_FOCUS=1,END2_FOCUS=1,CELL_LENGTH=0.035, &
+        ZWAKEFILE="Sz_5um_10mm.sdds", &
+        TRWAKEFILE="Sx_5um_10mm.sdds", &
+        TCOLUMN="t",WXCOLUMN="W",WYCOLUMN="W",WZCOLUMN="W", &
+        INTERPOLATE=1,N_KICKS=25,SMOOTHING=1, &
+        lsc="lsc_on_off", LSC_BINS=512,LSC_INTERPOLATE=1, &
+        LSC_HIGH_FREQUENCY_CUTOFF0=0.25,LSC_HIGH_FREQUENCY_CUTOFF1=0.30
+A7   : RFCW,FREQ= 2.856000000E+09,L= 3.07, &
+        VOLT=" 46.5E+06 1.0000 * ", &
+        PHASE=" 2.200000000E+01 90 + 0. -", &
+        CHANGE_P0=1,END1_FOCUS=1,END2_FOCUS=1,CELL_LENGTH=0.035, &
+        ZWAKEFILE="Sz_5um_10mm.sdds", &
+        TRWAKEFILE="Sx_5um_10mm.sdds", &
+        TCOLUMN="t",WXCOLUMN="W",WYCOLUMN="W",WZCOLUMN="W", &
+        INTERPOLATE=1,N_KICKS=25,SMOOTHING=1, &
+        lsc="lsc_on_off", LSC_BINS=512,LSC_INTERPOLATE=1, &
+        LSC_HIGH_FREQUENCY_CUTOFF0=0.25,LSC_HIGH_FREQUENCY_CUTOFF1=0.30
+
+!=======
+
+!csr bendmag
+!=======
+B11   : CSRCSBEN,L= "0.2 5.93 pi * 180 / * 5.93 pi * 180 / sin /", &
+        ANGLE="5.93 pi * 180 /", &
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, &
+        EDGE2_EFFECTS=1,E2="5.93 pi * 180 /", &
+        HGAP= 1.500000000E-02, &
+        nonlinear=1,n_kicks=100,integration_order=4, &
+        bins=512,sg_halfwidth=1, &
+        block_csr="1 csr_on_off -"
+B12   : CSRCSBEN,L= "0.2 5.93 pi * 180 / * 5.93 pi * 180 / sin /", &
+        ANGLE="-5.93 pi * 180 /", &
+        EDGE1_EFFECTS=1,E1="-5.93 pi * 180 /", &
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, &
+        HGAP= 1.500000000E-02, &
+        nonlinear=1,n_kicks=100,integration_order=4, &
+        bins=512,sg_halfwidth=1, &
+        block_csr="1 csr_on_off -"
+B13   : CSRCSBEN,L= "0.2 5.93 pi * 180 / * 5.93 pi * 180 / sin /", &
+        ANGLE="-5.93 pi * 180 /", &
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, &
+        EDGE2_EFFECTS=1,E2="-5.93 pi * 180 /", &
+        HGAP= 1.500000000E-02, &
+        nonlinear=1,n_kicks=100,integration_order=4, &
+        bins=512,sg_halfwidth=1, &
+        block_csr="1 csr_on_off -"
+B14   : CSRCSBEN,L= "0.2 5.93 pi * 180 / * 5.93 pi * 180 / sin /", &
+        ANGLE="5.93 pi * 180 /", &
+        EDGE1_EFFECTS=1,E1="5.93 pi * 180 /", &
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, &
+        HGAP= 1.500000000E-02, &
+        nonlinear=1,n_kicks=100,integration_order=4, &
+        bins=512,sg_halfwidth=1, &
+        block_csr="1 csr_on_off -"
+!=======
+
+!csr drifts
+!=======
+DBC1  : CSRDRIF,L= 0.082, &
+        USE_STUPAKOV=1,N_KICKS= 20, csr="csr_on_off", &
+        ATTENUATION_LENGTH=0
+DB11  : CSRDRIF,L= "2.200000000E-00 5.93 pi * 180 / cos /", &
+        USE_STUPAKOV=1,N_KICKS= 20, csr="csr_on_off", &
+        ATTENUATION_LENGTH=0
+DB12  : CSRDRIF,L= 0.5, &
+        USE_STUPAKOV=1,N_KICKS= 20, csr="csr_on_off", &
+        ATTENUATION_LENGTH=0
+DB13  : CSRDRIF,L= 0.5, &
+        USE_STUPAKOV=1,N_KICKS= 20, csr="csr_on_off", &
+        ATTENUATION_LENGTH=0
+DB14  : CSRDRIF,L= "2.200000000E-00 5.93 pi * 180 / cos /", &
+        USE_STUPAKOV=1,N_KICKS= 20, csr="csr_on_off", &
+        ATTENUATION_LENGTH=0
+!=======
+
+!nocsr bendmag
+!=======
+
+
+!drifts
+!=======
+
+DQD3  : LSCDRIF,L= 7.000000000E-02&
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+DQD4  : LSCDRIF,L= 1.000000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+DB2  : LSCDRIF,L= 8.500000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+DB3  : LSCDRIF,L= 12.000000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+Dxband  : LSCDRIF,L= 1.000000000E-00, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+
+VALVE3 : LSCDRIF,L= 7.200000000E-02&
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+VALVE4 : LSCDRIF,L= 7.200000000E-02&
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+VALVE5 : LSCDRIF,L= 7.200000000E-02&
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+VALVE6 : LSCDRIF,L= 7.200000000E-02&
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+
+
+
+BELLOW2 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW3 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW4 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW5 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW6 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW7 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW8 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW9 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW10 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW11 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW12 : LSCDRIF,L= 0.185, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW13 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW14 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW15 : LSCDRIF,L= 0.185, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW16 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW17 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BELLOW18 : LSCDRIF,L= 0.07, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+
+PROFILE02 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+PROFILE03 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+PROFILE04 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+PROFILE05 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+PROFILE06 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+PROFILE07 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+PROFILE08 : LSCDRIF,L= 1.150000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+
+BAM1  : LSCDRIF,L= 2.500000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+BAM2  : LSCDRIF,L= 2.500000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+DCSR  : LSCDRIF,L= 4.000000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+ICT2  : LSCDRIF,L= 1.500000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+Tcav1  : LSCDRIF,L= 4.000000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+Tcav2  : LSCDRIF,L= 4.000000000E-01, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+DD  : LSCDRIF,L= 0.971, &
+        lsc="lsc_on_off",BINS=512,SMOOTHING=1, &
+        HIGH_FREQUENCY_CUTOFF0=0.25,HIGH_FREQUENCY_CUTOFF1=0.30
+!MONI:
+!=======
+
+BPM02: MONI, L=0.15
+CRR02: KICKER, L=0.1, HKICK=0, VKICK=0
+BPM03: MONI, L=0.15
+CRR03: KICKER, L=0.1, HKICK=0, VKICK=0
+BPM04: MONI, L=0.15
+CRR04: KICKER, L=0.1, HKICK=0, VKICK=0
+BPM05: MONI, L=0.15
+CRR05: KICKER, L=0.1, HKICK=0, VKICK=0
+BPM06: MONI, L=0.15
+CRR06: KICKER, L=0.1, HKICK=0, VKICK=0
+BPM07: MONI, L=0.15
+CRR07: KICKER, L=0.1, HKICK=0, VKICK=0
+BPM08: MONI, L=0.15
+CRR08: KICKER, L=0.1, HKICK=1e-3, VKICK=0, B2=20000
+
+!=======
+
+!quads
+!=======
+Q01   : QUAD,L= 0.10,K1= 8.49947 
+Q02   : QUAD,L= 0.10,K1= -9.61693 
+Q03   : QUAD,L= 0.10,K1= 7.50536 
+Q04   : QUAD,L= 0.10,K1= -6.84986 
+
+Q05: QUAD,L=0.10,K1=  6.28165 
+Q06: QUAD,L=0.10,K1=  -8.22095 
+
+Q07: QUAD,L=0.10,K1= -7.95282 
+Q08: QUAD,L=0.10,K1=  11.18262 
+Q09: QUAD,L=0.10,K1= -12.10301 
+Q10: QUAD,L=0.10,K1=  11.55394 
+Q11: QUAD,L= 0.10,K1= 5.29899 
+Q12: QUAD,L= 0.10,K1= -5.55455    
+!=======
+
+!SLIT:
+!=======
+PF1   : PFilter,deltalimit=1.00
+!=======
+
+!MARKS:
+!=======
+PSTN1 : MARK,FITPOINT=1
+PSTN2 : MARK,FITPOINT=1
+!=======
+
+
+
+!bunch watch points
+!=======
+w00   : watch,filename="%s.w00",mode=coord
+w01   : watch,filename="%s.w01",mode=coord
+w02   : watch,filename="%s.w02",mode=coord
+w03   : watch,filename="%s.w03",mode=coord
+w04   : watch,filename="%s.w04",mode=coord
+!=======
+doub1 : line=(&
+        DQD3  , Q01   , DQD4  , Q02   , DQD3  )
+doub2 : line=(&
+        DQD3  , Q03   , DQD4  , Q04   , DQD3  )
+doub3 : line=(&
+        DQD3  , Q05   , DQD4  , Q06   , DQD3  )
+doub4 : line=(&
+        DQD3  , Q07   , DQD4  , Q08   , DQD3  )
+doub5 : line=(&
+        DQD3  , Q09   , DQD4  , Q10   , DQD3  )
+doub6 : line=(&
+        DQD3  , Q11   , DQD4  , Q12   , DQD3  )
+
+
+L12s  : line=(&
+        BELLOW2 , BPM02 , CRR02 ,PROFILE02, &
+        BELLOW3 )
+L22s  : line=(&
+        BELLOW4  , doub1 ,BPM03 ,&
+        CRR03 , bellow5, DB2, PROFILE03 , bellow6 )
+
+B2   : CSRCSBEN,L= 0.3, &
+        ANGLE="30 pi * 180 /", &
+        EDGE1_EFFECTS=1,E1="15 pi * 180 /", &
+        EDGE2_EFFECTS=1,E2="15 pi * 180 /", &
+        HGAP= 1.000000000E-02, &
+        nonlinear=1,n_kicks=100,integration_order=4, &
+        bins=512,sg_halfwidth=1, &
+        block_csr="1 csr_on_off -"
+!=======
+DB2bf : DRIF,L= 0.272
+DB2af : DRIF,L= 0.12
+DB3af : DRIF,L= 0.05
+
+L22b  : line=(&
+        BELLOW4 , doub1 , BPM03 ,&
+        CRR03 , bellow5, DB2bf,B2,10*DB2af,10*DB3af )
+
+
+chi   : line=(&
+        bellow7 , valve4 , Dxband , doub2 , bellow8 , BAM1 ,&
+        BPM04 , CRR04 , PROFILE04 , &
+        DBC1, B11   , DB11  , B12   , DB12  ,w04, DB13  , &
+        B13   , DB14  , B14   , DBC1, &
+        DCSR , bellow9 ,doub3 ,Tcav1, Tcav2, & 
+        BAM2 ,bellow10, doub4 , BPM06 ,& 
+        CRR06 , PROFILE06 , valve5 , bellow11 )
+
+L52s  : line=(&
+        bellow13   ,doub5 , BPM07 , CRR07 ,PROFILE07 ,bellow14) 
+
+
+L72s  : line=(&
+        BELLOW16 , valve6 , doub6 , BPM08 , CRR08 ,DD,BELLOW17 ,  &
+        DB3    , ICT2 , PROFILE08 , bellow18 )
+
+B3   : CSRCSBEN,L= 0.6, &
+        ANGLE="30 pi * 180 /", &
+        EDGE1_EFFECTS=1,E1="15 pi * 180 /", &
+        EDGE2_EFFECTS=1,E2="15 pi * 180 /", &
+        HGAP= 1.000000000E-02, &
+        nonlinear=1,n_kicks=100,integration_order=4, &
+        bins=512,sg_halfwidth=1, &
+        block_csr="1 csr_on_off -"
+DB3bf : DRIF,L= 0.293
+L72b  : line=(&
+        BELLOW16 , valve6 , doub6, BPM08 , CRR08 ,DD, &
+        BELLOW17 , DB3bf    ,B3,10*DB2af,10*DB3af )
+
+bl    : line=(&
+        q     , W00   , L12s  , A2    , L22s , A3 , W01  , &
+        chi   , W02   , A4    , bellow11 , A5    ,L52s ,A6 ,&
+        bellow14 , A7 ,L72s, W03 )
+bl1    : line=(&
+        q     , W00   , L12s  , A2    , L22b)
+bl2    : line=(&
+        q     , W00   , L12s  , A2    , L22s , A3 , W01  , &
+        chi   , W02   , A4    , bellow11 , A5    ,L52s ,A6 ,&
+        bellow14 , A7 ,W03,L72b  )
+bl3    : line=(&
+        q     , L72b  )

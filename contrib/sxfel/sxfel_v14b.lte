@@ -1,0 +1,1046 @@
+! SXFEL: ver14b 2015/11/09 by guqiang
+! 2015/11/11 converted by huangdazhang
+ 
+!-------------------------------------------------------------------------------------------------
+% 1 sto lsc_on_off
+% 1 sto csr_on_off
+% 1 sto cellfocus
+!-------------------------------------------------------------------------------------------------
+% -52.6  sto L1pha
+% 4.51368e+07 sto L1volt
+% 180 sto Lxpha
+% 1.36984e+07 sto Lxvolt
+% 14 sto L2pha
+% 5.76386e+07 sto L2volt
+% 18 sto L3pha
+% 5.76386e+07 sto L3volt
+!-------------------------------------------------------------------------------------------------
+% 5 pi * 180 / sto LHang
+% 0.2 sto LHLB
+% 3.5243 pi * 180 / sto BC1ang
+% 0.3 sto BC1LB
+% 0.6 sto BEND01LB
+% 30 pi * 180 / sto BEND01ang
+% 1.5 sto BEND02LB
+% 22.5 pi * 180 / sto BEND02ang
+
+c: charge, total=0.5e-9
+
+!L0SHIFT: RFCA, FREQ=2.856000000E+09, l=1.0E-6, &
+!         VOLT=2e7, PHASE="180 90 +", &
+!         CHANGE_P0=1, END1_FOCUS=0, END2_FOCUS=0
+
+!-------------------------------------------------------------------------------------------------
+L0WAKE: WAKE, INPUTFILE="sband_L_10mm.sdds", factor="86 2 *", &
+        tColumn="t", wColumn="W", N_BINS=0, SMOOTHING=1, interpolate=1
+
+!-------------------------------------------------------------------------------------------------
+PSTN01: MARK, FITPOINT=1
+PSTN02: MARK, FITPOINT=1
+PSTN03: MARK, FITPOINT=1
+PSTN04: MARK, FITPOINT=1
+PSTN05: MARK, FITPOINT=1
+PSTN06: MARK, FITPOINT=1
+PSTN07: MARK, FITPOINT=1
+PSTN08: MARK, FITPOINT=1
+PSTN09: MARK, FITPOINT=1
+PSTN10: MARK, FITPOINT=1
+PSTN11: MARK, FITPOINT=1
+PSTN12: MARK, FITPOINT=1
+PSTN13: MARK, FITPOINT=1
+PSTN14: MARK, FITPOINT=1
+PSTN15: MARK, FITPOINT=1
+PSTN16: MARK, FITPOINT=1
+PSTN17: MARK, FITPOINT=1
+PSTN18: MARK, FITPOINT=1
+PSTN19: MARK, FITPOINT=1
+PSTN20: MARK, FITPOINT=1
+
+!-------------------------------------------------------------------------------------------------
+BLL01: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.07
+BLL01csr: csrdrif, l=0.09, dz=0.01, use_stupakov=1, csr="csr_on_off"
+BLL02: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.09
+BLL03: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.18405
+BLL04: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.09982
+
+!-------------------------------------------------------------------------------------------------
+VALV: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.072
+
+!-------------------------------------------------------------------------------------------------
+DZERO: DRIFT, l=0.0
+DCRR: DRIFT, l=0.025
+DBPM: DRIFT, l=0.2
+
+DBPMlsc: lscdrift, lsc="lsc_on_off", l=0, LEFFECTIVE=0.2, &
+         smoothing=1, bins=512, interpolate=1, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30
+DAWGS: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.047934
+DAWGX1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.067711
+DAWGX2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.067711
+DAWGC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.051975
+DAWGC2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.051975
+
+D01L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.534
+D02L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D03L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D04L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D05L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.2
+D06L0: csrdrif, l="0.25 LHang cos /", dz=0.01, use_stupakov=1, csr="csr_on_off"
+D07L0: csrdrif, l=0.05, dz=0.01, use_stupakov=1, csr="csr_on_off"
+DLHM: lscdrift, smoothing=1, interpolate=1, bins=512, &
+     high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+     lsc="lsc_on_off", l=0.5
+D08L0: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D09L0: csrdrif, l="0.25 LHang cos /", dz=0.01, use_stupakov=1, csr="csr_on_off"
+D10L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.2
+D11L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D12L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D13L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D14L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D15L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D16L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.2
+D17L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.67
+DBEND01L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.8
+
+D01L1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D02L1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D03L1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D04L1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+
+D01BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D02BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.2
+D03BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D04BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.18
+D05BC1: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D06BC1: csrdrif, l=0.77, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D07BC1: csrdrif, l=0.2, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D08DBC1csr: csrdrif, l="4.8 BC1ang cos / 1.51 - 10 /", &
+            dz=0.01, use_stupakov=1, csr="csr_on_off"
+D08DBC1lsc: lscdrift, lsc="lsc_on_off", l=0, &
+            LEFFECTIVE="4.8 BC1ang cos / 10 /", &
+            smoothing=1, bins=512, interpolate=1, &
+            high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30
+D09BC1: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D10BC1: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D11BC1: csrdrif, l=0.18, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D12BC1csr: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D12BC1lsc: lscdrift, lsc="lsc_on_off", l=0, LEFFECTIVE=1.08, &
+           smoothing=1, bins=512, interpolate=1, &
+           high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30
+D13BC1: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D14DBC1csr: csrdrif, l="4.8 BC1ang cos / 1.51 - 10 /", &
+            dz=0.01, use_stupakov=1, csr="csr_on_off"
+D14DBC1lsc: lscdrift, lsc="lsc_on_off", l=0, &
+            LEFFECTIVE="4.8 BC1ang cos / 10 /", &
+            smoothing=1, bins=512, interpolate=1, &
+            high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30
+D15BC1: csrdrif, l=0.2, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D16BC1: csrdrif, l=0.77, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D17BC1: csrdrif, l=0.1, dz=0.01, use_stupakov=1, csr="csr_on_off"
+D18BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.18
+
+D01BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D02BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.2
+D03BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D04BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D05BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.2
+D06BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D07BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.305
+D08BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D09BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.8
+D10BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.2
+D11BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D12BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.265
+D13BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D14BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+DFODO1BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.215
+DFODO2BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.7
+D15BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D16BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D17BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.265
+D18BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.4
+D19BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D20BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D21BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.4
+D22BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+DBEND01BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.8
+
+DACL2:lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=1.78963
+D01L2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=1.598
+D02L2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D03L2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+
+D01BC2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D02BC2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.2
+D03BC2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D04DBC2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.6055
+D05DBC2: csrdrif, l=0.613, dz=0.01, use_stupakov=1, csr="csr_on_off"
+
+D01BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D02BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.2
+D03BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D031BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.395
+D04BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.515
+D05BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+
+D01L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D02L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D03L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D04L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D05L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D06L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D07L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D08L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D09L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D10L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D11L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D12L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D13L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+D14L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=0.1
+DACL3: lscdrift, lsc="lsc_on_off", l=1.78963, &
+       smoothing=1, bins=512, interpolate=1, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30
+DVALVBLL: DRIFT, L=0.142       
+
+D01BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D02BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.6
+D03BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D04BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D05BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.6
+D06BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=0.1
+D07BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+        high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+        lsc="lsc_on_off", l=2.868
+DBEND01BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+       high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+       lsc="lsc_on_off", l=2.0
+
+!-------------------------------------------------------------------------------------------------
+BAM01L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.15
+BAM01BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.15
+BAM01BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.15
+
+!-------------------------------------------------------------------------------------------------
+
+BPM01L0: MONI, L=0.075
+BPM02L0: MONI, L=0.15
+BPM03L0: MONI, L=0.075
+BPM04L0: MONI, L=0.075
+
+BPM01L1: MONI, l=0.075
+
+BPM01BC1: MONI, l=0.075
+BPM02BC1: MONI, l=0.2
+BPM03BC1: MONI, l=0.075
+BPM04BC1: MONI, l=0.075
+
+BPM01BI1: MONI, l=0.075
+BPM02BI1: MONI, l=0.075
+BPM03BI1: MONI, l=0.075
+BPM04BI1: MONI, l=0.075
+BPM05BI1: MONI, l=0.075
+BPM06BI1: MONI, l=0.075
+BPM07BI1: MONI, l=0.075
+
+BPM01L2: MONI, l=0.075
+BPM02L2: MONI, l=0.075
+
+BPM01BC2: MONI, l=0.075
+BPM02BC2: MONI, l=0.075
+BPM03BC2: MONI, l=0.075
+
+BPM01BI2: MONI, l=0.075
+
+BPM01L3: MONI, l=0.075
+BPM02L3: MONI, l=0.075
+BPM03L3: MONI, l=0.075
+BPM04L3: MONI, l=0.075
+BPM05L3: MONI, l=0.075
+BPM06L3: MONI, l=0.075
+BPM07L3: MONI, l=0.075
+
+BPM01BI3: MONI, l=0.075
+BPM02BI3: MONI, l=0.075
+BPM03BI3: MONI, l=0.075
+
+!-------------------------------------------------------------------------------------------------
+ICT01L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.15
+ICT01BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.15
+ICT01BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+      high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+      lsc="lsc_on_off", l=0.15
+
+!-------------------------------------------------------------------------------------------------
+PRF01L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF02L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.14
+PRF03L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.12
+PRF04L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF05L0: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+
+PRF01L1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+
+PRF01BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF02BC1: csrdrif, l=0.2, dz=0.01, use_stupakov=1, csr="csr_on_off"
+
+PRF01BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF02BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF03BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF04BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF05BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF06BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF07BI1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+
+PRF01L2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF02L2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+
+PRF01BC2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF02BC2: csrdrif, l=0.115, dz=0.01, use_stupakov=1, csr="csr_on_off"
+
+PRF01BI2: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+
+PRF01L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF02L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF03L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF04L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF05L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF06L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+PRF07L3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+         high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+         lsc="lsc_on_off", l=0.115
+
+PRF01BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF02BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+PRF03BI3: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.115
+
+!-------------------------------------------------------------------------------------------------
+SLT01BC1: csrdrif, l=0.21, dz=0.01, use_stupakov=1, csr="csr_on_off"
+
+!-------------------------------------------------------------------------------------------------
+CDR01BC1: lscdrift, smoothing=1, interpolate=1, bins=512, &
+          high_frequency_cutoff0=0.25, high_frequency_cutoff1=0.30, &
+          lsc="lsc_on_off", l=0.4
+!-------------------------------------------------------------------------------------------------
+!sband=18MV/m, 2pi/3
+AS1o1L1: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+         freq=2.856000000e+09, l="2.974132 1 /", &
+         volt="L1volt 1.0000 * 1 /", phase="L1pha 90 + 0 -", &
+         change_p0=1, cell_length=0.03499, interpolate=1, &
+         zwakefile="sband_L_10mm.sdds", trwakefile="sband_T_10mm.sdds", &
+         tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+         smoothing=1, n_kicks=20, &
+         lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+         lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+!xband=24.4MV/m, 5pi/6
+AX1o1L1: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+         freq=11.424000000e+09, l="0.944578 1 /", &
+         volt=" Lxvolt 1.0000 * 1 /", phase="Lxpha 90 + 0 -", &
+         change_p0=1, cell_length=0.010934, interpolate=1, &
+         zwakefile="xband_T1080_L_10mm.sdds", trwakefile="xband_T1080_T_10mm.sdds", &
+         tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+         smoothing=1, n_kicks=20, &
+         lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+         lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+!Cband=32MV/m, 4pi/5
+AC1o1L2_1: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L2volt 1.0000 * 1 /", phase="L2pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L2_2: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L2volt 1.0000 * 1 /", phase="L2pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L2_3: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L2volt 1.0000 * 1 /", phase="L2pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L2_4: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.62065 1 /", &
+           volt="L2volt 1.0000 * 1 /", phase="L2pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L2_5: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.62065 1 /", &
+           volt="L2volt 1.0000 * 1 /", phase="L2pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+
+!cband=32MV/m, 4pi/5
+AC1o1L3_1: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L3_2: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L3_3: rfcw, END1_FOCUS="cellfocus", END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L3_4: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L3_5: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L3_6: rfcw, END1_FOCUS="cellfocus", END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+AC1o1L3_7: rfcw ,END1_FOCUS="cellfocus" ,END2_FOCUS="cellfocus", &
+           freq=5.712000000e+09, l="1.68568 1 /", &
+           volt="L3volt 1.0000 * 1 /", phase="L3pha 90 + 0 -", &
+           change_p0=1, cell_length=0.020994, interpolate=1, &
+           zwakefile="cband_L_4pi5_1mm.sdds", trwakefile="cband_T_4pi5_1mm.sdds", &
+           tcolumn="t", wxcolumn="W", wycolumn="W", wzcolumn="W", &
+           smoothing=1, n_kicks=20, &
+           lsc="lsc_on_off", lsc_bins=512, lsc_interpolate=1, &
+           lsc_high_frequency_cutoff0=0.25, lsc_high_frequency_cutoff1=0.30
+
+!-------------------------------------------------------------------------------------------------
+TDS01L0: RFDF, frequency=2.856000000e+09, l=0.656, voltage=0e6, &
+         n_kicks=34, phase="0 90 + 0 -", tilt="pi 2 /"
+TDS01BI1: RFDF, frequency=2.856000000e+09, l=1.4, voltage=0e6, &
+         n_kicks=34, phase="0 90 + 0 -", tilt="pi 2 /"
+TDS01BI3: RFDF, frequency=2.856000000e+09, l=1.4, voltage=0e6, &
+          n_kicks=172, phase="0 90 + 0 -", tilt="pi 2 /"
+
+!-------------------------------------------------------------------------------------------------
+CRR01L0: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02L0: KICKER, L=0.1, HKICK=0, VKICK=0
+ 
+CRR01L1: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01BC1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02BC1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR03BC1: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR03BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR04BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR05BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR06BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR07BI1: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01L2: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02L2: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR03L2: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01BC2: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02BC2: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR03BC2: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01BI2: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01L3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02L3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR03L3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR04L3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR05L3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR06L3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR07L3: KICKER, L=0.1, HKICK=0, VKICK=0
+
+CRR01BI3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR02BI3: KICKER, L=0.1, HKICK=0, VKICK=0
+CRR03BI3: KICKER, L=0.1, HKICK=0, VKICK=0
+
+!-------------------------------------------------------------------------------------------------
+B1LH: csrcsben, l= "LHLB LHang * LHang sin /", &
+      angle= "0 LHang +", &
+      edge1_effects=1, e1= 0.000000000e+00, &
+      edge2_effects=1, e2= "0 LHang +", &
+      hgap= 1.500000000e-02, csr="csr_on_off", &
+      nonlinear=1, n_kicks=100, integration_order=4, &
+      bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B2LH: csrcsben, l= "LHLB LHang * LHang sin /", &
+      angle= "0 LHang -", &
+      edge1_effects=1, e1= "0 LHang -", &
+      edge2_effects=1, e2= 0.000000000e+00, &
+      hgap= 1.500000000e-02, csr="csr_on_off", &
+      nonlinear=1, n_kicks=100, integration_order=4, &
+      bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B3LH: csrcsben, l= "LHLB LHang * LHang sin /", &
+      angle= "0 LHang -", &
+      edge1_effects=1, e1= 0.000000000e+00, &
+      edge2_effects=1, e2= "0 LHang -", &
+      hgap= 1.500000000e-02, csr="csr_on_off", &
+      nonlinear=1, n_kicks=100, integration_order=4, &
+      bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B4LH: csrcsben, l= "LHLB LHang * LHang sin /", &
+      angle= "0 LHang +", &
+      edge1_effects=1, e1= "0 LHang +", &
+      edge2_effects=1, e2= 0.000000000e+00, &
+      hgap= 1.500000000e-02, csr="csr_on_off", &
+      nonlinear=1, n_kicks=100, integration_order=4, &
+      bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B1BC1: csrcsben, l= "BC1LB BC1ang * BC1ang sin /", &
+       angle="BC1ang", &
+       edge1_effects=1, e1= 0.000000000e+00, &
+       edge2_effects=1, e2="BC1ang", &
+       hgap= 1.500000000e-02, csr="csr_on_off", &
+       nonlinear=1, n_kicks=100, integration_order=4, &
+       bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B2BC1: csrcsben, l= "BC1LB BC1ang * BC1ang sin /", &
+       angle="0 BC1ang -", &
+       edge1_effects=1, e1="0 BC1ang -", &
+       edge2_effects=1, e2= 0.000000000e+00, &
+       hgap= 1.500000000e-02, csr="csr_on_off", &
+       nonlinear=1, n_kicks=100, integration_order=4, &
+       bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B3BC1: csrcsben, l= "BC1LB BC1ang * BC1ang sin /", &
+       angle="0 BC1ang -", &
+       edge1_effects=1, e1= 0.000000000e+00, &
+       edge2_effects=1, e2="0 BC1ang -", &
+       hgap= 1.500000000e-02, csr="csr_on_off", &
+       nonlinear=1, n_kicks=100, integration_order=4, &
+       bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+B4BC1: csrcsben, l= "BC1LB BC1ang * BC1ang sin /", &
+       angle="BC1ang", &
+       edge1_effects=1, e1="BC1ang", &
+       edge2_effects=1, e2= 0.000000000e+00, &
+       hgap= 1.500000000e-02, csr="csr_on_off", &
+       nonlinear=1, n_kicks=100, integration_order=4, &
+       bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+
+BEND01BI1: csrcsben, l= "BEND01LB BEND02ang * BEND01ang sin /", &
+           angle="BEND01ang", &
+           edge1_effects=1, e1="BEND01ang", &
+           edge2_effects=1, e2= 0.000000000e+00,  &
+           hgap= 1.500000000e-02, csr="csr_on_off",  &
+           nonlinear=1, n_kicks=100, integration_order=4, &
+           bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+
+
+BEND01BI3: csrcsben, l= "BEND02LB BEND02ang * BEND02ang sin /", &
+           angle="BEND02ang", &
+           edge1_effects=1, e1="BEND02ang", &
+           edge2_effects=1, e2= 0.000000000e+00,  &
+           hgap= 1.500000000e-02, csr="csr_on_off",  &
+           nonlinear=1, n_kicks=100, integration_order=4, &
+           bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+
+!-------------------------------------------------------------------------------------------------
+!LM: LSRMDLTR, l=0.5, periods=10, Bu=0.311801, accuracy=1e-3, method="non-adaptive", &
+!    n_steps=1000, laser_peak_power=1.333351e-6, laser_w0=0.30e-3, field_expansion="ideal"
+!LM: LSRMDLTR, l=0.5, periods=10, Bu=0.311801, accuracy=1e-3, method="non-adaptive", &
+!    n_steps=1000, laser_peak_power=0.5e6, laser_w0=0.30e-3, field_expansion="ideal"
+LM: DRIFT, l=0.5
+!-------------------------------------------------------------------------------------------------
+Q01L0: QUAD, L=0.1, K1= 3.95
+Q02L0: QUAD, L=0.2, K1=-3.75
+Q03L0: QUAD, L=0.1, K1= 3.95
+Q04L0: QUAD, L=0.1, K1= 4.27971
+Q05L0: QUAD, L=0.2, K1=-4.08602
+Q06L0: QUAD, L=0.1, K1= 4.27971
+Q07L0: QUAD, L=0.1, K1= 0
+Q08L0: QUAD, L=0.1, K1= 0
+
+Q01L1: QUAD, L=0.1, K1=-5.62694
+Q02L1: QUAD, L=0.2, K1= 5.59702
+Q03L1: QUAD, L=0.1, K1=-5.62694
+
+Q01BC1: QUAD, L=0.2, K1=-4.64573
+Q02BC1: QUAD, L=0.2, K1= 4.3335
+Q03BC1: QUAD, L=0.1, K1= 0
+Q04BC1: QUAD, L=0.1, K1= 0, TILT="pi 4 /"
+Q05BC1: QUAD, L=0.1, K1= 0
+
+Q01BI1: QUAD, L=0.2, K1= 0.4 
+Q02BI1: QUAD, L=0.2, K1=-0.8 
+Q03BI1: QUAD, L=0.2, K1=-4.12047
+Q04BI1: QUAD, L=0.2, K1= 3.24914 
+Q05BI1: QUAD, L=0.2, K1= 1.6603 
+Q06BI1: QUAD, L=0.2, K1= 1.8468 
+Q07BI1: QUAD, L=0.2, K1=-3.13483 
+
+Q08BI1H: QUAD, L=0.1, K1=-4.60769
+Q09BI1H: QUAD, L=0.1, K1= 4.60769
+Q10BI1H: QUAD, L=0.1, K1=-4.60769
+Q11BI1H: QUAD, L=0.1, K1= 4.60769
+Q12BI1H: QUAD, L=0.1, K1=-4.60769
+Q13BI1H: QUAD, L=0.1, K1= 4.60769
+Q14BI1H: QUAD, L=0.1, K1=-4.60769
+Q15BI1H: QUAD, L=0.1, K1= 4.60769
+
+Q16BI1: QUAD, L=0.2, K1= 3.47744
+Q17BI1: QUAD, L=0.2, K1=-4.00489
+Q18BI1: QUAD, L=0.2, K1=-3.48617
+Q19BI1: QUAD, L=0.2, K1= 4.21129
+
+Q01L2H: QUAD, L=0.1, K1=-1.02711
+
+Q01BC2: QUAD, L=0.2, K1=-2.36377
+Q02BC2: QUAD, L=0.2, K1= 2.66697
+
+Q01BI2: QUAD, L=0.2, K1=-2.44726
+Q02BI2: QUAD, L=0.2, K1= 2.92352
+Q03BI2: QUAD, L=0.2, K1= 0.0971
+
+Q01L3H: QUAD, L=0.1, K1=-1.08303 
+Q02L3H: QUAD, L=0.1, K1= 0.99491
+Q03L3H: QUAD, L=0.1, K1=-1.00454
+Q04L3H: QUAD, L=0.1, K1= 0.99491
+Q05L3H: QUAD, L=0.1, K1=-1.00454
+Q06L3H: QUAD, L=0.1, K1= 0.99491
+Q07L3H: QUAD, L=0.1, K1=-1.00454
+
+Q01BI3: QUAD, L=0.2, K1= 1 
+Q02BI3: QUAD, L=0.2, K1=-0.6 
+Q03BI3: QUAD, L=0.2, K1= 3.00056 
+Q04BI3: QUAD, L=0.2, K1=-2.87761
+
+!-------------------------------------------------------------------------------------------------
+cenbc1: center, x=1, xp=1, y=1, yp=1
+cenbc2: center, x=1, xp=1, y=1, yp=1
+        
+!-------------------------------------------------------------------------------------------------
+w00: watch, filename="w00.out", mode=coord
+w0: watch, filename="L0.out", mode=coord
+w1: watch, filename="L1.out", mode=coord
+w2: watch, filename="BC1.out", mode=coord
+w3: watch, filename="L2.out", mode=coord
+w4: watch, filename="BC2.out", mode=coord
+w5: watch, filename="L3.out", mode=coord
+wm: watch, filename="match.in", mode=coord
+
+wprf01l0: watch, filename="wprf01l0.out", mode=coord
+
+!-------------------------------------------------------------------------------------------------
+L0: LINE=(DZERO, DZERO, D01L0, Q01L0, D02L0, Q02L0, D03L0, Q03L0, D04L0, &
+          BLL01, BPM01L0, CRR01L0, DCRR, PRF01L0, VALV, BLL01, D05L0, &
+          B1LH, D06L0, B2LH, BPM02L0, BLL02, PRF02L0, D07L0, LM, D07L0, &
+          PRF03L0, D08L0, B3LH, D09L0, B4LH, D10L0, BLL01, D11L0, Q04L0, &
+          D12L0, Q05L0, D13L0, Q06L0, D14L0, BLL01, BPM03L0, CRR02L0, &
+          DCRR, PRF04L0, BLL01, TDS01L0, BLL01, D15L0, Q07L0, D16L0, &
+          Q08L0, D17L0, BAM01L0, ICT01L0, BLL01, DBEND01L0, BLL01, DBPM)
+
+ASL1: LINE=(DAWGS, AS1o1L1, DAWGS)
+AXL1: LINE=(DAWGX1, AX1o1L1, DAWGX2)
+
+L1: LINE=(DZERO, D01L1, Q01L1, D02L1, Q02L1, D03L1, &
+          Q03L1, D04L1, BLL01, BPM01L1, CRR01L1, DCRR, DBPMlsc, &
+          PRF01L1, VALV, BLL01, ASL1, BLL03, ASL1, BLL01, &
+          VALV, BLL01, AXL1, BLL01, VALV, PSTN01)
+
+D08DBC1: LINE=(D08DBC1csr, D08DBC1lsc)
+D12BC1: LINE=(D12BC1csr, D12BC1lsc)
+D14DBC1: LINE=(D14DBC1csr, D14DBC1lsc)
+
+BC1: LINE=(DZERO, D01BC1, Q01BC1, D02BC1, Q02BC1, D03BC1, BLL01, &
+           BPM01BC1, CRR01BC1, DCRR, DBPMlsc, DBPMlsc, &
+           PRF01BC1, BLL01, D04BC1,B1BC1, &
+           D05BC1, BLL01, D06BC1, Q03BC1, D07BC1, CRR02BC1, 10*D08DBC1, &
+           BLL01, D09BC1, B2BC1, D10BC1, BLL02, BPM02BC1, BLL02, &
+           SLT01BC1, PRF02BC1, BLL02, D12BC1, B3BC1, D13BC1, BLL01, &
+           10*D14DBC1, CRR03BC1, D15BC1, Q05BC1, D16BC1, BLL01, &
+           D17BC1, B4BC1, PSTN02, D18BC1, BLL01, CDR01BC1)	         
+	
+ACL2_1: LINE=(DAWGC1, 1*AC1o1L2_1, DAWGC2)
+ACL2_2: LINE=(DAWGC1, 1*AC1o1L2_2, DAWGC2)
+ACL2_3: LINE=(DAWGC1, 1*AC1o1L2_3, DAWGC2)
+ACL2_4: LINE=(DAWGC1, 1*AC1o1L2_4, DAWGC2)
+ACL2_5: LINE=(DAWGC1, 1*AC1o1L2_5, DAWGC2)
+
+M1BI1: LINE=(DZERO, DZERO, D01BI1, Q01BI1, D02BI1, Q02BI1, D03BI1, VALV, &
+             BLL01, TDS01BI1, BLL01, VALV, D04BI1, Q03BI1, &
+             D05BI1, Q04BI1, D06BI1, BLL01, BPM01BI1, CRR01BI1, DCRR, &
+             PRF01BI1, D07BI1, Q05BI1, D08BI1, BLL01, BAM01BI1, ICT01BI1, &
+             D09BI1, Q06BI1, D10BI1, Q07BI1, D11BI1, BLL01, BPM02BI1, &
+             CRR02BI1, DCRR, PRF02BI1, D12BI1)             
+
+H01BI1: LINE=(Q08BI1H, DFODO2BI1, Q09BI1H, PSTN03, Q09BI1H, D13BI1, &
+              BLL01, BPM03BI1, CRR03BI1, DCRR, PRF03BI1, DFODO1BI1, &
+              Q10BI1H)
+H02BI1: LINE=(Q10BI1H, DFODO2BI1, 2*Q11BI1H, D14BI1, &
+              BLL01, BPM04BI1, CRR04BI1, DCRR, PRF04BI1, DFODO1BI1, &
+              Q12BI1H)
+H03BI1: LINE=(Q12BI1H, DFODO2BI1, 2*Q13BI1H, D15BI1, &
+              BLL01, BPM05BI1, CRR05BI1, DCRR, PRF05BI1, DFODO1BI1, &
+              Q14BI1H)
+H04BI1: LINE=(Q14BI1H, DFODO2BI1, 2*Q15BI1H, D16BI1, &
+              BLL01, BPM06BI1, CRR06BI1, DCRR, PRF06BI1)
+FODOBI1: LINE=(DZERO, H01BI1, PSTN03, H02BI1, H03BI1, H04BI1)
+M2BI1: LINE=(DZERO, D17BI1, Q16BI1, D18BI1, Q17BI1, D19BI1, BLL01, &
+             BPM07BI1, CRR07BI1, DCRR, PRF07BI1, DBEND01BI1, BLL01, &
+             D20BI1, Q18BI1, D21BI1, Q19BI1, D22BI1, PSTN05)
+BI1: LINE=(DZERO, M1BI1, Q08BI1H, PSTN04, FODOBI1, M2BI1)
+
+TESTLINE: LINE=(M1BI1, Q08BI1H, FODOBI1)
+
+L2: LINE=(DZERO, DZERO, BLL01, BPM01L2, CRR01L2, DCRR, DBPMlsc, PRF01L2, VALV, &
+          D01L2, BLL01, DACL2, BLL04, DACL2, D02L2, Q01L2H, PSTN06, &
+          Q01L2H, D03L2, BLL01, BPM02L2, CRR02L2, DCRR, PRF02L2, &
+          BLL01, ACL2_1, BLL04, ACL2_1, BLL01, ACL2_2, BLL04, ACL2_2, PSTN07)          
+
+BC2: LINE=(DZERO, DZERO, D01BC2, Q01BC2, D02BC2, Q02BC2, D03BC2, &
+           BLL01, BPM01BC2, CRR01BC2, DCRR, DBPMlsc, PRF01BC2, VALV, BLL01, &
+           10*D04DBC2, BLL01, BPM02BC2, CRR02BC2, DCRR, DBPMlsc, PRF02BC2, &
+		       BLL01, 10*D05DBC2, BLL01, PSTN08)
+
+BI2: LINE=(DZERO, DZERO, D01BI2, Q01BI2, D02BI2, Q02BI2, D03BI2, BLL01, &
+           BPM01BI2, CRR01BI2, DCRR, DBPMlsc, PRF01BI2, D04BI2, Q03BI2, D05BI2)
+
+ACL3_1: LINE=(DAWGC1, 1*AC1o1L3_1, DAWGC2)
+ACL3_2: LINE=(DAWGC1, 1*AC1o1L3_2, DAWGC2)
+ACL3_3: LINE=(DAWGC1, 1*AC1o1L3_3, DAWGC2)
+ACL3_4: LINE=(DAWGC1, 1*AC1o1L3_4, DAWGC2)
+ACL3_5: LINE=(DAWGC1, 1*AC1o1L3_5, DAWGC2)
+ACL3_6: LINE=(DAWGC1, 1*AC1o1L3_6, DAWGC2)
+ACL3_7: LINE=(DAWGC1, 1*AC1o1L3_7, DAWGC2)
+
+H01L3: LINE=(DZERO, D01L3, Q01L3H, PSTN09, Q01L3H, D02L3, &
+             BLL01, BPM01L3, CRR01L3, DCRR, PRF01L3, VALV, BLL01, &
+             ACL3_1, BLL04, ACL3_1, D03L3, Q02L3H)
+H02L3: LINE=(DZERO, PSTN10, Q02L3H, D04L3, &
+             BLL01, BPM02L3, CRR02L3, DCRR, PRF02L3, VALV, BLL01, &
+             ACL3_2, BLL04, ACL3_2)
+H03L3: LINE=(DZERO, D05L3, Q03L3H, PSTN11, Q03L3H, D06L3, &
+             BLL01, BPM03L3, CRR03L3, DCRR, PRF03L3, VALV, BLL01, &
+             ACL3_3, BLL04, ACL3_3)
+H04L3: LINE=(DZERO, D07L3, Q04L3H, PSTN12, Q04L3H, D08L3, &
+             BLL01, BPM04L3, CRR04L3, DCRR, PRF04L3, VALV, BLL01, &
+             ACL3_4, BLL04, ACL3_4)
+H05L3: LINE=(DZERO, D09L3, Q05L3H, PSTN13, Q05L3H, D10L3, &
+             BLL01, BPM05L3, CRR05L3, DCRR, PRF05L3, VALV, BLL01, &
+             DACL3, BLL04, DACL3)
+H06L3: LINE=(DZERO, D11L3, Q06L3H, PSTN14, Q06L3H, D12L3, &
+             BLL01, BPM06L3, CRR06L3, DCRR, PRF06L3, DVALVBLL, &
+             DACL3, BLL04, DACL3)
+H07L3: LINE=(DZERO, D13L3, Q07L3H, PSTN15, Q07L3H, D14L3, &
+             BLL01, BPM07L3, CRR07L3, DCRR, PRF07L3, DVALVBLL, &
+             DACL3, BLL04, DACL3)
+L3: LINE=(DZERO, H01L3, H02L3, H03L3, H04L3, H05L3, H06L3, H07L3)
+
+M1BI3: LINE=(DZERO, D01BI3, Q01BI3, D02BI3, Q02BI3, D03BI3, BLL01, &
+             BPM01BI3, CRR01BI3, DCRR, PRF01BI3, VALV, BLL01, TDS01BI3, &
+             BLL01, VALV, D04BI3, Q03BI3, D05BI3, Q04BI3, D06BI3, BLL01, &
+             BPM02BI3, CRR02BI3, DCRR, PRF02BI3, D07BI3, BAM01BI3, ICT01BI3, &
+             BLL01, DBEND01BI3, BLL01, BPM03BI3, CRR03BI3, DCRR, PRF03BI3)
+BI3: LINE=(DZERO, M1BI3)
+
+bl: LINE=(c, L0WAKE, L0, w0, L1, w1, BC1, w2,&
+    BI1, L2, w3, BC2, w4, BI2, L3, w5, BI3)
+bl1: LINE=(c, L0WAKE, L0)
+
+
+blemit1:LINE=(c, L0WAKE,DZERO, DZERO, D01L0, Q01L0, D02L0, Q02L0, D03L0, Q03L0, D04L0, BLL01, BPM01L0, CRR01L0, DCRR, PRF01L0,wprf01l0)
+
+
+
