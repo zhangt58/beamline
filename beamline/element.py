@@ -6,7 +6,7 @@ This module defines all kinds of magnet components/elements.
 
 Author      : Tong Zhang
 Created     : 2016-03-22
-Last updated: 2016-04-12 08:48:50 PM CST
+Last updated: 2016-04-14 03:11:58 PM CST
 """
 
 import json
@@ -23,11 +23,11 @@ class MagBlock(object):
     comminfo = {}  # common information
     __styleconfig_dict = {
         'quad':
-            {'h': 1.0, 'fc': 'red', 'ec': 'red', 'alpha': 0.50,},
+            {'ratio': 2.0, 'fc': 'red', 'ec': 'red', 'alpha': 0.50,},
         'bend':
-            {'h': 0.5, 'fc': 'blue', 'ec':'blue', 'alpha': 0.50,},
+            {'ratio': 1.0, 'fc': 'blue', 'ec':'blue', 'alpha': 0.50,},
         'drift':
-            {'lw': 2, 'color': 'black', 'alpha': 0.75},
+            {'lw': 1, 'color': 'black', 'alpha': 0.75},
     }  # global configuration for element style, dict
     __styleconfig_json = json.dumps(__styleconfig_dict)
 
@@ -357,6 +357,14 @@ class MagBlock(object):
             x, y = tuple(self.next_p0)
             ax.plot(x, y, 'o', ms=10, c='b')
 
+            ax.annotate(s=self._anote['name'],
+                        xy=self._anote['xypos'],
+                        xytext=self._anote['textpos'],
+                        textcoords='data',
+                        arrowprops=dict(arrowstyle='->'),
+                        rotation=-90,
+                        fontsize='small')
+
             fig.canvas.draw()
             plt.grid()
             plt.show()
@@ -412,14 +420,14 @@ class ElementCsrcsben(MagBlock):
         sconf = self.getConfig(type='simu')
         self._style['w'] = float(sconf['l'])  # element width
         self._style['angle'] = float(sconf['angle'])/np.pi*180  # bending angle, [deg]
-        _width = self._style['w']*1.0
-        _height = self._style['h']*1.0
+        _width = self._style['w']
+        _height = self._style['ratio']*_width
         _fc = self._style['fc']
         _ec = self._style['ec']
         _alpha = self._style['alpha']
         _angle = self._style['angle']
         _lw = self._style['lw']
-        
+
         if mode == 'plain':
             # _angle >= 0:
             #     p1---p2
@@ -433,6 +441,7 @@ class ElementCsrcsben(MagBlock):
             #     |    |
             #     p1---p2
             x0, y0 = p0
+            pc = x0 + _width*0.5, y0
 
             if _angle >= 0:
                 x1, y1 = x0, y0 + _height
@@ -495,6 +504,8 @@ class ElementCsrcsben(MagBlock):
             self._patches.append(ptch)
             self.next_p0 = tuple(MagBlock.rot((x3, y3), theta=angle, pc=p0).tolist())
             self.next_inc_angle = _angle
+
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 
 class ElementCsrdrift(MagBlock):
@@ -562,6 +573,8 @@ class ElementCsrdrift(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementDrift(MagBlock):
     """ drift element
@@ -628,6 +641,8 @@ class ElementDrift(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementKicker(MagBlock):
     """ kicker element
@@ -694,6 +709,8 @@ class ElementKicker(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementLscdrift(MagBlock):
     """ lscdrift element
@@ -760,6 +777,8 @@ class ElementLscdrift(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementMark(MagBlock):
     """ mark element
@@ -826,6 +845,8 @@ class ElementMark(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementMoni(MagBlock):
     """ moni element
@@ -892,6 +913,8 @@ class ElementMoni(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementQuad(MagBlock):
     """ quad element
@@ -935,8 +958,8 @@ class ElementQuad(MagBlock):
 
         sconf = self.getConfig(type='simu')
         self._style['w'] = float(sconf['l'])  # element width
-        _width = self._style['w']*1.0
-        _height = self._style['h']*1.0
+        _width = self._style['w']
+        _height = self._style['ratio']*_width
         _fc = self._style['fc']
         _ec = self._style['ec']
         _alpha = self._style['alpha']
@@ -1012,6 +1035,9 @@ class ElementQuad(MagBlock):
             self.next_p0 = tuple(MagBlock.rot(pout, theta=angle, pc=p0).tolist())
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_width, y0
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+
 
 class ElementRfcw(MagBlock):
     """ rfcw element
@@ -1078,6 +1104,8 @@ class ElementRfcw(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementRfdf(MagBlock):
     """ rfdf element
@@ -1144,6 +1172,8 @@ class ElementRfdf(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementWake(MagBlock):
     """ wake element
@@ -1276,6 +1306,8 @@ class ElementWatch(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
+        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementBeamline(MagBlock):
     """ beamline element
