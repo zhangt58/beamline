@@ -30,3 +30,7 @@ Author: Tong Zhang &copy; 2015-2016
 <p>
     <img src=/contrib/sxfel_lattice_layout.png?raw=true alt="sxfel lattice" width="800"></img>
 </p>
+
+<p>
+    <img src=/contrib/dcls_lattice_layout.png?raw=true alt="dcls lattice with annotations" width="800"></img>
+</p>
