@@ -6,7 +6,7 @@ This module defines all kinds of magnet components/elements.
 
 Author      : Tong Zhang
 Created     : 2016-03-22
-Last updated: 2016-04-14 03:11:58 PM CST
+Last updated: 2016-04-15 04:05:58 PM CST
 """
 
 import json
@@ -19,21 +19,35 @@ from matplotlib.path import Path
 
 
 class MagBlock(object):
+    """ Super class of all elements, part of configuration parameters are
+        defined here:
+        objcnt: object counter, if create/add element one by one, objcnt
+            will return the total element number by sumObjNum() method;
+        comminfo: the shared common information for all elements, could be
+            defined by calling setCommInfo() static method;
+        __styleconfig_dict: style configurations for element drawing, could
+            be defined by setStyleConfig() static method;
+
+        New element should inherited MagBlock, and define following methods:
+        __init__(), setStyle(), setDraw()
+    """
     objcnt = 0  # object counter
     comminfo = {}  # common information
     __styleconfig_dict = {
         'quad':
-            {'ratio': 2.0, 'fc': 'red', 'ec': 'red', 'alpha': 0.50,},
+            {'h': 0.6, 'fc': 'red', 'ec': 'red', 'alpha': 0.50,},
         'bend':
-            {'ratio': 1.0, 'fc': 'blue', 'ec':'blue', 'alpha': 0.50,},
+            {'h': 0.5, 'fc': 'blue', 'ec':'blue', 'alpha': 0.50,},
         'drift':
-            {'lw': 1, 'color': 'black', 'alpha': 0.75},
+            {'h': 0.1, 'lw': 1, 'color': 'black', 'alpha': 0.75},
+        'moni':
+            {'lw': 1, 'color': '#FF9500', 'alpha': 0.75},
     }  # global configuration for element style, dict
     __styleconfig_json = json.dumps(__styleconfig_dict)
 
     def __init__(self, name=None):
         MagBlock.objcnt += 1
-        self._name = name     # element name
+        self._name = name     # elementent name
         self.typename = None  # element type name
         self.comminfo = {k: v for k, v in MagBlock.comminfo.items()}  # common information
 
@@ -421,7 +435,7 @@ class ElementCsrcsben(MagBlock):
         self._style['w'] = float(sconf['l'])  # element width
         self._style['angle'] = float(sconf['angle'])/np.pi*180  # bending angle, [deg]
         _width = self._style['w']
-        _height = self._style['ratio']*_width
+        _height = self._style['h']
         _fc = self._style['fc']
         _ec = self._style['ec']
         _alpha = self._style['alpha']
@@ -856,7 +870,7 @@ class ElementMoni(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'MONI'
         self.setConf(config)
-        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['drift'].items()}
+        self._style = {k: v for k, v in MagBlock._MagBlock__styleconfig_dict['moni'].items()}
 
     @property
     def style(self):
@@ -884,36 +898,86 @@ class ElementMoni(MagBlock):
         _theta = angle/180.0*np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
-        _color = self._style['color']
+        _fancyc = self._style['color']
         _alpha = self._style['alpha']
+        _plainc = MagBlock._MagBlock__styleconfig_dict['drift']['color']
         
         #
-        # --p0-------p1--
+        #   |
+        # --p0--p1--
+        #   |
         # 
         if mode == 'plain':
             x0, y0 = p0
             x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            pc = x0 + 0.5*_length, (y0 + y1)*0.5
             vs = [(x0, y0), (x1, y1)]
             cs = [Path.MOVETO, Path.LINETO]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_plainc, ec=_plainc, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
         else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
             x0, y0 = p0
-            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            vs = [(x0, y0), (x1, y1)]
-            cs = [Path.MOVETO, Path.LINETO]
-            pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            #x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            #pc = x0 + 0.5*_length, (y0 + y1)*0.5
+
+            x1, y1 = x0, y0 + 0.5 * _length
+            x2, y2 = x1 + 1./3.0 * _length, y1
+            x3, y3 = x2 + 1./3.0 * _length, y1
+            x4, y4 = x3 + 1./3.0 * _length, y1
+            x5, y5 = x4, y0
+            x6, y6 = x5, y5 - 0.5 * _length
+            x7, y7 = x3, y6
+            x8, y8 = x3, y7 + 1./3.0 * _length
+            x9, y9 = x2, y8
+            x10, y10 = x9, y7
+            x11, y11 = x0, y7
+            pc = (x0 + x5) *0.5, (y0 + y5) * 0.5
+
+            verts1 = [
+                    (x0, y0),
+                    (x1, y1),
+                    (x2, y2),
+                    pc,
+                    (x3, y3),
+                    (x4, y4),
+                    (x5, y5),
+                    (x6, y6),
+                    (x7, y7),
+                    (x8, y8),
+                    (x9, y9),
+                    (x10, y10),
+                    (x11, y11),
+                    (x0, y0),
+                ]
+
+            codes1 = [
+                     Path.MOVETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.LINETO,
+                     Path.CLOSEPOLY,
+                    ]
+            pth = Path(verts1, codes1)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_fancyc, ec=_fancyc, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
-            self.next_p0 = x1, y1
+            #self.next_p0 = x1, y1
+            self.next_p0 = x5, y5
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementQuad(MagBlock):
@@ -959,7 +1023,7 @@ class ElementQuad(MagBlock):
         sconf = self.getConfig(type='simu')
         self._style['w'] = float(sconf['l'])  # element width
         _width = self._style['w']
-        _height = self._style['ratio']*_width
+        _height = self._style['h']
         _fc = self._style['fc']
         _ec = self._style['ec']
         _alpha = self._style['alpha']
@@ -1077,35 +1141,68 @@ class ElementRfcw(MagBlock):
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
+        _height = self._style['h']
+        if 'freq' in sconf:
+            freqi = int(float(sconf['freq'])/2856.0e6)
+        else:
+            freqi = 0
+        
+        if freqi == 1:
+            _fancyc = '#FFDDBB' # S band
+            _text = 'S'
+        elif freqi == 2:
+            _fancyc = '#5E5EFF' # C band
+            _text = 'C'
+        elif freqi == 4:
+            _fancyc = '#8800FF' # X band
+            _text = 'X'
+        else:
+            _fancyc = '#FFBB00' # other
+            _text = '..'
         
         #
-        # --p0-------p1--
-        # 
+        #   p1-------p2
+        #   |        |
+        # --p0       p3--
+        #   |        |
+        #   p5-------p4
+        #
         if mode == 'plain':
             x0, y0 = p0
-            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            vs = [(x0, y0), (x1, y1)]
-            cs = [Path.MOVETO, Path.LINETO]
+            x1, y1 = x0, y0 + 0.5*_height
+            x2, y2 = x0 + _length, y1
+            x3, y3 = x2, y0
+            x4, y4 = x3, y0 - 0.5*_height
+            x5, y5 = x0, y4
+            vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
+            cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            ptch = patches.PathPatch(pth, lw=_lw, fc='w', ec=_color, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
-            self.next_p0 = x1, y1
+            self.next_p0 = x3, y3
             self.next_inc_angle = 0
-        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
+        else:  # fancy mode, 
             x0, y0 = p0
-            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            vs = [(x0, y0), (x1, y1)]
-            cs = [Path.MOVETO, Path.LINETO]
+            x1, y1 = x0, y0 + 0.5*_height
+            x2, y2 = x0 + _length, y1
+            x3, y3 = x2, y0
+            x4, y4 = x3, y0 - 0.5*_height
+            x5, y5 = x0, y4
+            vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
+            cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_fancyc, ec=_fancyc, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
-            self.next_p0 = x1, y1
+            self.next_p0 = x3, y3
             self.next_inc_angle = 0
+            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
-        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+        self._atext = {'xypos': pc, 'text': _text}
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename,
+                       'atext': self._atext}
 
 class ElementRfdf(MagBlock):
     """ rfdf element
@@ -1145,35 +1242,70 @@ class ElementRfdf(MagBlock):
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
+        _height = self._style['h']
+        if 'freq' in sconf:
+            freqi = int(float(sconf['freq'])/2856.0e6)
+        elif 'frequency' in sconf:
+            freqi = int(float(sconf['frequency'])/2856.0e6)
+        else:
+            freqi = 0
+        
+        if freqi == 1:
+            _fancyc = '#FFDDBB' # S band
+            _text = 'SD'
+        elif freqi == 2:
+            _fancyc = '#5E5EFF' # C band
+            _text = 'CD'
+        elif freqi == 4:
+            _fancyc = '#8800FF' # X band
+            _text = 'XD'
+        else:
+            _fancyc = '#FFBB00' # other
+            _text = '..'
         
         #
-        # --p0-------p1--
-        # 
+        #   p1-------p2
+        #   |        |
+        # --p0       p3--
+        #   |        |
+        #   p5-------p4
+        #
         if mode == 'plain':
             x0, y0 = p0
-            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            vs = [(x0, y0), (x1, y1)]
-            cs = [Path.MOVETO, Path.LINETO]
+            x1, y1 = x0, y0 + 0.5*_height
+            x2, y2 = x0 + _length, y1
+            x3, y3 = x2, y0
+            x4, y4 = x3, y0 - 0.5*_height
+            x5, y5 = x0, y4
+            vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
+            cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            ptch = patches.PathPatch(pth, lw=_lw, fc='w', ec=_color, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
-            self.next_p0 = x1, y1
+            self.next_p0 = x3, y3
             self.next_inc_angle = 0
-        else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
+            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
+        else:  # fancy mode, 
             x0, y0 = p0
-            x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            vs = [(x0, y0), (x1, y1)]
-            cs = [Path.MOVETO, Path.LINETO]
+            x1, y1 = x0, y0 + 0.5*_height
+            x2, y2 = x0 + _length, y1
+            x3, y3 = x2, y0
+            x4, y4 = x3, y0 - 0.5*_height
+            x5, y5 = x0, y4
+            vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
+            cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
             pth = Path(vs, cs)
-            ptch = patches.PathPatch(pth, lw=_lw, fc=_color, ec=_color, alpha=_alpha)
+            ptch = patches.PathPatch(pth, lw=_lw, fc=_fancyc, ec=_fancyc, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
-            self.next_p0 = x1, y1
+            self.next_p0 = x3, y3
             self.next_inc_angle = 0
+            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
-        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+        self._atext = {'xypos': pc, 'text': _text}
+        self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename,
+                       'atext': self._atext}
 
 class ElementWake(MagBlock):
     """ wake element
@@ -1322,6 +1454,7 @@ class ElementBeamline(MagBlock):
 ElementDrif = ElementDrift
 ElementLscdrif = ElementLscdrift
 ElementCsrdrif = ElementCsrdrift
+ElementCsrcsbent = ElementCsrcsben
 
 def test():
     """ For example, define lattice configuration for a 4-dipole chicane with quads
