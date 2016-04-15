@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-This module is written for the purposes of elements modeling:
-    1: interpret (EPICS databases)/(EPICS PVs) into dicts (json) objects
-    2: update (EPICS databases)/(EPICS PVs) with new dicts (json) objects
+This module is written for the purposes of elements modeling for accelerator:
+    1: manually define magnetic elements one by one and model the machine;
+    2: interpret lattice file (.lte file) to be modeled elements;
+    2: update (EPICS databases)/(EPICS PVs) with new configuration.
 
 
 Author      : Tong Zhang
 Created     : 2016-03-18
-Last updated: 2016-04-14 09:56:45 PM CST
+Last updated: 2016-04-15 04:11:05 PM CST
 """
 
 import copy
@@ -218,6 +219,10 @@ class Models(object):
             :param startpoint: start drawing point coords, default: (0, 0)
             :param showfig: show figure or not, default: False
             :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+            :return: patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
+                patchlist: list of element patches
+                anotelist: list of annotations
+                (xmin0, xmax0) and (ymin0, ymax0) are ploting range
         """
         p0 = startpoint
         angle = 0.0
@@ -260,6 +265,24 @@ class Models(object):
             plt.show()
 
         return patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
+
+    @staticmethod
+    def plotElements(ax, patchlist, filter=None):
+        """ plot elements' drawings to axes
+            
+            :param ax: matplotlib axes object
+            :param patchlist: element patch list
+            :param filter: element type filter, default is None, draw all elements
+                could be defined to be one type name or type name list/tuple, e.g.
+                filter='QUAD' or filter=('QUAD', 'CSRCSBEN').
+        """
+        if filter is None:
+            for ptch in patchlist:
+                ax.add_patch(ptch)
+        else:
+            if not isinstance(filter, 'tuple'):
+                filter = tuple(filter)
+            [ax.add_patch(ptch) for ptch in patchlist if ptch['type'] in filter]
 
 
 def test():
