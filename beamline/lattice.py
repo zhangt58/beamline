@@ -17,12 +17,12 @@ class Lattice: handle lattice issues from json/dict definition
 
 Author      : Tong Zhang
 Created     : 2016-01-28
-Last updated: 2016-04-12 09:15:27 PM CST
 """
 
 import json
 import os
 import time
+import ast
 
 from pyrpn import rpn
 
@@ -32,7 +32,9 @@ class LteParser(object):
     def __init__(self, infile):
         self.infile = infile
 
-        self.confstr = ''  # configuration string line for given element
+        self.confstr = ''        # configuration string line for given element excluding control part
+        self.confstr_epics = ''  # configuration string line for given element, epics control part
+        self.ctrlconfdict = {}   # epics control config dict
         self.confdict = {}  # configuration string line to dict
         self.confjson = {}  # configuration string line to json
         self.prestrdict = {}  # prefix string line to dict, e.g. line starts with '%'
@@ -90,8 +92,16 @@ class LteParser(object):
                            ::-1]  # avoid the case with bl keyword has 'line'
         except:
             conf_str = ''
+        
+        #print conf_str
 
-        self.confstr = conf_str
+        # split('!epics'): second part is epics control conf
+        splitedparts = conf_str.split('!epics')
+        self.confstr = splitedparts[0]
+        try:
+            self.confstr_epics = splitedparts[1].strip()
+        except IndexError:
+            self.confstr_epics = ''
 
         return self
 
@@ -150,6 +160,24 @@ class LteParser(object):
         self.getKw(kw)
         return self.str2dict(self.confstr)
 
+    def getKwCtrlConf(self, kw, fmt='dict'):
+        """ return keyword's control configuration, followed after '!epics' notation
+        :param kw: keyword name
+        :param fmt: return format, 'raw', 'dict', 'json', default is 'dict'
+        """
+        self.getKw(kw)
+        if self.confstr_epics != '':
+            if fmt == 'dict':
+                retval = ast.literal_eval(self.confstr_epics)
+            elif fmt == 'json':
+                retval = json.dumps(ast.literal_eval(self.confstr_epics))
+            else:  # raw string
+                retval = self.confstr_epics
+        else:
+            retval = None 
+
+        return retval
+
     def getKwAsString(self, kw):
         """ return keyword configuration as a string
 
@@ -170,7 +198,9 @@ class LteParser(object):
                 continue
             # if ':' in line and not "line" in line:
             if ':' in line:
-                kwslist.append(line.split(':')[0])
+                kw_name = line.split(':')[0]
+                if set(kw_name).difference(set(['=','-','*','/','+'])) == set(kw_name):
+                    kwslist.append(kw_name)
         return kwslist
 
     def file2json(self, jsonfile=None):
@@ -185,14 +215,20 @@ class LteParser(object):
         """
         kwslist = self.detectAllKws()
         kwsdict = {}
+        ctrldict = {} # dict to put epics control config
         idx = 0
         for kw in sorted(kwslist, key=str.lower):
-            # print kw
+            #print kw
             idx += 1
             tdict = self.getKwAsDict(kw)
             self.rpn2val(tdict)
             kwsdict.update(tdict)
+            ctrlconf = self.getKwCtrlConf(kw, fmt='dict')
+            if ctrlconf is not None:
+                ctrldict.update({kw:ctrlconf})
         kwsdict.update(self.prestrdict)
+        self.ctrlconfdict = {'_epics':ctrldict} # all epics contrl config in self.ctrlconfdict
+        kwsdict.update(self.ctrlconfdict)
         try:
             with open(os.path.expanduser(jsonfile), 'w') as outfile:
                 json.dump(kwsdict, outfile)
