@@ -149,9 +149,7 @@ latline_online.printAllElements()
 # get configuration of 'Q1'
 print latline_online.getAllConfig(fmt='dict')['Q1']
 
-
 eleb1.printConfig()
-
 
 eleQ1all = latline_online.getElementsByName('Q1')
 #map(lambda x: x.setStyle(fc='orange'), eleQ1all)
@@ -253,8 +251,7 @@ plt.plot(thetaArray, dxArray, 'r')
 # #### Lattice layout visualization
 
 # generate lattice drawing plotting objects
-#ptches, xr, yr = latline_online.draw(mode='plain', showfig=False)
-ptches, xr, yr = latline_online.draw(mode='fancy', showfig=False)
+ptches, anotes, xr, yr = latline_online.draw(mode='fancy', showfig=False)
 
 # show drawing at the 
 ax3t = ax3.twinx()
