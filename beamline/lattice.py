@@ -34,13 +34,14 @@ class LteParser(object):
 
         self.confstr = ''        # configuration string line for given element excluding control part
         self.confstr_epics = ''  # configuration string line for given element, epics control part
-        self.ctrlconfdict = {}   # epics control config dict
+        self.ctrlconf_dict = {}  # epics control config dict
         self.confdict = {}  # configuration string line to dict
         self.confjson = {}  # configuration string line to json
         self.prestrdict = {}  # prefix string line to dict, e.g. line starts with '%'
 
         self.stodict = {}  # sto key-value dict
         self.resolvePrefix()  # sto string information
+        self.resolveEPICS()   # handle line starts with !!epics
 
     def resolvePrefix(self):
         """ extract prefix information into dict with the key of '_prefixstr'
@@ -56,6 +57,18 @@ class LteParser(object):
                 tmpstrlist.append(stostr)
                 self.stodict[rpnvar] = rpnval
         self.prestrdict['_prefixstr'] = tmpstrlist
+
+    def resolveEPICS(self):
+        """ extract epics control configs into 
+        """
+        kw_name_list = []
+        kw_ctrlconf_list = []
+        for line in open(self.infile, 'r'):
+            if line.startswith('!!epics'):
+                el = line.replace('!!epics','').replace(':',';;',1).split(';;')
+                kw_name_list.append(el[0].strip())
+                kw_ctrlconf_list.append(json.loads(el[1].strip()))
+        self.ctrlconf_dict = dict(zip(kw_name_list, kw_ctrlconf_list))
 
     def getKw(self, kw):
         """ Extract doc snippet for element configuration,
@@ -165,16 +178,24 @@ class LteParser(object):
         :param kw: keyword name
         :param fmt: return format, 'raw', 'dict', 'json', default is 'dict'
         """
-        self.getKw(kw)
-        if self.confstr_epics != '':
+        try:
+            confd = self.ctrlconf_dict[kw]
             if fmt == 'dict':
-                retval = ast.literal_eval(self.confstr_epics)
-            elif fmt == 'json':
-                retval = json.dumps(ast.literal_eval(self.confstr_epics))
-            else:  # raw string
-                retval = self.confstr_epics
-        else:
-            retval = None 
+                retval = confd
+            else: # 'json' string for other options
+                retval = json.dumps(confd)
+        except KeyError:
+            # try to get from raw line string
+            self.getKw(kw)
+            if self.confstr_epics != '':
+                if fmt == 'dict':
+                    retval = ast.literal_eval(self.confstr_epics)
+                elif fmt == 'json':
+                    retval = json.dumps(ast.literal_eval(self.confstr_epics))
+                else:  # raw string
+                    retval = self.confstr_epics
+            else:
+                retval = None 
 
         return retval
 
@@ -215,7 +236,6 @@ class LteParser(object):
         """
         kwslist = self.detectAllKws()
         kwsdict = {}
-        ctrldict = {} # dict to put epics control config
         idx = 0
         for kw in sorted(kwslist, key=str.lower):
             #print kw
@@ -223,12 +243,13 @@ class LteParser(object):
             tdict = self.getKwAsDict(kw)
             self.rpn2val(tdict)
             kwsdict.update(tdict)
-            ctrlconf = self.getKwCtrlConf(kw, fmt='dict')
-            if ctrlconf is not None:
-                ctrldict.update({kw:ctrlconf})
+            if kw not in self.ctrlconf_dict:
+                ctrlconf = self.getKwCtrlConf(kw, fmt='dict')
+                if ctrlconf is not None:
+                    self.ctrlconf_dict.update({kw:ctrlconf})
         kwsdict.update(self.prestrdict)
-        self.ctrlconfdict = {'_epics':ctrldict} # all epics contrl config in self.ctrlconfdict
-        kwsdict.update(self.ctrlconfdict)
+        ctrlconfdict = {'_epics':self.ctrlconf_dict} # all epics contrl config in self.ctrlconfdict
+        kwsdict.update(ctrlconfdict)
         try:
             with open(os.path.expanduser(jsonfile), 'w') as outfile:
                 json.dump(kwsdict, outfile)
@@ -258,7 +279,13 @@ class LteParser(object):
         kw_type = self.getKwType(kw_name)
         kw_config = {k.lower():v for k,v in self.getKwConfig(kw_name).items()}
         objtype='Element' + kw_type.capitalize()
-        return getattr(element, objtype)(name=kw_name, config=kw_config)
+        retobj = getattr(element, objtype)(name=kw_name, config=kw_config)
+        # set up EPICS control configs
+        ctrlconf = self.getKwCtrlConf(kw_name)
+        if ctrlconf != {}:
+            retobj.setConf(ctrlconf, type='ctrl')
+
+        return retobj
 
     def scanStoVars(self, strline):
         """ scan input string line, replace sto parameters with calculated results.
@@ -407,7 +434,7 @@ class Lattice(object):
         kws_ele = []
         kws_bl = []
         for ele in self.all_elements:
-            if ele == '_prefixstr':
+            if ele == '_prefixstr' or ele == '_epics':
                 continue
             elif self.getElementType(ele).lower() == u'beamline':
                 kws_bl.append(ele)
@@ -461,6 +488,17 @@ class Lattice(object):
                 return {}
         return econf
 
+    def getElementCtrlConf(self, elementKw):
+        """ return keyword's EPICS control configs, 
+            if not setup, return {}
+        """
+        try:
+            retval = self.all_elements['_epics'][elementKw.upper()]
+        except KeyError:
+            retval = {}
+
+        return retval
+
     def formatElement(self, kw, format='elegant'):
         """ convert json/dict of element configuration into elegant/mad format
         :param kw: keyword
@@ -472,7 +510,7 @@ class Lattice(object):
             econf_str += (k + ' = ' + '"' + str(v) + '"' + ', ')
 
         if format == 'elegant':
-            fmtstring = '{eid:<6s}:{etype:>10s}, {econf}'.format(eid=kw.upper(),
+            fmtstring = '{eid:<10s}:{etype:>10s}, {econf}'.format(eid=kw.upper(),
                                                                  etype=etype.upper(),
                                                                  econf=econf_str[
                                                                        :-2])
@@ -539,6 +577,13 @@ class Lattice(object):
         f.write('\n')
         f.write('\n')
         """
+        
+        # write EPICS control configuration part if contains '_epics' key
+        if '_epics' in self.all_elements:
+            f.write('! {str1:<73s}\n'.format(str1= 'EPICS control definitions:'))
+            for k,v in self.all_elements['_epics'].items():
+                f.write('!!epics {k:<10s}:{v:>50s}\n'.format(k=k,v=json.dumps(v)))
+            f.write('\n')
 
         # write element definitions and lattice
         f.write('! {str1:<72s}\n'.format(str1='Element definitions:'))
@@ -552,7 +597,7 @@ class Lattice(object):
         # write beamline lattice definition
         f.write('\n')
         f.write('! {str1:<72s}\n'.format(str1='Beamline definitions:'))
-        f.write('{bl:<6s}: line = ({lattice})'.format(bl=beamline.upper(),
+        f.write('{bl:<10s}: line = ({lattice})'.format(bl=beamline.upper(),
                                                       lattice=', '.join(elelist)))
         f.close()
 
@@ -732,7 +777,13 @@ class Lattice(object):
         kw_type = self.getElementType(kw_name)
         kw_config = {k.lower():v for k,v in self.getElementConf(kw_name).items()}
         objtype='Element' + kw_type.capitalize()
-        return getattr(element, objtype)(name=kw_name, config=kw_config)
+        retobj = getattr(element, objtype)(name=kw_name, config=kw_config)
+        # set up EPICS control configs
+        ctrlconf = self.getElementCtrlConf(kw)
+        if ctrlconf != {}:
+            retobj.setConf(ctrlconf, type='ctrl')
+
+        return retobj
 
 
 # ===========================================================================
