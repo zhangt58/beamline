@@ -267,23 +267,62 @@ class Models(object):
         return patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
 
     @staticmethod
-    def plotElements(ax, patchlist, filter=None):
+    def plotElements(ax, patchlist):
         """ plot elements' drawings to axes
             
             :param ax: matplotlib axes object
-            :param patchlist: element patch list
-            :param filter: element type filter, default is None, draw all elements
-                could be defined to be one type name or type name list/tuple, e.g.
-                filter='QUAD' or filter=('QUAD', 'CSRCSBEN').
+            :param patchlist: element patch object list
         """
-        if filter is None:
-            for ptch in patchlist:
-                ax.add_patch(ptch)
-        else:
-            if not isinstance(filter, 'tuple'):
-                filter = tuple(filter)
-            [ax.add_patch(ptch) for ptch in patchlist if ptch['type'] in filter]
+        [ax.add_patch(ptch) for ptch in patchlist]
 
+    @staticmethod
+    def anoteElements(ax, anotelist, showAccName=False, efilter=None, textypos=None, **kwargs):
+        """ annotate elements to axes
+            
+            :param ax: matplotlib axes object
+            :param anotelist: element annotation object list
+            :param showAccName: tag name for accelerator tubes? default is False, 
+                show acceleration band type, e.g. 'S', 'C', 'X', or for '[S,C,X]D' for cavity
+            :param efilter: element type filter, default is None, annotate all elements
+                could be defined to be one type name or type name list/tuple, e.g.
+                filter='QUAD' or filter=('QUAD', 'CSRCSBEN')
+            :param textypos: y coordinator of annotated text string
+            :param kwargs:
+                alpha=0.8, arrowprops=dict(arrowstyle='->'), rotation=-60, fontsize='small'
+        """
+        defaultstyle = {'alpha': 0.8, 'arrowprops': dict(arrowstyle='->'), 
+                        'rotation': -60, 'fontsize': 'small'}
+        defaultstyle.update(kwargs)
+        if efilter is None:
+            for anote in anotelist:
+                if textypos is None:
+                    textxypos = tuple(anote['textpos'])
+                else:
+                    textxypos = tuple((anote['textpos'][0], textypos))
+                if not showAccName and anote['type'] in ('RFCW', 'RFDF'):
+                    kwstyle = {k:v for k,v in defaultstyle.items()}
+                    kwstyle.pop('arrowprops')
+                    ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
+                            anote['atext']['text'], **kwstyle)
+                else:
+                    ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle)
+        else:
+            if not isinstance(efilter, tuple):
+                filter = tuple(efilter)
+            for anote in anotelist:
+                if anote['type'] in efilter:
+                    if textypos is None:
+                        textxypos = tuple(anote['textpos'])
+                    else:
+                        textxypos = tuple((anote['textpos'][0], textypos))
+                    if not showAccName and anote['type'] in ('RFCW', 'RFDF'):
+                        kwstyle = {k:v for k,v in defaultstyle.items()}
+                        kwstyle.pop('arrowprops')
+                        ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
+                                anote['atext']['text'], **kwstyle)
+                    else:
+                        ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle) 
+                    
 
 def test():
     #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
