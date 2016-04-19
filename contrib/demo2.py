@@ -38,21 +38,24 @@ newlatins = beamline.Lattice(newlpins.file2json())
 #   1: use element classes from element module
 #   2: use makeElement() method from LteParser class or Lattice class
 
-kw_name   = 'Q11BI1H'
+kw_name   = 'Q01L0'
 
 ## create element approach 1:
 #kw_dict   = newlpins.getKwAsDict(kw_name)
 #kw_type   = newlpins.getKwType(kw_name)
 #kw_config = newlpins.getKwConfig(kw_name)
-#kw_name_eobj = beamline.ElementQuad(name=kw_name, config=kw_config)
+#kw_eobj = beamline.ElementQuad(name=kw_name, config=kw_config)
 
 ## create element approach 2:
-kw_eobj_name = newlpins.makeElement(kw_name)
-#kw_eobj_name = newlatins.makeElement(kw_name)
+kw_eobj = newlpins.makeElement(kw_name)
+#kw_eobj = newlatins.makeElement(kw_name)
+
+kw_eobj.printConfig(type='all')
+print newlpins.ctrlconf_dict[kw_name]
 
 ## show element drawing:
-#kw_eobj_name.setDraw(mode='fancy') # or mode='plain'
-#kw_eobj_name.showDraw()
+#kw_eobj.setDraw(mode='fancy') # or mode='plain'
+#kw_eobj.showDraw()
 
 ### STEP 2: initialise all element objects for beamline model
 #for ele in beamline.Models.flatten(newlatins.getAllKws()):
@@ -68,14 +71,14 @@ latmodel.addElement(*ele_eobj_list)
 #print latmodel.getAllConfig()
 
 # find element by name
-Q11BI1H_list = latmodel.getElementsByName('Q11BI1H'.lower())
+Q_list = latmodel.getElementsByName(kw_name.lower())
 
 # add other configurations, e.g. control configurations, etc.
-Q11BI1H_list[0].printConfig(type='all')
+Q_list[0].printConfig(type='all')
 
 # csrcsben example: 
 B1LH_list = latmodel.getElementsByName('B1LH'.lower())
-B1LH_list[0].printConfig()
+B1LH_list[0].printConfig(type='all')
 
 ### STEP 3: do tracking with the modeled lattice
 finlatins = beamline.Lattice(latmodel.getAllConfig())
@@ -166,9 +169,21 @@ ax3.grid()
 newptches = beamline.MagBlock.copy_patches(ptches)
 #for i,val in enumerate(newptches):
 #    print id(newptches[i]), id(ptches[i])
-fig4 = plt.figure(4, figsize=(24,6), dpi=90)
-ax4 = fig4.add_subplot(111,aspect=10)
+fig4 = plt.figure(4, figsize=(30,8), dpi=90)
+ax4 = fig4.add_subplot(111, aspect=4)
+
+beamline.Models.plotElements(ax4, newptches)
+#beamline.Models.anoteElements(ax4, anotes, efilter='QUAD', 
+#        textypos=0.45, color='m', rotation=60, fontsize='small')
+beamline.Models.anoteElements(ax4, anotes, efilter='CSRCSBEN', 
+        textypos=1.5, color='b', rotation=50, fontsize='x-small')
+beamline.Models.anoteElements(ax4, anotes, efilter=('RFCW','RFDF'), 
+        textypos=None, arrowprops=None, color='k', 
+        rotation=0, fontsize='small', fontweight='bold')
+
+"""
 [ax4.add_patch(i) for i in newptches]
+# add annotations
 [ax4.annotate(s=i['name'],
               xy=i['xypos'],
               xytext=(i['textpos'][0], i['textpos'][1] - 0.1),
@@ -189,9 +204,32 @@ ax4 = fig4.add_subplot(111,aspect=10)
               fontsize='xx-small')
               for i in anotes if i['type'] == 'CSRCSBEN']
 
+# add notes for accelerate tubes
+[ax4.text(i['atext']['xypos'][0],
+          i['atext']['xypos'][1],
+          i['atext']['text'],
+          alpha = 0.8,
+          fontweight=None,
+          color='k',
+          #rotation=-60,
+          fontsize='smaller')
+          for i in anotes if i['type'] == 'RFCW']
+
+[ax4.text(i['atext']['xypos'][0],
+          i['atext']['xypos'][1],
+          i['atext']['text'],
+          alpha = 0.8,
+          fontweight=None,
+          color='k',
+          rotation=90,
+          fontsize='smaller')
+          for i in anotes if i['type'] == 'RFDF']
+"""
+
 ax4.set_yticks([])
 ax4.set_xlim(-1,125)
-ax4.set_ylim(y0*2.2, y1*1.1)
+ax4.set_ylim(y0, y1*3)
+ax4.set_xlabel('$s\,\mathrm{[m]}$', fontsize=20)
 fig4.tight_layout()
 ax4.set_title('SXFEL Lattice Layout', fontsize=24, color='m', fontweight='bold')
 

@@ -13,6 +13,11 @@ import beamline
 import os
 import matplotlib.pyplot as plt
 
+### STEP 0: global configurations
+beamline.MagBlock.setStyleConfig(
+        config={'drift':{'lw':2}}
+        )
+
 ### STEP 1: read lattice configurations from .lte file
 ltefile = os.path.join(os.getcwd(), 'dcls/dcls.lte')
 lpins   = beamline.LteParser(ltefile)
@@ -140,7 +145,6 @@ plt.plot(thetaArray, dxArray, 'r')
 
 # generate lattice drawing plotting objects
 ptches, anotes, xr, yr = latmodel.draw(mode='fancy', showfig=False)
-#ptches, anotes, xr, yr = latmodel.draw(mode='plain', showfig=False)
 
 # show drawing 
 fig3 = plt.figure(2)
@@ -167,8 +171,18 @@ newptches = beamline.MagBlock.copy_patches(ptches)
 #for i,val in enumerate(newptches):
 #    print id(newptches[i]), id(ptches[i])
 fig4 = plt.figure(4, figsize=(20,6), dpi=90)
-ax4 = fig4.add_subplot(111,aspect=10)
-[ax4.add_patch(i) for i in newptches]
+ax4 = fig4.add_subplot(111,aspect=2)
+#[ax4.add_patch(i) for i in newptches]
+#beamline.Models.plotElements(ax4, newptches)
+beamline.Models.plotElements(ax4, newptches)
+beamline.Models.anoteElements(ax4, anotes, efilter='QUAD', 
+        textypos=0.45, color='m', rotation=60, fontsize='small')
+beamline.Models.anoteElements(ax4, anotes, efilter='CSRCSBEN', 
+        textypos=0.55, color='b', rotation=60, fontsize='small')
+beamline.Models.anoteElements(ax4, anotes, efilter=('RFCW','RFDF'), 
+        textypos=None, arrowprops=None, color='k', 
+        rotation=0, fontsize=None)
+"""
 [ax4.annotate(s=i['name'],
               xy=i['xypos'],
               xytext=(i['textpos'][0], -0.1),
@@ -199,12 +213,12 @@ ax4 = fig4.add_subplot(111,aspect=10)
               fontsize='x-small')
               for i in anotes if i['type'] == 'CSRDRIFT']
 
-
-
+"""
 
 ax4.set_yticks([])
 ax4.set_xlim(-1,40)
-ax4.set_ylim(y0*2.2, y1*1.1)
+ax4.set_ylim(y0, y1*1.3)
+ax4.set_xlabel('$s\,\mathrm{[m]}$')
 fig4.tight_layout()
 ax4.set_title('DCLS Lattice Layout', fontsize=24, color='m', fontweight='bold')
 
