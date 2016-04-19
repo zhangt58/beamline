@@ -10,7 +10,6 @@ This module is written for the purposes of elements modeling for accelerator:
 
 Author      : Tong Zhang
 Created     : 2016-03-18
-Last updated: 2016-04-15 04:11:05 PM CST
 """
 
 import copy
@@ -195,7 +194,8 @@ class Models(object):
     def getElementsByName(self, name):
         """ get element with given name,
             return list of element objects regarding to 'name'
-            :param name: element name, case sensitive
+            :param name: element name, case sensitive, if elements are
+                auto-generated from LteParser, the name should be lower cased.
         """
         try:
             return filter(lambda x: x.name == name, self._lattice_eleobjlist)
