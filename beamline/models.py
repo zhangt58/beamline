@@ -76,7 +76,23 @@ class Models(object):
         #self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
         self._lattice.setConf(Models.makeLatticeDict(self._lattice_elenamelist))
 
+        # positioning elements
+        self.initPos()
+
         return self._lattice_elecnt
+    
+    def initPos(self, startpos=0.0):
+        """ initialize the elements position [m] in lattice, the starting
+            point is 0 [m] for the first element by default.
+
+            :param startpos: starting point, 0 [m] by default
+        """
+        spos = startpos
+        for ele in self._lattice_eleobjlist:
+            print("{name:<10s}: {pos:<10.3f}".format(name=ele.name, pos=spos))
+            ele.setPosition(spos)
+            spos += ele.getLength()
+
     
     def getCtrlConf(self, msgout=True):
         """ get control configurations regarding to the PV names,
