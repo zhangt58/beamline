@@ -6,7 +6,6 @@ This module defines all kinds of magnet components/elements.
 
 Author      : Tong Zhang
 Created     : 2016-03-22
-Last updated: 2016-04-15 04:05:58 PM CST
 """
 
 import json
@@ -80,6 +79,8 @@ class MagBlock(object):
         self.styledict = {}  # style dict
         self._patches = []   # patches list, empty
         self.next_inc_angle = 0  # for visualization, initial incremental angle
+
+        self._spos = None # element position along beamline/lattice, in [m]
 
     @property
     def name(self):
@@ -224,7 +225,9 @@ class MagBlock(object):
             :param type: comm, simu, ctrl, misc, all
         """
         print("{s1}{s2:^22s}{s1}".format(s1="-" * 10, s2="Configuration START"))
-        print("class name: " + self.__class__.__name__)
+        print("Element name: {en} ({cn})".format(en=self.name, cn=self.__class__.__name__))
+        if self._spos is not None:
+            print("Position: s = {pos:.3f} [m]".format(pos=float(self._spos)))
         self.prtConfigDict[type]()
         print("{s1}{s2:^22s}{s1}".format(s1="-" * 10, s2="Configuration END"))
 
@@ -382,6 +385,29 @@ class MagBlock(object):
             fig.canvas.draw()
             plt.grid()
             plt.show()
+
+    def getPosition(self):
+        """ return the element position along beamline/lattice, in [m]
+            should be initialized in Models.initPos() method first 
+            (by default, will complete after Models.addElement() method)
+            i.e. valid position in [m] would return after lattice modeled.
+        """
+        return self._spos
+    
+    def setPosition(self, s):
+        """ set element position along beamline/lattice, in [m]
+        """
+        self._spos = s
+
+    def getLength(self):
+        """ return element length if valid, or return 0.0
+        """
+        try:
+            l = float(self.getConfig(type='simu')['l'])
+        except:
+            l = 0.0
+
+        return l
 
 
 class ElementCharge(MagBlock):
