@@ -12,18 +12,17 @@ Revised: 2016-05-11 11:12:20 AM CST
 """
 
 import numpy as np
-from numpy import cos, sin, sqrt, sinh, cosh, tan, arcsin
 
 def funTransQuadF(k, s):
     """ Focusing quad in X, defocusing in Y
         :param k: k1, in [T/m]
         :param s: width, in [m]
     """
-    sqrtk=sqrt(complex(k))
-    a =  cos(sqrtk*s)
-    b =  sin(sqrtk*s)/sqrtk
-    c = -sqrtk*sin(sqrtk*s)
-    d =  cos(sqrtk*s)
+    sqrtk=np.sqrt(complex(k))
+    a =  np.cos(sqrtk*s)
+    b =  np.sin(sqrtk*s)/sqrtk
+    c = -sqrtk*np.sin(sqrtk*s)
+    d =  np.cos(sqrtk*s)
     return np.matrix([[a.real, b.real], [c.real, d.real]], dtype = np.double)
 
 def funTransQuadD(k, s):
@@ -31,11 +30,11 @@ def funTransQuadD(k, s):
         :param k: k1, in [T/m]
         :param s: width, in [m]
     """
-    sqrtk=sqrt(complex(k))
-    a = cosh(sqrtk*s)
-    b = sinh(sqrtk*s)/sqrtk
-    c = sqrtk*sinh(sqrtk*s)
-    d = cosh(sqrtk*s)
+    sqrtk=np.sqrt(complex(k))
+    a = np.cosh(sqrtk*s)
+    b = np.sinh(sqrtk*s)/sqrtk
+    c = sqrtk*np.sinh(sqrtk*s)
+    d = np.cosh(sqrtk*s)
     return np.matrix([[a.real, b.real], [c.real, d.real]], dtype = np.double)
 
 def funTransDrift(s):
@@ -63,21 +62,21 @@ def funTransEdgeX(theta, rho):
         :param theta: fringe angle, in [rad]
         :param rho: bend radius, in [m]
     """
-    return np.matrix([[1, 0], [tan(theta)/rho, 1]], dtype = np.double)
+    return np.matrix([[1, 0], [np.tan(theta)/rho, 1]], dtype = np.double)
 
 def funTransEdgeY(theta, rho):
     """ Fringe matrix in Y
         :param theta: fringe angle, in [rad]
         :param rho: bend radius, in [m]
     """
-    return np.matrix([[1, 0], [-tan(theta)/rho, 1]], dtype = np.double)
+    return np.matrix([[1, 0], [-np.tan(theta)/rho, 1]], dtype = np.double)
 
 def funTransSectX(theta, rho):
     """ Sector matrix in X
         :param theta: bend angle, in [rad]
         :param rho: bend radius, in [m]
     """
-    return np.matrix([[cos(theta), rho*sin(theta)], [-sin(theta)/rho, cos(theta)]], dtype = np.double)
+    return np.matrix([[np.cos(theta), rho*np.sin(theta)], [-np.sin(theta)/rho, np.cos(theta)]], dtype = np.double)
 
 def funTransSectY(theta, rho):
     """ Sector matrix in Y
@@ -97,8 +96,8 @@ def funTransChica(imagl, idril, ibfield, gamma0, xoy='x'):
     m0 = 9.10938215e-31
     e0 = 1.602176487e-19
     c0 = 299792458
-    rho = sqrt(gamma0**2-1)*m0*c0/ibfield/e0
-    theta = arcsin(imagl/rho)
+    rho = np.sqrt(gamma0**2-1)*m0*c0/ibfield/e0
+    theta = np.arcsin(imagl/rho)
     ld = idril
     mx = reduce(np.dot, [funTransDrift(idril), 
                          funTransSectX(theta, rho), funTransEdgeX(theta, rho),
@@ -263,7 +262,7 @@ def transChicane(bend_length=None, bend_field=None, drift_length=None, gamma=Non
         e0 = 1.602176487e-19
         c0 = 299792458.0
         rho = np.sqrt(gamma**2-1)*m0*c0/bend_field/e0
-        theta = arcsin(bend_length/rho)
+        theta = np.arcsin(bend_length/rho)
 
         m_rb_1 = transRbend( theta,  rho, gamma, -1)
         m_rb_2 = transRbend(-theta, -rho, gamma,  1)
@@ -322,7 +321,7 @@ class Chicane(object):
             e0 = 1.602176487e-19
             c0 = 299792458.0
             rho = np.sqrt(self.gamma**2-1)*m0*c0/self.bend_field/e0
-            theta = arcsin(self.bend_length/rho)
+            theta = np.arcsin(self.bend_length/rho)
             self.bangle = theta
 
             m_rb_1 = transRbend( theta,  rho, self.gamma, -1)

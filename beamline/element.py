@@ -15,6 +15,7 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.path import Path
+from . import mathutils
 
 
 class MagBlock(object):
@@ -81,6 +82,8 @@ class MagBlock(object):
         self.next_inc_angle = 0  # for visualization, initial incremental angle
 
         self._spos = None # element position along beamline/lattice, in [m]
+        self.transM = np.eye(6, 6, dtype = np.float64) # default element transport matrix
+        self.transM_flag = False # if calcTransM() is called
 
     @property
     def name(self):
@@ -409,6 +412,20 @@ class MagBlock(object):
 
         return l
 
+    def getMatrix(self):
+        """ return 6 x6 dims transport matrix
+        """
+        if self.transM_flag is not True:
+            print("warning: invoke calcTransM() to update transport matrix.")
+        return self.transM
+    
+    def getR(self, i, j):
+        """ return transport matrix element, indexed by i(row) and j(col),
+            with the initial index of 1
+            :param i: row index
+            :param j: col index
+        """
+        return self.transM[i-1,j-1]
 
 class ElementCharge(MagBlock):
     """ charge element
@@ -419,7 +436,6 @@ class ElementCharge(MagBlock):
         self.typename = 'CHARGE'
         self.setConf(config)
 
-
 class ElementCenter(MagBlock):
     """ center element
     """
@@ -427,7 +443,6 @@ class ElementCenter(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'CENTER'
         self.setConf(config)
-
 
 class ElementCsrcsben(MagBlock):
     """ csrcsben element
@@ -547,6 +562,31 @@ class ElementCsrcsben(MagBlock):
 
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
+    def calcTransM(self, gamma=None, type='simu', incsym=-1):
+        sconf = self.getConfig(type=type)
+        bend_length = sconf['l']
+        theta = sconf['angle']
+        rho = bend_length/np.sin(theta)
+        #rho = np.sqrt(gamma**2-1)*m0*c0/bend_field/e0
+        #theta = np.arcsin(bend_length/rho)
+        self.transM = mathutils.transRbend(theta, rho, gamma, incsym)
+        if gamma is not None:
+            m0 = 9.10938215e-31
+            e0 = 1.602176487e-19
+            c0 = 299792458.0
+            self._bend_field = np.sqrt(gamma**2-1)*m0*c0/rho/e0
+            self._rho = rho
+            self.setConf({'rho':self._rho, 'field':self._bend_field}, type='misc')
+        self.transM_flag = True
+        return self.transM
+
+    @property
+    def field(self):
+        return self._bend_field
+
+    @property
+    def rho(self):
+        return self._rho
 
 class ElementCsrdrift(MagBlock):
     """ csrdrift element
@@ -616,6 +656,16 @@ class ElementCsrdrift(MagBlock):
         pc = x0 + 0.5*_length, (y0 + y1)*0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
+    def calcTransM(self, gamma=None):
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            l = float(sconf['l'])
+        else:
+            l = 0
+        self.transM = mathutils.transDrift(l, gamma)
+        self.transM_flag = True
+        return self.transM
+
 class ElementDrift(MagBlock):
     """ drift element
     """
@@ -683,6 +733,16 @@ class ElementDrift(MagBlock):
 
         pc = x0 + 0.5*_length, (y0 + y1)*0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+        
+    def calcTransM(self, gamma=None):
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            l = float(sconf['l'])
+        else:
+            l = 0
+        self.transM = mathutils.transDrift(l, gamma)
+        self.transM_flag = True
+        return self.transM
 
 class ElementKicker(MagBlock):
     """ kicker element
@@ -819,6 +879,16 @@ class ElementLscdrift(MagBlock):
 
         pc = x0 + 0.5*_length, (y0 + y1)*0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+
+    def calcTransM(self, gamma=None):
+        sconf = self.getConfig(type='simu')
+        if 'l' in sconf:
+            l = float(sconf['l'])
+        else:
+            l = 0
+        self.transM = mathutils.transDrift(l, gamma)
+        self.transM_flag = True
+        return self.transM
 
 class ElementMark(MagBlock):
     """ mark element
@@ -1128,6 +1198,25 @@ class ElementQuad(MagBlock):
         pc = x0 + 0.5*_width, y0
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
+    def calcTransM(self, gamma=None, type='simu'):
+        sconf = self.getConfig(type=type)
+        l = float(sconf['l'])
+        k1 = self.getK1(type='ctrl')
+        self.transM = mathutils.transQuad(l, k1, gamma)
+        self.transM_flag = True
+        return self.transM
+
+    def getK1(self, type='simu'):
+        if type == 'ctrl':
+            pv = self.ctrlinfo.get('k1')['pv']
+            rval = epics.caget(pv)
+            if rval is None:
+                val = self.getConfig(type='simu')['k1']
+            else:
+                val = self.unitTrans(rval, direction = '+')
+            return val
+        else:
+            return self.getConfig(type='simu')['k1']
 
 class ElementRfcw(MagBlock):
     """ rfcw element
@@ -1398,7 +1487,6 @@ class ElementWake(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-
 class ElementWatch(MagBlock):
     """ watch element
     """
@@ -1476,11 +1564,11 @@ class ElementBeamline(MagBlock):
         self.typename = 'BEAMLINE'
         self.setConf(config)
 
-
 ElementDrif = ElementDrift
 ElementLscdrif = ElementLscdrift
 ElementCsrdrif = ElementCsrdrift
 ElementCsrcsbent = ElementCsrcsben
+
 
 def test():
     """ For example, define lattice configuration for a 4-dipole chicane with quads
