@@ -6,9 +6,19 @@
         sigma = %s.sig,
         centroid = %s.cen,
         output = %s.out,
+        magnets = %s.mag
         !final = %s.fin,
         print_statistics = 1
         !parameters = %s.param
+&end
+
+&twiss_output
+    filename = %s.twi
+    matched = 0
+    alpha_x = 0
+    alpha_y = 0
+    beta_x  = 10
+    beta_y  = 10
 &end
 
 

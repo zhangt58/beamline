@@ -14,7 +14,7 @@ requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics']
 
 setup(
         name     = "beamline",
-        version  = "1.2.1",
+        version  = "1.2.2",
         description = "online model package for electron accelerator",
         long_description = readme() + '\n\n',
         author   = "Tong Zhang",

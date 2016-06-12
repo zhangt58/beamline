@@ -1,5 +1,5 @@
 &run_setup
-        lattice = sxfel_v14b.lte,
+        lattice = om.lte,
         default_order = 2,
         use_beamline = bl,
         expand_for = "linac3.0860.1M256S.sdds",

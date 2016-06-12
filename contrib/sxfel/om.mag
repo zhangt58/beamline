@@ -1,5 +1,5 @@
 SDDS1
-&description text="magnet layout for beamline sxfel_v14b.lte" &end
+&description text="magnet layout for beamline om.lte" &end
 &column name=ElementName, type=string &end
 &column name=ElementType, type=string &end
 &column name=s, units=m, type=double &end

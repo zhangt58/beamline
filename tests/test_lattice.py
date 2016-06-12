@@ -50,23 +50,20 @@ class GetKwTest(BeamlineLteParserTest):
     def runTest(self):
         # show string
         kw = 'q01'
-        self.assertEqual(self.pins.getKw(kw).confstr, 'q01 : quad, l = 5.000000000e-02, k1 = 0')
+        self.assertEqual(self.pins.getKw(kw).confstr, 'Q01 : QUAD, L = 5.000000000E-02, K1 = 0')
 
         # string to dict
-        self.assertEqual(self.pins.getKw(kw).toDict().confdict, {'Q01': {'quad': {'k1': '0', 'l': '5.000000000e-02'}}})
+        self.assertEqual(self.pins.getKw(kw).toDict().confdict, {'Q01': {'QUAD': {'K1': '0', 'L': '5.000000000E-02'}}})
 
         # resolve rpn expression
-        self.assertEqual(self.pins.getKw(kw).toDict().solve_rpn().confdict, {'Q01': {'quad': {'k1': 0.0, 'l': 0.05}}})
-
-        kw = 'b11'
-        self.assertEqual(self.pins.getKw(kw).toDict().solve_rpn().confdict, {'B11': {'csrcsben': {'hgap': 0.015, 'integration_order': 4.0, 'nonlinear': 1.0, 'angle': 0.17872171540423112, 'n_kicks': 100.0, 'l': 0.20106869612225164, 'edge1_effects': 1.0, 'edge2_effects': 1.0, 'block_csr': 0.0, 'sg_halfwidth': 1.0, 'csr': 'csr_on_off', 'e1': 0.0, 'bins': 512.0, 'e2': 0.17872171540423112}}})
+        self.assertEqual(self.pins.getKw(kw).toDict().solve_rpn().confdict, {'Q01': {'QUAD': {'K1': 0.0, 'L': 0.05}}})
 
 class GetKwAsDictTest(BeamlineLteParserTest):
     # get keyword as dict
     def runTest(self):
-        self.assertEqual(self.pins.getKwAsDict('q02'), {'Q02': {'quad': {'k1': '-0', 'l': '5.000000000e-02'}}})
+        self.assertEqual(self.pins.getKwAsDict('q02'), {'Q02': {'QUAD': {'K1': '-0', 'L': '5.000000000E-02'}}})
         # str2dict
-        self.assertEqual(self.pins.getKwAsDict('q01'), self.pins.str2dict('q01 : quad, l = 5.000000000e-02, k1 = 0'))
+        self.assertEqual(self.pins.getKwAsDict('q01'), self.pins.str2dict('Q01 : QUAD, L = 5.000000000E-02, K1 = 0'))
 
 class File2jsonTest(BeamlineLteParserTest):
     # dump file content into json string format
@@ -74,6 +71,7 @@ class File2jsonTest(BeamlineLteParserTest):
     def runTest(self):
         self.assertEqual(self.pins.file2json(), open('jfile.json','r').read())
 
+"""
 class GetAllKwsTest(BeamlineLatticeTest):
     # get all keywords
     # magnetic elements: kws_ele
@@ -119,11 +117,11 @@ class ShowBeamlinesTest(BeamlineLatticeTest):
         self.assertEqual(self.lins.showBeamlines(), 
                 "11 beamlines: BL;CHI;TRIP3;BI2S;BI2B;A1;A3;A2;A4;DOUB2;DOUB1")
 
-class GenerateLatticeTest(BeamlineLatticeTest):
-    # generateLattice by beamline keyword
+class GenerateLatticeFileTest(BeamlineLatticeTest):
+    # generateLatticeFile by beamline keyword
     def runTest(self):
         latticefile = os.path.join(os.getcwd(), 'tracking/newlat.lte')
-        self.assertTrue(self.lins.generateLattice('bl', latticefile, format = 'elegant'))
+        self.assertTrue(self.lins.generateLatticeFile('bl', latticefile, format = 'elegant'))
 
 class RinseElementTest(BeamlineLatticeTest):
     # rinse element test
@@ -175,9 +173,10 @@ class ManipulateLatticeTest(BeamlineLatticeTest):
     def genltefileTest(self):
         latticefile1 = os.path.join(os.getcwd(), 'tracking/newlat1.lte')
         latticefile2 = os.path.join(os.getcwd(), 'tracking/newlat2.lte')
-        self.lins.generateLattice('bl', latticefile1, format = 'elegant')
+        self.lins.generateLatticeFile('bl', latticefile1, format = 'elegant')
         self.lins.manipulateLattice('chi', type = 'quad', property = 'k1', irange = 'all', opstr = '+100%')
-        self.lins.generateLattice('bl', latticefile2, format = 'elegant')
+        self.lins.generateLatticeFile('bl', latticefile2, format = 'elegant')
+"""
 
 def testfun():
     latticePath = os.path.join(os.getcwd(), '../lattice')
@@ -186,7 +185,7 @@ def testfun():
     lins = beamline.Lattice(pins.file2json())
     
     #latticefile = os.path.join(os.getcwd(), 'tracking/newlat.lte')
-    #lins.generateLattice('bl', latticefile, format = 'elegant')
+    #lins.generateLatticeFile('bl', latticefile, format = 'elegant')
 
 #    tl = lins.manipulateLattice('bl')
 #    print tl
@@ -221,9 +220,9 @@ def testfun():
     # double quad k1 in chi
     latticefile1 = os.path.join(os.getcwd(), 'tracking/newlat1.lte')
     latticefile2 = os.path.join(os.getcwd(), 'tracking/newlat2.lte')
-    lins.generateLattice('bl', latticefile1, format = 'elegant')
+    lins.generateLatticeFile('bl', latticefile1, format = 'elegant')
     lins.manipulateLattice('chi', type = 'quad', property = 'k1', irange = 'all', opstr = '+100%')
-    lins.generateLattice('bl', latticefile2, format = 'elegant')
+    lins.generateLatticeFile('bl', latticefile2, format = 'elegant')
 
     # use datautils and simulation modules
     simpath = os.path.join(os.getcwd(), 'tracking')
@@ -238,6 +237,22 @@ def testfun():
     A.doSimulation()
     data = A.getOutput(file = 'test.out', data = ('t','p'), dump = 'test.h5')
 
+def test1():
+    latticePath = "/home/tong/Programming/projects/vFEL/simulation/SXFEL" 
+    infilename  = os.path.join(latticePath, 'sxfel_v14b.lte')
+    pins = beamline.LteParser(infilename)
+    lins = beamline.Lattice(pins.file2json())
+
+    print lins.dumpAllElements()
+    #print lins.getChargeElement()
+    #print lins.getElementByOrder('bl','charge',0)
+    #newline = lins.generateLatticeLine('l0','l0')
+    #print lins.getBeamline('bl')
+    #print lins.getElementType('c')
+    #print lins.getAllBl()
+    #print lins.getFullBeamline('testline', extend = True)
+
 if __name__ == '__main__':
-    testfun()
-    #unittest.main()
+    #testfun()
+    #test1()
+    unittest.main()

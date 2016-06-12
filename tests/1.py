@@ -1,8 +1,12 @@
 import matplotlib.pyplot as plt
 from matplotlib.path import Path
 import matplotlib.patches as patches
-"""
-verts = [
+
+import numpy as np
+from test_rot import rot
+import matplotlib as mpl
+
+verts1 = [
     (0., 0.), # left, bottom
     (0., 1.), # left, top
     (1., 1.), # right, top
@@ -10,34 +14,71 @@ verts = [
     (0., 0.), # ignored
     ]
 
-codes = [
-         Path.MOVETO,
-         Path.LINETO,
-         Path.LINETO,
-         Path.LINETO,
-         Path.CLOSEPOLY,
-        ]
-"""
-"""
-codes = [
-         Path.MOVETO,
-         Path.LINETO,
-         Path.LINETO,
-         Path.LINETO,
-         #Path.LINETO,
-         Path.CLOSEPOLY,
-        ]
 
-path = Path(verts, codes)
+codes1 = [
+         Path.MOVETO,
+         Path.LINETO,
+         Path.LINETO,
+         Path.LINETO,
+         Path.CLOSEPOLY,
+        ]
+path1 = Path(verts1, codes1)
+
+x0, y0 = 2.5, 2.5
+w , h  = 0.4, 2.0
+verts2 = [
+    (x0 - w/2, y0),
+    (x0      , y0 + h/2),
+    (x0 + w/2, y0),
+    (x0      , y0 - h/2),
+    (x0 - w/2, y0),
+    ]
+codes2 = [
+         Path.MOVETO,
+         Path.LINETO,
+         Path.LINETO,
+         Path.LINETO,
+         Path.LINETO,
+         #Path.CURVE3,
+         #Path.CURVE3,
+         #Path.CURVE3,
+         #Path.CURVE3,
+        ]
+path2 = Path(verts2, codes2)
+
+verts2_rot = rot(np.array(verts2), theta=45, pc=np.array((x0, y0)))
+path2_rot = Path(verts2_rot, codes2)
+
+
+x = np.linspace(-2,2,100)
+y = np.sin(x)
 
 fig   = plt.figure()
 ax    = fig.add_subplot(111)
-patch = patches.PathPatch(path, facecolor='blue', edgecolor = 'blue', lw=2)
-ax.add_patch(patch)
-ax.set_xlim(-2,2)
-ax.set_ylim(-2,2)
+line1 = ax.plot(x,y)
+patch1 = patches.PathPatch(path1, facecolor='red', edgecolor = 'blue', alpha=0.3, lw=2)
+patch2 = patches.PathPatch(path2, facecolor='red', edgecolor = 'blue', alpha=0.3, lw=2)
+patch2_rot = patches.PathPatch(path2_rot, facecolor = 'red', edgecolor = 'blue', alpha = 0.3, lw=2)
+
+pc = x0,y0
+epatch1 = patches.Ellipse(pc, w, h, angle=0,  ec='blue', fc='blue', alpha=0.2)
+epatch2 = patches.Ellipse(pc, w, h, angle=45, ec='blue', fc='blue', alpha=0.2)
+
+epatch3 = patches.FancyBboxPatch((0,0), w, h)
+
+for a,b in path1.iter_segments():
+    print a,b
+
+ax.add_patch(epatch1)
+ax.add_patch(epatch2)
+ax.add_patch(epatch3)
+ax.add_patch(patch1)
+ax.add_patch(patch2)
+ax.add_patch(patch2_rot)
+ax.set_xlim(-5,5)
+ax.set_ylim(-5,5)
 plt.show()
-"""
+
 
 verts = [
         (0.0,0.0), # P0
@@ -45,7 +86,7 @@ verts = [
         (1.0,0.8), # P2
         (0.8,0.0), # P3
         ]
-        
+
 codes = [Path.MOVETO,
          Path.CURVE4,
          Path.CURVE4,
@@ -69,6 +110,10 @@ ax.text( 0.85, -0.05, '$P_3$')
 
 ax.set_xlim(-0.1,1.1)
 ax.set_ylim(-0.1,1.1)
+
+x = np.linspace(-1,1,10)
+y = np.sin(x)
+ax.add_line(mpl.lines.Line2D(x,y))
 
 plt.show()
 

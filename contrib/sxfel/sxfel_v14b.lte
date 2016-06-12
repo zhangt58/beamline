@@ -768,7 +768,7 @@ B1LH: csrcsben, l= "LHLB LHang * LHang sin /", &
       edge2_effects=1, e2= "0 LHang +", &
       hgap= 1.500000000e-02, csr="csr_on_off", &
       nonlinear=1, n_kicks=100, integration_order=4, &
-      bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -"
+      bins=512, sg_halfwidth=1, block_csr="1 csr_on_off -" 
 B2LH: csrcsben, l= "LHLB LHang * LHang sin /", &
       angle= "0 LHang -", &
       edge1_effects=1, e1= "0 LHang -", &
@@ -843,8 +843,8 @@ BEND01BI3: csrcsben, l= "BEND02LB BEND02ang * BEND02ang sin /", &
 !    n_steps=1000, laser_peak_power=0.5e6, laser_w0=0.30e-3, field_expansion="ideal"
 LM: DRIFT, l=0.5
 !-------------------------------------------------------------------------------------------------
-Q01L0: QUAD, L=0.1, K1= 3.95
-Q02L0: QUAD, L=0.2, K1=-3.75
+Q01L0: QUAD, L=0.1, K1= 3.95 !epics {'k1':{'pv':'sxfel:lattice:Q09','val':0}}
+Q02L0: QUAD, L=0.2, K1=-3.75 !epics {'k1':{'pv':'sxfel:lattice:Q10','val':''}}
 Q03L0: QUAD, L=0.1, K1= 3.95
 Q04L0: QUAD, L=0.1, K1= 4.27971
 Q05L0: QUAD, L=0.2, K1=-4.08602

@@ -79,9 +79,18 @@ B2.setConf(simconf, type = 'simu')
 B3.setConf(simconf, type = 'simu')
 B4.setConf(simconf, type = 'simu')
 
+#print B1.getMatrix()
+#print B1.printConfig(type='all')
+#print B1.calcTransM(gamma = 200)
+#print B1.field
+#print B1.rho
+#print B1.printConfig(type='all')
+
 # drift
 D0 = beamline.ElementDrift(name = 'D0', config = "l=1.0")
 
+#D0.calcTransM(gamma = 200)
+#print D0.getMatrix()
 
 # quad
 # user-defined unit conversion function, 
@@ -106,6 +115,11 @@ print Q1.dumpConfig(type='online')
 #Q1.printConfig(type = 'simu')
 Q1.printConfig(type = 'all')
 
+print Q1.getK1(type='ctrl')
+Q1.calcTransM(gamma = 200)
+print Q1.getMatrix()
+import sys
+sys.exit(1)
 
 # #### STEP 3: make lattice beamline
 

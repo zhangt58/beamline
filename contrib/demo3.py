@@ -179,7 +179,8 @@ beamline.Models.anoteElements(ax4, anotes, efilter='QUAD',
         textypos=0.45, color='m', rotation=60, fontsize='small')
 beamline.Models.anoteElements(ax4, anotes, efilter='CSRCSBEN', 
         textypos=0.55, color='b', rotation=60, fontsize='small')
-beamline.Models.anoteElements(ax4, anotes, efilter=('RFCW','RFDF'), 
+beamline.Models.anoteElements(ax4, anotes, showAccName=True, 
+        efilter=('RFCW','RFDF'), 
         textypos=None, arrowprops=None, color='k', 
         rotation=0, fontsize=None)
 """

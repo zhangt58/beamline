@@ -19,7 +19,8 @@ Q6:QUAD,L=0.1,K1= 40,angle=75
 U1: undulator, xlamd = 0.5, nwig = 20
 
 B1: rbend, l = 0.1, angle = 10
-B2: rbend, l = 0.1, angle = -10
+B2: rbend, l = 0.1, angle = -5
 
 BL1: LINE=(D0,Q1,D1,Q2,D2,D3,Q3,D4,Q4,D5,Q5,D6,Q6,D7)
 BL2: line = (D0, Q1, D3, Q2, D6, B1, D8, B2, D4, Q1)
+BL3: line = (D0, Q1, D3, Q2, D6, B1, D8, Q1, D1, B2, D4, Q1)

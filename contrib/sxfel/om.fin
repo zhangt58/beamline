@@ -1,6 +1,6 @@
 SDDS1
 !# little-endian
-&description text="final properties--input: /home/tong/Programming/projects/beamline/contrib/sxfel/om.ele  lattice: sxfel_v14b.lte", contents="final properties", &end
+&description text="final properties--input: /home/tong/Programming/projects/beamline/contrib/sxfel/om.ele  lattice: om.lte", contents="final properties", &end
 &parameter name=Sx, symbol="$gs$r$bx$n", units=m, description=sqrt(<(x-<x>)^2>), type=double, &end
 &parameter name=Sxp, symbol="$gs$r$bx'$n", description=sqrt(<(x'-<x'>)^2>), type=double, &end
 &parameter name=Sy, symbol="$gs$r$by$n", units=m, description=sqrt(<(y-<y>)^2>), type=double, &end
@@ -117,5 +117,5 @@ SDDS1
 &parameter name=Steps, type=long, &end
 &parameter name=Particles, description="Number of particles", type=long, &end
 &data mode=binary, &end
-    MU¸µº"?=C˜a­¸ ?¾ülPc?„¥À[8õ>ñ2´%÷?;UdW‰Q?Çì{¤€T=ùíPò¾^7_^	áÈ¾Í.ö)‚„¾ÁP/¿Ê…¡¾,×¸ø›^@×QÀ:c<¼ÑV,]h›>¸~ŸL3>•ÄùËØ½¼˜…`Úí=˜zn„„f¾È[YÜò&¾Z]`1©ı¹½,ï•Æ=L
-½J·=5]¾¤ùy¾ûÙN‚2•ó½Ì¢‚k_Å½L®HxwŸ¾yIà™mÁ½åaæõËù=4¸t nC¾      ğ?bò²‚ßa™@dò²‚ßa™@U3ºì‰@•Ö&è.>Ï®ÅğÔ>0vÍÒU>lò#é>ert»T>TO¦Çin¶<§aeİ»>†…Ø\·±>¦œ5¹Óº>à´‘D¶±>ûû²>—OT?NtJÔ<0?Œ0e7Ób%?Îöo¥­Ü-?çĞE—=I?zÍ(¤ØZ?  èîG9s=ˆg!Á:ç~?  s]Ÿ`=  P.d=   /“0h=   >Á‘l=  ``%­p=  ¿Áàq=Ì§·´~ıS?Ö(J÷¹Y?Èƒ;Öˆô`?æcLÔ–"f?*&8‚Å<m?r6‰9èq?  `zM–C=  °`+R=   2‰¬Y=  Ğé7J`=  È¢cqc=  EK©f=  ğÉÚöi=  ¨Ş—m=  LNª»p=ç^¾åÊÓ¿6ŒÊ—f@                Xğº_á½È¼Õ1<´è†<ôëÍl¹¿Ìö¡K½jü?                s^)b°¥¼ï+…d<                ´ÕåÁwşÎ¿DEOk³@                                :ƒ´r/•¿Ó¤ïÚ¿                      |<aö‰ìŸ<                vQW¢|§?q{†xÓ¿äîíÈ¼åûıdºşî¼                ê8I°íÂ@ÉŸÿÄl‘î?©ãfşn?š™™™™™@äË            é  
+    è„¸µº"?™›Óa­¸ ?slPc?OÅÀ[8õ>Şt.´%÷?WÛS‰Q?uMx¤€T=¾†ßPò¾ëï^a	áÈ¾¬Şş)‚„¾‹dÃÊ…¡¾××¸ø›^@[<ôıÇ’¼lV,]h›>Ş@ıL3>îûâóøËØ½_¥Ö…`Úí=0rŸ„f¾ıJ½‘Üò&¾1ò«©ı¹½Çcùï•Æ=T1¶îJ·=ô±ª¶ùy¾Üä2ƒ2•ó½ÒYV_Å½DÔ‰gwŸ¾q&á™mÁ½/ [RöËù=TNPñnC¾      ğ?á¹µ‚ßa™@â¹µ‚ßa™@?ôW3ºì‰@•Ö&è.>kÂòÔ>lÌÒU>˜bú’#é>“¿^s»T>›6#Âin¶<ÓëAhİ»>È™ Ø\·±>hkØ8¹Óº>\	D¶±>5+£@—OT?ìb
+Ö<0?ákk0Ób%?Ë,5£­Ü-?Vëà˜=I?ŞT¡ØZ?  \îG9s=òÕ¯Á:ç~?  ˜r]Ÿ`=  À-d=  X.“0h=  0=Á‘l=  è_%­p=  ¾Áàq=Êµ~ıS?0»J÷¹Y?©‰Öˆô`?åh²Ô–"f?ç¾‚Å<m?à¾Ó‰9èq?  ÀyM–C=   `+R=  @1‰¬Y=  Xé7J`=  8¢cqc=  hDK©f=  0ÉÚöi=  Ğİ—m=  ĞMª»p=•ï^¾åÊÓ¿É:ŒÊ—f@                ÃböÍJÓ·¼rGmªşE¼èòÍl¹¿ú¡K½jü?                8>W½â”¼£>ş²sG#¼                ãoåÁwşÎ¿ê\Ok³@                                ºş´r/•¿ Â¤ïÚ¿                gö‰ì{<´û‚Dö§<                ÓÇY¢|§?R{†xÓ¿^çÂù&oË¼'õ„ö¼                Y H°íÂ@İƒÿÄl‘î?_äfşn?Ãõ(\Â@²X           é  
