@@ -47,16 +47,90 @@ class LteParser(object):
         """ extract prefix information into dict with the key of '_prefixstr'
         """
         tmpstrlist = []
+        tmpstodict = {}
         for line in open(self.infile, 'r'):
             if line.startswith('%'):
                 stolist = line.replace('%', '').split('sto')
-                rpnexp = stolist[0]  # rpn expression
+                rpnexp = stolist[0].strip()  # rpn expression
                 rpnvar = stolist[1].strip()  # rpn variable
-                rpnval = rpn.Rpn.solve_rpn(rpnexp)
-                stostr = '% {val} sto {var}'.format(val=rpnval, var=rpnvar)
-                tmpstrlist.append(stostr)
-                self.stodict[rpnvar] = rpnval
+                tmpstodict[rpnvar] = rpnexp
+                # bug: rpnval in rpnexp 
+                # raises error when converting string convert to float
+                # Found: 2016-06-08 22:29:25 PM CST
+                # Fixed: 2016-06-12 11:51:01 AM CST
+                # e.g.
+                # a sto 0.1
+                # a sto b
+                # then b should be 0.1,
+                # i.e. b -> a -> 0.1
+                # solve the 'sto chain' assignment issue.
+        
+        self.stodict = self.resolve_rpn(tmpstodict)
+        for k,v in self.stodict.items():
+            stostr = '% {val} sto {var}'.format(val=v, var=k)
+            tmpstrlist.append(stostr)
         self.prestrdict['_prefixstr'] = tmpstrlist
+
+    def get_rpndict_flag(self, rpndict):
+        """ calculate flag set, the value is True or False,
+            if rpndict value is not None, flag is True, or False
+            
+            if a set with only one item, i.e. True returns, 
+            means values of rpndict are all valid float numbers,
+            then finally return True, or False
+        """
+        flag_set = set([rpn.Rpn.solve_rpn(str(v)) is not None for v in rpndict.values()])
+        if len(flag_set) == 1 and flag_set.pop():
+            return True
+        else:
+            return False
+
+    def rinse_rpnexp(self, rpnexp, rpndict):
+        """ replace valid keyword of rpnexp from rpndict
+            e.g. rpnexp = 'b a /', rpndict = {'b': 10}
+            then after rinsing, rpnexp = '10 a /'
+
+            return rinsed rpnexp
+        """
+        for wd in rpnexp.split():
+            if wd in rpndict:
+                try:
+                    val = float(rpndict[wd])
+                    rpnexp = rpnexp.replace(wd, str(val))
+                except:
+                    pass
+        return rpnexp
+
+    def resolve_rpn(self, rpndict):
+        """ solve dict of rpn expressions to pure var to val dict
+        :param rpndict: dict of rpn expressions
+        return pure var to val dict
+        """
+        retflag = self.get_rpndict_flag(rpndict)
+        cnt = 0
+        tmpdict = {k:v for k,v in rpndict.items()}
+        while not retflag:
+            # update rpndict
+            cnt += 1
+            tmpdict = self.update_rpndict(tmpdict)
+            # and flag
+            retflag = self.get_rpndict_flag(tmpdict)
+        return tmpdict
+
+    def update_rpndict(self, rpndict):
+        """ update rpndict, try to solve rpn expressions as many as possible,
+            leave unsolvable unchanged.
+    
+            return new dict
+        """
+        tmpdict = {k:v for k,v in rpndict.items()}
+        for k,v in rpndict.items():
+            v_str = str(v)
+            if rpn.Rpn.solve_rpn(v_str) is None:
+                tmpdict[k] = self.rinse_rpnexp(v_str, tmpdict)
+            else:
+                tmpdict[k] = rpn.Rpn.solve_rpn(v_str)
+        return tmpdict
 
     def resolveEPICS(self):
         """ extract epics control configs into 
@@ -87,7 +161,7 @@ class LteParser(object):
             for line in open(self.infile, 'r'):
                 if line.strip() == '':
                     continue
-                line = ' '.join(line.strip().split())
+                line = ' '.join(line.strip().split()).strip('\n; ')
                 if line.startswith('!'):
                     continue
                 if line.lower().startswith(ikw + ' :') or line.lower().startswith(ikw + ':'):
@@ -309,11 +383,10 @@ class LteParser(object):
             kw_param = kw_val.values()[0]
             if kw_type != 'beamline':
                 for k, v in kw_param.items():
-                    try:
-                        v = self.scanStoVars(v)
-                        kw_param[k] = rpn.Rpn.solve_rpn(v)  # update rpn string to float
-                    except:  # cannot solve rpn string
-                        pass
+                    v = self.scanStoVars(v)
+                    rpnval = rpn.Rpn.solve_rpn(v)
+                    if rpnval is not None:
+                        kw_param[k] = rpnval# update rpn string to float if not None
         except:
             pass  # element that only has type name, e.g. {'bpm01': 'moni'}
 
