@@ -106,6 +106,9 @@ class LteParser(object):
         :param rpndict: dict of rpn expressions
         return pure var to val dict
         """
+        if rpndict == {}:
+            return {}
+
         retflag = self.get_rpndict_flag(rpndict)
         cnt = 0
         tmpdict = {k:v for k,v in rpndict.items()}
