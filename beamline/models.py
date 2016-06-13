@@ -89,7 +89,7 @@ class Models(object):
         """
         spos = startpos
         for ele in self._lattice_eleobjlist:
-            print("{name:<10s}: {pos:<10.3f}".format(name=ele.name, pos=spos))
+            #print("{name:<10s}: {pos:<10.3f}".format(name=ele.name, pos=spos))
             ele.setPosition(spos)
             spos += ele.getLength()
 
