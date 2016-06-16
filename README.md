@@ -44,3 +44,12 @@ Author: Tong Zhang &copy; 2015-2016
     <img src=/contrib/DCLS_lattice_layout.png?raw=true alt="dcls lattice with annotations" width="800"></img>
 </p>
 
+
+* GUI application: `latticeviewer`:
+<p>
+    <img src=/screenshots/01.png?raw=true alt="data viewer" width="300"></img>
+    <img src=/screenshots/02.png?raw=true alt="operation log" width="300"></img>
+    <img src=/screenshots/03.png?raw=true alt="beamline choose" width="300"></img>
+    <img src=/screenshots/04.png?raw=true alt="convert json to lte file" width="300"></img>
+    <img src=/screenshots/05.png?raw=true alt="incremental search" width="300"></img>
+</p>
