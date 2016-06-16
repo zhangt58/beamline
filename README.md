@@ -28,19 +28,22 @@ Author: Tong Zhang &copy; 2015-2016
 
 <p>
     <img src=/contrib/demo1_screenshot.png?raw=true alt="tracking output" width="400"></img>
-</p>
-<p>
     <img src=/contrib/sxfel_lattice_layout.png?raw=true alt="sxfel lattice" width="800"></img>
-</p>
-<p>
     <img src=/contrib/dcls_lattice_layout.png?raw=true alt="dcls lattice with annotations" width="800"></img>
 </p>
 
 * With annotations,
 <p>
     <img src=/contrib/SXFEL_lattice_layout.png?raw=true alt="sxfel lattice" width="800"></img>
-</p>
-<p>
     <img src=/contrib/DCLS_lattice_layout.png?raw=true alt="dcls lattice with annotations" width="800"></img>
 </p>
 
+
+* GUI application: `latticeviewer`:
+<p>
+    <img src=/screenshots/01.png?raw=true alt="data viewer"              width="400"></img>
+    <img src=/screenshots/02.png?raw=true alt="operation log"            width="400"></img>
+    <img src=/screenshots/03.png?raw=true alt="beamline choose"          width="400"></img>
+    <img src=/screenshots/04.png?raw=true alt="convert json to lte file" width="400"></img>
+    <img src=/screenshots/05.png?raw=true alt="incremental search"       width="400"></img>
+</p>

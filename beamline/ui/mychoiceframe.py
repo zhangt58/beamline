@@ -48,14 +48,17 @@ class MyChoiceFrame(appui.BeamlineFrame):
         self.bl_selected = obj.GetString(idx)
 
     def ok_btnOnButtonClick(self, event):
-        if self.bl_selected is None:
-            if self.parent.use_beamline is None:
-                self.parent.use_beamline = sorted(self.bl_dict.keys())[0]
-        else:
-            if self.bl_selected != self.parent.use_beamline:
-                self.parent.use_beamline = self.bl_selected
-                self.parent.data_refresh_flag = True
-        self.Close(True)
+        try:
+            if self.bl_selected is None:
+                if self.parent.use_beamline is None:
+                    self.parent.use_beamline = sorted(self.bl_dict.keys())[0]
+            else:
+                if self.bl_selected != self.parent.use_beamline:
+                    self.parent.use_beamline = self.bl_selected
+                    self.parent.data_refresh_flag = True
+            self.Close(True)
+        except:
+            self.Close(True)
 
     def cancel_btnOnButtonClick(self, event):
         self.Close(True)

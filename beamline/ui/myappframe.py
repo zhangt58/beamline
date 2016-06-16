@@ -304,7 +304,7 @@ class MyAppFrame(appui.MainFrame):
         else:
             content_to_show = "!DATA NOT GENERATED, PUSH GENERATE BUTTON FIRST!"
         self.view_lte_frame = mydataframe.MyDataFrame(self, content_to_show)
-        self.view_lte_frame.SetTitle('String View')
+        self.view_lte_frame.SetTitle('Lte View')
         self.view_lte_frame.Show()
 
     def raw_mitemOnMenuSelection(self, event):
