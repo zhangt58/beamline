@@ -1,6 +1,6 @@
 # beamline
 
-Accelerator online model and lattice visualization modules developed by <code>Python</code>.
+Accelerator online model and lattice visualization package developed by <code>Python</code>.
 
 Developing language: <code>Python 2.7</code>
 
@@ -20,6 +20,7 @@ Author: Tong Zhang &copy; 2015-2016
 *  Feeding defined elements with new configuration, interfacing with EPICS environment, to form
    the close-loop online system.
 *  Visualizing the lattice layout by predefined elements' style.
+*  Friendly native-look GUI application to facilitate these functionalities.
 
 ### Screenshots:
 

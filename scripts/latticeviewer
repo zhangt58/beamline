@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+""" Accelerator online modeling GUI, lattice viewer
+
+Tong Zhang
+2016-06-16 14:19:13 PM CST
+"""
+
+from beamline import ui_main
+
+ui_main.run()

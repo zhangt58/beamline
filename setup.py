@@ -4,7 +4,11 @@ import os
 scriptnames = ['runElegant.sh', 
                'sddsprintdata.sh', 
                'renametolower.sh',
-               'file2lower.sh']
+               'file2lower.sh',
+               'lte2json',
+               'json2lte',
+               'latticeviewer',
+               'lv']
 
 def readme():
     with open('README.rst') as f:
@@ -14,7 +18,7 @@ requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics']
 
 setup(
         name     = "beamline",
-        version  = "1.2.2",
+        version  = "1.3.0",
         description = "online model package for electron accelerator",
         long_description = readme() + '\n\n',
         author   = "Tong Zhang",
@@ -26,4 +30,3 @@ setup(
         scripts  = [os.path.join('scripts',sn) for sn in scriptnames],
         requires = requiredpackages,
 )
-

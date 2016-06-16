@@ -16,13 +16,18 @@ from .element    import ElementCsrdrift as ElementCsrdrif
 from .element    import ElementLscdrift as ElementLscdrif
 from .element    import ElementDrift as ElementDrif
 from .models     import Models
+from .ui import ui_main
 
 
-__version__ = "1.2"
+__version__ = "1.3"
 __author__ = "Tong Zhang"
 
 __doc__ = """
-    lattice operation/online module
+    lattice operation/online module, both console and GUI apps
+
+    To evoke the GUI app:
+    1 run 'lv' or 'latticeviewer' in terminal;
+    2 beamline.ui_main.run() in python terminal.
 
     Version: %s
     Author: Tong Zhang (zhangtong@sinap.ac.cn)
@@ -45,4 +50,5 @@ __all__ = [
            Simulator,
            DataExtracter, DataVisualizer, DataStorage,
            Models,
+           ui_main,
            ].extend(allElements)

@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+convert json file to lte file
+
+Tong Zhang
+2016-06-14 14:54:04 PM CST
+"""
+
+import argparse
+import sys
+
+parser = argparse.ArgumentParser(description="Read json file and generate lte file with the given beamline name")
+
+parser.add_argument('--json', dest='jsonfile',  help='.json file to read')
+parser.add_argument('--lte',  dest='ltefile',   help='.lte file to generate')
+parser.add_argument('--bl',   dest='blname',    help='name of beamline')
+parser.add_argument('--show', dest='show_flag', help='show all valid beamline names, --json should be valid')
+
+args = parser.parse_args()
+
+ltefile, jsonfile, blname, show_flag = args.ltefile, args.jsonfile, args.blname, args.show_flag
+
+if show_flag is not None and jsonfile is not None:
+    import beamline
+    json_data = open(jsonfile).read()
+    latins = beamline.Lattice(json_data)
+    if show_flag is not None:
+        bl_list = latins.getAllBl()
+        print(','.join(bl_list))
+        sys.exit(1)
+
+if jsonfile is None or ltefile is None or blname is None:
+    parser.print_help()
+    sys.exit(1)
+
+import beamline
+json_data = open(jsonfile).read()
+latins = beamline.Lattice(json_data)
+
+if latins.isBeamline(blname):
+    latins.generateLatticeFile(blname, ltefile)
