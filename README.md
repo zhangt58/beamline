@@ -41,9 +41,17 @@ Author: Tong Zhang &copy; 2015-2016
 
 * GUI application: `latticeviewer`:
 <p>
+<<<<<<< HEAD
     <img src=/screenshots/01.png?raw=true alt="data viewer"              width="400"></img>
     <img src=/screenshots/02.png?raw=true alt="operation log"            width="400"></img>
     <img src=/screenshots/03.png?raw=true alt="beamline choose"          width="400"></img>
     <img src=/screenshots/04.png?raw=true alt="convert json to lte file" width="400"></img>
     <img src=/screenshots/05.png?raw=true alt="incremental search"       width="400"></img>
+=======
+    <img src=/screenshots/01.png?raw=true alt="data viewer" width="300"></img>
+    <img src=/screenshots/02.png?raw=true alt="operation log" width="300"></img>
+    <img src=/screenshots/03.png?raw=true alt="beamline choose" width="300"></img>
+    <img src=/screenshots/04.png?raw=true alt="convert json to lte file" width="300"></img>
+    <img src=/screenshots/05.png?raw=true alt="incremental search" width="300"></img>
+>>>>>>> ccf2cb9021b581ebcebe97b454d307f47da3fd9b
 </p>
