@@ -17,7 +17,7 @@ parser.add_argument('--lte', dest='ltefile', help='.lte file to read')
 parser.add_argument('--json', dest='jsonfile', help='.json file to generate, if None or omitted, write to stdout')
 
 
-args = parser.parser_args()
+args = parser.parse_args()
 
 ltefile, jsonfile = args.ltefile, args.jsonfile
 
