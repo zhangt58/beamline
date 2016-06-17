@@ -23,15 +23,18 @@ import json
 import os
 import time
 import ast
-import StringIO
+import cStringIO
 
 from pyrpn import rpn
 
 from . import element
 
 class LteParser(object):
-    def __init__(self, infile):
-        self.infile = infile
+    def __init__(self, infile, mode='f'):
+        if mode == 'f':  # read lines from infile
+            self.file_lines = open(infile, 'r').readlines()
+        elif mode == 's': # infile is the output of generateLatticeFile(bl,'sio')
+            self.file_lines = infile.split('\n')  # string to list of lines
 
         self.confstr = ''        # configuration string line for given element excluding control part
         self.confstr_epics = ''  # configuration string line for given element, epics control part
@@ -49,7 +52,7 @@ class LteParser(object):
         """
         tmpstrlist = []
         tmpstodict = {}
-        for line in open(self.infile, 'r'):
+        for line in self.file_lines:
             if line.startswith('%'):
                 stolist = line.replace('%', '').split('sto')
                 rpnexp = stolist[0].strip()  # rpn expression
@@ -141,7 +144,7 @@ class LteParser(object):
         """
         kw_name_list = []
         kw_ctrlconf_list = []
-        for line in open(self.infile, 'r'):
+        for line in self.file_lines:
             if line.startswith('!!epics'):
                 el = line.replace('!!epics','').replace(':',';;',1).split(';;')
                 kw_name_list.append(el[0].strip())
@@ -162,7 +165,7 @@ class LteParser(object):
         line_continue_flag = ''
         appendflag = False
         try:
-            for line in open(self.infile, 'r'):
+            for line in self.file_lines:
                 if line.strip() == '':
                     continue
                 line = ' '.join(line.strip().split()).strip('\n; ')
@@ -290,7 +293,7 @@ class LteParser(object):
         USAGE: kwslist = detectAllKws()
         """
         kwslist = []
-        for line in open(self.infile, 'r'):
+        for line in self.file_lines:
             # if line.strip() == '': continue
             line = ''.join(line.strip().split())
             if line.startswith("!"):
@@ -636,7 +639,7 @@ class Lattice(object):
         if filename is None:
             f = sys.stdout
         elif filename == 'sio':
-            f = StringIO.StringIO()
+            f = cStringIO.StringIO()
         else:
             f = open(os.path.expanduser(filename), 'w')
 
