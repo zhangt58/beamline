@@ -9,6 +9,7 @@ from . import appui
 from . import mylogframe
 from . import mydataframe
 from . import mychoiceframe
+from . import mydrawframe
 
 import felapps
 from .. import lattice
@@ -55,6 +56,8 @@ class MyAppFrame(appui.MainFrame):
         # search ctrl
         self.all_children = []
         self.found_items = []
+        self.search_show_id = 0
+        self.found_items_clear = True
 
     # Handlers for MyFrame events.
     def show_btnOnButtonClick(self, event):
@@ -186,33 +189,30 @@ class MyAppFrame(appui.MainFrame):
         mt = self.mainview_tree
         s_text = event.GetString().lower()
 
-        all_children = self.all_children
-        all_text = [mt.GetItemText(i).lower() for i in all_children]
-
-        found_items = [child for i, child in enumerate(all_children)
-                       if s_text in all_text[i]]
-        self.found_items = found_items
+#        all_children = self.all_children
+#        all_text = [mt.GetItemText(i).lower() for i in all_children]
+#
+#        found_items = [child for i, child in enumerate(all_children)
+#                       if s_text in all_text[i]]
+#        self.found_items = found_items
+        self.found_items = self.pack_found_items(s_text, mt)
         self.search_show_id = 0
 
-        if found_items != []:
-            item_to_sel = found_items[self.search_show_id]
-            mt.ScrollTo(item_to_sel)
-            mt.SelectItem(item_to_sel)
-            self.show_data(item_to_sel)
-
-    def search_ctrlOnTextEnter(self, event):
-        if self.found_items == []:
-            return
-
-        mt = self.mainview_tree
-        self.search_show_id += 1
-        try:
+        if self.found_items != []:
             item_to_sel = self.found_items[self.search_show_id]
             mt.ScrollTo(item_to_sel)
             mt.SelectItem(item_to_sel)
             self.show_data(item_to_sel)
-        except IndexError:
-            self.search_show_id = 0
+
+        self.found_items_clear = False
+
+    def search_ctrlOnTextEnter(self, event):
+        mt = self.mainview_tree
+        if self.found_items_clear:
+            self.found_items = self.pack_found_items(self.search_ctrl.GetValue().lower(), mt)
+        if self.found_items != []:
+            found_items_length = len(self.found_items)
+            self.search_show_id = (self.search_show_id + 1)% found_items_length
             item_to_sel = self.found_items[self.search_show_id]
             mt.ScrollTo(item_to_sel)
             mt.SelectItem(item_to_sel)
@@ -374,6 +374,13 @@ class MyAppFrame(appui.MainFrame):
         else:
             self.SetTitle(self.title)
 
+    def draw_mitemOnMenuSelection(self, event):
+        jsondata = self.data['json']
+        print self.all_beamlines
+        #self.draw_frame = mydrawframe.MyDrawFrame(self)
+        #self.draw_frame.SetTitle('Beamline Visualization')
+        #self.draw_frame.Show()
+
     # user-defined methods
     def set_title(self):
         if self.path_as_title_flag and self.open_filename is not None:
@@ -471,6 +478,7 @@ class MyAppFrame(appui.MainFrame):
             self.set_title()
             self.all_children = self.get_children(tree_root,
                                                   self.mainview_tree)
+            self.found_items_clear = True  # set clear flag of found items
             return True
         except:
             self.update_stat('list tree', 'Listing tree failed', 'ERR')
@@ -709,3 +717,17 @@ class MyAppFrame(appui.MainFrame):
             child_list.append(child)
             child, cookie = target.GetNextChild(root, cookie)
         return child_list
+
+    def pack_found_items(self, s_text, target):
+        """ pack up found items for search ctrl
+            :param target: treectrl obj
+            :param s_text: text to search, lower case
+            return list of found items
+        """
+        all_children = self.all_children
+        all_text = [target.GetItemText(i).lower() for i in all_children]
+
+        found_items = [child for i, child in enumerate(all_children)
+                       if s_text in all_text[i]]
+
+        return found_items
