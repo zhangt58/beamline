@@ -13,6 +13,7 @@ from . import mydrawframe
 
 import felapps
 from .. import lattice
+from .. import models
 
 MAXNROW = 65536  # max row number
 
@@ -28,7 +29,7 @@ class MyAppFrame(appui.MainFrame):
         self.log = [
         ]  # log list, item is a dict, k:v -> 'stat':stat, 'logstr':log
         self.tree_refresh_flag = None  # tree refresh flag
-        self.data_refresh_flag = None  # data refresh flag
+        self.data_refresh_flag = True  # data refresh flag
         self.path_as_title_flag = None  # show file path on title?
         self.title = title
         self.SetTitle(title)
@@ -59,6 +60,9 @@ class MyAppFrame(appui.MainFrame):
         self.search_show_id = 0
         self.found_items_clear = True
 
+        # online model
+        self.lattice_model = None
+
     # Handlers for MyFrame events.
     def show_btnOnButtonClick(self, event):
         if self.open_filename is None:
@@ -77,7 +81,7 @@ class MyAppFrame(appui.MainFrame):
             self.has_tree = self.show_tree(self.has_tree)
 
     def generate_btnOnButtonClick(self, event):
-        while self.open_filename is None:
+        if self.open_filename is None:
             dlg = wx.MessageDialog(self,
                                    "Open valid data file first.",
                                    "Data Generation Warning",
@@ -85,8 +89,7 @@ class MyAppFrame(appui.MainFrame):
                                    wx.CENTER)
             if dlg.ShowModal() == wx.ID_YES:
                 self.open_filename = self.open_file()
-            else:
-                return
+            return
 
         if self.data_refresh_flag:
             fn = self.open_filename
@@ -108,6 +111,9 @@ class MyAppFrame(appui.MainFrame):
 
     def clear_btnOnButtonClick(self, event):
         self.has_tree = self.clear_tree()
+
+    def model_btnOnButtonClick(self, event):
+        self.create_online_model()
 
     def treename_tcOnTextEnter(self, event):
         value = event.GetEventObject().GetValue()
@@ -375,11 +381,18 @@ class MyAppFrame(appui.MainFrame):
             self.SetTitle(self.title)
 
     def draw_mitemOnMenuSelection(self, event):
-        jsondata = self.data['json']
-        print self.all_beamlines
-        #self.draw_frame = mydrawframe.MyDrawFrame(self)
-        #self.draw_frame.SetTitle('Beamline Visualization')
-        #self.draw_frame.Show()
+        if self.lattice_model is None:
+            dlg = wx.MessageDialog(self,
+                                   "Lattice model not found, push 'Model' to build.",
+                                   "Online Modeling Warning",
+                                   style=wx.ICON_WARNING | wx.OK | wx.CENTER)
+            if dlg.ShowModal() == wx.ID_OK:
+                dlg.Destroy()
+            return
+
+        self.draw_frame = mydrawframe.MyDrawFrame(self, self.lattice_model, aspect=8)
+        self.draw_frame.SetTitle('Beamline Visualization')
+        self.draw_frame.Show()
 
     # user-defined methods
     def set_title(self):
@@ -479,6 +492,7 @@ class MyAppFrame(appui.MainFrame):
             self.all_children = self.get_children(tree_root,
                                                   self.mainview_tree)
             self.found_items_clear = True  # set clear flag of found items
+            self.lattice_model = None  # reset model when open new file
             return True
         except:
             self.update_stat('list tree', 'Listing tree failed', 'ERR')
@@ -568,7 +582,7 @@ class MyAppFrame(appui.MainFrame):
         self.lattice_instance = latins
         self.all_beamlines = latins.getAllBl()
         if self.use_beamline is None:
-            self.use_beamline = 'bl' if 'bl' in self.all_beamlines else self.all_beamlines[
+            self.use_beamline = 'BL' if 'BL' in self.all_beamlines else self.all_beamlines[
                 0]
         bl_ele_list = [latins.getFullBeamline(k, True)
                        for k in self.all_beamlines]
@@ -586,10 +600,10 @@ class MyAppFrame(appui.MainFrame):
         data_json = lpins.file2json()
 
         latins = lattice.Lattice(lpins.file2json())
-        self.latins = latins
+        self.lattice_instance = latins
         self.all_beamlines = latins.getAllBl()
         if self.use_beamline is None:
-            self.use_beamline = 'bl' if 'bl' in self.all_beamlines else self.all_beamlines[
+            self.use_beamline = 'BL' if 'BL' in self.all_beamlines else self.all_beamlines[
                 0]
         bl_ele_list = [latins.getFullBeamline(k, True)
                        for k in self.all_beamlines]
@@ -628,26 +642,37 @@ class MyAppFrame(appui.MainFrame):
         self.action_st.SetLabel(action_str)
         if info_str is None:
             pass
-        child_cnt_0 = self.mainview_tree.GetChildrenCount(
-            self.mainview_tree.GetRootItem(),
-            recursively=False)
-        child_cnt_1 = self.mainview_tree.GetChildrenCount(
-            self.mainview_tree.GetRootItem(),
-            recursively=True)
-        self.info_st.SetLabel("{0} ({1} elements.)".format(info_str,
-                                                           child_cnt_0))
+        if stat == 'OK':
+            child_cnt_0 = self.mainview_tree.GetChildrenCount(
+                self.mainview_tree.GetRootItem(),
+                recursively=False)
+            child_cnt_1 = self.mainview_tree.GetChildrenCount(
+                self.mainview_tree.GetRootItem(),
+                recursively=True)
+            self.info_st.SetLabel("{0} ({1} elements.)".format(info_str, child_cnt_0))
+            self.log.append({'stat': stat,
+                             'logstr':
+                             "[{ts}] {acts:<10s} : {infs} ({cnt1}|{cnt2})".format(
+                                 ts=time.strftime("%Y/%m/%d-%H:%M:%S",
+                                                  time.localtime()),
+                                 acts=action_str,
+                                 infs=info_str,
+                                 cnt1=child_cnt_0,
+                                 cnt2=child_cnt_1), })
+        else:
+            self.info_st.SetLabel("{0} (0 elements.)".format(info_str))
+            self.log.append({'stat': stat,
+                             'logstr':
+                             "[{ts}] {acts:<10s} : {infs} ({cnt1}|{cnt2})".format(
+                                 ts=time.strftime("%Y/%m/%d-%H:%M:%S",
+                                                  time.localtime()),
+                                 acts=action_str,
+                                 infs=info_str,
+                                 cnt1=0,
+                                 cnt2=0), })
+
         if self.info_st.IsEllipsized():
             self.info_st.SetToolTip(wx.ToolTip(info_str))
-
-        self.log.append({'stat': stat,
-                         'logstr':
-                         "[{ts}] {acts:<10s} : {infs} ({cnt1}|{cnt2})".format(
-                             ts=time.strftime("%Y/%m/%d-%H:%M:%S",
-                                              time.localtime()),
-                             acts=action_str,
-                             infs=info_str,
-                             cnt1=child_cnt_0,
-                             cnt2=child_cnt_1), })
 
     def _file_stat(self, mode, infostr, stat):
         """ update stat regarding to file operation, 
@@ -731,3 +756,39 @@ class MyAppFrame(appui.MainFrame):
                        if s_text in all_text[i]]
 
         return found_items
+    
+    def _create_online_model(self, lattice_instance, use_bl, mode='simu'):
+        """ make online model according to the lattice.Lattice instance
+            :param lattice_instance: lattice.Lattice instance, created from lte/json file
+            :param use_bl: selected beamline name
+            :param simu: online modeling type, 'simu': simulation, 
+                         'online': online (incorporate control fields)
+        """ 
+        new_model = models.Models(name=use_bl, mode=mode)
+        ele_name_list = lattice_instance.getElementList(use_bl)
+        ele_eobj_list = []
+        for ele in ele_name_list:
+            ele_eobj_list.append(lattice_instance.makeElement(ele))
+        new_model.addElement(*ele_eobj_list)
+
+        return new_model
+
+    def create_online_model(self):
+        try:
+            use_bl = self.use_beamline
+            # re-produce json string file if other beamlines's definition (except use_bl) exist
+            # latins -> lte -> json
+            if len(self.lattice_instance.getAllBl()) != 1: 
+                new_data_lte = self.lattice_instance.generateLatticeFile(use_bl, 'sio')
+                new_lpins = lattice.LteParser(new_data_lte, mode='s')
+                new_latins = lattice.Lattice(new_lpins.file2json())
+            else:
+                new_latins = self.lattice_instance
+                
+            # create online model, 'simu', 'online'
+            lattice_model = self._create_online_model(new_latins, use_bl, mode='simu')
+            self.lattice_model = lattice_model
+        except:
+            return
+
+
