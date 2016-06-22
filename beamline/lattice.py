@@ -31,6 +31,11 @@ from . import element
 
 class LteParser(object):
     def __init__(self, infile, mode='f'):
+        """ 
+        :param infile: lte filename or list of lines of lte file
+        :param mode: 'f': treat infile as file, 
+                     's': (else) treat as list of lines
+        """
         if mode == 'f':  # read lines from infile
             self.file_lines = open(infile, 'r').readlines()
         elif mode == 's': # infile is the output of generateLatticeFile(bl,'sio')
