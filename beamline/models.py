@@ -305,10 +305,13 @@ class Models(object):
             :param textypos: y coordinator of annotated text string
             :param kwargs:
                 alpha=0.8, arrowprops=dict(arrowstyle='->'), rotation=-60, fontsize='small'
+
+            return list of annotation objects
         """
         defaultstyle = {'alpha': 0.8, 'arrowprops': dict(arrowstyle='->'), 
                         'rotation': -60, 'fontsize': 'small'}
         defaultstyle.update(kwargs)
+        anote_list = []
         if efilter is None:
             for anote in anotelist:
                 if textypos is None:
@@ -318,10 +321,11 @@ class Models(object):
                 if not showAccName and anote['type'] in ('RFCW', 'RFDF'):
                     kwstyle = {k:v for k,v in defaultstyle.items()}
                     kwstyle.pop('arrowprops')
-                    ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
+                    note_text = ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
                             anote['atext']['text'], **kwstyle)
                 else:
-                    ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle)
+                    note_text = ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle)
+                anote_list.append(note_text)
         else:
             if not isinstance(efilter, tuple):
                 filter = tuple(efilter)
@@ -334,11 +338,12 @@ class Models(object):
                     if not showAccName and anote['type'] in ('RFCW', 'RFDF'):
                         kwstyle = {k:v for k,v in defaultstyle.items()}
                         kwstyle.pop('arrowprops')
-                        ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
+                        note_text = ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
                                 anote['atext']['text'], **kwstyle)
                     else:
-                        ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle) 
-                    
+                        note_text = ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle) 
+                    anote_list.append(note_text)
+        return anote_list
 
 def test():
     #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
