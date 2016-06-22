@@ -41,6 +41,7 @@ class MyChoiceFrame(appui.BeamlineFrame):
                 s_sizer.Add(st, 1, wx.EXPAND | wx.ALL, 10)
                 panel.SetSizer(s_sizer)
                 self.bl_choicebook.AddPage(panel, k)
+            self.bl_choicebook.SetSelection(sorted(self.bl_dict.keys()).index(self.parent.use_beamline))
 
     def bl_choicebookOnChoicebookPageChanged(self, event):
         idx = event.GetSelection()
