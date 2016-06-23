@@ -46,4 +46,5 @@ Author: Tong Zhang &copy; 2015-2016
     <img src=/screenshots/03.png?raw=true alt="beamline choose"          width="400"></img>
     <img src=/screenshots/04.png?raw=true alt="convert json to lte file" width="400"></img>
     <img src=/screenshots/05.png?raw=true alt="incremental search"       width="400"></img>
+    <img src=/screenshots/06.png?raw=true alt="lattice visualization"    width="400"></img>
 </p>
