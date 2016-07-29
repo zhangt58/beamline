@@ -12,7 +12,7 @@ import myappframe
 import wx
 
 
-def run():
+def run(debug=True):
     app = wx.App()
     frame = myappframe.MyAppFrame(None, 'Lattice Viewer')
     frame.SetSize((1024, 768))

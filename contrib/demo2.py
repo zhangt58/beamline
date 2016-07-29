@@ -144,8 +144,8 @@ plt.plot(thetaArray, dxArray, 'r')
 # #### Lattice layout visualization
 
 # generate lattice drawing plotting objects
-ptches, anotes, xr, yr = latmodel.draw(mode='fancy', showfig=False)
-#ptches, anotes, xr, yr = latmodel.draw(mode='plain', showfig=False)
+#ptches, anotes, xr, yr = latmodel.draw(mode='fancy', showfig=False)
+ptches, anotes, xr, yr = latmodel.draw(mode='plain', showfig=False)
 
 # show drawing
 fig3 = plt.figure(2)
