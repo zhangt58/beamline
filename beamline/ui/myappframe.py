@@ -4,6 +4,7 @@
 import wx
 import json
 import time
+import os
 
 from . import appui
 from . import mylogframe
@@ -11,7 +12,6 @@ from . import mydataframe
 from . import mychoiceframe
 from . import mydrawframe
 
-import felapps
 from .. import lattice
 from .. import models
 
@@ -400,8 +400,7 @@ class MyAppFrame(appui.MainFrame):
             self.SetTitle(self.open_filename)
 
     def saveas_file(self):
-        fullfilename = felapps.funutils.getFileToSave(self,
-                                                      ext=['json', 'lte'])
+        fullfilename = getFileToSave(self, ext=['json', 'lte'])
         if fullfilename is None:
             self.update_stat('save as', fullfilename, 'ERR')
             return
@@ -441,8 +440,7 @@ class MyAppFrame(appui.MainFrame):
             return fullfilename
 
     def open_file(self):
-        fullfilename = felapps.funutils.getFileToLoad(self,
-                                                      ext=['json', 'lte'])
+        fullfilename = getFileToLoad(self, ext=['json', 'lte'])
         if fullfilename is None:
             self.update_stat('open', fullfilename, 'ERR')
             return
@@ -528,7 +526,7 @@ class MyAppFrame(appui.MainFrame):
         dlg = wx.MessageDialog(self,
                                "Do you want to exit this application?",
                                "Exit Warning",
-                               style=wx.ICON_INFORMATION | wx.YES_NO |
+                               style=wx.ICON_QUESTION | wx.YES_NO |
                                wx.CENTER)
         if dlg.ShowModal() == wx.ID_YES:
             self.Close(True)
@@ -791,4 +789,58 @@ class MyAppFrame(appui.MainFrame):
         except:
             return
 
+
+# functions copied from felapps.funutils: 
+# - getFileToLoad
+# - getFileToSave
+def getFileToLoad(parent, ext='*', flag='single'):
+    if isinstance(ext, list):
+        if len(ext) > 1:
+            exts = [x.upper() + ' files (*.' + x + ')|*.' + x for x in ext]
+            wildcardpattern = '|'.join(exts)
+        else:
+            x = ext[0]
+            wildcardpattern = x.upper() + ' files ' + '(*.' + x + ')|*.' + x
+    else:
+        wildcardpattern = ext.upper() + ' files ' + '(*.' + ext + ')|*.' + ext
+
+    if flag == 'single':
+        dial = wx.FileDialog(parent, message = "Please select file",
+                defaultDir=".", defaultFile="", wildcard = wildcardpattern, style = wx.FD_DEFAULT_STYLE | wx.FD_FILE_MUST_EXIST)
+        if dial.ShowModal() == wx.ID_OK:
+            fullfilename = os.path.join(dial.GetDirectory(), dial.GetFilename())
+            return fullfilename
+        else:
+            return None
+
+    else: #flag = 'multi':
+        dial = wx.FileDialog(parent, message = "Please select file",
+                defaultDir=".", defaultFile="", wildcard = wildcardpattern, style = wx.FD_DEFAULT_STYLE | wx.FD_FILE_MUST_EXIST | wx.FD_MULTIPLE)
+        if dial.ShowModal() == wx.ID_OK:
+            fullfilenames = [os.path.join(dial.GetDirectory(), filename) for filename in dial.GetFilenames()]
+            return fullfilenames
+        else:
+            return None
+    
+    dial.Destroy()
+
+
+def getFileToSave(parent, ext='*'):
+    if isinstance(ext, list):
+        if len(ext) > 1:
+            exts = [x.upper() + ' files (*.' + x + ')|*.' + x for x in ext]
+            wildcardpattern = '|'.join(exts)
+        else:
+            x = ext[0]
+            wildcardpattern = x.upper() + ' files ' + '(*.' + x + ')|*.' + x
+    else:
+        wildcardpattern = ext.upper() + ' files ' + '(*.' + ext + ')|*.' + ext
+    dial = wx.FileDialog(parent, "Save it as", wildcard = wildcardpattern, style = wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+    if dial.ShowModal() == wx.ID_OK:
+        savetofilename = dial.GetPath()
+        return savetofilename
+    else:
+        return None
+    dial.Destroy()
+    
 
