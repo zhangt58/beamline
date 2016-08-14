@@ -12,11 +12,14 @@ import myappframe
 import wx
 
 
-def run(debug=True):
+def run(debug=True, icon=None):
     app = wx.App()
-    frame = myappframe.MyAppFrame(None, 'Lattice Viewer')
+    frame = myappframe.MyAppFrame(None, 
+            u'Lattice Viewer \u2014 Accelerator Online Modeling Tool')
     frame.SetSize((1024, 768))
     frame.Show()
+    if icon is not None:
+        frame.SetIcon(icon)
     app.MainLoop()
 
 
