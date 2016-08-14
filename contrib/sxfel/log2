@@ -1,0 +1,2139 @@
+This is elegant 25.1.0, Nov 10 2015, by M. Borland, W. Guo, V. Sajaev, Y. Wang, Y. Wu, and A. Xiao.
+Link date: Nov 10 2015 14:32:51
+statistics:    ET:     00:00:00 CP:    0.00 BIO:0 DIO:0 PF:0 MEM:15623
+&run_setup
+    lattice = sxfel_v14b.lte,
+    use_beamline = bl,
+    rootname = {NULL},
+    output = %s.out,
+    centroid = %s.cen,
+    sigma = %s.sig,
+    final = %s.fin,
+    acceptance = {NULL},
+    losses = {NULL},
+    magnets = %s.mag,
+    semaphore_file = {NULL},
+    parameters = %s.param,
+    combine_bunch_statistics = 0,
+    wrap_around = 1,
+    final_pass = 0,
+    default_order = 2,
+    concat_order = 0,
+    print_statistics = 1,
+    random_number_seed = 987654321,
+    correction_iterations = 1,
+    echo_lattice = 0,
+    p_central = 0.000000000000000e+00,
+    p_central_mev = 0.000000000000000e+00,
+    always_change_p0 = 1,
+    load_balancing_on = 0,
+    random_sequence_No = 1,
+    expand_for = linac3.0860.1M256S.sdds,
+    tracking_updates = 1,
+    search_path = {NULL},
+    element_divisions = 0,
+&end
+Expanding about p = 2.540719764428700e+02
+Seeding random number generators
+computed value for L0WAKE.FACTOR is 1.720000000000000e+02
+computed value for BLL01.LSC is 1
+computed value for BLL01CSR.CSR is 1
+computed value for BLL02.LSC is 1
+computed value for BLL03.LSC is 1
+computed value for BLL04.LSC is 1
+computed value for VALV.LSC is 1
+computed value for DBPMLSC.LSC is 1
+computed value for DAWGS.LSC is 1
+computed value for DAWGX1.LSC is 1
+computed value for DAWGX2.LSC is 1
+computed value for DAWGC1.LSC is 1
+computed value for DAWGC2.LSC is 1
+computed value for D01L0.LSC is 1
+computed value for D02L0.LSC is 1
+computed value for D03L0.LSC is 1
+computed value for D04L0.LSC is 1
+computed value for D05L0.LSC is 1
+computed value for D06L0.L is 2.509549593858368e-01
+computed value for D06L0.CSR is 1
+computed value for D07L0.CSR is 1
+computed value for DLHM.LSC is 1
+computed value for D08L0.CSR is 1
+computed value for D09L0.L is 2.509549593858368e-01
+computed value for D09L0.CSR is 1
+computed value for D10L0.LSC is 1
+computed value for D11L0.LSC is 1
+computed value for D12L0.LSC is 1
+computed value for D13L0.LSC is 1
+computed value for D14L0.LSC is 1
+computed value for D15L0.LSC is 1
+computed value for D16L0.LSC is 1
+computed value for D17L0.LSC is 1
+computed value for DBEND01L0.LSC is 1
+computed value for D01L1.LSC is 1
+computed value for D02L1.LSC is 1
+computed value for D03L1.LSC is 1
+computed value for D04L1.LSC is 1
+computed value for D01BC1.LSC is 1
+computed value for D02BC1.LSC is 1
+computed value for D03BC1.LSC is 1
+computed value for D04BC1.LSC is 1
+computed value for D05BC1.CSR is 1
+computed value for D06BC1.CSR is 1
+computed value for D07BC1.CSR is 1
+computed value for D08DBC1CSR.L is 3.299094878230095e-01
+computed value for D08DBC1CSR.CSR is 1
+computed value for D08DBC1LSC.LSC is 1
+computed value for D08DBC1LSC.LEFFECTIVE is 4.809094878230095e-01
+computed value for D09BC1.CSR is 1
+computed value for D10BC1.CSR is 1
+computed value for D11BC1.CSR is 1
+computed value for D12BC1CSR.CSR is 1
+computed value for D12BC1LSC.LSC is 1
+computed value for D13BC1.CSR is 1
+computed value for D14DBC1CSR.L is 3.299094878230095e-01
+computed value for D14DBC1CSR.CSR is 1
+computed value for D14DBC1LSC.LSC is 1
+computed value for D14DBC1LSC.LEFFECTIVE is 4.809094878230095e-01
+computed value for D15BC1.CSR is 1
+computed value for D16BC1.CSR is 1
+computed value for D17BC1.CSR is 1
+computed value for D18BC1.LSC is 1
+computed value for D01BI1.LSC is 1
+computed value for D02BI1.LSC is 1
+computed value for D03BI1.LSC is 1
+computed value for D04BI1.LSC is 1
+computed value for D05BI1.LSC is 1
+computed value for D06BI1.LSC is 1
+computed value for D07BI1.LSC is 1
+computed value for D08BI1.LSC is 1
+computed value for D09BI1.LSC is 1
+computed value for D10BI1.LSC is 1
+computed value for D11BI1.LSC is 1
+computed value for D12BI1.LSC is 1
+computed value for D13BI1.LSC is 1
+computed value for D14BI1.LSC is 1
+computed value for DFODO1BI1.LSC is 1
+computed value for DFODO2BI1.LSC is 1
+computed value for D15BI1.LSC is 1
+computed value for D16BI1.LSC is 1
+computed value for D17BI1.LSC is 1
+computed value for D18BI1.LSC is 1
+computed value for D19BI1.LSC is 1
+computed value for D20BI1.LSC is 1
+computed value for D21BI1.LSC is 1
+computed value for D22BI1.LSC is 1
+computed value for DBEND01BI1.LSC is 1
+computed value for DACL2.LSC is 1
+computed value for D01L2.LSC is 1
+computed value for D02L2.LSC is 1
+computed value for D03L2.LSC is 1
+computed value for D01BC2.LSC is 1
+computed value for D02BC2.LSC is 1
+computed value for D03BC2.LSC is 1
+computed value for D04DBC2.LSC is 1
+computed value for D05DBC2.CSR is 1
+computed value for D01BI2.LSC is 1
+computed value for D02BI2.LSC is 1
+computed value for D03BI2.LSC is 1
+computed value for D031BI2.LSC is 1
+computed value for D04BI2.LSC is 1
+computed value for D05BI2.LSC is 1
+computed value for D01L3.LSC is 1
+computed value for D02L3.LSC is 1
+computed value for D03L3.LSC is 1
+computed value for D04L3.LSC is 1
+computed value for D05L3.LSC is 1
+computed value for D06L3.LSC is 1
+computed value for D07L3.LSC is 1
+computed value for D08L3.LSC is 1
+computed value for D09L3.LSC is 1
+computed value for D10L3.LSC is 1
+computed value for D11L3.LSC is 1
+computed value for D12L3.LSC is 1
+computed value for D13L3.LSC is 1
+computed value for D14L3.LSC is 1
+computed value for DACL3.LSC is 1
+computed value for D01BI3.LSC is 1
+computed value for D02BI3.LSC is 1
+computed value for D03BI3.LSC is 1
+computed value for D04BI3.LSC is 1
+computed value for D05BI3.LSC is 1
+computed value for D06BI3.LSC is 1
+computed value for D07BI3.LSC is 1
+computed value for DBEND01BI3.LSC is 1
+computed value for BAM01L0.LSC is 1
+computed value for BAM01BI1.LSC is 1
+computed value for BAM01BI3.LSC is 1
+computed value for ICT01L0.LSC is 1
+computed value for ICT01BI1.LSC is 1
+computed value for ICT01BI3.LSC is 1
+computed value for PRF01L0.LSC is 1
+computed value for PRF02L0.LSC is 1
+computed value for PRF03L0.LSC is 1
+computed value for PRF04L0.LSC is 1
+computed value for PRF05L0.LSC is 1
+computed value for PRF01L1.LSC is 1
+computed value for PRF01BC1.LSC is 1
+computed value for PRF02BC1.CSR is 1
+computed value for PRF01BI1.LSC is 1
+computed value for PRF02BI1.LSC is 1
+computed value for PRF03BI1.LSC is 1
+computed value for PRF04BI1.LSC is 1
+computed value for PRF05BI1.LSC is 1
+computed value for PRF06BI1.LSC is 1
+computed value for PRF07BI1.LSC is 1
+computed value for PRF01L2.LSC is 1
+computed value for PRF02L2.LSC is 1
+computed value for PRF01BC2.LSC is 1
+computed value for PRF02BC2.CSR is 1
+computed value for PRF01BI2.LSC is 1
+computed value for PRF01L3.LSC is 1
+computed value for PRF02L3.LSC is 1
+computed value for PRF03L3.LSC is 1
+computed value for PRF04L3.LSC is 1
+computed value for PRF05L3.LSC is 1
+computed value for PRF06L3.LSC is 1
+computed value for PRF07L3.LSC is 1
+computed value for PRF01BI3.LSC is 1
+computed value for PRF02BI3.LSC is 1
+computed value for PRF03BI3.LSC is 1
+computed value for SLT01BC1.CSR is 1
+computed value for CDR01BC1.LSC is 1
+computed value for AS1O1L1.END1_FOCUS is 1
+computed value for AS1O1L1.END2_FOCUS is 1
+computed value for AS1O1L1.L is 2.974132000000000e+00
+computed value for AS1O1L1.VOLT is 4.513680000000000e+07
+computed value for AS1O1L1.PHASE is 3.740000000000000e+01
+computed value for AS1O1L1.LSC is 1
+computed value for AX1O1L1.END1_FOCUS is 1
+computed value for AX1O1L1.END2_FOCUS is 1
+computed value for AX1O1L1.L is 9.445780000000000e-01
+computed value for AX1O1L1.VOLT is 1.369840000000000e+07
+computed value for AX1O1L1.PHASE is 2.700000000000000e+02
+computed value for AX1O1L1.LSC is 1
+computed value for AC1O1L2_1.END1_FOCUS is 1
+computed value for AC1O1L2_1.END2_FOCUS is 1
+computed value for AC1O1L2_1.L is 1.685680000000000e+00
+computed value for AC1O1L2_1.VOLT is 5.763860000000000e+07
+computed value for AC1O1L2_1.PHASE is 1.040000000000000e+02
+computed value for AC1O1L2_1.LSC is 1
+computed value for AC1O1L2_2.END1_FOCUS is 1
+computed value for AC1O1L2_2.END2_FOCUS is 1
+computed value for AC1O1L2_2.L is 1.685680000000000e+00
+computed value for AC1O1L2_2.VOLT is 5.763860000000000e+07
+computed value for AC1O1L2_2.PHASE is 1.040000000000000e+02
+computed value for AC1O1L2_2.LSC is 1
+computed value for AC1O1L2_3.END1_FOCUS is 1
+computed value for AC1O1L2_3.END2_FOCUS is 1
+computed value for AC1O1L2_3.L is 1.685680000000000e+00
+computed value for AC1O1L2_3.VOLT is 5.763860000000000e+07
+computed value for AC1O1L2_3.PHASE is 1.040000000000000e+02
+computed value for AC1O1L2_3.LSC is 1
+computed value for AC1O1L2_4.END1_FOCUS is 1
+computed value for AC1O1L2_4.END2_FOCUS is 1
+computed value for AC1O1L2_4.L is 1.620650000000000e+00
+computed value for AC1O1L2_4.VOLT is 5.763860000000000e+07
+computed value for AC1O1L2_4.PHASE is 1.040000000000000e+02
+computed value for AC1O1L2_4.LSC is 1
+computed value for AC1O1L2_5.END1_FOCUS is 1
+computed value for AC1O1L2_5.END2_FOCUS is 1
+computed value for AC1O1L2_5.L is 1.620650000000000e+00
+computed value for AC1O1L2_5.VOLT is 5.763860000000000e+07
+computed value for AC1O1L2_5.PHASE is 1.040000000000000e+02
+computed value for AC1O1L2_5.LSC is 1
+computed value for AC1O1L3_1.END1_FOCUS is 1
+computed value for AC1O1L3_1.END2_FOCUS is 1
+computed value for AC1O1L3_1.L is 1.685680000000000e+00
+computed value for AC1O1L3_1.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_1.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_1.LSC is 1
+computed value for AC1O1L3_2.END1_FOCUS is 1
+computed value for AC1O1L3_2.END2_FOCUS is 1
+computed value for AC1O1L3_2.L is 1.685680000000000e+00
+computed value for AC1O1L3_2.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_2.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_2.LSC is 1
+computed value for AC1O1L3_3.END1_FOCUS is 1
+computed value for AC1O1L3_3.END2_FOCUS is 1
+computed value for AC1O1L3_3.L is 1.685680000000000e+00
+computed value for AC1O1L3_3.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_3.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_3.LSC is 1
+computed value for AC1O1L3_4.END1_FOCUS is 1
+computed value for AC1O1L3_4.END2_FOCUS is 1
+computed value for AC1O1L3_4.L is 1.685680000000000e+00
+computed value for AC1O1L3_4.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_4.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_4.LSC is 1
+computed value for AC1O1L3_5.END1_FOCUS is 1
+computed value for AC1O1L3_5.END2_FOCUS is 1
+computed value for AC1O1L3_5.L is 1.685680000000000e+00
+computed value for AC1O1L3_5.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_5.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_5.LSC is 1
+computed value for AC1O1L3_6.END1_FOCUS is 1
+computed value for AC1O1L3_6.END2_FOCUS is 1
+computed value for AC1O1L3_6.L is 1.685680000000000e+00
+computed value for AC1O1L3_6.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_6.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_6.LSC is 1
+computed value for AC1O1L3_7.END1_FOCUS is 1
+computed value for AC1O1L3_7.END2_FOCUS is 1
+computed value for AC1O1L3_7.L is 1.685680000000000e+00
+computed value for AC1O1L3_7.VOLT is 5.763860000000000e+07
+computed value for AC1O1L3_7.PHASE is 1.080000000000000e+02
+computed value for AC1O1L3_7.LSC is 1
+computed value for TDS01L0.PHASE is 9.000000000000000e+01
+computed value for TDS01L0.TILT is 1.570796326794897e+00
+computed value for TDS01BI1.PHASE is 9.000000000000000e+01
+computed value for TDS01BI1.TILT is 1.570796326794897e+00
+computed value for TDS01BI3.PHASE is 9.000000000000000e+01
+computed value for TDS01BI3.TILT is 1.570796326794897e+00
+computed value for B1LH.L is 2.002540735666240e-01
+computed value for B1LH.ANGLE is 8.726646259971647e-02
+computed value for B1LH.E2 is 8.726646259971647e-02
+computed value for B1LH.CSR is 1
+computed value for B1LH.BLOCK_CSR is 0
+computed value for B2LH.L is 2.002540735666240e-01
+computed value for B2LH.ANGLE is -8.726646259971647e-02
+computed value for B2LH.E1 is -8.726646259971647e-02
+computed value for B2LH.CSR is 1
+computed value for B2LH.BLOCK_CSR is 0
+computed value for B3LH.L is 2.002540735666240e-01
+computed value for B3LH.ANGLE is -8.726646259971647e-02
+computed value for B3LH.E2 is -8.726646259971647e-02
+computed value for B3LH.CSR is 1
+computed value for B3LH.BLOCK_CSR is 0
+computed value for B4LH.L is 2.002540735666240e-01
+computed value for B4LH.ANGLE is 8.726646259971647e-02
+computed value for B4LH.E1 is 8.726646259971647e-02
+computed value for B4LH.CSR is 1
+computed value for B4LH.BLOCK_CSR is 0
+computed value for B1BC1.L is 3.001892614737910e-01
+computed value for B1BC1.ANGLE is 6.151063882803616e-02
+computed value for B1BC1.E2 is 6.151063882803616e-02
+computed value for B1BC1.CSR is 1
+computed value for B1BC1.BLOCK_CSR is 0
+computed value for B2BC1.L is 3.001892614737910e-01
+computed value for B2BC1.ANGLE is -6.151063882803616e-02
+computed value for B2BC1.E1 is -6.151063882803616e-02
+computed value for B2BC1.CSR is 1
+computed value for B2BC1.BLOCK_CSR is 0
+computed value for B3BC1.L is 3.001892614737910e-01
+computed value for B3BC1.ANGLE is -6.151063882803616e-02
+computed value for B3BC1.E2 is -6.151063882803616e-02
+computed value for B3BC1.CSR is 1
+computed value for B3BC1.BLOCK_CSR is 0
+computed value for B4BC1.L is 3.001892614737910e-01
+computed value for B4BC1.ANGLE is 6.151063882803616e-02
+computed value for B4BC1.E1 is 6.151063882803616e-02
+computed value for B4BC1.CSR is 1
+computed value for B4BC1.BLOCK_CSR is 0
+computed value for BEND01BI1.L is 4.712388980384690e-01
+computed value for BEND01BI1.ANGLE is 5.235987755982988e-01
+computed value for BEND01BI1.E1 is 5.235987755982988e-01
+computed value for BEND01BI1.CSR is 1
+computed value for BEND01BI1.BLOCK_CSR is 0
+computed value for BEND01BI3.L is 1.539258229465546e+00
+computed value for BEND01BI3.ANGLE is 3.926990816987241e-01
+computed value for BEND01BI3.E1 is 3.926990816987241e-01
+computed value for BEND01BI3.CSR is 1
+computed value for BEND01BI3.BLOCK_CSR is 0
+computed value for Q04BC1.TILT is 7.853981633974483e-01
+length of beamline BL per pass: 1.224367230153934e+02 m
+statistics:    ET:     00:00:00 CP:    0.11 BIO:0 DIO:0 PF:0 MEM:18970
+&run_control
+    n_steps = 1,
+    bunch_frequency = 0.000000000000000e+00,
+    n_indices = 0,
+    n_passes = 1,
+    reset_rf_for_each_step = 1,
+    first_is_fiducial = 0,
+    restrict_fiducialization = 0,
+    reset_scattering_seed = 0,
+&end
+statistics:    ET:     00:00:00 CP:    0.11 BIO:0 DIO:0 PF:0 MEM:18970
+&twiss_output
+    filename = %s.twi,
+    matched = 0,
+    output_at_each_step = 0,
+    output_before_tune_correction = 0,
+    final_values_only = 0,
+    statistics = 0,
+    radiation_integrals = 0,
+    beta_x = 2.068247700000000e+01,
+    alpha_x = -1.462668000000000e+00,
+    eta_x = 0.000000000000000e+00,
+    etap_x = 0.000000000000000e+00,
+    beta_y = 2.070222600000000e+01,
+    alpha_y = -1.464092000000000e+00,
+    eta_y = 0.000000000000000e+00,
+    etap_y = 0.000000000000000e+00,
+    reference_file = {NULL},
+    reference_element = {NULL},
+    reference_element_occurrence = 0,
+    reflect_reference_values = 0,
+    concat_order = 3,
+    higher_order_chromaticity = 0,
+    higher_order_chromaticity_points = 5,
+    higher_order_chromaticity_range = 4.000000000000000e-04,
+    quick_higher_order_chromaticity = 0,
+    chromatic_tune_spread_half_range = 0.000000000000000e+00,
+    cavities_are_drifts_if_matched = 1,
+    compute_driving_terms = 0,
+    leading_order_driving_terms_only = 0,
+    local_dispersion = 1,
+&end
+final Twiss parameters (chromaticity valid for fully second-order calculation only!):
+         beta          alpha           nu           eta          eta'       dnu/d(dp/p)   dbeta/(dp/p)     accept.
+          m                          1/2pi           m                         1/2pi            m          mm-mrad
+--------------------------------------------------------------------------------------------------------------------
+  x:  2.058020e+01 -4.586171e+00  3.168534e+00 -2.543410e-17 -5.573987e-18 -1.556553e+00 -2.654997e+01  0.000000e+00
+  y:  2.657240e+00  4.189512e-02  3.303561e+00  0.000000e+00  0.000000e+00 -1.478879e+00 -1.753682e+00  0.000000e+00
+statistics:    ET:     00:00:00 CP:    0.17 BIO:0 DIO:0 PF:0 MEM:18970
+&sdds_beam
+    input = linac3.0860.1M256S.sdds,
+    input_list = {NULL},
+    input_type = elegant,
+    selection_parameter = {NULL},
+    selection_string = {NULL},
+    one_random_bunch = 0,
+    n_particles_per_ring = 0,
+    reuse_bunch = 1,
+    prebunched = 0,
+    sample_interval = 1000,
+    n_tables_to_skip = 0,
+    center_transversely = 0,
+    center_arrival_time = 0,
+    reverse_t_sign = 0,
+    sample_fraction = 1.000000000000000e+00,
+    p_lower = 0.000000000000000e+00,
+    p_upper = 1.000000000000000e+10,
+    save_initial_coordinates = 1,
+&end
+statistics:    ET:     00:00:00 CP:    0.17 BIO:0 DIO:0 PF:0 MEM:18974
+&track
+    center_on_orbit = 0,
+    center_momentum_also = 1,
+    offset_by_orbit = 0,
+    offset_momentum_also = 1,
+    soft_failure = 1,
+    use_linear_chromatic_matrix = 0,
+    longitudinal_ring_only = 0,
+    ibs_only = 0,
+    stop_tracking_particle_limit = -1,
+&end
+tracking step 1
+Warning: p has no units.  Expected m$be$nc
+File linac3.0860.1M256S.sdds opened and checked.
+Read page 1 from file
+1000001 rows in page 1
+File linac3.0860.1M256S.sdds was used up and closed.
+a total of 1000001 data points were read
+
+tracking 1001 particles
+tracking through C
+:    ET:     00:00:01 CP:    0.33 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.540720e+02    zstart = 0.000000e+00m  zend = 0.000000e+00m
+tracking through L0WAKE
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.540708e+02    zstart = 0.000000e+00m  zend = 0.000000e+00m
+tracking through DZERO
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 0.000000e+00m  zend = 0.000000e+00m
+tracking through DZERO
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 0.000000e+00m  zend = 0.000000e+00m
+tracking through D01L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 0.000000e+00m  zend = 5.340000e-01m
+tracking through Q01L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 5.340000e-01m  zend = 6.340000e-01m
+tracking through D02L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 6.340000e-01m  zend = 7.340000e-01m
+tracking through Q02L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 7.340000e-01m  zend = 9.340000e-01m
+tracking through D03L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 9.340000e-01m  zend = 1.034000e+00m
+tracking through Q03L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.034000e+00m  zend = 1.134000e+00m
+tracking through D04L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.134000e+00m  zend = 1.234000e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.234000e+00m  zend = 1.304000e+00m
+tracking through BPM01L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.304000e+00m  zend = 1.379000e+00m
+tracking through CRR01L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.379000e+00m  zend = 1.479000e+00m
+tracking through DCRR
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.479000e+00m  zend = 1.504000e+00m
+tracking through PRF01L0
+:    ET:     00:00:01 CP:    0.34 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.504000e+00m  zend = 1.619000e+00m
+tracking through VALV
+:    ET:     00:00:01 CP:    0.35 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.619000e+00m  zend = 1.691000e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.35 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.691000e+00m  zend = 1.761000e+00m
+tracking through D05L0
+:    ET:     00:00:01 CP:    0.35 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.761000e+00m  zend = 1.961000e+00m
+tracking through B1LH
+:    ET:     00:00:01 CP:    0.40 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536871e+02    zstart = 1.961000e+00m  zend = 2.161254e+00m
+tracking through D06L0
+:    ET:     00:00:01 CP:    0.40 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536861e+02    zstart = 2.161254e+00m  zend = 2.412209e+00m
+tracking through B2LH
+:    ET:     00:00:01 CP:    0.45 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536850e+02    zstart = 2.412209e+00m  zend = 2.612463e+00m
+tracking through BPM02L0
+:    ET:     00:00:01 CP:    0.45 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536844e+02    zstart = 2.612463e+00m  zend = 2.762463e+00m
+tracking through BLL02
+:    ET:     00:00:01 CP:    0.45 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536844e+02    zstart = 2.762463e+00m  zend = 2.852463e+00m
+tracking through PRF02L0
+:    ET:     00:00:01 CP:    0.45 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536844e+02    zstart = 2.852463e+00m  zend = 2.992463e+00m
+tracking through D07L0
+:    ET:     00:00:01 CP:    0.45 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536844e+02    zstart = 2.992463e+00m  zend = 3.042463e+00m
+tracking through LM
+:    ET:     00:00:01 CP:    0.45 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536824e+02    zstart = 3.042463e+00m  zend = 3.542463e+00m
+tracking through D07L0
+:    ET:     00:00:01 CP:    0.46 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536824e+02    zstart = 3.542463e+00m  zend = 3.592463e+00m
+tracking through PRF03L0
+:    ET:     00:00:01 CP:    0.46 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536790e+02    zstart = 3.592463e+00m  zend = 3.712463e+00m
+tracking through D08L0
+:    ET:     00:00:01 CP:    0.46 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536790e+02    zstart = 3.712463e+00m  zend = 3.812463e+00m
+tracking through B3LH
+:    ET:     00:00:01 CP:    0.51 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536780e+02    zstart = 3.812463e+00m  zend = 4.012717e+00m
+tracking through D09L0
+:    ET:     00:00:01 CP:    0.51 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536765e+02    zstart = 4.012717e+00m  zend = 4.263672e+00m
+tracking through B4LH
+:    ET:     00:00:01 CP:    0.56 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536754e+02    zstart = 4.263672e+00m  zend = 4.463926e+00m
+tracking through D10L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 4.463926e+00m  zend = 4.663926e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 4.663926e+00m  zend = 4.733926e+00m
+tracking through D11L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 4.733926e+00m  zend = 4.833926e+00m
+tracking through Q04L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 4.833926e+00m  zend = 4.933926e+00m
+tracking through D12L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 4.933926e+00m  zend = 5.033926e+00m
+tracking through Q05L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.033926e+00m  zend = 5.233926e+00m
+tracking through D13L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.233926e+00m  zend = 5.333926e+00m
+tracking through Q06L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.333926e+00m  zend = 5.433926e+00m
+tracking through D14L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.433926e+00m  zend = 5.533926e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.533926e+00m  zend = 5.603926e+00m
+tracking through BPM03L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.603926e+00m  zend = 5.678926e+00m
+tracking through CRR02L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.678926e+00m  zend = 5.778926e+00m
+tracking through DCRR
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.778926e+00m  zend = 5.803926e+00m
+tracking through PRF04L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.803926e+00m  zend = 5.918926e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.918926e+00m  zend = 5.988926e+00m
+tracking through TDS01L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 5.988926e+00m  zend = 6.644926e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 6.644926e+00m  zend = 6.714926e+00m
+tracking through D15L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 6.714926e+00m  zend = 6.814926e+00m
+tracking through Q07L0
+:    ET:     00:00:01 CP:    0.57 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 6.814926e+00m  zend = 6.914926e+00m
+tracking through D16L0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 6.914926e+00m  zend = 7.114926e+00m
+tracking through Q08L0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 7.114926e+00m  zend = 7.214926e+00m
+tracking through D17L0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 7.214926e+00m  zend = 7.884926e+00m
+tracking through BAM01L0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 7.884926e+00m  zend = 8.034926e+00m
+tracking through ICT01L0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 8.034926e+00m  zend = 8.184926e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 8.184926e+00m  zend = 8.254926e+00m
+tracking through DBEND01L0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 8.254926e+00m  zend = 9.054926e+00m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 9.054926e+00m  zend = 9.124926e+00m
+tracking through DBPM
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52192
+central momentum is 2.536744e+02    zstart = 9.124926e+00m  zend = 9.324926e+00m
+tracking through W0
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.324926e+00m  zend = 9.324926e+00m
+tracking through DZERO
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.324926e+00m  zend = 9.324926e+00m
+tracking through D01L1
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.324926e+00m  zend = 9.424926e+00m
+tracking through Q01L1
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.424926e+00m  zend = 9.524926e+00m
+tracking through D02L1
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.524926e+00m  zend = 9.624926e+00m
+tracking through Q02L1
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.624926e+00m  zend = 9.824926e+00m
+tracking through D03L1
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.824926e+00m  zend = 9.924926e+00m
+tracking through Q03L1
+:    ET:     00:00:01 CP:    0.58 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 9.924926e+00m  zend = 1.002493e+01m
+tracking through D04L1
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.002493e+01m  zend = 1.012493e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.012493e+01m  zend = 1.019493e+01m
+tracking through BPM01L1
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.019493e+01m  zend = 1.026993e+01m
+tracking through CRR01L1
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.026993e+01m  zend = 1.036993e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.036993e+01m  zend = 1.039493e+01m
+tracking through DBPMLSC
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.039493e+01m  zend = 1.039493e+01m
+tracking through PRF01L1
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.039493e+01m  zend = 1.050993e+01m
+tracking through VALV
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.050993e+01m  zend = 1.058193e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.058193e+01m  zend = 1.065193e+01m
+tracking through DAWGS
+:    ET:     00:00:01 CP:    0.59 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 2.536744e+02    zstart = 1.065193e+01m  zend = 1.069986e+01m
+tracking through AS1O1L1
+:    ET:     00:00:01 CP:    0.62 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.071037e+02    zstart = 1.069986e+01m  zend = 1.367399e+01m
+tracking through DAWGS
+:    ET:     00:00:01 CP:    0.62 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.071037e+02    zstart = 1.367399e+01m  zend = 1.372193e+01m
+tracking through BLL03
+:    ET:     00:00:01 CP:    0.62 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.071037e+02    zstart = 1.372193e+01m  zend = 1.390598e+01m
+tracking through DAWGS
+:    ET:     00:00:01 CP:    0.62 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.071037e+02    zstart = 1.390598e+01m  zend = 1.395391e+01m
+tracking through AS1O1L1
+:    ET:     00:00:01 CP:    0.64 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.605208e+02    zstart = 1.395391e+01m  zend = 1.692804e+01m
+tracking through DAWGS
+:    ET:     00:00:01 CP:    0.64 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.605208e+02    zstart = 1.692804e+01m  zend = 1.697598e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.64 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.605208e+02    zstart = 1.697598e+01m  zend = 1.704598e+01m
+tracking through VALV
+:    ET:     00:00:01 CP:    0.64 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.605208e+02    zstart = 1.704598e+01m  zend = 1.711798e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.64 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.605208e+02    zstart = 1.711798e+01m  zend = 1.718798e+01m
+tracking through DAWGX1
+:    ET:     00:00:01 CP:    0.65 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.605208e+02    zstart = 1.718798e+01m  zend = 1.725569e+01m
+tracking through AX1O1L1
+:    ET:     00:00:01 CP:    0.67 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.339119e+02    zstart = 1.725569e+01m  zend = 1.820027e+01m
+tracking through DAWGX2
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.339119e+02    zstart = 1.820027e+01m  zend = 1.826798e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.339119e+02    zstart = 1.826798e+01m  zend = 1.833798e+01m
+tracking through VALV
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.339119e+02    zstart = 1.833798e+01m  zend = 1.840998e+01m
+tracking through PSTN01
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52193
+central momentum is 3.339119e+02    zstart = 1.840998e+01m  zend = 1.840998e+01m
+tracking through W1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.840998e+01m  zend = 1.840998e+01m
+tracking through DZERO
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.840998e+01m  zend = 1.840998e+01m
+tracking through D01BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.840998e+01m  zend = 1.850998e+01m
+tracking through Q01BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.850998e+01m  zend = 1.870998e+01m
+tracking through D02BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.870998e+01m  zend = 1.890998e+01m
+tracking through Q02BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.890998e+01m  zend = 1.910998e+01m
+tracking through D03BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.910998e+01m  zend = 1.920998e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.920998e+01m  zend = 1.927998e+01m
+tracking through BPM01BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.927998e+01m  zend = 1.935498e+01m
+tracking through CRR01BC1
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.935498e+01m  zend = 1.945498e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.945498e+01m  zend = 1.947998e+01m
+tracking through DBPMLSC
+:    ET:     00:00:01 CP:    0.68 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.947998e+01m  zend = 1.947998e+01m
+tracking through DBPMLSC
+:    ET:     00:00:01 CP:    0.69 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.947998e+01m  zend = 1.947998e+01m
+tracking through PRF01BC1
+:    ET:     00:00:01 CP:    0.69 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.947998e+01m  zend = 1.959498e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.69 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.959498e+01m  zend = 1.966498e+01m
+tracking through D04BC1
+:    ET:     00:00:01 CP:    0.69 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.966498e+01m  zend = 1.984498e+01m
+tracking through B1BC1
+:    ET:     00:00:01 CP:    0.74 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339119e+02    zstart = 1.984498e+01m  zend = 2.014517e+01m
+tracking through D05BC1
+:    ET:     00:00:01 CP:    0.74 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339108e+02    zstart = 2.014517e+01m  zend = 2.024517e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.74 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339106e+02    zstart = 2.024517e+01m  zend = 2.031517e+01m
+tracking through D06BC1
+:    ET:     00:00:01 CP:    0.74 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339106e+02    zstart = 2.031517e+01m  zend = 2.108517e+01m
+tracking through Q03BC1
+:    ET:     00:00:01 CP:    0.74 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339083e+02    zstart = 2.108517e+01m  zend = 2.118517e+01m
+tracking through D07BC1
+:    ET:     00:00:01 CP:    0.75 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339083e+02    zstart = 2.118517e+01m  zend = 2.138517e+01m
+tracking through CRR02BC1
+:    ET:     00:00:01 CP:    0.75 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339073e+02    zstart = 2.138517e+01m  zend = 2.148517e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.75 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339073e+02    zstart = 2.148517e+01m  zend = 2.181507e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.75 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339059e+02    zstart = 2.181507e+01m  zend = 2.181507e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.75 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339059e+02    zstart = 2.181507e+01m  zend = 2.214498e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.75 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339049e+02    zstart = 2.214498e+01m  zend = 2.214498e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.76 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339049e+02    zstart = 2.214498e+01m  zend = 2.247489e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.76 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339041e+02    zstart = 2.247489e+01m  zend = 2.247489e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.76 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339041e+02    zstart = 2.247489e+01m  zend = 2.280480e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.76 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339034e+02    zstart = 2.280480e+01m  zend = 2.280480e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.76 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339034e+02    zstart = 2.280480e+01m  zend = 2.313471e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.76 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339028e+02    zstart = 2.313471e+01m  zend = 2.313471e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.77 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339028e+02    zstart = 2.313471e+01m  zend = 2.346462e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.77 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339023e+02    zstart = 2.346462e+01m  zend = 2.346462e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.77 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339023e+02    zstart = 2.346462e+01m  zend = 2.379453e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.77 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339017e+02    zstart = 2.379453e+01m  zend = 2.379453e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.77 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339018e+02    zstart = 2.379453e+01m  zend = 2.412444e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.77 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339013e+02    zstart = 2.412444e+01m  zend = 2.412444e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.78 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339013e+02    zstart = 2.412444e+01m  zend = 2.445435e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.78 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339009e+02    zstart = 2.445435e+01m  zend = 2.445435e+01m
+tracking through D08DBC1CSR
+:    ET:     00:00:01 CP:    0.78 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339009e+02    zstart = 2.445435e+01m  zend = 2.478426e+01m
+tracking through D08DBC1LSC
+:    ET:     00:00:01 CP:    0.78 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339005e+02    zstart = 2.478426e+01m  zend = 2.478426e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.78 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339005e+02    zstart = 2.478426e+01m  zend = 2.485426e+01m
+tracking through D09BC1
+:    ET:     00:00:01 CP:    0.78 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339005e+02    zstart = 2.485426e+01m  zend = 2.495426e+01m
+tracking through B2BC1
+:    ET:     00:00:01 CP:    0.83 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.339003e+02    zstart = 2.495426e+01m  zend = 2.525445e+01m
+tracking through D10BC1
+:    ET:     00:00:01 CP:    0.83 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338983e+02    zstart = 2.525445e+01m  zend = 2.535445e+01m
+tracking through BLL02
+:    ET:     00:00:01 CP:    0.83 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338976e+02    zstart = 2.535445e+01m  zend = 2.544445e+01m
+tracking through BPM02BC1
+:    ET:     00:00:01 CP:    0.83 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338976e+02    zstart = 2.544445e+01m  zend = 2.564445e+01m
+tracking through BLL02
+:    ET:     00:00:01 CP:    0.83 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338976e+02    zstart = 2.564445e+01m  zend = 2.573445e+01m
+tracking through SLT01BC1
+:    ET:     00:00:01 CP:    0.84 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338976e+02    zstart = 2.573445e+01m  zend = 2.594445e+01m
+tracking through PRF02BC1
+:    ET:     00:00:01 CP:    0.84 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338918e+02    zstart = 2.594445e+01m  zend = 2.614445e+01m
+tracking through BLL02
+:    ET:     00:00:01 CP:    0.84 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338898e+02    zstart = 2.614445e+01m  zend = 2.623445e+01m
+tracking through D12BC1CSR
+:    ET:     00:00:01 CP:    0.84 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338898e+02    zstart = 2.623445e+01m  zend = 2.633445e+01m
+tracking through D12BC1LSC
+:    ET:     00:00:01 CP:    0.84 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338881e+02    zstart = 2.633445e+01m  zend = 2.633445e+01m
+tracking through B3BC1
+:    ET:     00:00:01 CP:    0.90 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338881e+02    zstart = 2.633445e+01m  zend = 2.663464e+01m
+tracking through D13BC1
+:    ET:     00:00:01 CP:    0.90 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338670e+02    zstart = 2.663464e+01m  zend = 2.673464e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    0.90 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338367e+02    zstart = 2.673464e+01m  zend = 2.680464e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.91 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.338367e+02    zstart = 2.680464e+01m  zend = 2.713455e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.91 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337772e+02    zstart = 2.713455e+01m  zend = 2.713455e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.92 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337772e+02    zstart = 2.713455e+01m  zend = 2.746446e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.92 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337523e+02    zstart = 2.746446e+01m  zend = 2.746446e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.93 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337523e+02    zstart = 2.746446e+01m  zend = 2.779437e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.93 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337349e+02    zstart = 2.779437e+01m  zend = 2.779437e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.94 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337349e+02    zstart = 2.779437e+01m  zend = 2.812428e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.94 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337214e+02    zstart = 2.812428e+01m  zend = 2.812428e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.95 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337214e+02    zstart = 2.812428e+01m  zend = 2.845419e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.95 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337105e+02    zstart = 2.845419e+01m  zend = 2.845419e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.96 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337105e+02    zstart = 2.845419e+01m  zend = 2.878410e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.96 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337013e+02    zstart = 2.878410e+01m  zend = 2.878410e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.97 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.337013e+02    zstart = 2.878410e+01m  zend = 2.911401e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.97 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336933e+02    zstart = 2.911401e+01m  zend = 2.911401e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.98 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336933e+02    zstart = 2.911401e+01m  zend = 2.944391e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.98 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336863e+02    zstart = 2.944391e+01m  zend = 2.944391e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    0.99 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336863e+02    zstart = 2.944391e+01m  zend = 2.977382e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    0.99 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336800e+02    zstart = 2.977382e+01m  zend = 2.977382e+01m
+tracking through D14DBC1CSR
+:    ET:     00:00:01 CP:    1.00 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336800e+02    zstart = 2.977382e+01m  zend = 3.010373e+01m
+tracking through D14DBC1LSC
+:    ET:     00:00:01 CP:    1.00 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336744e+02    zstart = 3.010373e+01m  zend = 3.010373e+01m
+tracking through CRR03BC1
+:    ET:     00:00:01 CP:    1.00 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336744e+02    zstart = 3.010373e+01m  zend = 3.020373e+01m
+tracking through D15BC1
+:    ET:     00:00:01 CP:    1.01 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336744e+02    zstart = 3.020373e+01m  zend = 3.040373e+01m
+tracking through Q05BC1
+:    ET:     00:00:01 CP:    1.01 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336696e+02    zstart = 3.040373e+01m  zend = 3.050373e+01m
+tracking through D16BC1
+:    ET:     00:00:01 CP:    1.04 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336696e+02    zstart = 3.050373e+01m  zend = 3.127373e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.04 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336577e+02    zstart = 3.127373e+01m  zend = 3.134373e+01m
+tracking through D17BC1
+:    ET:     00:00:01 CP:    1.04 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336578e+02    zstart = 3.134373e+01m  zend = 3.144373e+01m
+tracking through B4BC1
+:    ET:     00:00:01 CP:    1.09 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.336557e+02    zstart = 3.144373e+01m  zend = 3.174392e+01m
+tracking through PSTN02
+:    ET:     00:00:01 CP:    1.09 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.335833e+02    zstart = 3.174392e+01m  zend = 3.174392e+01m
+tracking through D18BC1
+:    ET:     00:00:01 CP:    1.09 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.335833e+02    zstart = 3.174392e+01m  zend = 3.192392e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.335834e+02    zstart = 3.192392e+01m  zend = 3.199392e+01m
+tracking through CDR01BC1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52194
+central momentum is 3.335834e+02    zstart = 3.199392e+01m  zend = 3.239392e+01m
+tracking through W2
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.239392e+01m  zend = 3.239392e+01m
+tracking through DZERO
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.239392e+01m  zend = 3.239392e+01m
+tracking through DZERO
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.239392e+01m  zend = 3.239392e+01m
+tracking through DZERO
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.239392e+01m  zend = 3.239392e+01m
+tracking through D01BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.239392e+01m  zend = 3.249392e+01m
+tracking through Q01BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.249392e+01m  zend = 3.269392e+01m
+tracking through D02BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.269392e+01m  zend = 3.289392e+01m
+tracking through Q02BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.289392e+01m  zend = 3.309392e+01m
+tracking through D03BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.309392e+01m  zend = 3.319392e+01m
+tracking through VALV
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.319392e+01m  zend = 3.326592e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.326592e+01m  zend = 3.333592e+01m
+tracking through TDS01BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.333592e+01m  zend = 3.473592e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.473592e+01m  zend = 3.480592e+01m
+tracking through VALV
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.480592e+01m  zend = 3.487792e+01m
+tracking through D04BI1
+:    ET:     00:00:01 CP:    1.10 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.487792e+01m  zend = 3.497792e+01m
+tracking through Q03BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.497792e+01m  zend = 3.517792e+01m
+tracking through D05BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.517792e+01m  zend = 3.537792e+01m
+tracking through Q04BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.537792e+01m  zend = 3.557792e+01m
+tracking through D06BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335835e+02    zstart = 3.557792e+01m  zend = 3.567792e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335836e+02    zstart = 3.567792e+01m  zend = 3.574792e+01m
+tracking through BPM01BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335836e+02    zstart = 3.574792e+01m  zend = 3.582292e+01m
+tracking through CRR01BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335836e+02    zstart = 3.582292e+01m  zend = 3.592292e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335836e+02    zstart = 3.592292e+01m  zend = 3.594792e+01m
+tracking through PRF01BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335836e+02    zstart = 3.594792e+01m  zend = 3.606292e+01m
+tracking through D07BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335837e+02    zstart = 3.606292e+01m  zend = 3.636792e+01m
+tracking through Q05BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335838e+02    zstart = 3.636792e+01m  zend = 3.656792e+01m
+tracking through D08BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335838e+02    zstart = 3.656792e+01m  zend = 3.666792e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335838e+02    zstart = 3.666792e+01m  zend = 3.673792e+01m
+tracking through BAM01BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335838e+02    zstart = 3.673792e+01m  zend = 3.688792e+01m
+tracking through ICT01BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335839e+02    zstart = 3.688792e+01m  zend = 3.703792e+01m
+tracking through D09BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335840e+02    zstart = 3.703792e+01m  zend = 3.783792e+01m
+tracking through Q06BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335843e+02    zstart = 3.783792e+01m  zend = 3.803792e+01m
+tracking through D10BI1
+:    ET:     00:00:01 CP:    1.11 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335843e+02    zstart = 3.803792e+01m  zend = 3.823792e+01m
+tracking through Q07BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335843e+02    zstart = 3.823792e+01m  zend = 3.843792e+01m
+tracking through D11BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335843e+02    zstart = 3.843792e+01m  zend = 3.853792e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335844e+02    zstart = 3.853792e+01m  zend = 3.860792e+01m
+tracking through BPM02BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335844e+02    zstart = 3.860792e+01m  zend = 3.868292e+01m
+tracking through CRR02BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335844e+02    zstart = 3.868292e+01m  zend = 3.878292e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335844e+02    zstart = 3.878292e+01m  zend = 3.880792e+01m
+tracking through PRF02BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335844e+02    zstart = 3.880792e+01m  zend = 3.892292e+01m
+tracking through D12BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335845e+02    zstart = 3.892292e+01m  zend = 3.918792e+01m
+tracking through Q08BI1H
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335847e+02    zstart = 3.918792e+01m  zend = 3.928792e+01m
+tracking through PSTN04
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335847e+02    zstart = 3.928792e+01m  zend = 3.928792e+01m
+tracking through DZERO
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335847e+02    zstart = 3.928792e+01m  zend = 3.928792e+01m
+tracking through Q08BI1H
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335847e+02    zstart = 3.928792e+01m  zend = 3.938792e+01m
+tracking through DFODO2BI1
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335847e+02    zstart = 3.938792e+01m  zend = 4.008792e+01m
+tracking through Q09BI1H
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.008792e+01m  zend = 4.018792e+01m
+tracking through PSTN03
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.018792e+01m  zend = 4.018792e+01m
+tracking through Q09BI1H
+:    ET:     00:00:01 CP:    1.12 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.018792e+01m  zend = 4.028792e+01m
+tracking through D13BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.028792e+01m  zend = 4.038792e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.038792e+01m  zend = 4.045792e+01m
+tracking through BPM03BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.045792e+01m  zend = 4.053292e+01m
+tracking through CRR03BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.053292e+01m  zend = 4.063292e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.063292e+01m  zend = 4.065792e+01m
+tracking through PRF03BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335852e+02    zstart = 4.065792e+01m  zend = 4.077292e+01m
+tracking through DFODO1BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335853e+02    zstart = 4.077292e+01m  zend = 4.098792e+01m
+tracking through Q10BI1H
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335853e+02    zstart = 4.098792e+01m  zend = 4.108792e+01m
+tracking through PSTN03
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335853e+02    zstart = 4.108792e+01m  zend = 4.108792e+01m
+tracking through Q10BI1H
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335853e+02    zstart = 4.108792e+01m  zend = 4.118792e+01m
+tracking through DFODO2BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335853e+02    zstart = 4.118792e+01m  zend = 4.188792e+01m
+tracking through Q11BI1H
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335857e+02    zstart = 4.188792e+01m  zend = 4.198792e+01m
+tracking through Q11BI1H
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335857e+02    zstart = 4.198792e+01m  zend = 4.208792e+01m
+tracking through D14BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335857e+02    zstart = 4.208792e+01m  zend = 4.218792e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335858e+02    zstart = 4.218792e+01m  zend = 4.225792e+01m
+tracking through BPM04BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335859e+02    zstart = 4.225792e+01m  zend = 4.233292e+01m
+tracking through CRR04BI1
+:    ET:     00:00:01 CP:    1.13 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335859e+02    zstart = 4.233292e+01m  zend = 4.243292e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335859e+02    zstart = 4.243292e+01m  zend = 4.245792e+01m
+tracking through PRF04BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335859e+02    zstart = 4.245792e+01m  zend = 4.257292e+01m
+tracking through DFODO1BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335860e+02    zstart = 4.257292e+01m  zend = 4.278792e+01m
+tracking through Q12BI1H
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335862e+02    zstart = 4.278792e+01m  zend = 4.288792e+01m
+tracking through Q12BI1H
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335862e+02    zstart = 4.288792e+01m  zend = 4.298792e+01m
+tracking through DFODO2BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335862e+02    zstart = 4.298792e+01m  zend = 4.368792e+01m
+tracking through Q13BI1H
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335866e+02    zstart = 4.368792e+01m  zend = 4.378792e+01m
+tracking through Q13BI1H
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335866e+02    zstart = 4.378792e+01m  zend = 4.388792e+01m
+tracking through D15BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335866e+02    zstart = 4.388792e+01m  zend = 4.398792e+01m
+tracking through BLL01
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335867e+02    zstart = 4.398792e+01m  zend = 4.405792e+01m
+tracking through BPM05BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335867e+02    zstart = 4.405792e+01m  zend = 4.413292e+01m
+tracking through CRR05BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335867e+02    zstart = 4.413292e+01m  zend = 4.423292e+01m
+tracking through DCRR
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335867e+02    zstart = 4.423292e+01m  zend = 4.425792e+01m
+tracking through PRF05BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335867e+02    zstart = 4.425792e+01m  zend = 4.437292e+01m
+tracking through DFODO1BI1
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335868e+02    zstart = 4.437292e+01m  zend = 4.458792e+01m
+tracking through Q14BI1H
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335870e+02    zstart = 4.458792e+01m  zend = 4.468792e+01m
+tracking through Q14BI1H
+:    ET:     00:00:01 CP:    1.14 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335870e+02    zstart = 4.468792e+01m  zend = 4.478792e+01m
+tracking through DFODO2BI1
+:    ET:     00:00:01 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335870e+02    zstart = 4.478792e+01m  zend = 4.548792e+01m
+tracking through Q15BI1H
+:    ET:     00:00:01 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.548792e+01m  zend = 4.558792e+01m
+tracking through Q15BI1H
+:    ET:     00:00:01 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.558792e+01m  zend = 4.568792e+01m
+tracking through D16BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.568792e+01m  zend = 4.578792e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.578792e+01m  zend = 4.585792e+01m
+tracking through BPM06BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.585792e+01m  zend = 4.593292e+01m
+tracking through CRR06BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.593292e+01m  zend = 4.603292e+01m
+tracking through DCRR
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.603292e+01m  zend = 4.605792e+01m
+tracking through PRF06BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335874e+02    zstart = 4.605792e+01m  zend = 4.617292e+01m
+tracking through DZERO
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335873e+02    zstart = 4.617292e+01m  zend = 4.617292e+01m
+tracking through D17BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335873e+02    zstart = 4.617292e+01m  zend = 4.643792e+01m
+tracking through Q16BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335873e+02    zstart = 4.643792e+01m  zend = 4.663792e+01m
+tracking through D18BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335873e+02    zstart = 4.663792e+01m  zend = 4.703792e+01m
+tracking through Q17BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335872e+02    zstart = 4.703792e+01m  zend = 4.723792e+01m
+tracking through D19BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335872e+02    zstart = 4.723792e+01m  zend = 4.733792e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335872e+02    zstart = 4.733792e+01m  zend = 4.740792e+01m
+tracking through BPM07BI1
+:    ET:     00:00:02 CP:    1.15 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335871e+02    zstart = 4.740792e+01m  zend = 4.748292e+01m
+tracking through CRR07BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335871e+02    zstart = 4.748292e+01m  zend = 4.758292e+01m
+tracking through DCRR
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335871e+02    zstart = 4.758292e+01m  zend = 4.760792e+01m
+tracking through PRF07BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335871e+02    zstart = 4.760792e+01m  zend = 4.772292e+01m
+tracking through DBEND01BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335870e+02    zstart = 4.772292e+01m  zend = 4.852292e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335866e+02    zstart = 4.852292e+01m  zend = 4.859292e+01m
+tracking through D20BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335865e+02    zstart = 4.859292e+01m  zend = 4.869292e+01m
+tracking through Q18BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335865e+02    zstart = 4.869292e+01m  zend = 4.889292e+01m
+tracking through D21BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335865e+02    zstart = 4.889292e+01m  zend = 4.929292e+01m
+tracking through Q19BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335864e+02    zstart = 4.929292e+01m  zend = 4.949292e+01m
+tracking through D22BI1
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335864e+02    zstart = 4.949292e+01m  zend = 4.959292e+01m
+tracking through PSTN05
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.959292e+01m  zend = 4.959292e+01m
+tracking through DZERO
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.959292e+01m  zend = 4.959292e+01m
+tracking through DZERO
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.959292e+01m  zend = 4.959292e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.959292e+01m  zend = 4.966292e+01m
+tracking through BPM01L2
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.966292e+01m  zend = 4.973792e+01m
+tracking through CRR01L2
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.973792e+01m  zend = 4.983792e+01m
+tracking through DCRR
+:    ET:     00:00:02 CP:    1.16 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.983792e+01m  zend = 4.986292e+01m
+tracking through DBPMLSC
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335863e+02    zstart = 4.986292e+01m  zend = 4.986292e+01m
+tracking through PRF01L2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335862e+02    zstart = 4.986292e+01m  zend = 4.997792e+01m
+tracking through VALV
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335862e+02    zstart = 4.997792e+01m  zend = 5.004992e+01m
+tracking through D01L2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335862e+02    zstart = 5.004992e+01m  zend = 5.164792e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335856e+02    zstart = 5.164792e+01m  zend = 5.171792e+01m
+tracking through DACL2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335856e+02    zstart = 5.171792e+01m  zend = 5.350755e+01m
+tracking through BLL04
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335850e+02    zstart = 5.350755e+01m  zend = 5.360737e+01m
+tracking through DACL2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335850e+02    zstart = 5.360737e+01m  zend = 5.539700e+01m
+tracking through D02L2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335847e+02    zstart = 5.539700e+01m  zend = 5.549700e+01m
+tracking through Q01L2H
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.549700e+01m  zend = 5.559700e+01m
+tracking through PSTN06
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.559700e+01m  zend = 5.559700e+01m
+tracking through Q01L2H
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.559700e+01m  zend = 5.569700e+01m
+tracking through D03L2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.569700e+01m  zend = 5.579700e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.579700e+01m  zend = 5.586700e+01m
+tracking through BPM02L2
+:    ET:     00:00:02 CP:    1.17 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.586700e+01m  zend = 5.594200e+01m
+tracking through CRR02L2
+:    ET:     00:00:02 CP:    1.18 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.594200e+01m  zend = 5.604200e+01m
+tracking through DCRR
+:    ET:     00:00:02 CP:    1.18 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.604200e+01m  zend = 5.606700e+01m
+tracking through PRF02L2
+:    ET:     00:00:02 CP:    1.18 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.606700e+01m  zend = 5.618200e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.18 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.618200e+01m  zend = 5.625200e+01m
+tracking through DAWGC1
+:    ET:     00:00:02 CP:    1.18 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 3.335848e+02    zstart = 5.625200e+01m  zend = 5.630398e+01m
+tracking through AC1O1L2_1
+:    ET:     00:00:02 CP:    1.19 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 4.426256e+02    zstart = 5.630398e+01m  zend = 5.798966e+01m
+tracking through DAWGC2
+:    ET:     00:00:02 CP:    1.19 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 4.426256e+02    zstart = 5.798966e+01m  zend = 5.804163e+01m
+tracking through BLL04
+:    ET:     00:00:02 CP:    1.19 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 4.426257e+02    zstart = 5.804163e+01m  zend = 5.814145e+01m
+tracking through DAWGC1
+:    ET:     00:00:02 CP:    1.19 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 4.426257e+02    zstart = 5.814145e+01m  zend = 5.819343e+01m
+tracking through AC1O1L2_1
+:    ET:     00:00:02 CP:    1.20 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 5.516701e+02    zstart = 5.819343e+01m  zend = 5.987911e+01m
+tracking through DAWGC2
+:    ET:     00:00:02 CP:    1.20 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 5.516701e+02    zstart = 5.987911e+01m  zend = 5.993108e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.20 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 5.516701e+02    zstart = 5.993108e+01m  zend = 6.000108e+01m
+tracking through DAWGC1
+:    ET:     00:00:02 CP:    1.20 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 5.516701e+02    zstart = 6.000108e+01m  zend = 6.005306e+01m
+tracking through AC1O1L2_2
+:    ET:     00:00:02 CP:    1.21 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 6.607165e+02    zstart = 6.005306e+01m  zend = 6.173874e+01m
+tracking through DAWGC2
+:    ET:     00:00:02 CP:    1.21 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 6.607165e+02    zstart = 6.173874e+01m  zend = 6.179071e+01m
+tracking through BLL04
+:    ET:     00:00:02 CP:    1.21 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 6.607165e+02    zstart = 6.179071e+01m  zend = 6.189053e+01m
+tracking through DAWGC1
+:    ET:     00:00:02 CP:    1.22 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 6.607166e+02    zstart = 6.189053e+01m  zend = 6.194251e+01m
+tracking through AC1O1L2_2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 7.697639e+02    zstart = 6.194251e+01m  zend = 6.362819e+01m
+tracking through DAWGC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 7.697639e+02    zstart = 6.362819e+01m  zend = 6.368016e+01m
+tracking through PSTN07
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52195
+central momentum is 7.697639e+02    zstart = 6.368016e+01m  zend = 6.368016e+01m
+tracking through W3
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.368016e+01m  zend = 6.368016e+01m
+tracking through DZERO
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.368016e+01m  zend = 6.368016e+01m
+tracking through DZERO
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.368016e+01m  zend = 6.368016e+01m
+tracking through D01BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.368016e+01m  zend = 6.378016e+01m
+tracking through Q01BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.378016e+01m  zend = 6.398016e+01m
+tracking through D02BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.398016e+01m  zend = 6.418016e+01m
+tracking through Q02BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.418016e+01m  zend = 6.438016e+01m
+tracking through D03BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.438016e+01m  zend = 6.448016e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.448016e+01m  zend = 6.455016e+01m
+tracking through BPM01BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.455016e+01m  zend = 6.462516e+01m
+tracking through CRR01BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.462516e+01m  zend = 6.472516e+01m
+tracking through DCRR
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.472516e+01m  zend = 6.475016e+01m
+tracking through DBPMLSC
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.475016e+01m  zend = 6.475016e+01m
+tracking through PRF01BC2
+:    ET:     00:00:02 CP:    1.23 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.475016e+01m  zend = 6.486516e+01m
+tracking through VALV
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.486516e+01m  zend = 6.493716e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.493716e+01m  zend = 6.500716e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.500716e+01m  zend = 6.561266e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.561266e+01m  zend = 6.621816e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.621816e+01m  zend = 6.682366e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697639e+02    zstart = 6.682366e+01m  zend = 6.742916e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697640e+02    zstart = 6.742916e+01m  zend = 6.803466e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697640e+02    zstart = 6.803466e+01m  zend = 6.864016e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697641e+02    zstart = 6.864016e+01m  zend = 6.924566e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 6.924566e+01m  zend = 6.985116e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 6.985116e+01m  zend = 7.045666e+01m
+tracking through D04DBC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697641e+02    zstart = 7.045666e+01m  zend = 7.106216e+01m
+tracking through BLL01
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 7.106216e+01m  zend = 7.113216e+01m
+tracking through BPM02BC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 7.113216e+01m  zend = 7.120716e+01m
+tracking through CRR02BC2
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 7.120716e+01m  zend = 7.130716e+01m
+tracking through DCRR
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 7.130716e+01m  zend = 7.133216e+01m
+tracking through DBPMLSC
+:    ET:     00:00:02 CP:    1.24 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 7.133216e+01m  zend = 7.133216e+01m
+tracking through PRF02BC2
+:    ET:     00:00:03 CP:    2.56 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.697642e+02    zstart = 7.133216e+01m  zend = 7.144716e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.56 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694525e+02    zstart = 7.144716e+01m  zend = 7.151716e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.58 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694525e+02    zstart = 7.151716e+01m  zend = 7.213016e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.60 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694515e+02    zstart = 7.213016e+01m  zend = 7.274316e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.62 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694507e+02    zstart = 7.274316e+01m  zend = 7.335616e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.65 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694499e+02    zstart = 7.335616e+01m  zend = 7.396916e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.67 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694490e+02    zstart = 7.396916e+01m  zend = 7.458216e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.69 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694482e+02    zstart = 7.458216e+01m  zend = 7.519516e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.71 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694474e+02    zstart = 7.519516e+01m  zend = 7.580816e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.73 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694467e+02    zstart = 7.580816e+01m  zend = 7.642116e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.75 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694459e+02    zstart = 7.642116e+01m  zend = 7.703416e+01m
+tracking through D05DBC2
+:    ET:     00:00:03 CP:    2.77 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694451e+02    zstart = 7.703416e+01m  zend = 7.764716e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.77 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694444e+02    zstart = 7.764716e+01m  zend = 7.771716e+01m
+tracking through PSTN08
+:    ET:     00:00:03 CP:    2.77 BIO:0 DIO:0 PF:0 MEM:52196
+central momentum is 7.694444e+02    zstart = 7.771716e+01m  zend = 7.771716e+01m
+tracking through W4
+:    ET:     00:00:03 CP:    2.77 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694444e+02    zstart = 7.771716e+01m  zend = 7.771716e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.77 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694444e+02    zstart = 7.771716e+01m  zend = 7.771716e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694444e+02    zstart = 7.771716e+01m  zend = 7.771716e+01m
+tracking through D01BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694444e+02    zstart = 7.771716e+01m  zend = 7.781716e+01m
+tracking through Q01BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694444e+02    zstart = 7.781716e+01m  zend = 7.801716e+01m
+tracking through D02BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694444e+02    zstart = 7.801716e+01m  zend = 7.821716e+01m
+tracking through Q02BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.821716e+01m  zend = 7.841716e+01m
+tracking through D03BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.841716e+01m  zend = 7.851716e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.851716e+01m  zend = 7.858716e+01m
+tracking through BPM01BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.858716e+01m  zend = 7.866216e+01m
+tracking through CRR01BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.866216e+01m  zend = 7.876216e+01m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.876216e+01m  zend = 7.878716e+01m
+tracking through DBPMLSC
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.878716e+01m  zend = 7.878716e+01m
+tracking through PRF01BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694443e+02    zstart = 7.878716e+01m  zend = 7.890216e+01m
+tracking through D04BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694442e+02    zstart = 7.890216e+01m  zend = 7.941716e+01m
+tracking through Q03BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.941716e+01m  zend = 7.961716e+01m
+tracking through D05BI2
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.961716e+01m  zend = 7.971716e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.971716e+01m  zend = 7.971716e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.971716e+01m  zend = 7.971716e+01m
+tracking through D01L3
+:    ET:     00:00:03 CP:    2.78 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.971716e+01m  zend = 7.981716e+01m
+tracking through Q01L3H
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.981716e+01m  zend = 7.991716e+01m
+tracking through PSTN09
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.991716e+01m  zend = 7.991716e+01m
+tracking through Q01L3H
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 7.991716e+01m  zend = 8.001716e+01m
+tracking through D02L3
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 8.001716e+01m  zend = 8.011716e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 8.011716e+01m  zend = 8.018716e+01m
+tracking through BPM01L3
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 8.018716e+01m  zend = 8.026216e+01m
+tracking through CRR01L3
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 8.026216e+01m  zend = 8.036216e+01m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 8.036216e+01m  zend = 8.038716e+01m
+tracking through PRF01L3
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694441e+02    zstart = 8.038716e+01m  zend = 8.050216e+01m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694440e+02    zstart = 8.050216e+01m  zend = 8.057416e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694440e+02    zstart = 8.057416e+01m  zend = 8.064416e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.79 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 7.694440e+02    zstart = 8.064416e+01m  zend = 8.069614e+01m
+tracking through AC1O1L3_1
+:    ET:     00:00:03 CP:    2.80 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 8.763209e+02    zstart = 8.069614e+01m  zend = 8.238182e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.80 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 8.763209e+02    zstart = 8.238182e+01m  zend = 8.243379e+01m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.80 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 8.763209e+02    zstart = 8.243379e+01m  zend = 8.253361e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.80 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 8.763209e+02    zstart = 8.253361e+01m  zend = 8.258559e+01m
+tracking through AC1O1L3_1
+:    ET:     00:00:03 CP:    2.81 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.258559e+01m  zend = 8.427127e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.81 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.427127e+01m  zend = 8.432324e+01m
+tracking through D03L3
+:    ET:     00:00:03 CP:    2.81 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.432324e+01m  zend = 8.442324e+01m
+tracking through Q02L3H
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.442324e+01m  zend = 8.452324e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.452324e+01m  zend = 8.452324e+01m
+tracking through PSTN10
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.452324e+01m  zend = 8.452324e+01m
+tracking through Q02L3H
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.452324e+01m  zend = 8.462324e+01m
+tracking through D04L3
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831984e+02    zstart = 8.462324e+01m  zend = 8.472324e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.472324e+01m  zend = 8.479324e+01m
+tracking through BPM02L3
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.479324e+01m  zend = 8.486824e+01m
+tracking through CRR02L3
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.486824e+01m  zend = 8.496824e+01m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.496824e+01m  zend = 8.499324e+01m
+tracking through PRF02L3
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.499324e+01m  zend = 8.510824e+01m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.510824e+01m  zend = 8.518024e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.518024e+01m  zend = 8.525024e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.82 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 9.831983e+02    zstart = 8.525024e+01m  zend = 8.530222e+01m
+tracking through AC1O1L3_2
+:    ET:     00:00:03 CP:    2.83 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.090076e+03    zstart = 8.530222e+01m  zend = 8.698790e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.83 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.090076e+03    zstart = 8.698790e+01m  zend = 8.703987e+01m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.83 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.090076e+03    zstart = 8.703987e+01m  zend = 8.713969e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.83 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.090076e+03    zstart = 8.713969e+01m  zend = 8.719167e+01m
+tracking through AC1O1L3_2
+:    ET:     00:00:03 CP:    2.84 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.719167e+01m  zend = 8.887735e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.84 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.887735e+01m  zend = 8.892932e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.892932e+01m  zend = 8.892932e+01m
+tracking through D05L3
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.892932e+01m  zend = 8.902932e+01m
+tracking through Q03L3H
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.902932e+01m  zend = 8.912932e+01m
+tracking through PSTN11
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.912932e+01m  zend = 8.912932e+01m
+tracking through Q03L3H
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.912932e+01m  zend = 8.922932e+01m
+tracking through D06L3
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.922932e+01m  zend = 8.932932e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.932932e+01m  zend = 8.939932e+01m
+tracking through BPM03L3
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.939932e+01m  zend = 8.947432e+01m
+tracking through CRR03L3
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.947432e+01m  zend = 8.957432e+01m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.957432e+01m  zend = 8.959932e+01m
+tracking through PRF03L3
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.959932e+01m  zend = 8.971432e+01m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.971432e+01m  zend = 8.978632e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.978632e+01m  zend = 8.985632e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.85 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.196955e+03    zstart = 8.985632e+01m  zend = 8.990830e+01m
+tracking through AC1O1L3_3
+:    ET:     00:00:03 CP:    2.86 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.303833e+03    zstart = 8.990830e+01m  zend = 9.159398e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.86 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.303833e+03    zstart = 9.159398e+01m  zend = 9.164595e+01m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.86 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.303833e+03    zstart = 9.164595e+01m  zend = 9.174577e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.86 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.303833e+03    zstart = 9.174577e+01m  zend = 9.179775e+01m
+tracking through AC1O1L3_3
+:    ET:     00:00:03 CP:    2.87 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.179775e+01m  zend = 9.348343e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.348343e+01m  zend = 9.353540e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.353540e+01m  zend = 9.353540e+01m
+tracking through D07L3
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.353540e+01m  zend = 9.363540e+01m
+tracking through Q04L3H
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.363540e+01m  zend = 9.373540e+01m
+tracking through PSTN12
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.373540e+01m  zend = 9.373540e+01m
+tracking through Q04L3H
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.373540e+01m  zend = 9.383540e+01m
+tracking through D08L3
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.383540e+01m  zend = 9.393540e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.393540e+01m  zend = 9.400540e+01m
+tracking through BPM04L3
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.400540e+01m  zend = 9.408040e+01m
+tracking through CRR04L3
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.408040e+01m  zend = 9.418040e+01m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.418040e+01m  zend = 9.420540e+01m
+tracking through PRF04L3
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.420540e+01m  zend = 9.432040e+01m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.432040e+01m  zend = 9.439240e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.439240e+01m  zend = 9.446240e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.88 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.410712e+03    zstart = 9.446240e+01m  zend = 9.451438e+01m
+tracking through AC1O1L3_4
+:    ET:     00:00:03 CP:    2.89 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.517591e+03    zstart = 9.451438e+01m  zend = 9.620006e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.89 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.517591e+03    zstart = 9.620006e+01m  zend = 9.625203e+01m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.89 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.517591e+03    zstart = 9.625203e+01m  zend = 9.635185e+01m
+tracking through DAWGC1
+:    ET:     00:00:03 CP:    2.89 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.517591e+03    zstart = 9.635185e+01m  zend = 9.640383e+01m
+tracking through AC1O1L3_4
+:    ET:     00:00:03 CP:    2.90 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.640383e+01m  zend = 9.808951e+01m
+tracking through DAWGC2
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.808951e+01m  zend = 9.814148e+01m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.814148e+01m  zend = 9.814148e+01m
+tracking through D09L3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.814148e+01m  zend = 9.824148e+01m
+tracking through Q05L3H
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.824148e+01m  zend = 9.834148e+01m
+tracking through PSTN13
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.834148e+01m  zend = 9.834148e+01m
+tracking through Q05L3H
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.834148e+01m  zend = 9.844148e+01m
+tracking through D10L3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.844148e+01m  zend = 9.854148e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.854148e+01m  zend = 9.861148e+01m
+tracking through BPM05L3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.861148e+01m  zend = 9.868648e+01m
+tracking through CRR05L3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.868648e+01m  zend = 9.878648e+01m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.878648e+01m  zend = 9.881148e+01m
+tracking through PRF05L3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.881148e+01m  zend = 9.892648e+01m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.892648e+01m  zend = 9.899848e+01m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.899848e+01m  zend = 9.906848e+01m
+tracking through DACL3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624470e+03    zstart = 9.906848e+01m  zend = 1.008581e+02m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.008581e+02m  zend = 1.009579e+02m
+tracking through DACL3
+:    ET:     00:00:03 CP:    2.91 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.009579e+02m  zend = 1.027476e+02m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.027476e+02m  zend = 1.027476e+02m
+tracking through D11L3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.027476e+02m  zend = 1.028476e+02m
+tracking through Q06L3H
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.028476e+02m  zend = 1.029476e+02m
+tracking through PSTN14
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.029476e+02m  zend = 1.029476e+02m
+tracking through Q06L3H
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.029476e+02m  zend = 1.030476e+02m
+tracking through D12L3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.030476e+02m  zend = 1.031476e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.031476e+02m  zend = 1.032176e+02m
+tracking through BPM06L3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.032176e+02m  zend = 1.032926e+02m
+tracking through CRR06L3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.032926e+02m  zend = 1.033926e+02m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.033926e+02m  zend = 1.034176e+02m
+tracking through PRF06L3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.034176e+02m  zend = 1.035326e+02m
+tracking through DVALVBLL
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.035326e+02m  zend = 1.036746e+02m
+tracking through DACL3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.036746e+02m  zend = 1.054642e+02m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.054642e+02m  zend = 1.055640e+02m
+tracking through DACL3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.055640e+02m  zend = 1.073536e+02m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.073536e+02m  zend = 1.073536e+02m
+tracking through D13L3
+:    ET:     00:00:03 CP:    2.92 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.073536e+02m  zend = 1.074536e+02m
+tracking through Q07L3H
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.074536e+02m  zend = 1.075536e+02m
+tracking through PSTN15
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.075536e+02m  zend = 1.075536e+02m
+tracking through Q07L3H
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.075536e+02m  zend = 1.076536e+02m
+tracking through D14L3
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.076536e+02m  zend = 1.077536e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.077536e+02m  zend = 1.078236e+02m
+tracking through BPM07L3
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.078236e+02m  zend = 1.078986e+02m
+tracking through CRR07L3
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.078986e+02m  zend = 1.079986e+02m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.079986e+02m  zend = 1.080236e+02m
+tracking through PRF07L3
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.080236e+02m  zend = 1.081386e+02m
+tracking through DVALVBLL
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.081386e+02m  zend = 1.082806e+02m
+tracking through DACL3
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.082806e+02m  zend = 1.100703e+02m
+tracking through BLL04
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.100703e+02m  zend = 1.101701e+02m
+tracking through DACL3
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52197
+central momentum is 1.624469e+03    zstart = 1.101701e+02m  zend = 1.119597e+02m
+tracking through W5
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.119597e+02m  zend = 1.119597e+02m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.119597e+02m  zend = 1.119597e+02m
+tracking through DZERO
+:    ET:     00:00:03 CP:    2.93 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.119597e+02m  zend = 1.119597e+02m
+tracking through D01BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.119597e+02m  zend = 1.120597e+02m
+tracking through Q01BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.120597e+02m  zend = 1.122597e+02m
+tracking through D02BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.122597e+02m  zend = 1.128597e+02m
+tracking through Q02BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.128597e+02m  zend = 1.130597e+02m
+tracking through D03BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.130597e+02m  zend = 1.131597e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.131597e+02m  zend = 1.132297e+02m
+tracking through BPM01BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.132297e+02m  zend = 1.133047e+02m
+tracking through CRR01BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.133047e+02m  zend = 1.134047e+02m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.134047e+02m  zend = 1.134297e+02m
+tracking through PRF01BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.134297e+02m  zend = 1.135447e+02m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.135447e+02m  zend = 1.136167e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.136167e+02m  zend = 1.136867e+02m
+tracking through TDS01BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.136867e+02m  zend = 1.150867e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.150867e+02m  zend = 1.151567e+02m
+tracking through VALV
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.151567e+02m  zend = 1.152287e+02m
+tracking through D04BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.152287e+02m  zend = 1.153287e+02m
+tracking through Q03BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.153287e+02m  zend = 1.155287e+02m
+tracking through D05BI3
+:    ET:     00:00:03 CP:    2.94 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.155287e+02m  zend = 1.161287e+02m
+tracking through Q04BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.161287e+02m  zend = 1.163287e+02m
+tracking through D06BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.163287e+02m  zend = 1.164287e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.164287e+02m  zend = 1.164987e+02m
+tracking through BPM02BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.164987e+02m  zend = 1.165737e+02m
+tracking through CRR02BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.165737e+02m  zend = 1.166737e+02m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.166737e+02m  zend = 1.166987e+02m
+tracking through PRF02BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.166987e+02m  zend = 1.168137e+02m
+tracking through D07BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624469e+03    zstart = 1.168137e+02m  zend = 1.196817e+02m
+tracking through BAM01BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.196817e+02m  zend = 1.198317e+02m
+tracking through ICT01BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.198317e+02m  zend = 1.199817e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.199817e+02m  zend = 1.200517e+02m
+tracking through DBEND01BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.200517e+02m  zend = 1.220517e+02m
+tracking through BLL01
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.220517e+02m  zend = 1.221217e+02m
+tracking through BPM03BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.221217e+02m  zend = 1.221967e+02m
+tracking through CRR03BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.221967e+02m  zend = 1.222967e+02m
+tracking through DCRR
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.222967e+02m  zend = 1.223217e+02m
+tracking through PRF03BI3
+:    ET:     00:00:03 CP:    2.95 BIO:0 DIO:0 PF:0 MEM:52198
+central momentum is 1.624468e+03    zstart = 1.223217e+02m  zend = 1.224367e+02m
+1001 particles transmitted, total effort of 1001 particle-turns
+3203200 multipole kicks done
+
+Dumping output beam data...done.
+Dumping centroid data...done.
+Dumping sigma data...done.
+Dumping final properties data...done.
+Tracking step completed   ET:     00:00:03 CP:    2.96 BIO:0 DIO:0 PF:0 MEM:52198
+
+
+Finished tracking.
+End of input data encountered.
+statistics:    ET:     00:00:03 CP:    2.96 BIO:0 DIO:0 PF:0 MEM:38516
+=====================================================================================
+Thanks for using elegant.  Please cite the following reference in your publications:
+  M. Borland, "elegant: A Flexible SDDS-Compliant Code for Accelerator Simulation,"
+  Advanced Photon Source LS-287, September 2000.
+If you use a modified version, please indicate this in all publications.
+=====================================================================================

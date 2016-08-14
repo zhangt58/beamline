@@ -1,0 +1,223 @@
+q: charge,total=10e-15 
+
+L00    : DRIF,L=6; 
+L01    : DRIF,L=6; 
+L0    : DRIF,L=0.54; 		
+L1    : DRIF,L=0.47; 
+L2    : DRIF,L=3.069; 
+L3    : DRIF,L=3.069;
+L4    : DRIF,L=0.550;
+L5    : DRIF,L=0.600;
+L6    : DRIF,L=12.642;
+L7    : DRIF,L=0.550;
+L8    : DRIF,L=0.600;
+L9    : DRIF,L=2.594;
+L10    : DRIF,L=3.575;
+L11    : DRIF,L=0.839;
+L12    : DRIF,L=3.840;
+L13    : DRIF,L=3.840;
+L14    : DRIF,L=3.840;
+L15    : DRIF,L=3.840;
+L16    : DRIF,L=0.865;
+L17    : DRIF,L=0.900;
+L18    : DRIF,L=0.775;
+L19    : DRIF,L=0.910;
+L20    : DRIF,L=3.004;
+L21    : DRIF,L=0.775;
+L22    : DRIF,L=0.839;
+L23    : DRIF,L=3.840;
+L24    : DRIF,L=3.840;
+L25    : DRIF,L=3.840;
+L26    : DRIF,L=3.840;
+L27    : DRIF,L=3.840;
+L28    : DRIF,L=3.840;
+L29    : DRIF,L=3.840;
+L30    : DRIF,L=3.840;
+L31    : DRIF,L=3.840;
+L32    : DRIF,L=3.840;
+L33    : DRIF,L=3.840;
+
+Q00: QUAD,L=0.1,K1=-1.572229063567921e+000
+Q01: QUAD,L=0.1,K1=1.622708080393162e-001
+Q0: QUAD,L=0.1,K1=-2.040921784175930e+000
+Q1: QUAD,L=0.1,K1= -3.922470604974448e+000
+Q2: QUAD,L=0.1,K1=3.431606109654670e+000
+Q3: QUAD,L=0.1,K1=6.516601734210430e-001
+Q4: QUAD,L=0.1,K1=1
+Q5: QUAD,L=0.1,K1=0
+Q6: QUAD,L=0.1,K1=-2
+Q7: QUAD,L=0.1,K1=2
+Q8: QUAD,L=0.1,K1=1.240034136465123e+000
+Q9: QUAD,L=0.1,K1=-3.387166191425666e+000
+Q10: QUAD,L=0.1,K1=-1.683963202848369e-001
+Q11: QUAD,L=0.1,K1=7.954563396523435e-001
+Q12: QUAD,L=0.1,K1=6.318045830952418e-001
+Q13: QUAD,L=0.1,K1=-2
+Q14: QUAD,L=0.1,K1=2
+Q15: QUAD,L=0.1,K1=-2
+Q16: QUAD,L=0.1,K1=1.249275209144128e+000
+Q17: QUAD,L=0.1,K1=-9.419884410228722e-002
+Q18: QUAD,L=0.1,K1=9.019614967635988e-001
+Q19: QUAD,L=0.1,K1=-1.224688142308521e+000
+Q20: QUAD,L=0.1,K1=-1.094359909169304e+000
+Q21: QUAD,L=0.1,K1=2.190556264319666e+000
+Q22: QUAD,L=0.1,K1=-2.288624676437943e+000
+Q23: QUAD,L=0.1,K1=-2
+Q24: QUAD,L=0.1,K1=-2
+Q25: QUAD,L=0.1,K1=-2
+Q26: QUAD,L=0.1,K1=-2
+Q27: QUAD,L=0.1,K1=-2
+Q28: QUAD,L=0.1,K1=-2
+Q29: QUAD,L=0.1,K1=-2
+Q30: QUAD,L=0.1,K1=1
+Q31: QUAD,L=0.1,K1=-1
+Q32: QUAD,L=0.1,K1=-2
+Q33: QUAD,L=0.1,K1=-2
+Q34: QUAD,L=0.1,K1=-2
+!=========================
+
+
+% 0.2                   sto   B1_length 
+% 3.13                  sto   B1_angle
+% B1_angle  180 / pi * 	sto 	B1_angle_1 
+% B1_angle -180 / pi *  sto 	B1_angle_2 
+% 0	    sto 	withCSR 
+% 0		sto 	withISR 
+% 600 	  sto 	binNo 
+% 1 			sto 	kickNo 
+
+!LSRMDLTR
+!==========
+LM1: LSRMDLTR,l=1.60,periods=20,Bu=1.51356,accuracy=1e-6,method="non-adaptive",n_steps=2000,&
+       laser_wavelength=265e-9, laser_peak_power=181.75e6,laser_w0=0.357e-3,field_expansion="exact"
+BL1: line=(LM1)
+ 
+!CSRBEND 
+!======= 
+BC11  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_1", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B1_angle_1", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC11.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+BC12  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_2", & 
+        EDGE1_EFFECTS=1,E1="B1_angle_2", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC12.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+BC13  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_2", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B1_angle_2", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC13.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+BC14  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_1", & 
+        EDGE1_EFFECTS=1,E1="B1_angle_1", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC14.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+ 
+!=====
+check: DRIFT, L=0.0
+!csr drifts 
+!======= 
+CBD11 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo"; 
+CBD12 : CSRDRIF, L=0.6,  USE_STUPAKOV=1, N_kicks="kickNo";  
+CBD13 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo";   
+
+w10: watch, FILENAME="C0.out" 
+w11: watch, FILENAME="C1.out" 
+w12: watch, FILENAME="C2.out" 
+
+BC1: line=(BC11, CBD11, BC12, CBD12, BC13, CBD13, BC14) 
+!==============================================================================================
+ 
+% 0.2                   sto   B2_length 
+% 0.6                   sto   B2_angle
+% B2_angle  180 / pi * 	sto 	B2_angle_1 
+% B2_angle -180 / pi *   sto 	B2_angle_2 
+% 0	    sto 	withCSR 
+% 0		sto 	withISR 
+% 600 	  sto 	binNo 
+% 1 			sto 	kickNo 
+!LSRMDLTR
+!==========
+LM2: LSRMDLTR,l=1.60,periods=4,Bu=0.13107,accuracy=1e-6,method="non-adaptive",n_steps=400,&
+       laser_wavelength=265e-9, laser_peak_power=565.36e6,laser_w0=0.357e-3,field_expansion="exact"
+BL2: line=(LM2)
+
+ 
+!CSRBEND 
+!======= 
+BC21  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_1", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B2_angle_1", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC21.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+BC22  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_2", & 
+        EDGE1_EFFECTS=1,E1="B2_angle_2", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC22.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+BC23  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_2", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B2_angle_2", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC23.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+BC24  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_1", & 
+        EDGE1_EFFECTS=1,E1="B2_angle_1", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.BC24.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+ 
+!==================
+
+
+!csr drifts 
+!======= 
+CBD21 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo"; 
+CBD22 : CSRDRIF, L=0.6,  USE_STUPAKOV=1, N_kicks="kickNo";  
+CBD23 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo"; 
+w20: watch, FILENAME="C20.out" 
+w21: watch, FILENAME="C21.out" 
+w22: watch, FILENAME="C22.out" 
+
+BC2: line=( BC21, CBD21, BC22, CBD22, BC23, CBD23, BC24) 
+
+w0: watch, FILENAME="C0.out" 
+w1: watch, FILENAME="C1.out" 
+w2: watch, FILENAME="C2.out" 
+w3: watch, FILENAME="C3.out" 
+
+!BC: line=(q, Q0, L0, Q1, L1, Q2, L2, Q3, L3, Q4, L4, Q5, L5, Q6, L6, Q7, L7, Q8, L8, Q9, L9, Q10, L10, Q11, L11, Q12, L12, Q13, L13, Q14, L14, Q15, L15, Q16, L16, Q17, L17, Q18, L18, Q19, L19, Q20, L20, Q21, L21, Q22, L22, Q23, L23, Q24, L24, Q25, L25, Q26, L26, Q27, L27, Q28, L28, Q29, L29, Q30, L30, Q31, L31, Q32, L32, w0)  
+BC: line=(q, Q0, L0, Q1, L1, Q2, L2, Q3, L3, Q4, L4, Q5, L5, Q6, L6, Q7, L7, Q8, L8, Q9, L9, Q10, L10, Q11, L11, Q12, L12, Q13, L13, Q14, L14, Q15, L15, Q16, L16, Q17, L17, Q18, L18, BC1, Q19, L19, Q20, L20, Q21, L21, BC2, Q22, L22, w0) 

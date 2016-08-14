@@ -1,0 +1,222 @@
+q: charge,total=10e-15 
+
+LTU_L00   : DRIF,L=6; 
+LTU_L01   : DRIF,L=6; 
+LTU_L0    : DRIF,L=0.54; 		
+LTU_L1    : DRIF,L=0.47; 
+LTU_L2    : DRIF,L=3.069; 
+LTU_L3    : DRIF,L=3.069;
+LTU_L4    : DRIF,L=0.550;
+LTU_L5    : DRIF,L=0.600;
+LTU_L6    : DRIF,L=12.642;
+LTU_L7    : DRIF,L=0.550;
+LTU_L8    : DRIF,L=0.600;
+LTU_L9    : DRIF,L=2.594;
+LTU_L10   : DRIF,L=3.575;
+LTU_L11   : DRIF,L=0.839;
+LTU_L12   : DRIF,L=3.840;
+LTU_L13   : DRIF,L=3.840;
+LTU_L14   : DRIF,L=3.840;
+LTU_L15   : DRIF,L=3.840;
+LTU_L16   : DRIF,L=0.865;
+LTU_L17   : DRIF,L=0.900;
+LTU_L18   : DRIF,L=0.775;
+LTU_L19   : DRIF,L=0.910;
+LTU_L20   : DRIF,L=3.004;
+LTU_L21   : DRIF,L=0.775;
+LTU_L22   : DRIF,L=0.839;
+LTU_L23   : DRIF,L=3.840;
+LTU_L24   : DRIF,L=3.840;
+LTU_L25   : DRIF,L=3.840;
+LTU_L26   : DRIF,L=3.840;
+LTU_L27   : DRIF,L=3.840;
+LTU_L28   : DRIF,L=3.840;
+LTU_L29   : DRIF,L=3.840;
+LTU_L30   : DRIF,L=3.840;
+LTU_L31   : DRIF,L=3.840;
+LTU_L32   : DRIF,L=3.840;
+LTU_L33   : DRIF,L=3.840;
+
+LTU_Q00: QUAD,L=0.1,K1=-1.572229063567921e+000
+LTU_Q01: QUAD,L=0.1,K1=1.622708080393162e-001
+LTU_Q0 : QUAD,L=0.1,K1=-2.040921784175930e+000
+LTU_Q1 : QUAD,L=0.1,K1= -3.922470604974448e+000
+LTU_Q2 : QUAD,L=0.1,K1=3.431606109654670e+000
+LTU_Q3 : QUAD,L=0.1,K1=6.516601734210430e-001
+LTU_Q4 : QUAD,L=0.1,K1=1
+LTU_Q5 : QUAD,L=0.1,K1=0
+LTU_Q6 : QUAD,L=0.1,K1=-2
+LTU_Q7 : QUAD,L=0.1,K1=2
+LTU_Q8 : QUAD,L=0.1,K1=1.240034136465123e+000
+LTU_Q9 : QUAD,L=0.1,K1=-3.387166191425666e+000
+LTU_Q10: QUAD,L=0.1,K1=-1.683963202848369e-001
+LTU_Q11: QUAD,L=0.1,K1=7.954563396523435e-001
+LTU_Q12: QUAD,L=0.1,K1=6.318045830952418e-001
+LTU_Q13: QUAD,L=0.1,K1=-2
+LTU_Q14: QUAD,L=0.1,K1=2
+LTU_Q15: QUAD,L=0.1,K1=-2
+LTU_Q16: QUAD,L=0.1,K1=1.249275209144128e+000
+LTU_Q17: QUAD,L=0.1,K1=-9.419884410228722e-002
+LTU_Q18: QUAD,L=0.1,K1=9.019614967635988e-001
+LTU_Q19: QUAD,L=0.1,K1=-1.224688142308521e+000
+LTU_Q20: QUAD,L=0.1,K1=-1.094359909169304e+000
+LTU_Q21: QUAD,L=0.1,K1=2.190556264319666e+000
+LTU_Q22: QUAD,L=0.1,K1=-2.288624676437943e+000
+LTU_Q23: QUAD,L=0.1,K1=-2
+LTU_Q24: QUAD,L=0.1,K1=-2
+LTU_Q25: QUAD,L=0.1,K1=-2
+LTU_Q26: QUAD,L=0.1,K1=-2
+LTU_Q27: QUAD,L=0.1,K1=-2
+LTU_Q28: QUAD,L=0.1,K1=-2
+LTU_Q29: QUAD,L=0.1,K1=-2
+LTU_Q30: QUAD,L=0.1,K1=1
+LTU_Q31: QUAD,L=0.1,K1=-1
+LTU_Q32: QUAD,L=0.1,K1=-2
+LTU_Q33: QUAD,L=0.1,K1=-2
+LTU_Q34: QUAD,L=0.1,K1=-2
+!=========================
+
+
+% 0.2                   sto   B1_length 
+% 3.13                  sto   B1_angle
+% B1_angle  180 / pi * 	sto   B1_angle_1 
+% B1_angle -180 / pi *  sto   B1_angle_2 
+% 0	    sto 	withCSR 
+% 0		sto 	withISR 
+% 600 	sto 	binNo 
+% 1 	sto 	kickNo 
+
+!LSRMDLTR
+!==========
+LTU_LM1: LSRMDLTR,l=1.60,periods=20,Bu=1.51356,accuracy=1e-6,method="non-adaptive",n_steps=2000,&
+       laser_wavelength=265e-9, laser_peak_power=181.75e6,laser_w0=0.357e-3,field_expansion="exact"
+LTU_BL1: line=(LTU_LM1)
+ 
+!CSRBEND 
+!======= 
+LTU_BC11  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_1", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B1_angle_1", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC11.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+LTU_BC12  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_2", & 
+        EDGE1_EFFECTS=1,E1="B1_angle_2", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC12.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+LTU_BC13  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_2", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B1_angle_2", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC13.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+LTU_BC14  : CSRCSBEN,L= "B1_length", & 
+        ANGLE="B1_angle_1", & 
+        EDGE1_EFFECTS=1,E1="B1_angle_1", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC14.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+ 
+!=====
+check: DRIFT, L=0.0
+!csr drifts 
+!======= 
+LTU_CBD11 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo"; 
+LTU_CBD12 : CSRDRIF, L=0.6,  USE_STUPAKOV=1, N_kicks="kickNo";  
+LTU_CBD13 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo";   
+
+LTU_w10: watch, FILENAME="C0.out" 
+LTU_w11: watch, FILENAME="C1.out" 
+LTU_w12: watch, FILENAME="C2.out" 
+
+LTU_BC1: line=(LTU_BC11, LTU_CBD11, LTU_BC12, LTU_CBD12, LTU_BC13, LTU_CBD13, LTU_BC14) 
+!==============================================================================================
+ 
+% 0.2                   sto   B2_length 
+% 0.6                   sto   B2_angle
+% B2_angle  180 / pi * 	sto 	B2_angle_1 
+% B2_angle -180 / pi *   sto 	B2_angle_2 
+% 0	    sto 	withCSR 
+% 0		sto 	withISR 
+% 600 	  sto 	binNo 
+% 1 			sto 	kickNo 
+!LSRMDLTR
+!==========
+LTU_LM2: LSRMDLTR,l=1.60,periods=4,Bu=0.13107,accuracy=1e-6,method="non-adaptive",n_steps=400,&
+       laser_wavelength=265e-9, laser_peak_power=565.36e6,laser_w0=0.357e-3,field_expansion="exact"
+LTU_BL2: line=(LTU_LM2)
+
+ 
+!CSRBEND 
+!======= 
+LTU_BC21  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_1", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B2_angle_1", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC21.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+LTU_BC22  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_2", & 
+        EDGE1_EFFECTS=1,E1="B2_angle_2", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC22.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+LTU_BC23  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_2", & 
+        EDGE1_EFFECTS=1,E1= 0.000000000E+00, & 
+        EDGE2_EFFECTS=1,E2="B2_angle_2", & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC23.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+LTU_BC24  : CSRCSBEN,L= "B2_length", & 
+        ANGLE="B2_angle_1", & 
+        EDGE1_EFFECTS=1,E1="B2_angle_1", & 
+        EDGE2_EFFECTS=1,E2= 0.000000000E+00, & 
+        HGAP= 1.500000000E-02, & 
+        nonlinear=1,n_kicks=10,integration_order=4, & 
+        bins="binNo",sg_halfwidth=1, & 
+        output_file="%s.LTU_BC24.csr",output_interval=10, & 
+        isr="withISR", csr="withCSR" 
+ 
+!==================
+
+
+!csr drifts 
+!======= 
+LTU_CBD21 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo"; 
+LTU_CBD22 : CSRDRIF, L=0.6,  USE_STUPAKOV=1, N_kicks="kickNo";  
+LTU_CBD23 : CSRDRIF, L=0.7,  USE_STUPAKOV=1, N_kicks="kickNo"; 
+LTU_w20: watch, FILENAME="C20.out" 
+LTU_w21: watch, FILENAME="C21.out" 
+LTU_w22: watch, FILENAME="C22.out" 
+
+LTU_BC2: line=( LTU_BC21, LTU_CBD21, LTU_BC22, LTU_CBD22, LTU_BC23, LTU_CBD23, LTU_BC24) 
+
+LTU_w0: watch, FILENAME="C0.out" 
+LTU_w1: watch, FILENAME="C1.out" 
+LTU_w2: watch, FILENAME="C2.out" 
+LTU_w3: watch, FILENAME="C3.out" 
+
+LTU_BC: line=(q, LTU_Q0, LTU_L0, LTU_Q1, LTU_L1, LTU_Q2, LTU_L2, LTU_Q3, LTU_L3, LTU_Q4, LTU_L4, LTU_Q5, LTU_L5, LTU_Q6, LTU_L6, LTU_Q7, LTU_L7, LTU_Q8, LTU_L8, LTU_Q9, LTU_L9, LTU_Q10, LTU_L10, LTU_Q11, LTU_L11, LTU_Q12, LTU_L12, LTU_Q13, LTU_L13, LTU_Q14, LTU_L14, LTU_Q15, LTU_L15, LTU_Q16, LTU_L16, LTU_Q17, LTU_L17, LTU_Q18, LTU_L18, LTU_BC1, LTU_Q19, LTU_L19, LTU_Q20, LTU_L20, LTU_Q21, LTU_L21, LTU_BC2, LTU_Q22, LTU_L22, LTU_w0) 

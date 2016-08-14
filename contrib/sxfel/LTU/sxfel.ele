@@ -1,0 +1,73 @@
+&run_setup
+        lattice = "sxfel.lte",
+        default_order=2,
+        use_beamline = BC,
+	    expand_for = Chicane1.out,
+        sigma = %s.sig,
+        centroid = %s.cen,
+        output = %s.out,
+        final = %s.fin,
+        print_statistics = 1
+	    element_divisions=0
+&end
+
+&run_control
+        n_steps = 1
+&end
+
+&twiss_output
+        filename = "%s.twi"
+        matched = 0,  
+        output_at_each_step=1,
+        higher_order_chromaticity = 0
+        final_values_only=0 
+		statistics=1
+        beta_x = 1.634705e+001,
+        beta_y = 1.337035e+001,
+        alpha_x = 3.113685e+000,
+        alpha_y = -3.852511e+000,
+&end
+
+
+&matrix_output
+ 	printout = "%s.mpr"
+ 	printout_order=1
+ 	full_matrix_only=1
+ 	SDDS_output_order=1
+ 	output_at_each_step = 0
+ 	SDDS_output=%s.mat
+!   start_from = check
+&end
+
+
+
+&bunched_beam
+        use_twiss_command_values=1,
+       n_particles_per_bunch = 32000,
+      	save_initial_coordinates=0
+       one_random_bunch=0,
+       emit_nx = 1.0e-6,
+	   emit_ny = 1.0e-6,
+      sigma_dp = 1.0e-4,
+        sigma_s = 50.0E-06,
+        dp_s_coupling = 0.0,
+        distribution_type[0] = 3*"gaussian",
+        distribution_cutoff[0] = 3*3,
+       symmetrize = 0,
+        enforce_rms_values[0] = 1,1,1,
+       bunch = %s.bun
+&end
+
+
+&sdds_beam
+        input = Chicane1.out,
+        input_type  = "elegant",
+        sample_interval = 1,
+        p_lower = 0,
+        p_upper = 5e10,
+        reuse_bunch = 0
+&end
+
+
+&track
+&end

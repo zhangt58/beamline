@@ -1,0 +1,15 @@
+SDDS1
+!# little-endian
+&description text="bunched-beam phase space--input: sxfel.ele  lattice: sxfel.lte", contents="bunched-beam phase space", &end
+&parameter name=Step, description="Simulation step", type=long, &end
+&parameter name=pCentral, symbol="p$bcen$n", units="m$be$nc", description="Reference beta*gamma", type=double, &end
+&parameter name=Charge, units=C, description="Beam charge", type=double, &end
+&parameter name=Particles, description="Number of particles", type=long, &end
+&column name=x, units=m, type=double,  &end
+&column name=xp, symbol=x', type=double,  &end
+&column name=y, units=m, type=double,  &end
+&column name=yp, symbol=y', type=double,  &end
+&column name=t, units=s, type=double,  &end
+&column name=p, units="m$be$nc", type=double,  &end
+&column name=particleID, type=long,  &end
+&data mode=binary, &end
