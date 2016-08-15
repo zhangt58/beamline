@@ -19,7 +19,7 @@ from .models     import Models
 from .ui import ui_main
 
 
-__version__ = "1.3"
+__version__ = "1.3.5"
 __author__ = "Tong Zhang"
 
 __doc__ = """

@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""" This is a demo:
-    1: UI generated from wxFormBuilder
-    2: event bindings are implemented later
+""" GUI app of latticeviewer, 
+    which is meant for accelerator online modeling,
+    
+    additional machine-related physics application should be implemented 
+    and inserted into latticeviewer->Tools menu as a tool plugin.
+    
 
 Tong Zhang
 2016-05-27 15:54:59 PM CST
