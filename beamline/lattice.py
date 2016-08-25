@@ -1,41 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Classes/routines to handle lattice issues for online model and runtime calculation
+""" Classes and routines to handle lattice issues for online modeling and runtime calculations.
 
-class LteParser: parse elegant lattice definition files for simulation
-    1: convert lte file into dict/json format for further usage;
-    2: resolve rpn expressions within element definitions;
-    3: retain prefixed information of lte file as '_prefixstr' key in json/dict;
+* class ``LteParser``: parse ``ELEGANT`` lattice definition files for simulation:
 
-class Lattice: handle lattice issues from json/dict definition
-    1: instantiate with json/dict lattice definition, e.g. from LteParser.file2json();
-    2: generate lte file for elegant simulation;
-    3: iteratively expand the beamline definition in lte file;
-    4: generate lte file after manipulations.
+    1. convert lte file into dict/json format for further usage;
+    2. resolve rpn expressions within element definitions;
+    3. retain prefixed information of lte file as '_prefixstr' key in json/dict;
 
-Author      : Tong Zhang
-Created     : 2016-01-28
+* class ``Lattice``: handle lattice issues from json/dict definitions:
+
+    1. instantiate with json/dict lattice definition, e.g. from ``LteParser.file2json()``;
+    2. generate lte file for elegant simulation;
+    3. iteratively expand the beamline definition in lte file;
+    4. generate lte file after manipulations.
+
+.. Author      : Tong Zhang
+.. Created     : 2016-01-28
 """
 
 import json
 import os
 import time
 import ast
+import sys
 import cStringIO
 
 from pyrpn import rpn
 
 from . import element
 
+
 class LteParser(object):
+    """
+    :param infile: lte filename or list of lines of lte file
+    :param mode: 'f': treat infile as file,
+                 's': (else) treat as list of lines
+    """
     def __init__(self, infile, mode='f'):
-        """ 
-        :param infile: lte filename or list of lines of lte file
-        :param mode: 'f': treat infile as file, 
-                     's': (else) treat as list of lines
-        """
         if mode == 'f':  # read lines from infile
             self.file_lines = open(infile, 'r').readlines()
         elif mode == 's': # infile is the output of generateLatticeFile(bl,'sio')

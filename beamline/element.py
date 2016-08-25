@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-This module defines all kinds of magnet components/elements.
+""" This module defines all kinds of magnet components/elements.
 
-Author      : Tong Zhang
-Created     : 2016-03-22
+.. Author: Tong Zhang
+.. Created     : 2016-03-22
 """
 
 import json
@@ -20,16 +19,19 @@ from . import mathutils
 
 class MagBlock(object):
     """ Super class of all elements, part of configuration parameters are
-        defined here:
-        objcnt: object counter, if create/add element one by one, objcnt
-            will return the total element number by sumObjNum() method;
-        comminfo: the shared common information for all elements, could be
-            defined by calling setCommInfo() static method;
-        __styleconfig_dict: style configurations for element drawing, could
-            be defined by setStyleConfig() static method;
+    defined here:
 
-        New element should inherited MagBlock, and define following methods:
-        __init__(), setStyle(), setDraw()
+    * objcnt: object counter, if create/add element one by one, objcnt will return the total element number by sumObjNum() method;
+
+    * comminfo: the shared common information for all elements, could be defined by calling setCommInfo() static method;
+
+    * __styleconfig_dict: style configurations for element drawing, could be defined by setStyleConfig() static method;
+
+    New element should inherit MagBlock, and define following methods:
+    __init__(), setStyle(), setDraw()
+
+    class constructor
+    :param name: literal name of the element, None by default
     """
     objcnt = 0  # object counter
     comminfo = {}  # common information
@@ -46,8 +48,12 @@ class MagBlock(object):
     __styleconfig_json = json.dumps(__styleconfig_dict)
 
     def __init__(self, name=None):
+        """ class constructor
+        :param name: literal name of the element, None by default
+        """
+
         MagBlock.objcnt += 1
-        self._name = name     # elementent name
+        self._name = name     # element name
         self.typename = None  # element type name
         self.comminfo = {k: v for k, v in MagBlock.comminfo.items()}  # common information
 
@@ -87,20 +93,28 @@ class MagBlock(object):
 
     @property
     def name(self):
+        """ element name property
+        :return: element name
+        """
         return self._name
 
     @name.setter
     def name(self, name):
+        """ set element name property
+        :param name: new element name
+        :return: None
+        """
         self._name = name
 
     @staticmethod
     def rot(inputArray, theta=0, pc=(0, 0)):
         """ rotate input array with angle of theta
-            :param inputArray: input array or list,
-                e.g. np.array([[0,0],[0,1],[0,2]]) or [[0,0],[0,1],[0,2]]
-            :param theta: rotation angle in degree
-            :param pc: central point coords (x,y) regarding to rotation
-            :return: rotated numpy array
+
+        :param inputArray: input array or list,
+                           e.g. np.array([[0,0],[0,1],[0,2]]) or [[0,0],[0,1],[0,2]]
+        :param theta: rotation angle in degree
+        :param pc: central point coords (x,y) regarding to rotation
+        :return: rotated numpy array
         """
         if not isinstance(inputArray, np.ndarray):
             inputArray = np.array(inputArray)
@@ -119,7 +133,8 @@ class MagBlock(object):
     def copy_patches(ptches0):
         """ return a list of copied input matplotlib patches 
             
-            :param ptches0: list of matploblib.patches objects
+        :param ptches0: list of matploblib.patches objects
+        :return: copyed patches object
         """
         if not isinstance(ptches0, list):
             ptches0 = list(ptches0)
@@ -136,15 +151,19 @@ class MagBlock(object):
 
     @staticmethod
     def sumObjNum():
+        """
+        :return: number of defined element object
+        """
         return MagBlock.objcnt
 
     @staticmethod
     def setCommInfo(infostr):
-        """ set common information, to dict: info
-            input parameter:
-            :param infostr:
-                1 infostr is a dict
-                2 infostr with format like: "k1=v1, k2=v2"
+        """ set common information, update MagBlock.comminfo
+
+        :param infostr: should be met one of the following options:
+
+                            * infostr is a dict, {k1:v1, k2:v2}
+                            * infostr is a string, with format like: "k1=v1, k2=v2"
         """
         if isinstance(infostr, dict):
             for k, v in infostr.items():
@@ -157,6 +176,11 @@ class MagBlock(object):
 
     @staticmethod
     def str2dict(istr):
+        """ translate string into dict
+
+        :param istr: string with format like: "k1=v1, k2=v2" ...
+        :return: dict
+        """
         if 'lattice' not in istr.lower():
             tmpstr = istr.replace(',', '=').split('=')
         else:
@@ -168,10 +192,25 @@ class MagBlock(object):
     @staticmethod
     def setStyleConfig(config=None, showhelp=False):
         """ set/update global style configurations for magblock elements
-            update Magblock._styleconfig_dict and _styleconfig_json
+        update Magblock._styleconfig_dict and _styleconfig_json
+
         :param config: configuration dict or json
         :param showhelp: if True, print showhelp information, default is False
         :return: new style config dict
+
+        :Example:
+
+        >>> MagBlock.setStyleConfig(
+            config={'quad':{'fc':'blue', 'ec': 'blue'},
+                    'bend':{'fc':'red', 'ec': 'red'}})
+        >>> MagBlock.setStyleConfig(showhelp=True)
+        The input configuration string should be with the format like:
+        {"quad": {"h": 0.6, "fc": "red", "ec": "red", "alpha": 0.5},
+         "drift": {"color": "black", "h": 0.1, "alpha": 0.75, "lw": 1},
+         "bend": {"h": 0.5, "fc": "blue", "ec": "blue", "alpha": 0.5},
+         "moni": {"color": "#FF9500", "lw": 1, "alpha": 0.75}}
+        with all or part of new properties, e.g. {"quad": {"fc": "blue"}}
+
         """
         if showhelp:
             print("The input configuration string should be with the format like:")
@@ -199,8 +238,9 @@ class MagBlock(object):
 
     def setConf(self, conf, type='simu'):
         """ set information for different type dict,
-            :param conf: configuration information, str or dict
-            :param type: simu, ctrl, misc
+
+        :param conf: configuration information, str or dict
+        :param type: simu, ctrl, misc
         """
         if conf is None:
             return
@@ -211,12 +251,14 @@ class MagBlock(object):
 
     def setStyle(self, **style):
         """ set element style configuration
-            :param style: dict of keys: 'color', 'h', 'alpha'
+
+        :param style: dict of keys: 'color', 'h', 'alpha'
         """
         pass
 
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
+
         :param angle: rotation angle
         :param p0: start drawing point coords, (x, y)
         :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
@@ -225,7 +267,8 @@ class MagBlock(object):
 
     def printConfig(self, type='simu'):
         """ print information about element
-            :param type: comm, simu, ctrl, misc, all
+
+        :param type: comm, simu, ctrl, misc, all
         """
         print("{s1}{s2:^22s}{s1}".format(s1="-" * 10, s2="Configuration START"))
         print("Element name: {en} ({cn})".format(en=self.name, cn=self.__class__.__name__))
@@ -237,15 +280,17 @@ class MagBlock(object):
     def dumpConfig(self, type='online', format='elegant'):
         """ dump element configuration to given format,
             inpurt parameters:
-            :param type: comm, simu, ctrl, misc, all, online (default)
-            :param format: elegant/mad, elegant by default
+
+        :param type: comm, simu, ctrl, misc, all, online (default)
+        :param format: elegant/mad, elegant by default
         """
         return self.dumpConfigDict[type](format)
 
     def getConfig(self, type='online', format='elegant'):
         """ only dump configuration part, dict
-            :param type: comm, simu, ctrl, misc, all, online (default)
-            :param format: elegant/mad, elegant by default
+
+        :param type: comm, simu, ctrl, misc, all, online (default)
+        :param format: elegant/mad, elegant by default
         """
         return self.dumpConfigDict[type](format).values()[0].values()[0]
 
@@ -328,11 +373,11 @@ class MagBlock(object):
 
     def _dumpOnlineConf(self, format):
         """ dump element configuration json string for online modeling,
-            in which control configuration should be overwritten simulation conf,
-            e.g. in simuinfo: {'k1':10,'l':1}, ctrlinfo: {'k1':pv_name,...}
-            the k1 value should be replaced by pv_name, and from which 
-            the value read into, take note the simuinfo and ctrlinfo
-            would not be changed.
+        in which control configuration should be overwritten simulation conf,
+        e.g. in simuinfo: {'k1':10,'l':1}, ctrlinfo: {'k1':pv_name,...}
+        the k1 value should be replaced by pv_name, and from which
+        the value read into, take note the simuinfo and ctrlinfo
+        would not be changed.
         """
         oinfod = {k: v for k, v in self.simuinfo.items()}
         for k in (set(oinfod.keys()) & set(self.ctrlkeys)):
@@ -341,10 +386,10 @@ class MagBlock(object):
 
     def unitTrans(self, inval, direction='+', transfun=None):
         """ unit translation between EPICS PV and physical values,
-            :param inval: input val,
-            :param direction: '+': PV->physical, '-': physical->PV, '+' by default,
-            :param transfun: userdefined translation function, None by default,
-                             could be defined through creating obj.transfun
+
+        :param inval: input val,
+        :param direction: '+': PV->physical, '-': physical->PV, '+' by default,
+        :param transfun: userdefined translation function, None by default, could be defined through creating obj.transfun
         """
         outval = inval
         return outval
@@ -356,6 +401,8 @@ class MagBlock(object):
 
     def showDraw(self, fignum=1):
         """ show the element drawing
+
+        :param fignum: define figure number to show element drawing
         """
         if self._patches == []:
             print "Please setDraw() before showDraw(), then try again."
@@ -391,14 +438,16 @@ class MagBlock(object):
 
     def getPosition(self):
         """ return the element position along beamline/lattice, in [m]
-            should be initialized in Models.initPos() method first 
-            (by default, will complete after Models.addElement() method)
-            i.e. valid position in [m] would return after lattice modeled.
+        should be initialized in Models.initPos() method first
+        (by default, will complete after Models.addElement() method)
+        i.e. valid position in [m] would return after lattice modeled.
         """
         return self._spos
     
     def setPosition(self, s):
         """ set element position along beamline/lattice, in [m]
+
+        :param s: element position measured by meter
         """
         self._spos = s
 
@@ -422,13 +471,22 @@ class MagBlock(object):
     def getR(self, i, j):
         """ return transport matrix element, indexed by i(row) and j(col),
             with the initial index of 1
-            :param i: row index
-            :param j: col index
+
+        :param i: row index
+        :param j: col index
         """
         return self.transM[i-1,j-1]
 
 class ElementCharge(MagBlock):
     """ charge element
+
+    :param name: charge element name that could be used in other method, e.g. 'C', 'Q', etc.
+    :param config:
+
+    :Example:
+
+    >>> chconf = {'total': 1.0e-9}  # total charge of 1.0 nC
+    >>> q = ElementCharge(name='q', config=chconf)
     """
 
     def __init__(self, name=None, config=None):
@@ -466,11 +524,9 @@ class ElementCsrcsben(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: rotation angle [deg] of drawing central point,
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: rotation angle [deg] of drawing central point, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         self._style['w'] = float(sconf['l'])  # element width
@@ -563,6 +619,14 @@ class ElementCsrcsben(MagBlock):
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None, type='simu', incsym=-1):
+        """ calculate transport matrix
+
+        :param gamma: electron energy measured by mc^2
+        :param type: configuration type, 'simu' (simulation mode) or 'online' (online mode)
+        :param incsym: incident symmetry, -1, 0, 1
+        :return: transport matrix
+        :rtype: numpy array
+        """
         sconf = self.getConfig(type=type)
         bend_length = sconf['l']
         theta = sconf['angle']
@@ -582,10 +646,16 @@ class ElementCsrcsben(MagBlock):
 
     @property
     def field(self):
+        """
+        :return: magnetic field, [T]
+        """
         return self._bend_field
 
     @property
     def rho(self):
+        """
+        :return: bending radius, [m]
+        """
         return self._rho
 
 class ElementCsrdrift(MagBlock):
@@ -609,11 +679,9 @@ class ElementCsrdrift(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -657,6 +725,12 @@ class ElementCsrdrift(MagBlock):
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None):
+        """calculate transport matrix
+
+        :param gamma: electron energy measured by mc^2
+        :return: transport matrix
+        :rtype: numpy array
+        """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
             l = float(sconf['l'])
@@ -687,11 +761,9 @@ class ElementDrift(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -735,6 +807,12 @@ class ElementDrift(MagBlock):
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
         
     def calcTransM(self, gamma=None):
+        """calculate transport matrix
+
+        :param gamma: electron energy measured by mc^2
+        :return: transport matrix
+        :rtype: numpy array
+        """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
             l = float(sconf['l'])
@@ -765,11 +843,9 @@ class ElementKicker(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -833,11 +909,9 @@ class ElementLscdrift(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -881,6 +955,12 @@ class ElementLscdrift(MagBlock):
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None):
+        """calculate transport matrix
+
+        :param gamma: electron energy measured by mc^2
+        :return: transport matrix
+        :rtype: numpy array
+        """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
             l = float(sconf['l'])
@@ -911,11 +991,9 @@ class ElementMark(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -979,11 +1057,9 @@ class ElementMoni(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -1109,11 +1185,9 @@ class ElementQuad(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: rotation angle [deg] of drawing central point,
-                angle is rotating from x-axis to be '+' or '-',
-                '+': anticlockwise, '-': clockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: rotation angle [deg] of drawing central point, angle is rotating from x-axis to be '+' or '-', '+': anticlockwise, '-': clockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
 
         sconf = self.getConfig(type='simu')
@@ -1199,6 +1273,12 @@ class ElementQuad(MagBlock):
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None, type='simu'):
+        """calculate transport matrix
+
+        :param gamma: electron energy measured by mc^2
+        :return: transport matrix
+        :rtype: numpy array
+        """
         sconf = self.getConfig(type=type)
         l = float(sconf['l'])
         k1 = self.getK1(type='ctrl')
@@ -1207,6 +1287,11 @@ class ElementQuad(MagBlock):
         return self.transM
 
     def getK1(self, type='simu'):
+        """ get quad k1 value
+
+        :param type: 'simu' or 'online'
+        :return: quad strength,i.e. k1
+        """
         if type == 'ctrl':
             pv = self.ctrlinfo.get('k1')['pv']
             rval = epics.caget(pv)
@@ -1239,11 +1324,9 @@ class ElementRfcw(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -1340,11 +1423,9 @@ class ElementRfdf(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -1443,11 +1524,9 @@ class ElementWake(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis, angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -1508,11 +1587,9 @@ class ElementWatch(MagBlock):
     def setDraw(self, p0=(0, 0), angle=0, mode='plain'):
         """ set element visualization drawing
             
-            :param p0: start drawing position, (x,y)
-            :param angle: angle [deg] between x-axis
-                angle is rotating from x-axis to be '+' or '-',
-                '+': clockwise, '-': anticlockwise
-            :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
+        :param p0: start drawing position, (x,y)
+        :param angle: angle [deg] between x-axis angle is rotating from x-axis to be '+' or '-', '+': clockwise, '-': anticlockwise
+        :param mode: artist mode, 'plain' or 'fancy', 'plain' by default
         """
         sconf = self.getConfig(type='simu')
         if 'l' in sconf:
@@ -1556,7 +1633,7 @@ class ElementWatch(MagBlock):
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
 class ElementBeamline(MagBlock):
-    """ beamline element
+    """ beamline element, virtual element, does not present in ELEGANT
     """
 
     def __init__(self, name='bl', config=None):
@@ -1571,6 +1648,8 @@ ElementCsrcsbent = ElementCsrcsben
 
 
 def test():
+    """
+    """
     """ For example, define lattice configuration for a 4-dipole chicane with quads
                     |-|---|-|  
                     /       \

@@ -17,23 +17,34 @@ from .element    import ElementLscdrift as ElementLscdrif
 from .element    import ElementDrift as ElementDrif
 from .models     import Models
 from .ui import ui_main
-
+from .mathutils import funTransQuadF, funTransQuadD
+from .mathutils import funTransDrift
+from .mathutils import funTransUnduH, funTransUnduV
+from .mathutils import funTransEdgeX, funTransEdgeY
+from .mathutils import funTransSectX, funTransSectY
+from .mathutils import funTransChica
+from .mathutils import transDrift
+from .mathutils import transQuad
+from .mathutils import transSect
+from .mathutils import transRbend
+from .mathutils import transFringe
+from .mathutils import transChicane
+from .mathutils import Chicane
+from .matchutils import ParseParams, BeamMatch, FELSimulator, parseLattice
 
 __version__ = "1.3.5"
 __author__ = "Tong Zhang"
 
-__doc__ = """
-    lattice operation/online module, both console and GUI apps
+__doc__ = """Python package created for lattice generation/operation/manipulation/visualization and accelerator online modeling,
+distributed with both console and graphical user interfaces environment.
 
-    To evoke the GUI app:
-    1 run 'lv' or 'latticeviewer' in terminal;
-    2 beamline.ui_main.run() in python terminal.
+To evoke the GUI app:
 
-    Version: %s
-    Author: Tong Zhang (zhangtong@sinap.ac.cn)
+#. run ``lv`` or ``latticeviewer`` in terminal after ``beamline`` package is installed;
+#. ``beamline.ui_main.run()`` in [i]python terminal after ``beamline`` is imported.
 
-    This python package is created for lattice online modeling, 
-    manipulating and visualising.
+:Version: %s
+:Author: Tong Zhang (zhangtong@sinap.ac.cn)
 """ % (__version__)
 
 allElements = [ElementCharge,   ElementCsrcsben, ElementQuad, 
@@ -51,4 +62,10 @@ __all__ = [
            DataExtracter, DataVisualizer, DataStorage,
            Models,
            ui_main,
+           ParseParams, BeamMatch, FELSimulator, parseLattice,
+           funTransQuadF, funTransQuadD, funTransDrift, funTransUnduH, 
+           funTransUnduV, funTransEdgeX, funTransEdgeY, funTransSectX, 
+           funTransSectY, funTransChica, 
+           transDrift, transQuad, transSect, transRbend, transFringe,
+           transChicane, Chicane,
            ].extend(allElements)

@@ -1,23 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
+""" definition for magnetic elements (deprecated)
+
+.. Created Time: Sep. 22nd, 2014
+.. Author: Tong Zhang
+"""
+
 import matplotlib.patches as patches
 import matplotlib.path as path
 import matplotlib.pyplot as plt
 import numpy as np
 
-"""
-definition for magnetic elements
-Created Time: Sep. 22nd, 2014
-Author: Tong Zhang
-"""
 
 class Drift(object):
     """
-    element: drift section, input parameters:
-    _length: drift length, [m]
-    _angle:  angle between drawing line and horizontal plane, [deg]
-    _linkNode: (x,y) coordinates that drawing begins or linked to another element
+    :element: drift section
+
+    :param _length: drift length, [m]
+    :param _angle:  angle between drawing line and horizontal plane, [deg]
+    :param _linkNode: ``(x,y)`` coordinates that drawing begins or linked to another element
     """
     def __init__(self,
                  length = 2.0,
@@ -58,11 +60,12 @@ class Drift(object):
 
 class Rbend(object):
     """
-    element: rectangle bend, input parameters:
-    _width: bend width, [m]
-    _height: bend hight, [m]
-    _angle: bend angle, [deg]
-    _linkNode: (x,y) coordinates that drawing begins or linked to another element
+    :element: rectangle bend
+
+    :param _width: bend width, [m]
+    :param _height: bend hight, [m]
+    :param _angle: bend angle, [deg]
+    :param _linkNode: ``(x,y)`` coordinates that drawing begins or linked to another element
     """
     def __init__(self,
                  width=1.0,
@@ -114,15 +117,16 @@ class Rbend(object):
 
 class Undulator(object):
     """
-    element: undulator, input parameters:
-    period_length: undulator period length, [m]
-    period_number: undulator period number
-    north_color  : color of north pole
-    south_color  : color of south pole
-    link_node    : (x,y) coordinates that drawing begins or linked to another element   
-    ratio        : ratio of pole_height v.s. pole_width, and gap v.s pole_width
-    spacing      : spacing between pole, measured by pole_width,
-    gap          : undulator gap only for visualization, not true magnetic gap
+    :element: undulator (not included in ``element`` module)
+
+    :param period_length: undulator period length, [m]
+    :param period_number: undulator period number
+    :param north_color: color of north pole
+    :param south_color: color of south pole
+    :param link_node: ``(x,y)`` coordinates that drawing begins or linked to another element
+    :param ratio: ratio of pole_height v.s. pole_width, and gap v.s pole_width
+    :param spacing: spacing between pole, measured by pole_width,
+    :param gap: undulator gap only for visualization, not true magnetic gap
     """
     def __init__(self,
                  period_length = 2.0,
@@ -215,11 +219,12 @@ class Undulator(object):
 
 class Quadrupole(object):
     """
-    element: quadrupole, input parameters:
-    width: quad width, [m]
-    angle: angle, [deg]
-    xy_sign: 'x': x-focusing, K1>0; 'y': y-focusing, K1<0 
-    link_node: (x,y) coordinates that drawing begins or linked to another element
+    :element: quadrupole
+
+    :param width: quad width, [m]
+    :param angle: angle, [deg]
+    :param xy_sign: ``x``: x-focusing, ``K1>0``; ``y``: y-focusing, ``K1<0``
+    :param link_node: ``(x,y)`` coordinates that drawing begins or linked to another element
     """
     def __init__(self,
                  width=1.0,

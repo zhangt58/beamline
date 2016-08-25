@@ -1,20 +1,12 @@
 # -*- coding: utf-8 -*-
 
-###########################################################################
-## Python code generated with wxFormBuilder (version Jun 17 2015)
-## http://www.wxformbuilder.org/
-##
-## PLEASE DO "NOT" EDIT THIS FILE!
-###########################################################################
-
+# noinspection PyPackageRequirements
 import wx
+# noinspection PyPackageRequirements
 import wx.xrc
 from . import pltutils
+# noinspection PyPackageRequirements
 import wx.richtext
-
-###########################################################################
-## Class MainFrame
-###########################################################################
 
 
 class MainFrame(wx.Frame):
@@ -478,10 +470,6 @@ class MainFrame(wx.Frame):
         self.tree_splitter.SetSashPosition(0)
         self.tree_splitter.Unbind(wx.EVT_IDLE)
 
-    ###########################################################################
-    ## Class DrawFrame
-    ###########################################################################
-
 
 class DrawFrame(wx.Frame):
     def __init__(self, parent):
@@ -624,10 +612,6 @@ class DrawFrame(wx.Frame):
     def undulator_ckbOnCheckBox(self, event):
         event.Skip()
 
-    ###########################################################################
-    ## Class BeamlineFrame
-    ###########################################################################
-
 
 class BeamlineFrame(wx.Frame):
     def __init__(self, parent):
@@ -682,10 +666,6 @@ class BeamlineFrame(wx.Frame):
 
     def cancel_btnOnButtonClick(self, event):
         event.Skip()
-
-    ###########################################################################
-    ## Class LogFrame
-    ###########################################################################
 
 
 class LogFrame(wx.Frame):
@@ -744,10 +724,6 @@ class LogFrame(wx.Frame):
 
     def exit_btnOnButtonClick(self, event):
         event.Skip()
-
-    ###########################################################################
-    ## Class DataFrame
-    ###########################################################################
 
 
 class DataFrame(wx.Frame):

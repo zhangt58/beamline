@@ -118,8 +118,8 @@ Q1.printConfig(type = 'all')
 print Q1.getK1(type='ctrl')
 Q1.calcTransM(gamma = 200)
 print Q1.getMatrix()
-import sys
-sys.exit(1)
+#import sys
+#sys.exit(1)
 
 # #### STEP 3: make lattice beamline
 
@@ -146,10 +146,12 @@ qline = (D0, Q1, D0)
 chi   = (B1, D0, B2, D0, D0, B3, D0, B4)
 latline_online.addElement(q, qline, chi, qline)
 
+latline_online.draw(showfig=True,mode='fancy')
+
 #latline_online.initPos()
 
-#import sys
-#sys.exit(1)
+import sys
+sys.exit(1)
     
 # show defined elements number
 #print beamline.MagBlock.sumObjNum()

@@ -3,17 +3,17 @@
 !                 could be used as elegant lattice file.                  !
 !                        ------------------------                         !
 !               Author: Tong Zhang (zhangtong@sinap.ac.cn)                !
-!                 Generated Date: 2016-04-12 09:23:21 CST                 !
+!                 Generated Date: 2016-08-24 10:08:49 CST                 !
 !-------------------------------------------------------------------------!
 
 ! Element definitions:                                                    
-D0    :     DRIFT, l = "1.0"
-Q1    :      QUAD, tilt = "pi 4 /", k1 = "2.5", l = "0.5"
-B1    :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "0", bins = "512", e2 = "0.1"
-B2    :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "-0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "-0.1", bins = "512", e2 = "0"
-B3    :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "-0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "0", bins = "512", e2 = "-0.1"
-B4    :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "0.1", bins = "512", e2 = "0"
-Q     :    CHARGE, total = "1e-09"
+D0        :     DRIFT, l = "1.0"
+Q1        :      QUAD, tilt = "pi 4 /", k1 = "2.5", l = "0.5"
+B1        :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "0.3", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "0", bins = "512", e2 = "0.1"
+B2        :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "-0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "-0.1", bins = "512", e2 = "0"
+B3        :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "-0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "0", bins = "512", e2 = "-0.1"
+B4        :  CSRCSBEN, hgap = "0.015", integration_order = "4", block_csr = "0", angle = "0.1", n_kicks = "100", edge2_effects = "1", edge1_effects = "1", l = "0.5", nonlinear = "1", sg_halfwidth = "1", csr = "0", e1 = "0.1", bins = "512", e2 = "0"
+Q         :    CHARGE, total = "1e-09"
 
 ! Beamline definitions:                                                   
-BLCHI : line = (q, D0, Q1, D0, b1, D0, b2, D0, D0, b3, D0, b4, D0, Q1, D0)
+BLCHI     : line = (q, D0, Q1, D0, b1, D0, b2, D0, D0, b3, D0, b4, D0, Q1, D0)

@@ -4,10 +4,11 @@
 """
 custom GUI controls
 
-Tong Zhang
-2016-06-19 12:37:40 PM CST
+.. Tong Zhang
+.. 2016-06-19 12:37:40 PM CST
 """
 
+# noinspection PyPackageRequirements
 import wx
 from matplotlib.backends.backend_wxagg import FigureCanvasWxAgg as FigureCanvas
 from matplotlib.backends.backend_wxagg import NavigationToolbar2WxAgg as Toolbar
@@ -77,15 +78,15 @@ class MyPlotPanel(wx.Panel):
             self.x, self.y = np.meshgrid(x, y)
             self.z = self._func_peaks(self.x, self.y)
             self.image = self.axes.imshow(self.z)
-        else: # draw line
+        else:  # draw line
             self.x = np.linspace(-10, 10, 200)
             self.y = np.sin(self.x)
             self.line, = self.axes.plot(self.x, self.y)
 
     def set_color(self, rgb_tuple):
         """ set figure and canvas with the same color.
-        :param rgb_tuple: rgb color tuple, 
-                          e.g. (255, 255, 255) for white color
+
+        :param rgb_tuple: rgb color tuple, e.g. (255, 255, 255) for white color
         """
         if rgb_tuple is None:
             rgb_tuple = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE).Get()
@@ -120,11 +121,13 @@ class MyPlotPanel(wx.Panel):
              - 10*(x/5 - x**3 - y**5) * np.exp(-x**2-y**2) \
              - 1.0/3.0*np.exp(-(x+1)**2 - y**2)
 
+
 class MyToolbar(Toolbar):
     def __init__(self, canvas):
         Toolbar.__init__(self, canvas)
         
         #self.AddTool(wx.ID_ANY, '')
+
 
 class LatticePlotPanel(MyPlotPanel):
     def __init__(self, parent, **kwargs):
@@ -144,7 +147,7 @@ class LatticePlotPanel(MyPlotPanel):
             if name is not None:
                 self.pos_st.SetLabel("({x:<.4f}, {y:<.4f}) --- [{name} : {type}]".format(
                     x=event.xdata, y=event.ydata,
-                    name=name,type=type))
+                    name=name, type=type))
             else:
                 self.pos_st.SetLabel("({x:<.4f}, {y:<.4f})".format(
                     x=event.xdata, y=event.ydata))
@@ -170,6 +173,7 @@ class TestFrame(wx.Frame):
                                type='line', toolbar=True)
         sizer.Add(m_panel, 1, wx.ALIGN_CENTER | wx.EXPAND, 10)
         self.SetSizerAndFit(sizer)
+
 
 def test():
     app = wx.App()

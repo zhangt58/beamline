@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+""" This module is created for data processing framework, 
+to make rules for data saving, visualization issues, etc.
+"""
+
 import h5py
 import numpy as np
 import subprocess
@@ -8,11 +12,24 @@ import os
 
 
 class DataExtracter(object):
-    """ extract required data from a sdds formated file, 
-        to put into hdf5 formated file or just RAM
+    """ Extract required data from a SDDS formated file,
+    to put into hdf5 formated file or just dump into RAM
+    for post-processing.
 
-        Author: Tong Zhang
-        Date  : 2016-03-10
+    :param sddsfile: filename of SDDS data file
+    :param kws: packed tuple/list options, usually sdds column names,
+                e.g. ``('s', 'Sx')``
+
+    :Example:
+
+    >>> # *sddsquery -col* shows it has 's', 'Sx' data columns
+    >>> sddsfile = 'output.sdds'
+    >>> param_list = ('s', 'Sx')
+    >>> dh = DataExtracter(sddsfile, *param_list)
+    >>> # *dh* is a newly created DataExtracter instance
+
+    ..    Author: Tong Zhang
+    ..    Date  : 2016-03-10
     """
     def __init__(self, sddsfile, *kws):
         self.sddsfile = sddsfile
@@ -24,15 +41,29 @@ class DataExtracter(object):
         self.h5data = ''
 
     def getAllCols(self, sddsfile=None):
-        """ return all data collum names
-        :param sddsfile: sdds file name
+        """ get all available column names from sddsfile
+
+        :param sddsfile: sdds file name, if not given, rollback to the one that from ``__init__()``
+        :return: all sdds data col names
+        :rtype: list
+
+        :Example:
+
+        >>> dh = DataExtracter('test.out')
+        >>> print(dh.getAllCols())
+        ['x', 'xp', 'y', 'yp', 't', 'p', 'particleID']
+        >>> print(dh.getAllCols('test.twi'))
+        ['s', 'betax', 'alphax', 'psix', 'etax', 'etaxp', 'xAperture', 'betay', 'alphay', 'psiy', 'etay', 'etayp', 'yAperture', 'pCentral0', 'ElementName', 'ElementOccurence', 'ElementType']
         """
         if sddsfile is None:
             sddsfile = self.sddsfile
         return subprocess.check_output(['sddsquery', '-col',  sddsfile]).split()
 
     def extractData(self):
-        """ extract data as numpy array, with given required fields
+        """ extract data as numpy array, with given required fields,
+        put data into ``h5data`` as a numpy array.
+
+        :return: instance itself
         """
         for k in self.kwslist:
             self.dcmdline += ' -col={kw},format={p}'.format(kw=k, p=self.precision)
@@ -46,36 +77,91 @@ class DataExtracter(object):
 
     def getH5Data(self):
         """ return extracted data as numpy array
+
+        :return: numpy array after executing ``extractData()``
         """
         return self.h5data
 
     def getKws(self):
-        """ return data fields
+        """ return data column fields that defined in constructor, e.g. ``('s', 'Sx')``
+
+        :return: data columns keyword
+        :rtype: tuple
         """
         return self.kwslist
 
-    def setDataScript(self, fullscriptpath):
+    def setDataScript(self, fullscriptpath='sddsprintdata.sh'):
+        """ configure script that should be utilized by DataExtracter,
+        to extract data colums from sddsfile.
+        
+        :param fullscriptpath: full path of script that handles the data extraction of sddsfile,
+                               default value is ``sddsprintdata.sh``, which is a script that distributed
+                               with ``beamline`` package.
+        :return: None
+        """
+
         self.dscript = os.path.expanduser(fullscriptpath)
 
     def setDataPath(self, path):
         """ set full dir path of data files
-        :param path: data path
+
+        :param path: data path, usually is the directory where numerical simulation was taken place
+        :return: None
         """
         self.dpath = os.path.expanduser(path)
 
     def setH5file(self, h5filepath):
         """ set h5file full path name
+
         :param h5filepath: path for hdf5 file
+        :return: None
         """
         self.h5file = os.path.expanduser(h5filepath)
 
     def setKws(self, *kws):
-        """ set keyword list, i.e. sdds field names
+        """ set keyword list, i.e. sdds field names, update ``kwslist`` property
+
+        :param kws: packed tuple of sdds datafile column names
+        :return None:
         """
         self.kwslist = kws
 
     def dump(self):
-        """ dump extracted data into a single hdf5file
+        """ dump extracted data into a single hdf5file, 
+
+        :return: None
+        :Example:
+
+
+        >>> # dump data into an hdf5 formated file
+        >>> datafields = ['s', 'Sx', 'Sy', 'enx', 'eny']
+        >>> datascript = 'sddsprintdata.sh'
+        >>> datapath   = './tests/tracking'
+        >>> hdf5file   = './tests/tracking/test.h5'
+        >>> A = DataExtracter('test.sig', *datafields)
+        >>> A.setDataScript(datascript)
+        >>> A.setDataPath  (datapath)
+        >>> A.setH5file    (hdf5file)
+        >>> A.extractData().dump()
+        >>>
+        >>> # read dumped file
+        >>> fd = h5py.File(hdf5file, 'r')
+        >>> d_s  = fd['s'][:]
+        >>> d_sx = fd['Sx'][:]
+        >>> 
+        >>> # plot dumped data
+        >>> import matplotlib.pyplot as plt
+        >>> plt.figure(1)
+        >>> plt.plot(d_s, d_sx, 'r-')
+        >>> plt.xlabel('$s$')
+        >>> plt.ylabel('$\sigma_x$')
+        >>> plt.show()
+
+        Just like the following figure shows:
+
+        .. image:: ../../images/test_DataExtracter.png
+            :width: 400px
+
         """
         f = h5py.File(self.h5file, 'w')
         for i, k in enumerate(self.kwslist):
@@ -86,10 +172,10 @@ class DataExtracter(object):
 
 
 class DataVisualizer(object):
-    """ for data visualization purposes
+    """ for data visualization purposes, to be implemented
 
-        Author: Tong Zhang
-        Date  : 2016-03-14
+    .. Author: Tong Zhang
+    .. Date  : 2016-03-14
     """
     def __init__(self, data):
         self.data = data
@@ -115,11 +201,11 @@ class DataVisualizer(object):
 
 
 class DataStorage(object):
-    """ for data storage management, 
+    """ for data storage management, to be implemented.
         communicate with database like mongodb, mysql, sqlite, etc.
 
-        Author: Tong Zhang
-        Date  : 2016-03-14
+    .. Author: Tong Zhang
+    .. Date  : 2016-03-14
     """
     def __init__(self, data):
         self.data = data
@@ -161,6 +247,8 @@ def test():
     import matplotlib.pyplot as plt
     plt.figure(1)
     plt.plot(d_s, d_sx, 'r-')
+    plt.xlabel('$s$')
+    plt.ylabel('$\sigma_x$')
     plt.show()
 
 if __name__ == '__main__':
