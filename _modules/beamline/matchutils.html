@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.matchutils &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.matchutils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">classes to do beam optics matching</span>
+<span class="sd">Tong Zhang</span>
+<span class="sd">Aug. 10, 2015</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="k">import</span> <span class="n">inv</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">mathutils</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="ParseParams"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams">[docs]</a><span class="k">class</span> <span class="nc">ParseParams</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">infilename</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infilename</span> <span class="o">=</span> <span class="n">infilename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">onParseFile</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ParseParams.onParseFile"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.onParseFile">[docs]</a>    <span class="k">def</span> <span class="nf">onParseFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aw0</span>        <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xlamds</span>     <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xlamd</span>      <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span>      <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emitx</span>      <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagl</span>      <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idril</span>      <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ibfield</span>    <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unitlength</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="n">fids</span> <span class="o">=</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">infilename</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">curfid</span> <span class="ow">in</span> <span class="n">fids</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">curfid</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="c1"># aw0</span>
+                <span class="k">if</span> <span class="s1">&#39;aw0&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">aw0</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># xlamds</span>
+                <span class="k">if</span> <span class="s1">&#39;xlamds&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xlamds</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># xlamd</span>
+                <span class="n">mxlamd</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s1">&#39; *xlamd[^s].*&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mxlamd</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">xlamd</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">mxlamd</span><span class="o">.</span><span class="n">group</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># gamma</span>
+                <span class="k">if</span> <span class="s1">&#39;gamma0&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># emitx</span>
+                <span class="k">if</span> <span class="s1">&#39;emitx&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">emitx</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># imagl</span>
+                <span class="k">if</span> <span class="s1">&#39;imagl&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">imagl</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># idril</span>
+                <span class="k">if</span> <span class="s1">&#39;idril&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">idril</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># ibfield</span>
+                <span class="k">if</span> <span class="s1">&#39;ibfield&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ibfield</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># unitlength, i.e. undulator period</span>
+                <span class="k">if</span> <span class="s1">&#39;unit&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">unitlength</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="ParseParams.getUndulatorParameter"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getUndulatorParameter">[docs]</a>    <span class="k">def</span> <span class="nf">getUndulatorParameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">aw0</span></div>
+
+<div class="viewcode-block" id="ParseParams.getUndulatorPeriod"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getUndulatorPeriod">[docs]</a>    <span class="k">def</span> <span class="nf">getUndulatorPeriod</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xlamd</span></div>
+    
+<div class="viewcode-block" id="ParseParams.getUndulatorUnitlength"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getUndulatorUnitlength">[docs]</a>    <span class="k">def</span> <span class="nf">getUndulatorUnitlength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unitlength</span></div>
+
+<div class="viewcode-block" id="ParseParams.getFELwavelength"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getFELwavelength">[docs]</a>    <span class="k">def</span> <span class="nf">getFELwavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">xlamds</span></div>
+
+<div class="viewcode-block" id="ParseParams.getElectronGamma"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getElectronGamma">[docs]</a>    <span class="k">def</span> <span class="nf">getElectronGamma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span></div>
+
+<div class="viewcode-block" id="ParseParams.getElectronEmitx"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getElectronEmitx">[docs]</a>    <span class="k">def</span> <span class="nf">getElectronEmitx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">emitx</span></div>
+    
+<div class="viewcode-block" id="ParseParams.getChicaneMagnetLength"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getChicaneMagnetLength">[docs]</a>    <span class="k">def</span> <span class="nf">getChicaneMagnetLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagl</span></div>
+
+<div class="viewcode-block" id="ParseParams.getChicaneDriftLength"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getChicaneDriftLength">[docs]</a>    <span class="k">def</span> <span class="nf">getChicaneDriftLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">idril</span></div>
+ 
+<div class="viewcode-block" id="ParseParams.getChicaneMagnetField"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.ParseParams.getChicaneMagnetField">[docs]</a>    <span class="k">def</span> <span class="nf">getChicaneMagnetField</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ibfield</span></div></div>
+
+<div class="viewcode-block" id="parseLattice"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.parseLattice">[docs]</a><span class="k">def</span> <span class="nf">parseLattice</span><span class="p">(</span><span class="n">latlengthname</span> <span class="o">=</span> <span class="s1">&#39;fullat.hghg&#39;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">latlengthname</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;!&#39;</span><span class="p">):</span>
+            <span class="n">newlist</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;!&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">newlist</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BeamMatch"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.BeamMatch">[docs]</a><span class="k">class</span> <span class="nc">BeamMatch</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile_mod</span><span class="p">,</span> <span class="n">infile_rad</span><span class="p">,</span> 
+                 <span class="n">latfile_mod</span><span class="p">,</span> <span class="n">latfile_rad</span><span class="p">,</span> 
+                 <span class="n">infile_mod_new</span><span class="p">,</span> <span class="n">infile_rad_new</span><span class="p">,</span>
+                 <span class="n">latfile_rad_new</span><span class="p">,</span> <span class="n">qfval</span><span class="p">,</span> <span class="n">qdval</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile_mod</span>      <span class="o">=</span> <span class="n">infile_mod</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile_rad</span>      <span class="o">=</span> <span class="n">infile_rad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latfile_mod</span>     <span class="o">=</span> <span class="n">latfile_mod</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">latfile_rad</span>     <span class="o">=</span> <span class="n">latfile_rad</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile_mod_new</span>  <span class="o">=</span> <span class="n">infile_mod_new</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile_rad_new</span>  <span class="o">=</span> <span class="n">infile_rad_new</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">latfile_rad_new</span> <span class="o">=</span> <span class="n">latfile_rad_new</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">qfval</span> <span class="o">=</span> <span class="n">qfval</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qdval</span> <span class="o">=</span> <span class="n">qdval</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphax_mod</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphay_mod</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_mod</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_mod</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphax_rad</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphay_rad</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_rad</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_rad</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">matchOK</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="BeamMatch.matchPerform"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.BeamMatch.matchPerform">[docs]</a>    <span class="k">def</span> <span class="nf">matchPerform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qf_linenum</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">qd_linenum</span> <span class="o">=</span> <span class="mi">13</span><span class="p">):</span>
+        <span class="n">fid_infile_mod_new</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_mod_new</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">fid_infile_rad_new</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_rad_new</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        
+        <span class="n">fid_latfile_rad_new</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latfile_rad_new</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="n">linenum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latfile_rad</span><span class="p">):</span>
+            <span class="n">linenum</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;?!&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">linenum</span> <span class="o">==</span> <span class="n">qf_linenum</span><span class="p">:</span>
+                    <span class="n">tmpline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">tmpline</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">qfval</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpline</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="k">elif</span> <span class="n">linenum</span> <span class="o">==</span> <span class="n">qd_linenum</span><span class="p">:</span>
+                    <span class="n">tmpline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">tmpline</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.2f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">qdval</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmpline</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">fid_latfile_rad_new</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_mod</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;alphax&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; alphax = </span><span class="si">%.3f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphax_mod</span>
+            <span class="k">if</span> <span class="s1">&#39;alphay&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; alphay = </span><span class="si">%.3f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphay_mod</span>
+            <span class="k">if</span> <span class="s1">&#39;rxbeam&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; rxbeam = </span><span class="si">%.4e</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_mod</span>
+            <span class="k">if</span> <span class="s1">&#39;rybeam&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; rybeam = </span><span class="si">%.4e</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_mod</span>
+            <span class="n">fid_infile_mod_new</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_rad</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;alphax&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; alphax = </span><span class="si">%.3f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphax_rad</span>
+            <span class="k">if</span> <span class="s1">&#39;alphay&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; alphay = </span><span class="si">%.3f</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphay_rad</span>
+            <span class="k">if</span> <span class="s1">&#39;rxbeam&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; rxbeam = </span><span class="si">%.4e</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_rad</span>
+            <span class="k">if</span> <span class="s1">&#39;rybeam&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; rybeam = </span><span class="si">%.4e</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_rad</span>
+            <span class="k">if</span> <span class="s1">&#39;maginfile&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot; maginfile = &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">latfile_rad_new</span>
+            <span class="n">fid_infile_rad_new</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="n">fid_infile_mod_new</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">fid_infile_rad_new</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">fid_latfile_rad_new</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BeamMatch.matchCalculate"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.BeamMatch.matchCalculate">[docs]</a>    <span class="k">def</span> <span class="nf">matchCalculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latlengthname</span> <span class="o">=</span> <span class="s1">&#39;fullat.hghg&#39;</span><span class="p">):</span>
+        <span class="n">m0</span> <span class="o">=</span> <span class="mf">9.10938215e-31</span>
+        <span class="n">e0</span> <span class="o">=</span> <span class="mf">1.602176487e-19</span>
+        <span class="n">c0</span> <span class="o">=</span> <span class="mi">299792458</span>
+
+        <span class="n">modparams</span> <span class="o">=</span> <span class="n">ParseParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_mod</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">latfile_mod</span><span class="p">)</span>
+        <span class="n">gamma0</span>  <span class="o">=</span> <span class="n">modparams</span><span class="o">.</span><span class="n">getElectronGamma</span>     <span class="p">()</span>
+        <span class="n">emitn</span>   <span class="o">=</span> <span class="n">modparams</span><span class="o">.</span><span class="n">getElectronEmitx</span>     <span class="p">()</span>
+        <span class="n">am</span>      <span class="o">=</span> <span class="n">modparams</span><span class="o">.</span><span class="n">getUndulatorParameter</span><span class="p">()</span>
+        <span class="n">lambdam</span> <span class="o">=</span> <span class="n">modparams</span><span class="o">.</span><span class="n">getUndulatorPeriod</span>   <span class="p">()</span>
+
+        <span class="n">radparams</span> <span class="o">=</span> <span class="n">ParseParams</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_rad</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">latfile_rad</span><span class="p">)</span>
+        <span class="n">au</span>      <span class="o">=</span> <span class="n">radparams</span><span class="o">.</span><span class="n">getUndulatorParameter</span> <span class="p">()</span>
+        <span class="n">lambdau</span> <span class="o">=</span> <span class="n">radparams</span><span class="o">.</span><span class="n">getUndulatorPeriod</span>    <span class="p">()</span>
+        <span class="n">imagl</span>   <span class="o">=</span> <span class="n">radparams</span><span class="o">.</span><span class="n">getChicaneMagnetLength</span><span class="p">()</span>
+        <span class="n">idril</span>   <span class="o">=</span> <span class="n">radparams</span><span class="o">.</span><span class="n">getChicaneDriftLength</span> <span class="p">()</span>
+        <span class="n">ibfield</span> <span class="o">=</span> <span class="n">radparams</span><span class="o">.</span><span class="n">getChicaneMagnetField</span> <span class="p">()</span>
+
+        <span class="n">lo1</span><span class="p">,</span> <span class="n">lum</span><span class="p">,</span> <span class="n">lo2</span><span class="p">,</span> <span class="n">lo3</span><span class="p">,</span> <span class="n">lf</span><span class="p">,</span> <span class="n">lo4</span><span class="p">,</span> <span class="n">lur</span><span class="p">,</span> <span class="n">lo5</span><span class="p">,</span> <span class="n">ld</span> <span class="o">=</span> <span class="n">parseLattice</span><span class="p">(</span><span class="n">latlengthname</span><span class="p">)</span>
+
+        <span class="n">kp</span><span class="p">,</span> <span class="n">kn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qfval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">qdval</span>
+        <span class="n">Kp</span> <span class="o">=</span> <span class="n">e0</span><span class="o">*</span><span class="n">kp</span><span class="o">/</span><span class="n">m0</span><span class="o">/</span><span class="n">c0</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gamma0</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Kn</span> <span class="o">=</span> <span class="n">e0</span><span class="o">*</span><span class="n">kn</span><span class="o">/</span><span class="n">m0</span><span class="o">/</span><span class="n">c0</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gamma0</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">lambdas</span> <span class="o">=</span> <span class="n">lambdau</span><span class="o">/</span><span class="mf">2.0</span><span class="o">/</span><span class="n">gamma0</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">au</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mf">1.0e9</span>
+
+        <span class="n">ku</span>      <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">lambdau</span>
+        <span class="n">Ku</span>      <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="o">*</span><span class="n">au</span>
+        <span class="n">Kbetau</span>  <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">Ku</span><span class="o">*</span><span class="n">ku</span><span class="o">/</span><span class="n">gamma0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="n">Km</span>      <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="o">*</span><span class="n">am</span>
+        <span class="n">km</span>      <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">lambdam</span>
+        <span class="n">Kbetam</span>  <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">Km</span><span class="o">*</span><span class="n">km</span><span class="o">/</span><span class="n">gamma0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="c1">#print Kp,Kn,lambdas,ku,Ku,Kbetau,Km,km,Kbetam,lambdau,lambdam</span>
+
+        <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lo3</span><span class="p">,</span> <span class="n">lf</span><span class="o">*</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lo4</span><span class="p">,</span> <span class="n">lur</span><span class="p">,</span> <span class="n">lo5</span><span class="p">,</span> <span class="n">ld</span><span class="p">,</span> <span class="n">lo4</span><span class="p">,</span> <span class="n">lur</span><span class="p">,</span> <span class="n">lo5</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">lf</span><span class="p">])</span>
+        <span class="c1"># one FODO period: N[1:], N[0]: drift length before QF</span>
+
+        <span class="n">mx</span> <span class="o">=</span> <span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="n">Kp</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransUnduH</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="n">Kn</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransUnduH</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="n">Kp</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">mx</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">mx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matchOK</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matchOK</span>
+            
+        <span class="n">my</span> <span class="o">=</span> <span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="o">-</span><span class="n">Kp</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransUnduV</span><span class="p">(</span><span class="n">Kbetau</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="o">-</span><span class="n">Kn</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransUnduV</span><span class="p">(</span><span class="n">Kbetau</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span>            <span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="o">-</span><span class="n">Kp</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">my</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">my</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">my</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">matchOK</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matchOK</span>
+        
+        <span class="c1">#print mx</span>
+        <span class="c1">#print my</span>
+
+        <span class="c1">## twiss parameters of FODO</span>
+        <span class="c1"># mx</span>
+        <span class="n">alphax_FODO</span> <span class="o">=</span> <span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">mx</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span><span class="o">-</span><span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">mx</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">betax_FODO</span>  <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">mx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span><span class="o">-</span><span class="p">(</span><span class="n">mx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">mx</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">gammax_FODO</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">alphax_FODO</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">betax_FODO</span>
+        <span class="c1"># my</span>
+        <span class="n">alphay_FODO</span> <span class="o">=</span> <span class="p">(</span><span class="n">my</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">my</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span><span class="o">-</span><span class="p">(</span><span class="n">my</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">my</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">betay_FODO</span>  <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">my</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span><span class="o">-</span><span class="p">(</span><span class="n">my</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">my</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">gammay_FODO</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">+</span><span class="n">alphay_FODO</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">betay_FODO</span>
+
+        <span class="c1">## match to the entrance of radiator</span>
+        <span class="c1"># forward match to &#39;O + QF/2&#39;</span>
+        <span class="n">AX</span> <span class="o">=</span> <span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span> <span class="n">Kp</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span>
+        <span class="n">AY</span> <span class="o">=</span> <span class="n">mathutils</span><span class="o">.</span><span class="n">funTransQuadF</span><span class="p">(</span><span class="o">-</span><span class="n">Kp</span><span class="p">,</span> <span class="n">N</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">N</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">lambdau</span><span class="p">)</span>
+        <span class="n">AX</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">AX</span><span class="p">)</span>
+        <span class="n">AY</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">AY</span><span class="p">)</span>
+        <span class="n">Nx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span> <span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">],</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>  <span class="o">-</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span>
+                        <span class="p">[</span> <span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">]])</span>
+        <span class="n">Ny</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span> <span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">],</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>  <span class="o">-</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span>
+                        <span class="p">[</span> <span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">]])</span>
+
+        <span class="n">Bx</span> <span class="o">=</span> <span class="n">Nx</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">betax_FODO</span><span class="p">],[</span><span class="n">alphax_FODO</span><span class="p">],[</span><span class="n">gammax_FODO</span><span class="p">]])</span>
+        <span class="n">By</span> <span class="o">=</span> <span class="n">Ny</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">betay_FODO</span><span class="p">],[</span><span class="n">alphay_FODO</span><span class="p">],[</span><span class="n">gammay_FODO</span><span class="p">]])</span>
+
+        <span class="n">betax_rad</span>  <span class="o">=</span> <span class="n">Bx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">betay_rad</span>  <span class="o">=</span> <span class="n">By</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">alphax_rad</span> <span class="o">=</span> <span class="n">Bx</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">alphay_rad</span> <span class="o">=</span> <span class="n">By</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gammax_rad</span> <span class="o">=</span> <span class="n">Bx</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gammay_rad</span> <span class="o">=</span> <span class="n">By</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sigmax_rad</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">betax_rad</span><span class="o">*</span><span class="n">emitn</span><span class="o">/</span><span class="n">gamma0</span><span class="p">)</span>
+        <span class="n">sigmay_rad</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">betay_rad</span><span class="o">*</span><span class="n">emitn</span><span class="o">/</span><span class="n">gamma0</span><span class="p">)</span>
+
+        <span class="c1"># matched beam for radiator input </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphax_rad</span> <span class="o">=</span> <span class="n">alphax_rad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphay_rad</span> <span class="o">=</span> <span class="n">alphay_rad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_rad</span> <span class="o">=</span> <span class="n">sigmax_rad</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_rad</span> <span class="o">=</span> <span class="n">sigmay_rad</span>
+
+        <span class="c1">## forward match to mod + chicane, find configurations for mod input</span>
+        <span class="n">AX</span> <span class="o">=</span> <span class="n">mathutils</span><span class="o">.</span><span class="n">funTransChica</span><span class="p">(</span><span class="n">imagl</span><span class="p">,</span> <span class="n">idril</span><span class="p">,</span> <span class="n">ibfield</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">lo2</span><span class="o">*</span><span class="n">lambdam</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransUnduH</span><span class="p">(</span><span class="n">lum</span><span class="o">*</span><span class="n">lambdam</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">lo1</span><span class="o">*</span><span class="n">lambdam</span><span class="p">)</span>
+        <span class="n">AY</span> <span class="o">=</span> <span class="n">mathutils</span><span class="o">.</span><span class="n">funTransChica</span><span class="p">(</span><span class="n">imagl</span><span class="p">,</span> <span class="n">idril</span><span class="p">,</span> <span class="n">ibfield</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">lo2</span><span class="o">*</span><span class="n">lambdam</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransUnduV</span><span class="p">(</span><span class="n">Kbetam</span><span class="p">,</span> <span class="n">lum</span><span class="o">*</span><span class="n">lambdam</span><span class="p">)</span><span class="o">*</span><span class="n">mathutils</span><span class="o">.</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">lo1</span><span class="o">*</span><span class="n">lambdam</span><span class="p">)</span>
+        <span class="n">AX</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">AX</span><span class="p">)</span>
+        <span class="n">AY</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">AY</span><span class="p">)</span>
+        <span class="n">Nx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span> <span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">],</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>  <span class="o">-</span><span class="n">AX</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span>
+                        <span class="p">[</span> <span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AX</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">]])</span>
+        <span class="n">Ny</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span> <span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">],</span>
+                        <span class="p">[</span><span class="o">-</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>  <span class="o">-</span><span class="n">AY</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span>
+                        <span class="p">[</span> <span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>     <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>     <span class="n">AY</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>     <span class="p">]])</span>
+        <span class="n">Bx</span> <span class="o">=</span> <span class="n">Nx</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">betax_rad</span><span class="p">],[</span><span class="n">alphax_rad</span><span class="p">],[</span><span class="n">gammax_rad</span><span class="p">]])</span>
+        <span class="n">By</span> <span class="o">=</span> <span class="n">Ny</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">betay_rad</span><span class="p">],[</span><span class="n">alphay_rad</span><span class="p">],[</span><span class="n">gammay_rad</span><span class="p">]])</span>
+
+        <span class="n">betax_mod</span>  <span class="o">=</span> <span class="n">Bx</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">betay_mod</span>  <span class="o">=</span> <span class="n">By</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">alphax_mod</span> <span class="o">=</span> <span class="n">Bx</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">alphay_mod</span> <span class="o">=</span> <span class="n">By</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gammax_mod</span> <span class="o">=</span> <span class="n">Bx</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">gammay_mod</span> <span class="o">=</span> <span class="n">By</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">sigmax_mod</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">betax_mod</span><span class="o">*</span><span class="n">emitn</span><span class="o">/</span><span class="n">gamma0</span><span class="p">)</span>
+        <span class="n">sigmay_mod</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">betay_mod</span><span class="o">*</span><span class="n">emitn</span><span class="o">/</span><span class="n">gamma0</span><span class="p">)</span>
+
+        <span class="c1"># matched beam for modulator input </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphax_mod</span> <span class="o">=</span> <span class="n">alphax_mod</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alphay_mod</span> <span class="o">=</span> <span class="n">alphay_mod</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_mod</span> <span class="o">=</span> <span class="n">sigmax_mod</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_mod</span> <span class="o">=</span> <span class="n">sigmay_mod</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        print(&quot;gamma0 : %.4e&quot; % gamma0 )</span>
+<span class="sd">        print(&quot;emitn  : %.4e&quot; % emitn  )</span>
+<span class="sd">        print(&quot;aw0m   : %.4f&quot; % am     )</span>
+<span class="sd">        print(&quot;xlamdm : %.4f&quot; % lambdam)</span>
+<span class="sd">        print(&quot;aw0r   : %.4f&quot; % au     )</span>
+<span class="sd">        print(&quot;xlamdr : %.4f&quot; % lambdau)</span>
+<span class="sd">        print(&quot;imagl  : %.4f&quot; % imagl  )</span>
+<span class="sd">        print(&quot;idril  : %.4f&quot; % idril  )</span>
+<span class="sd">        print(&quot;ibfield: %.4f&quot; % ibfield)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">matchOK</span></div>
+
+<div class="viewcode-block" id="BeamMatch.matchPrintout"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.BeamMatch.matchPrintout">[docs]</a>    <span class="k">def</span> <span class="nf">matchPrintout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Modulator:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;alphax = </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphax_mod</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;alphay = </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphay_mod</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rxbeam = </span><span class="si">%.4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_mod</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rybeam = </span><span class="si">%.4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_mod</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Radiator:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;alphax = </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphax_rad</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;alphay = </span><span class="si">%.3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">alphay_rad</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rxbeam = </span><span class="si">%.4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmax_rad</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rybeam = </span><span class="si">%.4e</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmay_rad</span><span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="FELSimulator"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.FELSimulator">[docs]</a><span class="k">class</span> <span class="nc">FELSimulator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;HGHG&#39;</span><span class="p">,</span> 
+                    <span class="n">modinfile</span> <span class="o">=</span> <span class="s1">&#39;mod.in&#39;</span><span class="p">,</span> 
+                    <span class="n">radinfile</span> <span class="o">=</span> <span class="s1">&#39;rad.in&#39;</span><span class="p">,</span>
+                    <span class="n">modlatfile</span> <span class="o">=</span> <span class="s1">&#39;mod.lat&#39;</span><span class="p">,</span> 
+                    <span class="n">radlatfile</span> <span class="o">=</span> <span class="s1">&#39;rad.lat&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span>       <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modinfile</span>  <span class="o">=</span> <span class="n">modinfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modlatfile</span> <span class="o">=</span> <span class="n">modlatfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radinfile</span>  <span class="o">=</span> <span class="n">radinfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">radlatfile</span> <span class="o">=</span> <span class="n">radlatfile</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<div class="viewcode-block" id="FELSimulator.run"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.FELSimulator.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cmd1</span> <span class="o">=</span> <span class="s1">&#39;echo&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">modinfile</span> <span class="o">+</span> <span class="s1">&#39; | &#39;</span> <span class="o">+</span> <span class="s1">&#39;genesis &gt; /dev/null&#39;</span>
+        <span class="n">cmd2</span> <span class="o">=</span> <span class="s1">&#39;echo&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">radinfile</span> <span class="o">+</span> <span class="s1">&#39; | &#39;</span> <span class="o">+</span> <span class="s1">&#39;genesis &gt; /dev/null&#39;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd1</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FELSimulator.postProcess"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.FELSimulator.postProcess">[docs]</a>    <span class="k">def</span> <span class="nf">postProcess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span> <span class="o">=</span> <span class="s1">&#39;rad.out&#39;</span><span class="p">):</span>
+        <span class="c1">#datfile = &#39;tmp.dat&#39;</span>
+        <span class="n">fout</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="c1">#fdat = open(datfile, &#39;w&#39;)</span>
+
+        <span class="n">entries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grepParam</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="s1">&#39;entries&#39;</span><span class="p">)</span>
+
+        <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;z[m]&#39;</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        
+        <span class="n">data0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">entries</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">entries</span><span class="p">):</span>
+            <span class="n">elements</span> <span class="o">=</span> <span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+            <span class="c1">#fdat.write(&quot;%s\n&quot; % line)</span>
+            <span class="n">data0</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">strnum</span><span class="p">)</span> <span class="k">for</span> <span class="n">strnum</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">]</span>
+
+        <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;power&#39;</span><span class="p">):</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        
+        <span class="n">elements</span> <span class="o">=</span> <span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">fieldnum</span> <span class="o">=</span> <span class="n">elements</span><span class="o">.</span><span class="n">__len__</span><span class="p">()</span>
+        <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">entries</span><span class="p">,</span> <span class="n">fieldnum</span><span class="p">])</span>
+        <span class="n">data1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">fieldnum</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">strnum</span><span class="p">)</span> <span class="k">for</span> <span class="n">strnum</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">entries</span><span class="p">):</span>
+            <span class="n">elements</span> <span class="o">=</span> <span class="n">fout</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+            <span class="c1">#fdat.write(&quot;%s\n&quot; % line)</span>
+            <span class="n">data1</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">fieldnum</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">strnum</span><span class="p">)</span> <span class="k">for</span> <span class="n">strnum</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">]</span>
+
+        <span class="n">fout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1">#fdat.close()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data0</span><span class="p">,</span> <span class="n">data1</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="FELSimulator.getMaxPower"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.FELSimulator.getMaxPower">[docs]</a>    <span class="k">def</span> <span class="nf">getMaxPower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="FELSimulator.grepParam"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.FELSimulator.grepParam">[docs]</a>    <span class="k">def</span> <span class="nf">grepParam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="s1">&#39;entries&#39;</span><span class="p">,</span> <span class="n">outfile</span> <span class="o">=</span> <span class="s1">&#39;rad.out&#39;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="FELSimulator.plotPower"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.FELSimulator.plotPower">[docs]</a>    <span class="k">def</span> <span class="nf">plotPower</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span><span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../src/apidocs/matchutils.html#beamline.matchutils.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="n">testParse</span> <span class="o">=</span> <span class="n">ParseParams</span><span class="p">(</span><span class="s1">&#39;rad.in&#39;</span><span class="p">,</span> <span class="s1">&#39;rad.lat&#39;</span><span class="p">)</span>
+    <span class="n">aw0</span>        <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getUndulatorParameter</span> <span class="p">()</span>
+    <span class="n">xlamd</span>      <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getUndulatorPeriod</span>    <span class="p">()</span>
+    <span class="n">unitlength</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getUndulatorUnitlength</span><span class="p">()</span>
+    <span class="n">xlamds</span>     <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getFELwavelength</span>      <span class="p">()</span>
+    <span class="n">gamma0</span>     <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getElectronGamma</span>      <span class="p">()</span>
+    <span class="n">emitx</span>      <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getElectronEmitx</span>      <span class="p">()</span>
+    <span class="n">imagl</span>      <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getChicaneMagnetLength</span><span class="p">()</span>
+    <span class="n">idril</span>      <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getChicaneDriftLength</span> <span class="p">()</span>
+    <span class="n">ibfield</span>    <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getChicaneMagnetField</span> <span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    print(&quot;aw0    = %.3f&quot; % aw0   )</span>
+<span class="sd">    print(&quot;xlamd  = %.3f&quot; % xlamd )</span>
+<span class="sd">    print(&quot;xlamds = %.3e&quot; % xlamds)</span>
+<span class="sd">    print(&quot;gamma0 = %.3f&quot; % gamma0)</span>
+<span class="sd">    print(&quot;emitx  = %.3e&quot; % emitx )</span>
+<span class="sd">    print(&quot;imagl  = %.3f&quot; % imagl )</span>
+<span class="sd">    print(&quot;idril  = %.3f&quot; % idril )</span>
+<span class="sd">    print(&quot;ibfield= %.3f&quot; % ibfield)</span>
+<span class="sd">    print(&quot;unit   = %.3f&quot; % unitlength)</span>
+
+<span class="sd">    print parseLattice(&#39;fullat.hghg&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">qf</span><span class="p">,</span> <span class="n">qd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+
+    <span class="n">testMatch</span> <span class="o">=</span> <span class="n">BeamMatch</span><span class="p">(</span><span class="s1">&#39;mod.in&#39;</span><span class="p">,</span> <span class="s1">&#39;rad.in&#39;</span><span class="p">,</span> 
+                          <span class="s1">&#39;mod.lat&#39;</span><span class="p">,</span> <span class="s1">&#39;rad.lat&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;newmod.in&#39;</span><span class="p">,</span> <span class="s1">&#39;newrad.in&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;newrad.lat&#39;</span><span class="p">,</span> <span class="n">qf</span><span class="p">,</span> <span class="n">qd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">testMatch</span><span class="o">.</span><span class="n">matchCalculate</span><span class="p">():</span>
+        <span class="n">testMatch</span><span class="o">.</span><span class="n">matchPerform</span><span class="p">()</span>
+        <span class="c1">#testMatch.matchPrintout()</span>
+        <span class="n">fel</span> <span class="o">=</span> <span class="n">FELSimulator</span><span class="p">()</span>
+        <span class="n">fel</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">fel</span><span class="o">.</span><span class="n">postProcess</span><span class="p">()</span>
+        <span class="nb">print</span> <span class="n">fel</span><span class="o">.</span><span class="n">getMaxPower</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

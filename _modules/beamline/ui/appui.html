@@ -1,0 +1,870 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.ui.appui &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.ui.appui</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># noinspection PyPackageRequirements</span>
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="c1"># noinspection PyPackageRequirements</span>
+<span class="kn">import</span> <span class="nn">wx.xrc</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">pltutils</span>
+<span class="c1"># noinspection PyPackageRequirements</span>
+<span class="kn">import</span> <span class="nn">wx.richtext</span>
+
+
+<div class="viewcode-block" id="MainFrame"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame">[docs]</a><span class="k">class</span> <span class="nc">MainFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">parent</span><span class="p">,</span>
+                          <span class="nb">id</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                          <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                          <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+                          <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizeHintsSz</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">)</span>
+
+        <span class="n">vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="n">control_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treename_st</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Tree Name&quot;</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treename_st</span><span class="o">.</span><span class="n">Wrap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treename_st</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">TOP</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">treename_tc</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextCtrl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Lattice&quot;</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">TE_PROCESS_ENTER</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">treename_tc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_staticline1</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticLine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                           <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LI_VERTICAL</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_staticline1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Show&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_btn</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOWTEXT</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_btn</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOW</span><span class="p">))</span>
+
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">show_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Generate&quot;</span><span class="p">,</span>
+                                      <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_btn</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOWTEXT</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_btn</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOW</span><span class="p">))</span>
+
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Model&quot;</span><span class="p">,</span>
+                                   <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
+                         <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Clear&quot;</span><span class="p">,</span>
+                                   <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear_btn</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOWTEXT</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear_btn</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOW</span><span class="p">))</span>
+
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clear_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span>
+                         <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;E&amp;xit&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOWTEXT</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOW</span><span class="p">))</span>
+
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">control_hbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">tree_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">SplitterWindow</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">SP_3D</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="o">.</span><span class="n">SetSashGravity</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_IDLE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitterOnIdle</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="o">.</span><span class="n">SetMinimumPaneSize</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_left_panel</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                        <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                        <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+        <span class="n">tree_left_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainview_tree</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TreeCtrl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_left_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">TR_DEFAULT_STYLE</span><span class="p">)</span>
+        <span class="n">tree_left_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainview_tree</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_left_panel</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">tree_left_vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_left_panel</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+        <span class="n">tree_left_vbox</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_left_panel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_right_panel</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+        <span class="n">tree_right_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lc</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">ListCtrl</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree_right_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">LC_EDIT_LABELS</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LC_HRULES</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LC_REPORT</span> <span class="o">|</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">LC_VRULES</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">VSCROLL</span><span class="p">)</span>
+        <span class="n">tree_right_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_right_panel</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">tree_right_vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_right_panel</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+        <span class="n">tree_right_vbox</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_right_panel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="o">.</span><span class="n">SplitVertically</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_left_panel</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">tree_right_panel</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">tree_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">tree_hbox</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">bottom_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="n">search_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">SearchCtrl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">TE_PROCESS_ENTER</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span><span class="o">.</span><span class="n">ShowSearchButton</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span><span class="o">.</span><span class="n">ShowCancelButton</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">search_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span>
+                        <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_bmpbtn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BitmapButton</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ArtProvider</span><span class="o">.</span><span class="n">GetBitmap</span><span class="p">(</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">ART_GO_DOWN</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ART_OTHER</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BU_AUTODRAW</span><span class="p">)</span>
+        <span class="n">search_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">next_bmpbtn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span>
+                        <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">previous_bmpbtn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BitmapButton</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ArtProvider</span><span class="o">.</span><span class="n">GetBitmap</span><span class="p">(</span>
+                <span class="n">wx</span><span class="o">.</span><span class="n">ART_GO_UP</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ART_OTHER</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BU_AUTODRAW</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previous_bmpbtn</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOW</span><span class="p">))</span>
+
+        <span class="n">search_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">previous_bmpbtn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span>
+                        <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">bottom_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">search_hbox</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">info_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st_panel</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                        <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+        <span class="n">action_st_panel_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_st_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st</span><span class="o">.</span><span class="n">Wrap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Colour</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOW</span><span class="p">))</span>
+
+        <span class="n">action_st_panel_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_st</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span>
+                                 <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st_panel</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">action_st_panel_hbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_st_panel</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+        <span class="n">action_st_panel_hbox</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_st_panel</span><span class="p">)</span>
+        <span class="n">info_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_st_panel</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span>
+                      <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">info_st</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                                     <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                     <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_LEFT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info_st</span><span class="o">.</span><span class="n">Wrap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">info_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info_st</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_LEFT</span>
+                      <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">showlog_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;...&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span>
+                <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">BU_EXACTFIT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">NO_BORDER</span><span class="p">)</span>
+        <span class="n">info_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">showlog_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER_VERTICAL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span>
+                      <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">bottom_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">info_hbox</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">bottom_hbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuBar</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_OPEN</span><span class="p">,</span>
+                                      <span class="s2">u&quot;Open&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+O&quot;</span><span class="p">,</span>
+                                      <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">open_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reopen_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                        <span class="s2">u&quot;Reopen&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+R&quot;</span><span class="p">,</span>
+                                        <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reopen_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_SAVE</span><span class="p">,</span>
+                                      <span class="s2">u&quot;Save&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+S&quot;</span><span class="p">,</span>
+                                      <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">saveas_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                        <span class="s2">u&quot;Save As&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+Shift+S&quot;</span><span class="p">,</span>
+                                        <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">saveas_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="o">.</span><span class="n">AppendSeparator</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">quit_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                      <span class="s2">u&quot;Quit&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+W&quot;</span><span class="p">,</span>
+                                      <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quit_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">,</span> <span class="s2">u&quot;&amp;File&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">edit_menu</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edit_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                    <span class="s2">u&quot;Beamline&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+Shift+B&quot;</span><span class="p">,</span>
+                                    <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edit_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bl_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edit_menu</span><span class="p">,</span> <span class="s2">u&quot;&amp;Edit&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lte_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                     <span class="s2">u&quot;Lattice File&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+Shift+L&quot;</span><span class="p">,</span>
+                                     <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lte_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                     <span class="s2">u&quot;Raw String&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+Shift+R&quot;</span><span class="p">,</span>
+                                     <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dict_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                      <span class="s2">u&quot;Dictionary&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+Shift+D&quot;</span><span class="p">,</span>
+                                      <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dict_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendSeparator</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">expand_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Expand Tree&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span>
+            <span class="s2">u&quot;Ctrl+Shift+X&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_RADIO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expand_mitem</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expand_mitem</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">collapse_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Collpase Tree&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span>
+            <span class="s2">u&quot;Ctrl+Shift+P&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_RADIO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pt_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Show path as title&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span>
+            <span class="s2">u&quot;Ctrl+Shift+T&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_CHECK</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pt_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="s2">u&quot;&amp;View&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tools_menu</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tools_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Visualization&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span>
+            <span class="s2">u&quot;Ctrl+Shift+V&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tools_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">draw_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tools_menu</span><span class="p">,</span> <span class="s2">u&quot;&amp;Tools&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">guide_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                       <span class="s2">u&quot;Guide&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;F1&quot;</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">guide_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">about_mitem</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MenuItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ABOUT</span><span class="p">,</span>
+                                       <span class="s2">u&quot;About&quot;</span> <span class="o">+</span> <span class="s2">u&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">u&quot;Ctrl+A&quot;</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ITEM_NORMAL</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span><span class="o">.</span><span class="n">AppendItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">about_mitem</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span><span class="p">,</span> <span class="s2">u&quot;&amp;Help&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetMenuBar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">menu_bar</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Centre</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span>
+
+        <span class="c1"># Connect Events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treename_tc</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_TEXT_ENTER</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">treename_tcOnTextEnter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">clear_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainview_tree</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_LEFT_DOWN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainview_treeOnLeftDown</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lc</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_LIST_COL_RIGHT_CLICK</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lcOnListColRightClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lc</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_LIST_ITEM_SELECTED</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lcOnListItemSelected</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lc</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_RIGHT_UP</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodeview_lcOnRightUp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_SEARCHCTRL_CANCEL_BTN</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrlOnCancelButton</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_TEXT</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrlOnText</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrl</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_TEXT_ENTER</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">search_ctrlOnTextEnter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_bmpbtn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_bmpbtnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">previous_bmpbtn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">previous_bmpbtnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">showlog_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">showlog_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">open_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">open_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">reopen_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reopen_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">save_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">saveas_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">saveas_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">quit_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">quit_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">bl_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bl_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">lte_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lte_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">raw_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">dict_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dict_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">expand_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expand_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">collapse_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collapse_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">pt_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pt_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">draw_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">draw_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">guide_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">guide_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span>
+                  <span class="bp">self</span><span class="o">.</span><span class="n">about_mitemOnMenuSelection</span><span class="p">,</span>
+                  <span class="nb">id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">about_mitem</span><span class="o">.</span><span class="n">GetId</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Virtual event handlers, overide them in your derived class</span>
+<div class="viewcode-block" id="MainFrame.treename_tcOnTextEnter"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.treename_tcOnTextEnter">[docs]</a>    <span class="k">def</span> <span class="nf">treename_tcOnTextEnter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.show_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.show_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">show_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.generate_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.generate_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">generate_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.model_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.model_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">model_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.clear_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.clear_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">clear_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.exit_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.exit_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">exit_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.mainview_treeOnLeftDown"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.mainview_treeOnLeftDown">[docs]</a>    <span class="k">def</span> <span class="nf">mainview_treeOnLeftDown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.nodeview_lcOnListColRightClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.nodeview_lcOnListColRightClick">[docs]</a>    <span class="k">def</span> <span class="nf">nodeview_lcOnListColRightClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.nodeview_lcOnListItemSelected"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.nodeview_lcOnListItemSelected">[docs]</a>    <span class="k">def</span> <span class="nf">nodeview_lcOnListItemSelected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.nodeview_lcOnRightUp"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.nodeview_lcOnRightUp">[docs]</a>    <span class="k">def</span> <span class="nf">nodeview_lcOnRightUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.search_ctrlOnCancelButton"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.search_ctrlOnCancelButton">[docs]</a>    <span class="k">def</span> <span class="nf">search_ctrlOnCancelButton</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.search_ctrlOnText"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.search_ctrlOnText">[docs]</a>    <span class="k">def</span> <span class="nf">search_ctrlOnText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.search_ctrlOnTextEnter"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.search_ctrlOnTextEnter">[docs]</a>    <span class="k">def</span> <span class="nf">search_ctrlOnTextEnter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.next_bmpbtnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.next_bmpbtnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">next_bmpbtnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.previous_bmpbtnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.previous_bmpbtnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">previous_bmpbtnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.showlog_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.showlog_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">showlog_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.open_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.open_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">open_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.reopen_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.reopen_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">reopen_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.save_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.save_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">save_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.saveas_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.saveas_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">saveas_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.quit_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.quit_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">quit_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.bl_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.bl_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">bl_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.lte_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.lte_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">lte_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.raw_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.raw_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">raw_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.dict_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.dict_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">dict_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.expand_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.expand_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">expand_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.collapse_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.collapse_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">collapse_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.pt_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.pt_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">pt_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.draw_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.draw_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">draw_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.guide_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.guide_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">guide_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.about_mitemOnMenuSelection"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.about_mitemOnMenuSelection">[docs]</a>    <span class="k">def</span> <span class="nf">about_mitemOnMenuSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainFrame.tree_splitterOnIdle"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.MainFrame.tree_splitterOnIdle">[docs]</a>    <span class="k">def</span> <span class="nf">tree_splitterOnIdle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="o">.</span><span class="n">SetSashPosition</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree_splitter</span><span class="o">.</span><span class="n">Unbind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_IDLE</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DrawFrame"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame">[docs]</a><span class="k">class</span> <span class="nc">DrawFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">parent</span><span class="p">,</span>
+                          <span class="nb">id</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                          <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                          <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+                          <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizeHintsSz</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="n">info_svbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBoxSizer</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">StaticBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                         <span class="s2">u&quot;Visualization Options&quot;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Panel</span><span class="p">(</span><span class="n">info_svbox</span><span class="o">.</span><span class="n">GetStaticBox</span><span class="p">(),</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+        <span class="n">vbox_top</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="n">hbox_top</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_name</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Selected Beamline:&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_LEFT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_name</span><span class="o">.</span><span class="n">Wrap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">hbox_top</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_name</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_val</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                            <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_LEFT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_val</span><span class="o">.</span><span class="n">Wrap</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_val</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Colour</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+
+        <span class="n">hbox_top</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bl_info_st_val</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">vbox_top</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">hbox_top</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">hbox_bottom</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="n">mode_rbChoices</span> <span class="o">=</span> <span class="p">[</span><span class="s2">u&quot;plain&quot;</span><span class="p">,</span> <span class="s2">u&quot;fancy&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode_rb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">RadioBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Mode&quot;</span><span class="p">,</span>
+                                   <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span>
+                                   <span class="n">mode_rbChoices</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">RA_SPECIFY_COLS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode_rb</span><span class="o">.</span><span class="n">SetSelection</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">hbox_bottom</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode_rb</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">annote_sb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBoxSizer</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">StaticBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                         <span class="s2">u&quot;Tag Options&quot;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">quad_ckb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">(</span><span class="n">annote_sb</span><span class="o">.</span><span class="n">GetStaticBox</span><span class="p">(),</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                    <span class="s2">u&quot;Quad&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                    <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">annote_sb</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quad_ckb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bend_ckb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">(</span><span class="n">annote_sb</span><span class="o">.</span><span class="n">GetStaticBox</span><span class="p">(),</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                    <span class="s2">u&quot;Bend&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                    <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">annote_sb</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bend_ckb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rf_ckb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">(</span><span class="n">annote_sb</span><span class="o">.</span><span class="n">GetStaticBox</span><span class="p">(),</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;RF&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">annote_sb</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rf_ckb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">monitor_ckb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">(</span><span class="n">annote_sb</span><span class="o">.</span><span class="n">GetStaticBox</span><span class="p">(),</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                       <span class="s2">u&quot;Monitor&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                       <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">annote_sb</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">monitor_ckb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">undulator_ckb</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">CheckBox</span><span class="p">(</span><span class="n">annote_sb</span><span class="o">.</span><span class="n">GetStaticBox</span><span class="p">(),</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                                         <span class="s2">u&quot;Undulator&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                         <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">annote_sb</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">undulator_ckb</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">hbox_bottom</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">annote_sb</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_TOP</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span>
+                        <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">vbox_top</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">hbox_bottom</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">vbox_top</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+        <span class="n">vbox_top</span><span class="o">.</span><span class="n">Fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="p">)</span>
+        <span class="n">info_svbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span>
+                       <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">info_svbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">draw_svbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBoxSizer</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">StaticBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;Drawing&quot;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="n">draw_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">drawing_panel</span> <span class="o">=</span> <span class="n">pltutils</span><span class="o">.</span><span class="n">LatticePlotPanel</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">toolbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">)</span>
+        <span class="n">draw_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drawing_panel</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">draw_svbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">draw_vbox</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">draw_svbox</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span>
+                      <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">main_vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Centre</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span>
+
+        <span class="c1"># Connect Events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode_rb</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_RADIOBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode_rbOnRadioBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quad_ckb</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">quad_ckbOnCheckBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bend_ckb</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bend_ckbOnCheckBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rf_ckb</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rf_ckbOnCheckBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">monitor_ckb</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">monitor_ckbOnCheckBox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">undulator_ckb</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">undulator_ckbOnCheckBox</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Virtual event handlers, overide them in your derived class</span>
+<div class="viewcode-block" id="DrawFrame.mode_rbOnRadioBox"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame.mode_rbOnRadioBox">[docs]</a>    <span class="k">def</span> <span class="nf">mode_rbOnRadioBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DrawFrame.quad_ckbOnCheckBox"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame.quad_ckbOnCheckBox">[docs]</a>    <span class="k">def</span> <span class="nf">quad_ckbOnCheckBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DrawFrame.bend_ckbOnCheckBox"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame.bend_ckbOnCheckBox">[docs]</a>    <span class="k">def</span> <span class="nf">bend_ckbOnCheckBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DrawFrame.rf_ckbOnCheckBox"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame.rf_ckbOnCheckBox">[docs]</a>    <span class="k">def</span> <span class="nf">rf_ckbOnCheckBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DrawFrame.monitor_ckbOnCheckBox"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame.monitor_ckbOnCheckBox">[docs]</a>    <span class="k">def</span> <span class="nf">monitor_ckbOnCheckBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DrawFrame.undulator_ckbOnCheckBox"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DrawFrame.undulator_ckbOnCheckBox">[docs]</a>    <span class="k">def</span> <span class="nf">undulator_ckbOnCheckBox</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="BeamlineFrame"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.BeamlineFrame">[docs]</a><span class="k">class</span> <span class="nc">BeamlineFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">parent</span><span class="p">,</span>
+                          <span class="nb">id</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                          <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                          <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">700</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+                          <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizeHintsSz</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">)</span>
+
+        <span class="n">choice_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_choicebook</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Choicebook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                           <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">CHB_DEFAULT</span><span class="p">)</span>
+        <span class="n">choice_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bl_choicebook</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">ctrl_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;OK&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                                <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ctrl_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cancel_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Cancel&quot;</span><span class="p">,</span>
+                                    <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ctrl_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cancel_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">choice_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">ctrl_hbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">choice_vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Centre</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span>
+
+        <span class="c1"># Connect Events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bl_choicebook</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHOICEBOOK_PAGE_CHANGED</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">bl_choicebookOnChoicebookPageChanged</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ok_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cancel_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cancel_btnOnButtonClick</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Virtual event handlers, overide them in your derived class</span>
+<div class="viewcode-block" id="BeamlineFrame.bl_choicebookOnChoicebookPageChanged"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.BeamlineFrame.bl_choicebookOnChoicebookPageChanged">[docs]</a>    <span class="k">def</span> <span class="nf">bl_choicebookOnChoicebookPageChanged</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BeamlineFrame.ok_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.BeamlineFrame.ok_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">ok_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BeamlineFrame.cancel_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.BeamlineFrame.cancel_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">cancel_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="LogFrame"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.LogFrame">[docs]</a><span class="k">class</span> <span class="nc">LogFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">parent</span><span class="p">,</span>
+                          <span class="nb">id</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                          <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                          <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">),</span>
+                          <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizeHintsSz</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_tc</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextCtrl</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">HSCROLL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TE_MULTILINE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TE_READONLY</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_tc</span><span class="o">.</span><span class="n">SetFont</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">NORMAL_FONT</span><span class="o">.</span><span class="n">GetPointSize</span><span class="p">(),</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span>
+                                    <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Monospace&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_tc</span><span class="o">.</span><span class="n">SetForegroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">SystemSettings</span><span class="o">.</span><span class="n">GetColour</span><span class="p">(</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">SYS_COLOUR_WINDOWTEXT</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_tc</span><span class="o">.</span><span class="n">SetBackgroundColour</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Colour</span><span class="p">(</span><span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">))</span>
+
+        <span class="n">main_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">log_tc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">control_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Copy&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;E&amp;xit&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">control_hbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">main_vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Centre</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span>
+
+        <span class="c1"># Connect Events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_btnOnButtonClick</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Virtual event handlers, overide them in your derived class</span>
+<div class="viewcode-block" id="LogFrame.copy_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.LogFrame.copy_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">copy_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LogFrame.exit_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.LogFrame.exit_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">exit_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="DataFrame"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DataFrame">[docs]</a><span class="k">class</span> <span class="nc">DataFrame</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                          <span class="n">parent</span><span class="p">,</span>
+                          <span class="nb">id</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span>
+                          <span class="n">title</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span>
+                          <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+                          <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">950</span><span class="p">,</span> <span class="mi">700</span><span class="p">),</span>
+                          <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizeHintsSz</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_rtc</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">richtext</span><span class="o">.</span><span class="n">RichTextCtrl</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EmptyString</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">TE_READONLY</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">VSCROLL</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">HSCROLL</span> <span class="o">|</span>
+            <span class="n">wx</span><span class="o">.</span><span class="n">NO_BORDER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">WANTS_CHARS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_rtc</span><span class="o">.</span><span class="n">SetFont</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Monospace&quot;</span><span class="p">))</span>
+
+        <span class="n">main_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_rtc</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">EXPAND</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+        <span class="n">control_hbox</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">HORIZONTAL</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;&amp;Copy&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">copy_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_BOTTOM</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="s2">u&quot;E&amp;xit&quot;</span><span class="p">,</span>
+                                  <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">control_hbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">LEFT</span> <span class="o">|</span>
+                         <span class="n">wx</span><span class="o">.</span><span class="n">RIGHT</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="n">main_vbox</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">control_hbox</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALIGN_CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetSizer</span><span class="p">(</span><span class="n">main_vbox</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Layout</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Centre</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span>
+
+        <span class="c1"># Connect Events</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy_btnOnButtonClick</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exit_btn</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exit_btnOnButtonClick</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Virtual event handlers, overide them in your derived class</span>
+<div class="viewcode-block" id="DataFrame.copy_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DataFrame.copy_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">copy_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DataFrame.exit_btnOnButtonClick"><a class="viewcode-back" href="../../../src/apidocs/beamline.ui.html#beamline.ui.appui.DataFrame.exit_btnOnButtonClick">[docs]</a>    <span class="k">def</span> <span class="nf">exit_btnOnButtonClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

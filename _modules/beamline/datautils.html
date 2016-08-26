@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.datautils &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.datautils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot; This module is created for data processing framework, </span>
+<span class="sd">to make rules for data saving, visualization issues, etc.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="DataExtracter"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter">[docs]</a><span class="k">class</span> <span class="nc">DataExtracter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Extract required data from a SDDS formated file,</span>
+<span class="sd">    to put into hdf5 formated file or just dump into RAM</span>
+<span class="sd">    for post-processing.</span>
+
+<span class="sd">    :param sddsfile: filename of SDDS data file</span>
+<span class="sd">    :param kws: packed tuple/list options, usually sdds column names,</span>
+<span class="sd">                e.g. ``(&#39;s&#39;, &#39;Sx&#39;)``</span>
+
+<span class="sd">    :Example:</span>
+
+<span class="sd">    &gt;&gt;&gt; # *sddsquery -col* shows it has &#39;s&#39;, &#39;Sx&#39; data columns</span>
+<span class="sd">    &gt;&gt;&gt; sddsfile = &#39;output.sdds&#39;</span>
+<span class="sd">    &gt;&gt;&gt; param_list = (&#39;s&#39;, &#39;Sx&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; dh = DataExtracter(sddsfile, *param_list)</span>
+<span class="sd">    &gt;&gt;&gt; # *dh* is a newly created DataExtracter instance</span>
+
+<span class="sd">    ..    Author: Tong Zhang</span>
+<span class="sd">    ..    Date  : 2016-03-10</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sddsfile</span><span class="p">,</span> <span class="o">*</span><span class="n">kws</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sddsfile</span> <span class="o">=</span> <span class="n">sddsfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwslist</span> <span class="o">=</span> <span class="n">kws</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.16e</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dcmdline</span> <span class="o">=</span> <span class="s1">&#39;sddsprintout </span><span class="si">{fn}</span><span class="s1"> -notitle -nolabel&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sddsfile</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">h5data</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<div class="viewcode-block" id="DataExtracter.getAllCols"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.getAllCols">[docs]</a>    <span class="k">def</span> <span class="nf">getAllCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sddsfile</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get all available column names from sddsfile</span>
+
+<span class="sd">        :param sddsfile: sdds file name, if not given, rollback to the one that from ``__init__()``</span>
+<span class="sd">        :return: all sdds data col names</span>
+<span class="sd">        :rtype: list</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; dh = DataExtracter(&#39;test.out&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; print(dh.getAllCols())</span>
+<span class="sd">        [&#39;x&#39;, &#39;xp&#39;, &#39;y&#39;, &#39;yp&#39;, &#39;t&#39;, &#39;p&#39;, &#39;particleID&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; print(dh.getAllCols(&#39;test.twi&#39;))</span>
+<span class="sd">        [&#39;s&#39;, &#39;betax&#39;, &#39;alphax&#39;, &#39;psix&#39;, &#39;etax&#39;, &#39;etaxp&#39;, &#39;xAperture&#39;, &#39;betay&#39;, &#39;alphay&#39;, &#39;psiy&#39;, &#39;etay&#39;, &#39;etayp&#39;, &#39;yAperture&#39;, &#39;pCentral0&#39;, &#39;ElementName&#39;, &#39;ElementOccurence&#39;, &#39;ElementType&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">sddsfile</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sddsfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sddsfile</span>
+        <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s1">&#39;sddsquery&#39;</span><span class="p">,</span> <span class="s1">&#39;-col&#39;</span><span class="p">,</span>  <span class="n">sddsfile</span><span class="p">])</span><span class="o">.</span><span class="n">split</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DataExtracter.extractData"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.extractData">[docs]</a>    <span class="k">def</span> <span class="nf">extractData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; extract data as numpy array, with given required fields,</span>
+<span class="sd">        put data into ``h5data`` as a numpy array.</span>
+
+<span class="sd">        :return: instance itself</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwslist</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dcmdline</span> <span class="o">+=</span> <span class="s1">&#39; -col=</span><span class="si">{kw}</span><span class="s1">,format=</span><span class="si">{p}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kw</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span>
+        <span class="n">cmdlist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bash&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dscript</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dcmdline</span><span class="p">]</span>
+        <span class="n">retlist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmdlist</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="p">:</span>
+            <span class="n">retlist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h5data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">retlist</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="DataExtracter.getH5Data"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.getH5Data">[docs]</a>    <span class="k">def</span> <span class="nf">getH5Data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return extracted data as numpy array</span>
+
+<span class="sd">        :return: numpy array after executing ``extractData()``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5data</span></div>
+
+<div class="viewcode-block" id="DataExtracter.getKws"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.getKws">[docs]</a>    <span class="k">def</span> <span class="nf">getKws</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return data column fields that defined in constructor, e.g. ``(&#39;s&#39;, &#39;Sx&#39;)``</span>
+
+<span class="sd">        :return: data columns keyword</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwslist</span></div>
+
+<div class="viewcode-block" id="DataExtracter.setDataScript"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.setDataScript">[docs]</a>    <span class="k">def</span> <span class="nf">setDataScript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullscriptpath</span><span class="o">=</span><span class="s1">&#39;sddsprintdata.sh&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; configure script that should be utilized by DataExtracter,</span>
+<span class="sd">        to extract data colums from sddsfile.</span>
+<span class="sd">        </span>
+<span class="sd">        :param fullscriptpath: full path of script that handles the data extraction of sddsfile,</span>
+<span class="sd">                               default value is ``sddsprintdata.sh``, which is a script that distributed</span>
+<span class="sd">                               with ``beamline`` package.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dscript</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">fullscriptpath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataExtracter.setDataPath"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.setDataPath">[docs]</a>    <span class="k">def</span> <span class="nf">setDataPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set full dir path of data files</span>
+
+<span class="sd">        :param path: data path, usually is the directory where numerical simulation was taken place</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataExtracter.setH5file"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.setH5file">[docs]</a>    <span class="k">def</span> <span class="nf">setH5file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5filepath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set h5file full path name</span>
+
+<span class="sd">        :param h5filepath: path for hdf5 file</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">h5file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">h5filepath</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataExtracter.setKws"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.setKws">[docs]</a>    <span class="k">def</span> <span class="nf">setKws</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">kws</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set keyword list, i.e. sdds field names, update ``kwslist`` property</span>
+
+<span class="sd">        :param kws: packed tuple of sdds datafile column names</span>
+<span class="sd">        :return None:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwslist</span> <span class="o">=</span> <span class="n">kws</span></div>
+
+<div class="viewcode-block" id="DataExtracter.dump"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataExtracter.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; dump extracted data into a single hdf5file, </span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        :Example:</span>
+
+
+<span class="sd">        &gt;&gt;&gt; # dump data into an hdf5 formated file</span>
+<span class="sd">        &gt;&gt;&gt; datafields = [&#39;s&#39;, &#39;Sx&#39;, &#39;Sy&#39;, &#39;enx&#39;, &#39;eny&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; datascript = &#39;sddsprintdata.sh&#39;</span>
+<span class="sd">        &gt;&gt;&gt; datapath   = &#39;./tests/tracking&#39;</span>
+<span class="sd">        &gt;&gt;&gt; hdf5file   = &#39;./tests/tracking/test.h5&#39;</span>
+<span class="sd">        &gt;&gt;&gt; A = DataExtracter(&#39;test.sig&#39;, *datafields)</span>
+<span class="sd">        &gt;&gt;&gt; A.setDataScript(datascript)</span>
+<span class="sd">        &gt;&gt;&gt; A.setDataPath  (datapath)</span>
+<span class="sd">        &gt;&gt;&gt; A.setH5file    (hdf5file)</span>
+<span class="sd">        &gt;&gt;&gt; A.extractData().dump()</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # read dumped file</span>
+<span class="sd">        &gt;&gt;&gt; fd = h5py.File(hdf5file, &#39;r&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; d_s  = fd[&#39;s&#39;][:]</span>
+<span class="sd">        &gt;&gt;&gt; d_sx = fd[&#39;Sx&#39;][:]</span>
+<span class="sd">        &gt;&gt;&gt; </span>
+<span class="sd">        &gt;&gt;&gt; # plot dumped data</span>
+<span class="sd">        &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">        &gt;&gt;&gt; plt.figure(1)</span>
+<span class="sd">        &gt;&gt;&gt; plt.plot(d_s, d_sx, &#39;r-&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.xlabel(&#39;$s$&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.ylabel(&#39;$\sigma_x$&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">        Just like the following figure shows:</span>
+
+<span class="sd">        .. image:: ../../images/test_DataExtracter.png</span>
+<span class="sd">            :width: 400px</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h5file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwslist</span><span class="p">):</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">h5data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+            <span class="n">dset</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">dset</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="DataVisualizer"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataVisualizer">[docs]</a><span class="k">class</span> <span class="nc">DataVisualizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; for data visualization purposes, to be implemented</span>
+
+<span class="sd">    .. Author: Tong Zhang</span>
+<span class="sd">    .. Date  : 2016-03-14</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="DataVisualizer.inspectDataFile"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataVisualizer.inspectDataFile">[docs]</a>    <span class="k">def</span> <span class="nf">inspectDataFile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; inspect hdf5 data file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DataVisualizer.illustrate"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataVisualizer.illustrate">[docs]</a>    <span class="k">def</span> <span class="nf">illustrate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; plot x, y w.r.t. xlabel and ylabel</span>
+<span class="sd">        :param ylabel: xlabel</span>
+<span class="sd">        :param xlabel: ylabel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DataVisualizer.saveArtwork"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataVisualizer.saveArtwork">[docs]</a>    <span class="k">def</span> <span class="nf">saveArtwork</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;image&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;jpg&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; save figure by default name of image.jpg</span>
+<span class="sd">        :param name: image name, &#39;image&#39; by default</span>
+<span class="sd">        :param fmt: image format, &#39;jpg&#39; by default</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+
+<div class="viewcode-block" id="DataStorage"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataStorage">[docs]</a><span class="k">class</span> <span class="nc">DataStorage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; for data storage management, to be implemented.</span>
+<span class="sd">        communicate with database like mongodb, mysql, sqlite, etc.</span>
+
+<span class="sd">    .. Author: Tong Zhang</span>
+<span class="sd">    .. Date  : 2016-03-14</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="DataStorage.configDatabase"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataStorage.configDatabase">[docs]</a>    <span class="k">def</span> <span class="nf">configDatabase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; configure database</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DataStorage.putData"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataStorage.putData">[docs]</a>    <span class="k">def</span> <span class="nf">putData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; put data into database </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DataStorage.getData"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.DataStorage.getData">[docs]</a>    <span class="k">def</span> <span class="nf">getData</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get data from database</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
+
+<span class="c1">#--------------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../src/apidocs/datautils.html#beamline.datautils.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="c1"># workflow</span>
+    <span class="n">datafields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">,</span> <span class="s1">&#39;Sy&#39;</span><span class="p">,</span> <span class="s1">&#39;enx&#39;</span><span class="p">,</span> <span class="s1">&#39;eny&#39;</span><span class="p">]</span>
+    <span class="n">datascript</span> <span class="o">=</span> <span class="s1">&#39;~/Programming/projects/beamline/scripts/sddsprintdata.sh&#39;</span>
+    <span class="n">datapath</span>   <span class="o">=</span> <span class="s1">&#39;~/Programming/projects/beamline/tests/tracking&#39;</span>
+    <span class="n">hdf5file</span>   <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">datapath</span><span class="p">),</span> <span class="s1">&#39;test.h5&#39;</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.sig&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">datafields</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setDataScript</span><span class="p">(</span><span class="n">datascript</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setDataPath</span>  <span class="p">(</span><span class="n">datapath</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setH5file</span>    <span class="p">(</span><span class="n">hdf5file</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">extractData</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+    <span class="n">d_s</span>  <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">][:]</span>
+    <span class="n">d_sx</span> <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;Sx&#39;</span><span class="p">][:]</span>
+
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d_s</span><span class="p">,</span> <span class="n">d_sx</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$s$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\sigma_x$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

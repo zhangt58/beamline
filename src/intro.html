@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../index.html" />
+    <link rel="next" title="Deployment" href="deploy.html" />
+    <link rel="prev" title="Welcome to beamline’s documentation!" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="deploy.html" title="Deployment"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to beamline’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">beamline 1.3.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Welcome to beamline&#8217;s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="deploy.html"
+                        title="next chapter">Deployment</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Python package <code class="docutils literal"><span class="pre">beamline</span></code> is created for accelerator online-modeling
+requirement, trying to supply both CLI and GUI working environment, upon
+the already built infrastructure, extensions/tools could be developed
+to solve specific problems.</p>
+<p>Interfaces between EPICS control environment have been designed, manually
+modeling machine could be achieved following the examples that this manual
+provides, automatic modeling from lattice file is also supported.</p>
+<p>Tracing back to the very beginning of this package, ideas about to build
+a full-featured OOP high-level development environment by Python has been
+incubated, as well as the highly flexibility to meet different requirements.</p>
+<p>Below is the design picture inside this package, to accomplish various goals:</p>
+<img alt="../_images/onlineModel.png" src="../_images/onlineModel.png" />
+<ul class="simple">
+<li>Parsing <code class="docutils literal"><span class="pre">Elegant</span></code> (electron accelerator tracking code) lattice file (<code class="docutils literal"><span class="pre">.lte</span></code>) to be
+python dict or json string for further operations.</li>
+<li>Modeling accelerator magnetic elements, such as dipole, quadrupole, drift, etc. to be python
+objects, from EPICS control environment to OOP level.</li>
+<li>Automatic modeling from <code class="docutils literal"><span class="pre">.lte</span></code> lattice file definition with postfixed <code class="docutils literal"><span class="pre">!epics</span></code> anotation to
+define EPICS control configurations.</li>
+<li>Support unit conversion between EPICS PV raw value and the physical real value of elements.</li>
+<li>Modeling lattice beamline from modeled elements, constructing Lattice instance,
+dumping <code class="docutils literal"><span class="pre">.lte</span></code> file for code tracking.</li>
+<li>Feeding defined elements with new configuration, interfacing with EPICS environment, to form
+the close-loop online system.</li>
+<li>Visualizing the lattice layout by predefined elements&#8217; style.</li>
+<li>Friendly native-look GUI application to facilitate these (part of) functionalities.</li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="deploy.html" title="Deployment"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to beamline’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">beamline 1.3.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

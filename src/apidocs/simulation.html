@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.simulation module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="prev" title="beamline.models module" href="models.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="beamline.models module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="previous chapter">beamline.models module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.simulation">
+<span id="beamline-simulation-module"></span><h1>beamline.simulation module<a class="headerlink" href="#module-beamline.simulation" title="Permalink to this headline">¶</a></h1>
+<p>Module designed for online modeling:
+<em>elegant tracking with lte/ele files</em>:</p>
+<blockquote>
+<div>1: lte file should be generated from lattice.Lattice.generateLatticeFile() method;
+2: take ele file as initialization parameter, but could be changed;
+3: output tracking results as hdf5 file (hard drive) and numpy array (memory);</div></blockquote>
+<p>Author      : Tong Zhang
+Created     : 2016-03-08
+Last updated: 2016-03-08</p>
+<dl class="class">
+<dt id="beamline.simulation.Simulator">
+<em class="property">class </em><code class="descname">Simulator</code><span class="sig-paren">(</span><em>infile=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.simulation.Simulator.doSimulation">
+<code class="descname">doSimulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.doSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.doSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.simulation.Simulator.getOutput">
+<code class="descname">getOutput</code><span class="sig-paren">(</span><em>**kws</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.getOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.getOutput" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.simulation.Simulator.setExec">
+<code class="descname">setExec</code><span class="sig-paren">(</span><em>execpath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.setExec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.setExec" title="Permalink to this definition">¶</a></dt>
+<dd><p>set executable for simulation
+:param execpath: elegant or madx full path</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.simulation.Simulator.setInputfiles">
+<code class="descname">setInputfiles</code><span class="sig-paren">(</span><em>**infiles</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.setInputfiles"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.setInputfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>input parameters: 
+(elegant mode)</p>
+<blockquote>
+<div>1: lte file
+2: ele file</div></blockquote>
+<dl class="docutils">
+<dt>(mad mode)</dt>
+<dd>1: mad file</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.simulation.Simulator.setMode">
+<code class="descname">setMode</code><span class="sig-paren">(</span><em>mode='elegant'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.setMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.setMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>set simulation mode, define mode parameter of &#8216;elegant&#8217; or &#8216;mad&#8217;
+:param mode: simulation mode</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.simulation.Simulator.setPath">
+<code class="descname">setPath</code><span class="sig-paren">(</span><em>simpath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.setPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.setPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>set simulation path where data should be put into
+:param simpath: where simulations take place, all data files should be found there</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.simulation.Simulator.setScript">
+<code class="descname">setScript</code><span class="sig-paren">(</span><em>fullname</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#Simulator.setScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.Simulator.setScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bash shell script full path name for simulation
+:param fullname: set &#8216;runElegant.sh&#8217;, which should be available after installed beamline package</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.simulation.test">
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/simulation.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.simulation.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="beamline.models module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

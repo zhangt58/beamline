@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example 4 &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Examples and Demonstrations" href="../demo.html" />
+    <link rel="next" title="API" href="../apidoc.html" />
+    <link rel="prev" title="Example 3" href="demo3.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../apidoc.html" title="API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="demo3.html" title="Example 3"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../demo.html" accesskey="U">Examples and Demonstrations</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Example 4</a><ul>
+<li><a class="reference internal" href="#lte2json">lte2json</a></li>
+<li><a class="reference internal" href="#json2lte">json2lte</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="demo3.html"
+                        title="previous chapter">Example 3</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../apidoc.html"
+                        title="next chapter">API</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-4">
+<h1>Example 4<a class="headerlink" href="#example-4" title="Permalink to this headline">¶</a></h1>
+<p>This example presents the scripts/commands that <code class="docutils literal"><span class="pre">beamline</span></code> provides,
+demonstrate how to make them useful.</p>
+<div class="section" id="lte2json">
+<h2>lte2json<a class="headerlink" href="#lte2json" title="Permalink to this headline">¶</a></h2>
+<p>Convert <code class="docutils literal"><span class="pre">.lte</span></code> file into JSON string format.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>usage: lte2json <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>--lte LTEFILE<span class="o">]</span> <span class="o">[</span>--json JSONFILE<span class="o">]</span>
+
+Convert Elegant lte file into json string file
+
+optional arguments:
+  -h, --help       show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  --lte LTEFILE    .lte file to <span class="nb">read</span>
+  --json JSONFILE  .json file to generate, <span class="k">if</span> None or omitted, write to stdout
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>lte2json &#8211;lte sxfel_all.lte &#8211;json sxfel_all.json</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Download <code class="docutils literal"><span class="pre">sxfel_all.lte</span></code> <a class="reference download internal" href="../../_downloads/sxfel_all.lte" download=""><code class="xref download docutils literal"><span class="pre">here</span></code></a></li>
+<li>Recommand an online general JSON file viewer: <a class="reference external" href="http://jsonviewer.stack.hu/">http://jsonviewer.stack.hu/</a></li>
+<li>Open the generated <code class="docutils literal"><span class="pre">.json</span></code> file by <code class="docutils literal"><span class="pre">latticeviewer</span></code>,
+which is a GUI application distributed with <code class="docutils literal"><span class="pre">beamline</span></code> package</li>
+</ul>
+</div>
+<a class="reference internal image-reference" href="../../_images/json_viewer_01.png"><img alt="../../_images/json_viewer_01.png" src="../../_images/json_viewer_01.png" style="width: 450px;" /></a>
+<a class="reference internal image-reference" href="../../_images/json_viewer_02.png"><img alt="../../_images/json_viewer_02.png" src="../../_images/json_viewer_02.png" style="width: 450px;" /></a>
+</div>
+<div class="section" id="json2lte">
+<h2>json2lte<a class="headerlink" href="#json2lte" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>usage: json2lte <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>--json JSONFILE<span class="o">]</span> <span class="o">[</span>--lte LTEFILE<span class="o">]</span> <span class="o">[</span>--bl BLNAME<span class="o">]</span>
+                <span class="o">[</span>--show SHOW_FLAG<span class="o">]</span>
+
+Read json file and generate lte file with the given beamline name
+
+optional arguments:
+  -h, --help        show this <span class="nb">help</span> message and <span class="nb">exit</span>
+  --json JSONFILE   .json file to <span class="nb">read</span>
+  --lte LTEFILE     .lte file to generate
+  --bl BLNAME       name of beamline
+  --show SHOW_FLAG  show all valid beamline names, --json should be valid
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>To inspect the beamline names:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>json2lte --json sxfel_all.json --show True
+</pre></div>
+</div>
+<p>The output:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>M1BI3,M1BI1,BLEMIT1,D14DBC1,ASL1,LTU_BC1,LTU_BC2,BL1,ACL2_4,LTU,H07L3,AXL1,L2,L3,L0,L1,H03L3,D08DBC1,D12BC1,H01BI1,H01L3,SXFEL,H05L3,BI2,BI3,H04BI1,LTU_BL1,LTU_BL2,H02BI1,TESTLINE,H03BI1,M2BI1,BC1,BC2,H02L3,BL,FODOBI1,ACL2_1,ACL2_3,ACL2_2,ACL2_5,ACL3_2,ACL3_5,H04L3,BI1,H06L3,ACL3_1,ACL3_3,ACL3_4,ACL3_6,ACL3_7
+</pre></div>
+</div>
+<p>Generate <code class="docutils literal"><span class="pre">.lte</span></code> file with beamline <code class="docutils literal"><span class="pre">SXFEL</span></code> exclusively:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>json2lte --json sxfel_all.json --lte sxfel.lte --bl SXFEL
+</pre></div>
+</div>
+<p>The generate files: <a class="reference download internal" href="../../_downloads/sxfel.lte" download=""><code class="xref download docutils literal"><span class="pre">sxfel.lte</span></code></a>,
+could be read by <code class="docutils literal"><span class="pre">Elegant</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">latticeviewer</span></code> could read both <code class="docutils literal"><span class="pre">.lte</span></code> file
+and <code class="docutils literal"><span class="pre">.json</span></code> file, and accomplish the format conversion tasks.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../apidoc.html" title="API"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="demo3.html" title="Example 3"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../demo.html" >Examples and Demonstrations</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

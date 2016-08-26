@@ -1,0 +1,76 @@
+beamline.ui package
+===================
+
+.. automodule:: beamline.ui
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Submodules
+----------
+
+beamline.ui.appui module
+------------------------
+
+.. automodule:: beamline.ui.appui
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.main module
+-----------------------
+
+.. automodule:: beamline.ui.main
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.myappframe module
+-----------------------------
+
+.. automodule:: beamline.ui.myappframe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.mychoiceframe module
+--------------------------------
+
+.. automodule:: beamline.ui.mychoiceframe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.mydataframe module
+------------------------------
+
+.. automodule:: beamline.ui.mydataframe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.mydrawframe module
+------------------------------
+
+.. automodule:: beamline.ui.mydrawframe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.mylogframe module
+-----------------------------
+
+.. automodule:: beamline.ui.mylogframe
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+beamline.ui.pltutils module
+---------------------------
+
+.. automodule:: beamline.ui.pltutils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+

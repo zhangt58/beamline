@@ -1,0 +1,643 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.mathutils &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.mathutils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">functions for mathematical calculations:</span>
+<span class="sd">    * transfer matrix for quad, drift, undulator, chicane, etc.</span>
+
+<span class="sd">.. Tong Zhang</span>
+<span class="sd">.. Aug. 11, 2015</span>
+
+<span class="sd">.. Revised: 2016-05-11 11:12:20 AM CST</span>
+<span class="sd">..    1: expand 2 x 2 transport matrice to 6 x 6</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="funTransQuadF"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransQuadF">[docs]</a><span class="k">def</span> <span class="nf">funTransQuadF</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Focusing quad in X, defocusing in Y</span>
+
+<span class="sd">    :param k: k1, in [T/m]</span>
+<span class="sd">    :param s: width, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sqrtk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="n">sqrtk</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">a</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">real</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">real</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransQuadD"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransQuadD">[docs]</a><span class="k">def</span> <span class="nf">funTransQuadD</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Defocusing quad in X, focusing in Y</span>
+
+<span class="sd">    :param k: k1, in [T/m]</span>
+<span class="sd">    :param s: width, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sqrtk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span><span class="o">/</span><span class="n">sqrtk</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">sqrtk</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">sqrtk</span><span class="o">*</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">a</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">real</span><span class="p">],</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">real</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransDrift"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransDrift">[docs]</a><span class="k">def</span> <span class="nf">funTransDrift</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Drift space</span>
+
+<span class="sd">    :param s: drift length, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransUnduV"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransUnduV">[docs]</a><span class="k">def</span> <span class="nf">funTransUnduV</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Planar undulator transport matrix in vertical direction</span>
+
+<span class="sd">    :param k: equivalent k1, in [T/m], i.e. natural focusing</span>
+<span class="sd">    :param s: horizontal width, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">funTransQuadF</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="funTransUnduH"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransUnduH">[docs]</a><span class="k">def</span> <span class="nf">funTransUnduH</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Planar undulator transport matrix in horizontal direction </span>
+
+<span class="sd">    :param s: horizontal width, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransEdgeX"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransEdgeX">[docs]</a><span class="k">def</span> <span class="nf">funTransEdgeX</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Fringe matrix in X</span>
+
+<span class="sd">    :param theta: fringe angle, in [rad]</span>
+<span class="sd">    :param rho: bend radius, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="n">rho</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransEdgeY"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransEdgeY">[docs]</a><span class="k">def</span> <span class="nf">funTransEdgeY</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Fringe matrix in Y</span>
+
+<span class="sd">    :param theta: fringe angle, in [rad]</span>
+<span class="sd">    :param rho: bend radius, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="n">rho</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransSectX"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransSectX">[docs]</a><span class="k">def</span> <span class="nf">funTransSectX</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Sector matrix in X</span>
+
+<span class="sd">    :param theta: bend angle, in [rad]</span>
+<span class="sd">    :param rho: bend radius, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">rho</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="n">rho</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransSectY"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransSectY">[docs]</a><span class="k">def</span> <span class="nf">funTransSectY</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Sector matrix in Y</span>
+
+<span class="sd">    :param theta: bend angle, in [rad]</span>
+<span class="sd">    :param rho: bend radius, in [m]</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="n">rho</span><span class="o">*</span><span class="n">theta</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="funTransChica"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.funTransChica">[docs]</a><span class="k">def</span> <span class="nf">funTransChica</span><span class="p">(</span><span class="n">imagl</span><span class="p">,</span> <span class="n">idril</span><span class="p">,</span> <span class="n">ibfield</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">xoy</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Chicane matrix, composed of four rbends, seperated by drifts</span>
+
+<span class="sd">    :param imagl: rbend width, in [m]</span>
+<span class="sd">    :param idril: drift length between two adjacent rbends, in [m]</span>
+<span class="sd">    :param ibfield: rbend magnetic strength, in [T]</span>
+<span class="sd">    :param gamma0: electron energy, gamma</span>
+<span class="sd">    :param xoy: ``&#39;x&#39;`` or ``&#39;y&#39;``, matrix in X or Y direction, ``&#39;x&#39;`` by default</span>
+<span class="sd">    :return: 2x2 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m0</span> <span class="o">=</span> <span class="mf">9.10938215e-31</span>
+    <span class="n">e0</span> <span class="o">=</span> <span class="mf">1.602176487e-19</span>
+    <span class="n">c0</span> <span class="o">=</span> <span class="mi">299792458</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gamma0</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m0</span><span class="o">*</span><span class="n">c0</span><span class="o">/</span><span class="n">ibfield</span><span class="o">/</span><span class="n">e0</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">imagl</span><span class="o">/</span><span class="n">rho</span><span class="p">)</span>
+    <span class="n">ld</span> <span class="o">=</span> <span class="n">idril</span>
+    <span class="n">mx</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="p">[</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">idril</span><span class="p">),</span> 
+                         <span class="n">funTransSectX</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span> <span class="n">funTransEdgeX</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span>
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">ld</span><span class="p">),</span>
+                         <span class="n">funTransEdgeX</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span> <span class="n">funTransSectX</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span>
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">ld</span><span class="p">),</span>
+                         <span class="n">funTransSectX</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span> <span class="n">funTransEdgeX</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span> 
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">ld</span><span class="p">),</span>
+                         <span class="n">funTransEdgeX</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span> <span class="n">funTransSectX</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span> 
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">idril</span><span class="p">)])</span>
+    <span class="n">my</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="p">[</span><span class="n">funTransDrift</span><span class="p">(</span><span class="n">idril</span><span class="p">),</span>
+                         <span class="n">funTransSectY</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span> <span class="n">funTransEdgeY</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span>
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">ld</span><span class="p">),</span>
+                         <span class="n">funTransEdgeY</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span> <span class="n">funTransSectY</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span>
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">ld</span><span class="p">),</span>
+                         <span class="n">funTransSectY</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span> <span class="n">funTransEdgeY</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">),</span>
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">ld</span><span class="p">),</span>
+                         <span class="n">funTransEdgeY</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span> <span class="n">funTransSectY</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">),</span>
+                         <span class="n">funTransDrift</span><span class="p">(</span><span class="n">idril</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">xoy</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">mx</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">my</span>
+
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<span class="c1"># 6 x 6 transport matrice</span>
+<div class="viewcode-block" id="transDrift"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.transDrift">[docs]</a><span class="k">def</span> <span class="nf">transDrift</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transport matrix of drift</span>
+
+<span class="sd">    :param length: drift length in [m]</span>
+<span class="sd">    :param gamma: electron energy, gamma value</span>
+<span class="sd">    :return: 6x6 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;length&#39; should be a positive float number.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">gamma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gamma</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">length</span><span class="p">)</span><span class="o">/</span><span class="n">gamma</span><span class="o">/</span><span class="n">gamma</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;gamma&#39; should be a positive float number.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="transQuad"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.transQuad">[docs]</a><span class="k">def</span> <span class="nf">transQuad</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">k1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transport matrix of quadrupole</span>
+
+<span class="sd">    :param length: quad width in [m]</span>
+<span class="sd">    :param k1: quad k1 strength in [T/m]</span>
+<span class="sd">    :param gamma: electron energy, gamma value</span>
+<span class="sd">    :return: 6x6 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;length&#39; should be a positive float number.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">gamma</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">gamma</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;k1&#39; should be a positive float number.&quot;</span><span class="p">)</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">length</span><span class="p">)</span><span class="o">/</span><span class="n">gamma</span><span class="o">/</span><span class="n">gamma</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sqrtk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">complex</span><span class="p">(</span><span class="n">k1</span><span class="p">))</span>
+            <span class="n">sqrtkl</span> <span class="o">=</span> <span class="n">sqrtk</span> <span class="o">*</span> <span class="n">length</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">sqrtkl</span><span class="p">))</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sqrtkl</span><span class="p">)</span><span class="o">/</span><span class="n">sqrtk</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sqrtkl</span><span class="p">)</span><span class="o">*</span><span class="n">sqrtk</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">sqrtkl</span><span class="p">))</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">sqrtkl</span><span class="p">)</span><span class="o">/</span><span class="n">sqrtk</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">sqrtkl</span><span class="p">)</span><span class="o">*</span><span class="n">sqrtk</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+            <span class="n">m</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">length</span><span class="p">)</span><span class="o">/</span><span class="n">gamma</span><span class="o">/</span><span class="n">gamma</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;gamma&#39; should be a positive float number.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="transSect"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.transSect">[docs]</a><span class="k">def</span> <span class="nf">transSect</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transport matrix of sector dipole</span>
+
+<span class="sd">    :param theta: bending angle in [RAD]</span>
+<span class="sd">    :param rho: bending radius in [m]</span>
+<span class="sd">    :param gamma: electron energy, gamma value</span>
+<span class="sd">    :return: 6x6 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;theta&#39;, &#39;rho&#39;, &#39;gamma&#39; should be positive float numbers.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">m</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">rs</span> <span class="o">=</span> <span class="n">rho</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rc</span><span class="o">/</span><span class="n">rho</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">rs</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho</span><span class="o">-</span><span class="n">rc</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="n">rho</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">rs</span><span class="o">/</span><span class="n">rho</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">rho</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span><span class="o">/</span><span class="n">gamma</span><span class="o">/</span><span class="n">gamma</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">theta</span> <span class="o">+</span> <span class="n">rs</span>
+        <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="transRbend"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.transRbend">[docs]</a><span class="k">def</span> <span class="nf">transRbend</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">incsym</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transport matrix of rectangle dipole</span>
+
+<span class="sd">    :param theta: bending angle in [RAD]</span>
+<span class="sd">    :param incsym: incident symmetry, -1 by default,</span>
+<span class="sd">        available options:</span>
+<span class="sd">            * -1: left half symmetry,</span>
+<span class="sd">            * 0: full symmetry,</span>
+<span class="sd">            * 1: right half symmetry</span>
+<span class="sd">    :param rho: bending radius in [m]</span>
+<span class="sd">    :param gamma: electron energy, gamma value</span>
+<span class="sd">    :return: 6x6 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;theta&#39;, &#39;rho&#39;, &#39;gamma&#39; should be positive float numbers.&quot;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">m</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">beta12d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;-1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">theta</span><span class="p">),</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">theta</span><span class="o">*</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">theta</span><span class="o">*</span><span class="mf">0.5</span><span class="p">),</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">)}</span>
+        <span class="p">(</span><span class="n">beta1</span><span class="p">,</span> <span class="n">beta2</span><span class="p">)</span> <span class="o">=</span> <span class="n">beta12d</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">incsym</span><span class="p">)]</span>
+        <span class="n">mf1</span> <span class="o">=</span> <span class="n">transFringe</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta1</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">)</span>
+        <span class="n">mf2</span> <span class="o">=</span> <span class="n">transFringe</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta2</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">)</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="n">transSect</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="n">gamma</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="p">[</span><span class="n">mf1</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">mf2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="transFringe"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.transFringe">[docs]</a><span class="k">def</span> <span class="nf">transFringe</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transport matrix of fringe field</span>
+
+<span class="sd">    :param beta: angle of rotation of pole-face in [RAD]</span>
+<span class="sd">    :param rho: bending radius in [m]</span>
+<span class="sd">    :return: 6x6 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">rho</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;theta&#39;, &#39;rho&#39; should be positive float numbers.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">m</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">/</span><span class="n">rho</span>
+        <span class="n">m</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">/</span><span class="n">rho</span>
+        <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="transChicane"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.transChicane">[docs]</a><span class="k">def</span> <span class="nf">transChicane</span><span class="p">(</span><span class="n">bend_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bend_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drift_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transport matrix of chicane</span>
+<span class="sd">        composed of four rbends and three drifts between them</span>
+
+<span class="sd">    :param bend_length: rbend width in [m]</span>
+<span class="sd">    :param bend_field: rbend magnetic field in [T]</span>
+<span class="sd">    :param drift_length: drift length, list or tuple of three elements, in [m]</span>
+<span class="sd">        single float number stands for same length for three drifts</span>
+<span class="sd">    :param gamma: electron energy, gamma value</span>
+<span class="sd">    :return: 6x6 numpy array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">bend_length</span><span class="p">,</span> <span class="n">bend_field</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;bend_length&#39;, &#39;bend_field&#39;, &#39;drift_length&#39;, &#39;gamma&#39; should be positive float numbers.&quot;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">m</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drift_length</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drift_length</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">dflist</span> <span class="o">=</span> <span class="n">drift_length</span> <span class="o">*</span> <span class="mi">3</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">dflist</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">dflist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span>
+                <span class="n">dflist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">drift_length</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">dflist</span> <span class="o">=</span> <span class="n">drift_length</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">dflist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">dflist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: chicane is not symmetric.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;drift_length is not a valid list or tuple.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dflist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">dflist</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">drift_length</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">])</span>
+
+        <span class="n">m0</span> <span class="o">=</span> <span class="mf">9.10938215e-31</span>
+        <span class="n">e0</span> <span class="o">=</span> <span class="mf">1.602176487e-19</span>
+        <span class="n">c0</span> <span class="o">=</span> <span class="mf">299792458.0</span>
+        <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">gamma</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m0</span><span class="o">*</span><span class="n">c0</span><span class="o">/</span><span class="n">bend_field</span><span class="o">/</span><span class="n">e0</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">bend_length</span><span class="o">/</span><span class="n">rho</span><span class="p">)</span>
+
+        <span class="n">m_rb_1</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span> <span class="n">theta</span><span class="p">,</span>  <span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">m_rb_2</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span>  <span class="mi">1</span><span class="p">)</span>
+        <span class="n">m_rb_3</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">m_rb_4</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span> <span class="n">theta</span><span class="p">,</span>  <span class="n">rho</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span>  <span class="mi">1</span><span class="p">)</span>
+        <span class="n">m_df_12</span> <span class="o">=</span> <span class="n">transDrift</span><span class="p">(</span><span class="n">dflist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gamma</span><span class="p">)</span>
+        <span class="n">m_df_23</span> <span class="o">=</span> <span class="n">transDrift</span><span class="p">(</span><span class="n">dflist</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gamma</span><span class="p">)</span>
+        <span class="n">m_df_34</span> <span class="o">=</span> <span class="n">transDrift</span><span class="p">(</span><span class="n">dflist</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">gamma</span><span class="p">)</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="p">[</span><span class="n">m_rb_1</span><span class="p">,</span> <span class="n">m_df_12</span><span class="p">,</span> <span class="n">m_rb_2</span><span class="p">,</span> <span class="n">m_df_23</span><span class="p">,</span> <span class="n">m_rb_3</span><span class="p">,</span> <span class="n">m_df_34</span><span class="p">,</span> <span class="n">m_rb_4</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="Chicane"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane">[docs]</a><span class="k">class</span> <span class="nc">Chicane</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Chicane class</span>
+<span class="sd">    transport configuration of a chicane, comprising of four dipole with three drift sections</span>
+
+<span class="sd">    .. warning:: it&#39;s better to issue ``getMatrix()`` before ``getR()``, ``getAngle()``</span>
+
+<span class="sd">    :param bend_length: bend length, [m]</span>
+<span class="sd">    :param bend_field: bend field, [T]</span>
+<span class="sd">    :param drift_length: drift length [m], list: [1,2,1], [1], [1,2], 1</span>
+<span class="sd">    :param gamma: electron energy, gamma value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bend_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bend_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">drift_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setParams</span><span class="p">(</span><span class="n">bend_length</span><span class="p">,</span> <span class="n">bend_field</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mflag</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># if calculate m or return eye matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># refresh or not</span>
+    
+<div class="viewcode-block" id="Chicane.setParams"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.setParams">[docs]</a>    <span class="k">def</span> <span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bend_length</span><span class="p">,</span> <span class="n">bend_field</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set chicane parameters</span>
+
+<span class="sd">        :param bend_length: bend length, [m]</span>
+<span class="sd">        :param bend_field: bend field, [T]</span>
+<span class="sd">        :param drift_length: drift length, [m], list</span>
+<span class="sd">        :param gamma: electron energy, gamma</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="kc">None</span> <span class="ow">in</span> <span class="p">(</span><span class="n">bend_length</span><span class="p">,</span> <span class="n">bend_field</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: &#39;bend_length&#39;, &#39;bend_field&#39;, &#39;drift_length&#39;, &#39;gamma&#39; should be positive float numbers.&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mflag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setDriftList</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bend_length</span> <span class="o">=</span> <span class="n">bend_length</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bend_field</span> <span class="o">=</span> <span class="n">bend_field</span></div>
+
+    <span class="k">def</span> <span class="nf">_setDriftList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set drift length list of three elements</span>
+
+<span class="sd">        :param drift_length: input drift_length in [m], single float, or list/tuple of float numbers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drift_length</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">drift_length</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="n">drift_length</span> <span class="o">*</span> <span class="mi">3</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">drift_length</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">drift_length</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="n">drift_length</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;warning: chicane is not symmetric.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;drift_length is not a valid list or tuple.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mflag</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">drift_length</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">,</span> <span class="n">drift_length</span><span class="p">])</span>
+
+<div class="viewcode-block" id="Chicane.getMatrix"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getMatrix">[docs]</a>    <span class="k">def</span> <span class="nf">getMatrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get transport matrix with ``mflag`` flag,</span>
+<span class="sd">        if ``mflag`` is True, return calculated matrix, else return unity matrix</span>
+
+<span class="sd">        :return: transport matrix</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mflag</span><span class="p">:</span>
+            <span class="n">m0</span> <span class="o">=</span> <span class="mf">9.10938215e-31</span>
+            <span class="n">e0</span> <span class="o">=</span> <span class="mf">1.602176487e-19</span>
+            <span class="n">c0</span> <span class="o">=</span> <span class="mf">299792458.0</span>
+            <span class="n">rho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="o">**</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">m0</span><span class="o">*</span><span class="n">c0</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">bend_field</span><span class="o">/</span><span class="n">e0</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bend_length</span><span class="o">/</span><span class="n">rho</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bangle</span> <span class="o">=</span> <span class="n">theta</span>
+
+            <span class="n">m_rb_1</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span> <span class="n">theta</span><span class="p">,</span>  <span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">m_rb_2</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>  <span class="mi">1</span><span class="p">)</span>
+            <span class="n">m_rb_3</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span><span class="o">-</span><span class="n">theta</span><span class="p">,</span> <span class="o">-</span><span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">m_rb_4</span> <span class="o">=</span> <span class="n">transRbend</span><span class="p">(</span> <span class="n">theta</span><span class="p">,</span>  <span class="n">rho</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">,</span>  <span class="mi">1</span><span class="p">)</span>
+            <span class="n">m_df_12</span> <span class="o">=</span> <span class="n">transDrift</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
+            <span class="n">m_df_23</span> <span class="o">=</span> <span class="n">transDrift</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
+            <span class="n">m_df_34</span> <span class="o">=</span> <span class="n">transDrift</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dflist</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">transM</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="p">[</span><span class="n">m_rb_1</span><span class="p">,</span> <span class="n">m_df_12</span><span class="p">,</span> <span class="n">m_rb_2</span><span class="p">,</span> <span class="n">m_df_23</span><span class="p">,</span> <span class="n">m_rb_3</span><span class="p">,</span> <span class="n">m_df_34</span><span class="p">,</span> <span class="n">m_rb_4</span><span class="p">])</span>
+     
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transM</span></div>
+            
+<div class="viewcode-block" id="Chicane.getAngle"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getAngle">[docs]</a>    <span class="k">def</span> <span class="nf">getAngle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;deg&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return bend angle</span>
+
+<span class="sd">        :param mode: &#39;deg&#39; or &#39;rad&#39;</span>
+<span class="sd">        :return: deflecting angle in RAD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mflag</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;deg&#39;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bangle</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">180</span>
+                <span class="k">else</span><span class="p">:</span>  <span class="c1"># rad</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bangle</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please execute getMatrix() first.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Chicane.getR"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getR">[docs]</a>    <span class="k">def</span> <span class="nf">getR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return transport matrix element, indexed by i, j,</span>
+<span class="sd">        be default, return dispersion value, i.e. getR(5,6) in [m]</span>
+
+<span class="sd">        :param i: row index, with initial index of 1</span>
+<span class="sd">        :param j: col indx, with initial index of 1</span>
+<span class="sd">        :return: transport matrix element</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transM</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Chicane.setBendLength"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.setBendLength">[docs]</a>    <span class="k">def</span> <span class="nf">setBendLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set bend length</span>
+
+<span class="sd">        :param x: new bend length to be assigned, [m]</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bend_length</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bend_length</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Chicane.getBendLength"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getBendLength">[docs]</a>    <span class="k">def</span> <span class="nf">getBendLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :return: bend length</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bend_length</span></div>
+
+<div class="viewcode-block" id="Chicane.setBendField"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.setBendField">[docs]</a>    <span class="k">def</span> <span class="nf">setBendField</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set bend magnetic field</span>
+
+<span class="sd">        :param x: new bend field to be assigned, [T]</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bend_field</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bend_field</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Chicane.getBendField"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getBendField">[docs]</a>    <span class="k">def</span> <span class="nf">getBendField</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :return: bend magnetic field</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bend_field</span></div>
+
+<div class="viewcode-block" id="Chicane.setDriftLength"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.setDriftLength">[docs]</a>    <span class="k">def</span> <span class="nf">setDriftLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set lengths for drift sections</span>
+
+<span class="sd">        :param x: single double or list</span>
+<span class="sd">        :return: None</span>
+
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; import beamline</span>
+<span class="sd">        &gt;&gt;&gt; chi = beamline.mathutils.Chicane(bend_length=1,bend_field=0.5,drift_length=1,gamma=1000)</span>
+<span class="sd">        &gt;&gt;&gt; chi.getMatrix()</span>
+<span class="sd">        &gt;&gt;&gt; r56 = chi.getR(5,6)  # r56 = -0.432</span>
+<span class="sd">        &gt;&gt;&gt; chi.setDriftLength([2,4,2])</span>
+<span class="sd">        &gt;&gt;&gt; # same effect (to R56) as ``chi.setDriftLength([2,4])`` or ``chi.setDriftLength([2])``</span>
+<span class="sd">        &gt;&gt;&gt; # or ``chi.setDriftLength(2)``</span>
+<span class="sd">        &gt;&gt;&gt; r56 = chi.getR(5,6)  # r56 = -0.620</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDriftLength</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_setDriftList</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Chicane.getDriftLength"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getDriftLength">[docs]</a>    <span class="k">def</span> <span class="nf">getDriftLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        :return: drift lengths list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dflist</span></div>
+
+<div class="viewcode-block" id="Chicane.setGamma"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.setGamma">[docs]</a>    <span class="k">def</span> <span class="nf">setGamma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set electron energy, gamma value</span>
+
+<span class="sd">        :param x: new energy, gamma value</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Chicane.getGamma"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.Chicane.getGamma">[docs]</a>    <span class="k">def</span> <span class="nf">getGamma</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: gamma value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span></div></div>
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../src/apidocs/mathutils.html#beamline.mathutils.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="mi">1</span>
+    
+    <span class="n">theta</span>   <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">rho</span>     <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">imagl</span>   <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">idril</span>   <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">ibfield</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">gamma0</span>  <span class="o">=</span> <span class="mi">500</span>
+    <span class="n">xoy</span>     <span class="o">=</span> <span class="s1">&#39;y&#39;</span>
+
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">funTransQuadF</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="n">funTransQuadD</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">f3</span> <span class="o">=</span> <span class="n">funTransUnduV</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">f4</span> <span class="o">=</span> <span class="n">funTransChica</span><span class="p">(</span><span class="n">imagl</span><span class="p">,</span> <span class="n">idril</span><span class="p">,</span> <span class="n">ibfield</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">xoy</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">f1</span>
+    <span class="nb">print</span> <span class="n">f2</span>
+    <span class="nb">print</span> <span class="n">f3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">f1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f2</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">f3</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">reduce</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">,</span> <span class="p">[</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">f4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="o">*</span><span class="mi">40</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">funTransQuadF</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="o">-</span> <span class="n">funTransQuadD</span><span class="p">(</span><span class="o">-</span><span class="n">k</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

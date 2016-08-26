@@ -1,0 +1,703 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.mathutils module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.matchutils module" href="matchutils.html" />
+    <link rel="prev" title="beamline.datautils module" href="datautils.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="matchutils.html" title="beamline.matchutils module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="datautils.html" title="beamline.datautils module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="datautils.html"
+                        title="previous chapter">beamline.datautils module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="matchutils.html"
+                        title="next chapter">beamline.matchutils module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.mathutils">
+<span id="beamline-mathutils-module"></span><h1>beamline.mathutils module<a class="headerlink" href="#module-beamline.mathutils" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>functions for mathematical calculations:</dt>
+<dd><ul class="first last simple">
+<li>transfer matrix for quad, drift, undulator, chicane, etc.</li>
+</ul>
+</dd>
+</dl>
+<dl class="class">
+<dt id="beamline.mathutils.Chicane">
+<em class="property">class </em><code class="descname">Chicane</code><span class="sig-paren">(</span><em>bend_length=None</em>, <em>bend_field=None</em>, <em>drift_length=None</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Chicane class
+transport configuration of a chicane, comprising of four dipole with three drift sections</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">it&#8217;s better to issue <code class="docutils literal"><span class="pre">getMatrix()</span></code> before <code class="docutils literal"><span class="pre">getR()</span></code>, <code class="docutils literal"><span class="pre">getAngle()</span></code></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bend_length</strong> &#8211; bend length, [m]</li>
+<li><strong>bend_field</strong> &#8211; bend field, [T]</li>
+<li><strong>drift_length</strong> &#8211; drift length [m], list: [1,2,1], [1], [1,2], 1</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getAngle">
+<code class="descname">getAngle</code><span class="sig-paren">(</span><em>mode='deg'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getAngle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getAngle" title="Permalink to this definition">¶</a></dt>
+<dd><p>return bend angle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode</strong> &#8211; &#8216;deg&#8217; or &#8216;rad&#8217;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">deflecting angle in RAD</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getBendField">
+<code class="descname">getBendField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getBendField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getBendField" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bend magnetic field</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getBendLength">
+<code class="descname">getBendLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getBendLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getBendLength" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bend length</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getDriftLength">
+<code class="descname">getDriftLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getDriftLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getDriftLength" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">drift lengths list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getGamma">
+<code class="descname">getGamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getGamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getGamma" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">gamma value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getMatrix">
+<code class="descname">getMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getMatrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>get transport matrix with <code class="docutils literal"><span class="pre">mflag</span></code> flag,
+if <code class="docutils literal"><span class="pre">mflag</span></code> is True, return calculated matrix, else return unity matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">transport matrix</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.getR">
+<code class="descname">getR</code><span class="sig-paren">(</span><em>i=5</em>, <em>j=6</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.getR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.getR" title="Permalink to this definition">¶</a></dt>
+<dd><p>return transport matrix element, indexed by i, j,
+be default, return dispersion value, i.e. getR(5,6) in [m]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> &#8211; row index, with initial index of 1</li>
+<li><strong>j</strong> &#8211; col indx, with initial index of 1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">transport matrix element</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.setBendField">
+<code class="descname">setBendField</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.setBendField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.setBendField" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bend magnetic field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; new bend field to be assigned, [T]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.setBendLength">
+<code class="descname">setBendLength</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.setBendLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.setBendLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bend length</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; new bend length to be assigned, [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.setDriftLength">
+<code class="descname">setDriftLength</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.setDriftLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.setDriftLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>set lengths for drift sections</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; single double or list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">beamline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span> <span class="o">=</span> <span class="n">beamline</span><span class="o">.</span><span class="n">mathutils</span><span class="o">.</span><span class="n">Chicane</span><span class="p">(</span><span class="n">bend_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">bend_field</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">drift_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r56</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">getR</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># r56 = -0.432</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span><span class="o">.</span><span class="n">setDriftLength</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># same effect (to R56) as ``chi.setDriftLength([2,4])`` or ``chi.setDriftLength([2])``</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or ``chi.setDriftLength(2)``</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r56</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">getR</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># r56 = -0.620</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.setGamma">
+<code class="descname">setGamma</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.setGamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.setGamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>set electron energy, gamma value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; new energy, gamma value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.mathutils.Chicane.setParams">
+<code class="descname">setParams</code><span class="sig-paren">(</span><em>bend_length</em>, <em>bend_field</em>, <em>drift_length</em>, <em>gamma</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#Chicane.setParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.Chicane.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>set chicane parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bend_length</strong> &#8211; bend length, [m]</li>
+<li><strong>bend_field</strong> &#8211; bend field, [T]</li>
+<li><strong>drift_length</strong> &#8211; drift length, [m], list</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransChica">
+<code class="descname">funTransChica</code><span class="sig-paren">(</span><em>imagl</em>, <em>idril</em>, <em>ibfield</em>, <em>gamma0</em>, <em>xoy='x'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransChica"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransChica" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chicane matrix, composed of four rbends, seperated by drifts</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>imagl</strong> &#8211; rbend width, in [m]</li>
+<li><strong>idril</strong> &#8211; drift length between two adjacent rbends, in [m]</li>
+<li><strong>ibfield</strong> &#8211; rbend magnetic strength, in [T]</li>
+<li><strong>gamma0</strong> &#8211; electron energy, gamma</li>
+<li><strong>xoy</strong> &#8211; <code class="docutils literal"><span class="pre">'x'</span></code> or <code class="docutils literal"><span class="pre">'y'</span></code>, matrix in X or Y direction, <code class="docutils literal"><span class="pre">'x'</span></code> by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransDrift">
+<code class="descname">funTransDrift</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransDrift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransDrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drift space</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; drift length, in [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">2x2 numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransEdgeX">
+<code class="descname">funTransEdgeX</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransEdgeX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransEdgeX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fringe matrix in X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; fringe angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransEdgeY">
+<code class="descname">funTransEdgeY</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransEdgeY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransEdgeY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fringe matrix in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; fringe angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransQuadD">
+<code class="descname">funTransQuadD</code><span class="sig-paren">(</span><em>k</em>, <em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransQuadD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransQuadD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defocusing quad in X, focusing in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> &#8211; k1, in [T/m]</li>
+<li><strong>s</strong> &#8211; width, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransQuadF">
+<code class="descname">funTransQuadF</code><span class="sig-paren">(</span><em>k</em>, <em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransQuadF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransQuadF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Focusing quad in X, defocusing in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> &#8211; k1, in [T/m]</li>
+<li><strong>s</strong> &#8211; width, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransSectX">
+<code class="descname">funTransSectX</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransSectX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransSectX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sector matrix in X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bend angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransSectY">
+<code class="descname">funTransSectY</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransSectY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransSectY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sector matrix in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bend angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransUnduH">
+<code class="descname">funTransUnduH</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransUnduH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransUnduH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Planar undulator transport matrix in horizontal direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; horizontal width, in [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">2x2 numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.funTransUnduV">
+<code class="descname">funTransUnduV</code><span class="sig-paren">(</span><em>k</em>, <em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#funTransUnduV"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.funTransUnduV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Planar undulator transport matrix in vertical direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> &#8211; equivalent k1, in [T/m], i.e. natural focusing</li>
+<li><strong>s</strong> &#8211; horizontal width, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.test">
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.transChicane">
+<code class="descname">transChicane</code><span class="sig-paren">(</span><em>bend_length=None</em>, <em>bend_field=None</em>, <em>drift_length=None</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#transChicane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.transChicane" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Transport matrix of chicane</dt>
+<dd>composed of four rbends and three drifts between them</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bend_length</strong> &#8211; rbend width in [m]</li>
+<li><strong>bend_field</strong> &#8211; rbend magnetic field in [T]</li>
+<li><strong>drift_length</strong> &#8211; drift length, list or tuple of three elements, in [m]
+single float number stands for same length for three drifts</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.transDrift">
+<code class="descname">transDrift</code><span class="sig-paren">(</span><em>length=0.0</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#transDrift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.transDrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of drift</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>length</strong> &#8211; drift length in [m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.transFringe">
+<code class="descname">transFringe</code><span class="sig-paren">(</span><em>beta=None</em>, <em>rho=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#transFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.transFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of fringe field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>beta</strong> &#8211; angle of rotation of pole-face in [RAD]</li>
+<li><strong>rho</strong> &#8211; bending radius in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.transQuad">
+<code class="descname">transQuad</code><span class="sig-paren">(</span><em>length=0.0</em>, <em>k1=0.0</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#transQuad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.transQuad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of quadrupole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>length</strong> &#8211; quad width in [m]</li>
+<li><strong>k1</strong> &#8211; quad k1 strength in [T/m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.transRbend">
+<code class="descname">transRbend</code><span class="sig-paren">(</span><em>theta=None</em>, <em>rho=None</em>, <em>gamma=None</em>, <em>incsym=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#transRbend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.transRbend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of rectangle dipole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bending angle in [RAD]</li>
+<li><strong>incsym</strong> &#8211; <p>incident symmetry, -1 by default,
+available options:</p>
+<blockquote>
+<div><ul>
+<li>-1: left half symmetry,</li>
+<li>0: full symmetry,</li>
+<li>1: right half symmetry</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>rho</strong> &#8211; bending radius in [m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.mathutils.transSect">
+<code class="descname">transSect</code><span class="sig-paren">(</span><em>theta=None</em>, <em>rho=None</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/mathutils.html#transSect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.mathutils.transSect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of sector dipole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bending angle in [RAD]</li>
+<li><strong>rho</strong> &#8211; bending radius in [m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="matchutils.html" title="beamline.matchutils module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="datautils.html" title="beamline.datautils module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

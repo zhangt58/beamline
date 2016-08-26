@@ -1,0 +1,421 @@
+Example 2
+=========
+
+Manually modeling accelerator machine step by step, by using ``beamline`` 
+modules: ``element``, ``lattice``, ``models`` and ``simulation``, etc.
+
+Warming Up
+----------
+
+.. literalinclude:: ../../snippets/test_drawing.py
+    :language: python
+    :emphasize-lines: 8-14,17,21,22
+
+The above snippet shows how to build a simple lattice line from scratch, 
+that is:
+    * Create elements, one by one, with ``Elements*`` class[es] that
+      within ``beamline`` package, always assign the element with 
+      a meaningful name, it's better to follow some naming rules;
+    * Create lattice model instance, by the ``Models`` class, define the
+      beamline name to be modeled by ``name`` keyword, and ``mode`` keyword
+      to indicate which mode should be modelled, could be selected from 
+      ``simu`` and ``online`` options, which stands for ``simulation mode``
+      and ``online mode``, if ``mode='simu'``, then all parameter values 
+      should be assigned with fixed values (usually defined in the element
+      creation step), while ``mode='online'`` would trig such on-line
+      procedure:
+        * The data acquiring process will try to get the value from control
+          fields, e.g. some EPICS PV string named channels;
+        * If failed, then rollback to simulation mode, i.e. using the
+          values that defined for simulation mode;
+        * The EPICS PV control fields could be defined by 
+          ``setConf(type='ctrl')`` method for all ``Element*`` classes.
+
+``lattice`` is now an instance of class ``Models``, the ``draw()`` method
+is responsible for showing the lattice layout with defined style, i.e.
+``fancy`` (left) or ``plain`` (right):
+
+.. image:: ../../images/test_drawing_1.png
+    :width: 400px
+    
+.. image:: ../../images/test_drawing_2.png
+    :width: 400px
+
+
+Online-modeling a Chicane
+-------------------------
+
+Below is an example to modeling a four-dioples separated chicane by hand,
+to follow the steps:
+
+1. Start an IOC to provide the EPICS control environment, e.g. to link
+   a few (one or two) valid PVs with some quadrupoles;
+2. Create magnetic elements one by one, it is suggested to follow the
+   lattice/beamline element appearance sequence;
+3. Instantiate with ``Models`` class;
+4. Create lattice:
+    * Generate lattice file for simulation;
+    * Other manipulations;
+
+Here goes the details:
+
+**Start IOC to mimic real control environment**
+   
+.. figure:: ../../images/test_chicane_om_ioc_1.png
+    :width: 400px
+    :figclass: align-center
+
+    Start IOC
+.. figure:: ../../images/test_chicane_om_ioc_2.png
+    :width: 400px
+    :figclass: align-center
+
+    List available records (PVs)
+
+**Create elements**
+
+Import proper packages:
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 1-8
+
+Next, the very first step need to push forward is to correctly model the 
+physical elements (one by one), in the ``beamline`` package, magnet 
+components classes could be found in ``element`` module, e.g. quadrupole
+is abstracted in ``ElementQuad`` class, charge is in ``ElementCharge``, etc., 
+they are all inherited from ``MagBlock``.
+
+The common or shared information/configurations for all these elements 
+could be predefined in ``MagBlock`` class, e.g. we can put information 
+like facility name, time stamp, author/operator, etc., common information 
+is presumed not changed, so please defined in the first step, see STEP 1.
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 10-19
+
+To set the elements' configurations, method ``setConf(config, type)`` could
+be used, in which ``config`` is either configuration string with the 
+format like ``k1=10.0,l=0.1`` or python dictionary like ``{'k1': 10.0, 'l': 0.1}``,
+and ``type`` is the configuration type to be confiugred, could be 
+``comm`` (common configuration), ``ctrl`` (control configuration), 
+``simu`` (simulation configuration), ``misc`` (miscellaneous configuration) 
+and ``all`` (all configurations).
+
+The unit between EPICS PV value and real physical variable is usually 
+required to do conversions, so in the design stage, the method 
+``unitTrans(inval, direction='+', transfun=None)`` is created for 
+handling such issue. One can define this conversion function at the 
+class stage, but this approach is limited to the case that all the 
+elements with the same type only could share the same conversion function, 
+which is not proper in the real situation. Thus, ``transfun`` is created 
+as the input function parameter for ``unitTrans`` method, which is a 
+user-defined function for each element object.
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 20-50,59-61
+
+Now the dipole and drift sections are created, here you can also issue
+some methods to get the defined elements' properties, e.g.:
+``print(B1.calcTransM(gamma=200))`` to get transport matrix and
+``B1.printConfig(type='all')`` to show all the configurations.
+
+.. note:: Always try to hit <TAB> when you're working under command
+          line interface, especially in IPython shell when you're
+          playing Python.
+
+Next create quadrupoles and incorporate the unit-conversion feature.
+
+Define the conversion function, the ``direction`` parameter indicates
+the conversion direction, i.e.: 
+    * ``'+'``: conversion rule for EPICS PV (raw) value to physical (real) value;
+    * ``'-'``: conversion rule for physical (real) value to EPICS PV (raw) value.
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 70-74
+
+To use conversion function:
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 76-83
+
+Some testing to show the conversion rule has been applied successfully:
+    
+    >>> Q1.printConfig(type='ctrl')
+    ---------- Configuration START  ----------
+    Element name: Q1 (ElementQuad)
+    Control configs:
+    k1     = sxfel:lattice:Q09, raw:   10.0, real:   40.0
+    ----------  Configuration END   ----------
+    >>> Q1.printConfig(type='simu')
+    ---------- Configuration START  ----------
+    Element name: Q1 (ElementQuad)
+    Simulation configs:
+    tilt   = pi 4 /
+    l      = 0.5   
+    k1     = 10    
+    ----------  Configuration END   ----------
+    >>> Q1.getK1(type='ctrl')
+    40
+    >>> Q1.getK1(type='simu')
+    10
+
+**Create models**
+
+Use ``Models`` class of ``models`` module, change mode to be ``simu`` 
+to start simulation mode, ``online`` mode will trig EPICS get/put processes
+when control configurations could be found in elements' configuration. 
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 115-121
+
+To access what ``latline_online`` (which is an instance of 
+``beamline.models.Models``) provides:
+
+>>> eleb1, = latline_online.getElementsByName('b1')
+>>> print eleb1.name
+b1
+>>> # change b1 configuration, e.g. angle
+>>> eleb1.setConf('angle=0.5', type='simu')
+>>> eleb1.printConfig()
+
+>>> # print out all added elements
+>>> latline_online.printAllElements()
+----------  Configuration END   ----------
+ID : Name         Type       Class Name
+001: q            CHARGE     ElementCharge
+002: D0           DRIFT      ElementDrift
+003: Q1           QUAD       ElementQuad
+004: D0           DRIFT      ElementDrift
+005: b1           CSRCSBEN   ElementCsrcsben
+006: D0           DRIFT      ElementDrift
+007: b2           CSRCSBEN   ElementCsrcsben
+008: D0           DRIFT      ElementDrift
+009: D0           DRIFT      ElementDrift
+010: b3           CSRCSBEN   ElementCsrcsben
+011: D0           DRIFT      ElementDrift
+012: b4           CSRCSBEN   ElementCsrcsben
+013: D0           DRIFT      ElementDrift
+014: Q1           QUAD       ElementQuad
+015: D0           DRIFT      ElementDrift
+
+>>> # get configuration of 'Q1'
+>>> print latline_online.getAllConfig(fmt='dict')['Q1']
+{'QUAD': {'tilt': 'pi 4 /', 'k1': 2.5, 'l': '0.5'}}
+
+
+>>> # get all 'Q1' and change the drawing style of orange facecolor
+>>> eleQ1all = latline_online.getElementsByName('Q1')
+>>> map(lambda x: x.setStyle(fc='orange'), eleQ1all)
+>>> print eleQ1all
+[<beamline.element.ElementQuad object at 0x7f335a40b610>, 
+ <beamline.element.ElementQuad object at 0x7f335a40b9d0>]
+
+.. note:: ``addElement()`` method support replica expansion 
+          functionality, when same named items are added into
+          the lattice tuple (e.g. ``qline`` in this example), 
+          so when ``getElementsByName()`` is invoked, a list 
+          would be returned, it is the user's liability to 
+          discriminate which one should be selected
+          and modified since they share the same literal name,
+          it is better to assign a new name once seleced from
+          the list.
+
+>>> # update Q1's EPICS PV value, aim to set its true value
+>>> latline_online.putCtrlConf(eleQ1, 'k1', 2.5, type='real')
+>>> eleQ1.printConfig(type='all')
+---------- Configuration START  ----------
+Element name: Q1 (ElementQuad)
+Position: s = 1.000 [m]
+Common configs:
+DATE   = 2016-03-24
+AUTHOR = Tong Zhang
+Simulation configs:
+tilt   = pi 4 /
+l      = 0.5   
+k1     = 10    
+Control configs:
+k1     = sxfel:lattice:Q09, raw:  0.625, real:    2.5
+----------  Configuration END   ----------
+
+>>> # update Q1's EPICS PV value, aim to set its raw value
+>>> latline_online.putCtrlConf(eleQ1, 'k1', 2.5, type='raw')
+>>> eleQ1.printConfig(type='all') 
+---------- Configuration START  ----------
+Element name: Q1 (ElementQuad)
+Position: s = 1.000 [m]
+Common configs:
+DATE   = 2016-03-24
+AUTHOR = Tong Zhang
+Simulation configs:
+tilt   = pi 4 /
+l      = 0.5   
+k1     = 10    
+Control configs:
+k1     = sxfel:lattice:Q09, raw:    2.5, real:   10.0
+----------  Configuration END   ----------
+
+.. warning:: The unit of 'raw' value here should be 'A', 
+          and 'T/m' for 'real' value, however it's
+          also the user's liability to define correct
+          unit conversion function at the element creation
+          stage.
+
+**Lattice modeling**
+
+``Lattice`` class in ``lattice`` module is created for make lattice 
+instance, the initial idea is to bridge the real machine and the 
+numerical simulation world, e.g. generate lattice file that could be
+used by simulation code like ``Elegant``.
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python
+    :lines: 161-165
+
+The generated lattice file:
+
+.. literalinclude:: ../../snippets/test.lte
+    :language: guess 
+
+Now, the particle tracking by ``Elegant`` is possible by using the
+generated lattice file.
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python 
+    :lines: 169-179
+
+The tracking output files could be found in ``simpath``, that is in 
+``../../tests/tracking`` folder.
+
+An example of ``elefile`` is shown like:
+
+.. literalinclude:: ../../snippets/test.ele
+    :language: guess 
+
+.. note:: 
+    * ``simpath``, ``elefile`` and ``h5out`` are file/folder 
+      locations that should be defined by user, it is suggested that
+      make them share with the same directory root 
+      (the value of ``simpath``), thus all the output files also could
+      be located in a much more clearer manner.
+
+    * Currently, ``simulation`` module does not automatically handle
+      the configuration of ``elefile``, which is left for the user to 
+      adapt correctly, expecially the ``use_beamline`` keyword.
+
+    * ``Simulator`` class is designed to have the ability to interface
+      with different simulation software, e.g. ``Elegant``, ``MAD``, etc.,
+      by ``setMode()`` method, and the regarding runtime scripts 
+      (``setScript()`` and ``setExec()``), to make the ``doSimulation()``
+      method works.
+
+Below is the ``runElegant.sh`` script,  it is a quite simple shell script,
+to enter right directory and trig right simulation procedure, if other
+simulation tool is configured by ``setMode()``, this script may need 
+to be altered.
+
+.. literalinclude:: ../../snippets/runElegant.sh
+    :language: guess
+
+The simulated data are transformed into hdf5 format, could be read and plot:
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python 
+    :lines: 181-204, 225-252
+
+.. image:: ../../images/test_chicane_om_1.png
+    :width: 400px
+
+.. note:: Method ``getOutput()`` of ``Simulator`` takes key-value
+    parameters, if ``dump`` keyword is given, then the data would
+    be extracted to the hdf5 file named by ``dump``, or simply 
+    assigned to a numpy array.
+
+.. note:: 
+    Tips for data visualization:
+        * LaTeX formated string, i.e. wrapped by two ``$`` could make your
+          labels/texts/annotations more beautiful;
+        * Use ``matplotlib`` in the OOP approach;
+        * Method ``twinx()`` could be used to draw two y-axis, similar as ``plotyy()`` in MATLAB;
+        * ``Patches`` in ``matplotlib`` could be only used in one place, if reused is needed,
+          remember make a copy by ``copy_patches()``.
+
+**Example of how to make use of online model**
+
+As long as the online-model procedure is accomplished, we can manipulate
+the facility from the software side, i.e. specific algorithms could be
+designed to manipulate/optimize the variables that have been already
+modeled, see the following simple example.
+
+:Task: Tunning one of the dipole strength of chicane to get the
+       response of the dispersive value.
+
+.. literalinclude:: ../../snippets/test_om.py
+    :language: python 
+    :lines: 206-223
+
+The scanned figure:
+
+.. image:: ../../images/test_chicane_om_2.png
+    :width: 400px
+
+Automatic Modeling
+------------------
+
+``beamline`` provides the solution to automatically online-modeling the
+machine, by utilizing the ``Elegant`` lattice file (i.e. ``.lte`` file).
+Here is the basic idea and reasons:
+    * Usually ``.lte`` file is a well-maintained lattice file that intended
+      to be used by particl tracking code --- ``Elegant``, so it could be
+      relied to master the machine configuration;
+    * Add control EPICS directive into ``.lte`` file to meet additional
+      requirement, but still could be recognized by ``Elegant``, i.e. the
+      ``.lte`` file with EPICS directive produce the same tracking results;
+    * When there are thousands of machine elements to be modeled, modeling
+      from the ``.lte`` file should be much more efficient;
+
+.. note::
+    * In order to model the real machine precisely, the ``.lte`` file 
+      should be also precisely and kept pace with the real machine, so
+      maintain the ``.lte`` file precisely;
+    * EPICS directive: append ``!epics`` in the element definition.
+
+How To:
+
+**!epics directive**
+
+.. literalinclude:: ../../snippets/sxfel_all.lte
+    :language: guess
+    :lines: 843-845
+
+**Automatic modeling**
+
+.. literalinclude:: ../../snippets/test_om_sxfel.py
+    :language: python 
+    :lines: 1-77
+
+.. note::
+    * ``LteParser()`` is a class that could parse ``.lte`` file;
+    * ``Lattice()`` is a class that could model the lattice, with
+      the input of JSON string that generared by ``LteParser()``;
+    * Do ``LteParser()`` --- ``Lattice()`` twice is to generate
+      clean ``.lte`` file that only contain necessary elements;
+    * Pay attention to the ``makeElement()`` method, which should be
+      invoked to model all the elements automatically;
+    * ``getElementList()`` to get the element list that comprising
+      the seleced beamline keyword, and build lattice model by 
+      ``addElement()`` method.
+
+The reformated ``.lte`` file:
+
+.. literalinclude:: ../../snippets/sxfel_new.lte
+    :language: guess
+    :emphasize-lines: 10-11
+
+.. note:: The grouped highlighted lines indicate the EPICS control 
+    configurations of the elements if defined with.

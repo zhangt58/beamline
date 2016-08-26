@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.models &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.models</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env pyton</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module is written for the purposes of elements modeling for accelerator:</span>
+<span class="sd">    1: manually define magnetic elements one by one and model the machine;</span>
+<span class="sd">    2: interpret lattice file (.lte file) to be modeled elements;</span>
+<span class="sd">    2: update (EPICS databases)/(EPICS PVs) with new configuration.</span>
+
+
+<span class="sd">Author      : Tong Zhang</span>
+<span class="sd">Created     : 2016-03-18</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">epics</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">element</span>
+
+
+<div class="viewcode-block" id="Models"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models">[docs]</a><span class="k">class</span> <span class="nc">Models</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; make lattice configuration (json) for lattice.Lattice</span>
+<span class="sd">        return instance as a json string file with all configuration.</span>
+<span class="sd">        get lattice name by instance.name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;BL&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;simu&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; create Models instance,</span>
+<span class="sd">            :param name: lattice name, &#39;BL&#39; by defualt</span>
+<span class="sd">            :param mode: &#39;simu&#39; or &#39;online&#39; mode,</span>
+<span class="sd">                if &#39;online&#39; is defined, the lattice should be update the ctrl</span>
+<span class="sd">                configuration before dumping configuration string by calling</span>
+<span class="sd">                method: getCtrlConf()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>           <span class="c1"># &#39;simu&#39; (simulation) or &#39;online&#39; (online) mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>   <span class="c1"># lattice name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elecnt</span> <span class="o">=</span> <span class="mi">0</span>            <span class="c1"># lattice element counter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elenamelist</span> <span class="o">=</span> <span class="p">[]</span>      <span class="c1"># lattice element name list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span> <span class="o">=</span> <span class="p">[]</span>       <span class="c1"># lattice element object list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_confdict</span> <span class="o">=</span> <span class="p">{}</span>         <span class="c1"># lattice configuration dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">ElementBeamline</span><span class="p">(</span>
+                            <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lattice_name</span><span class="p">,</span>
+                            <span class="n">config</span><span class="o">=</span><span class="s2">&quot;lattice = ()&quot;</span><span class="p">)</span>  <span class="c1"># initial lattice configuration</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="nd">@name</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+    <span class="nd">@mode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="n">mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Models.addElement"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.addElement">[docs]</a>    <span class="k">def</span> <span class="nf">addElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">ele</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; add element to lattice element list</span>
+<span class="sd">            input parameters:</span>
+<span class="sd">            :param ele: magnetic element defined in element module</span>
+<span class="sd">            return total element number</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">Models</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">ele</span><span class="p">)):</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elenamelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elecnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># update lattice, i.e. beamline element</span>
+
+        <span class="c1">#self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">Models</span><span class="o">.</span><span class="n">makeLatticeDict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elenamelist</span><span class="p">))</span>
+
+        <span class="c1"># positioning elements</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initPos</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elecnt</span></div>
+    
+<div class="viewcode-block" id="Models.initPos"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.initPos">[docs]</a>    <span class="k">def</span> <span class="nf">initPos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startpos</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; initialize the elements position [m] in lattice, the starting</span>
+<span class="sd">            point is 0 [m] for the first element by default.</span>
+
+<span class="sd">            :param startpos: starting point, 0 [m] by default</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">spos</span> <span class="o">=</span> <span class="n">startpos</span>
+        <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span><span class="p">:</span>
+            <span class="c1">#print(&quot;{name:&lt;10s}: {pos:&lt;10.3f}&quot;.format(name=ele.name, pos=spos))</span>
+            <span class="n">ele</span><span class="o">.</span><span class="n">setPosition</span><span class="p">(</span><span class="n">spos</span><span class="p">)</span>
+            <span class="n">spos</span> <span class="o">+=</span> <span class="n">ele</span><span class="o">.</span><span class="n">getLength</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="Models.getCtrlConf"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.getCtrlConf">[docs]</a>    <span class="k">def</span> <span class="nf">getCtrlConf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msgout</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get control configurations regarding to the PV names,</span>
+<span class="sd">            read PV value</span>
+<span class="sd">            :param msgout: print information if True (be default)</span>
+<span class="sd">            return updated element object list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_lattice_eleobjlist_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;online&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">_lattice_eleobjlist_copy</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">simukeys</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">ctrlkeys</span><span class="p">)):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">msgout</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reading from </span><span class="si">%s</span><span class="s2">...&quot;</span> <span class="o">%</span> <span class="n">e</span><span class="o">.</span><span class="n">ctrlinfo</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;pv&#39;</span><span class="p">])</span>
+                        <span class="n">pvval</span> <span class="o">=</span> <span class="n">epics</span><span class="o">.</span><span class="n">caget</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">ctrlinfo</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;pv&#39;</span><span class="p">])</span>
+                        <span class="k">if</span> <span class="n">pvval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">e</span><span class="o">.</span><span class="n">simuinfo</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">unitTrans</span><span class="p">(</span><span class="n">pvval</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">msgout</span><span class="p">:</span>
+                                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Done.&quot;</span><span class="p">)</span> 
+                        <span class="k">else</span><span class="p">:</span> 
+                            <span class="k">if</span> <span class="n">msgout</span><span class="p">:</span>
+                                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  Failed.&quot;</span><span class="p">)</span>
+                    <span class="k">except</span><span class="p">:</span>
+                        <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># self.mode is &#39;simu&#39; do nothing</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="n">_lattice_eleobjlist_copy</span></div>
+
+<div class="viewcode-block" id="Models.putCtrlConf"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.putCtrlConf">[docs]</a>    <span class="k">def</span> <span class="nf">putCtrlConf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eleobj</span><span class="p">,</span> <span class="n">ctrlkey</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;raw&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; put the value to control PV field</span>
+<span class="sd">            :param eleobj: element object in lattice</span>
+<span class="sd">            :param ctrlkey: element control property, PV name</span>
+<span class="sd">            :param val: new value for ctrlkey</span>
+<span class="sd">            :param type: set in &#39;raw&#39; or &#39;real&#39; mode, &#39;raw&#39; by default</span>
+<span class="sd">                         &#39;raw&#39;: set PV with the value of &#39;val&#39;,</span>
+<span class="sd">                         &#39;real&#39;: set PV with the value translated from &#39;val&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">ctrlkey</span> <span class="ow">in</span> <span class="n">eleobj</span><span class="o">.</span><span class="n">ctrlkeys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;raw&#39;</span><span class="p">:</span>
+                <span class="n">newval</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># val should be translated</span>
+                <span class="n">newval</span> <span class="o">=</span> <span class="n">eleobj</span><span class="o">.</span><span class="n">unitTrans</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">epics</span><span class="o">.</span><span class="n">caput</span><span class="p">(</span><span class="n">eleobj</span><span class="o">.</span><span class="n">ctrlinfo</span><span class="p">[</span><span class="n">ctrlkey</span><span class="p">][</span><span class="s1">&#39;pv&#39;</span><span class="p">],</span> <span class="n">newval</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Models.getAllConfig"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.getAllConfig">[docs]</a>    <span class="k">def</span> <span class="nf">getAllConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            return all element configurations as json string file.</span>
+<span class="sd">            could be further processed by beamline.Lattice class</span>
+<span class="sd">            input parameter:</span>
+<span class="sd">            :param fmt: &#39;json&#39; (default) or &#39;dict&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCtrlConf</span><span class="p">(</span><span class="n">msgout</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_confdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">dumpConfig</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;simu&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_confdict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lattice</span><span class="o">.</span><span class="n">dumpConfig</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">fmt</span> <span class="o">==</span> <span class="s1">&#39;json&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lattice_confdict</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_confdict</span></div>
+
+<div class="viewcode-block" id="Models.updateConfig"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.updateConfig">[docs]</a>    <span class="k">def</span> <span class="nf">updateConfig</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eleobj</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;simu&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; write new configuration to element</span>
+<span class="sd">            input parameters:</span>
+<span class="sd">            :param eleobj: define element object</span>
+<span class="sd">            :param config: new configuration for element, string or dict</span>
+<span class="sd">            :param type: &#39;simu&#39; by default, could be online, misc, comm, ctrl</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">eleobj</span><span class="o">.</span><span class="n">setConf</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Models.makeLatticeString"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.makeLatticeString">[docs]</a>    <span class="k">def</span> <span class="nf">makeLatticeString</span><span class="p">(</span><span class="n">ele</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return string like &quot;lattice = (q b d)&quot;</span>
+<span class="sd">        :param ele: element list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;lattice = (&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ele</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span></div>
+    
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Models.makeLatticeDict"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.makeLatticeDict">[docs]</a>    <span class="k">def</span> <span class="nf">makeLatticeDict</span><span class="p">(</span><span class="n">ele</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; return lattice dict conf like {&quot;lattice&quot;: &quot;(q b d)&quot;}</span>
+<span class="sd">        :param ele: element list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;lattice&quot;</span><span class="p">:</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ele</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">}</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Models.flatten"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.flatten">[docs]</a>    <span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">ele</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; flatten recursively defined list,</span>
+<span class="sd">            e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,&#39;x&#39;]]]]]</span>
+<span class="sd">            :param ele: recursive list, i.e. list in list in list ...</span>
+<span class="sd">            return generator object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">ele</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">el</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">Models</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">el</span><span class="p">):</span>
+                    <span class="k">yield</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span><span class="p">(</span><span class="n">el</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">LatticeList</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; show lattice element list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_elenamelist</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">LatticeDict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; show lattice configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_confdict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllConfig</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Models.getElementsByName"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.getElementsByName">[docs]</a>    <span class="k">def</span> <span class="nf">getElementsByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get element with given name,</span>
+<span class="sd">            return list of element objects regarding to &#39;name&#39;</span>
+<span class="sd">            :param name: element name, case sensitive, if elements are</span>
+<span class="sd">                auto-generated from LteParser, the name should be lower cased.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="Models.printAllElements"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.printAllElements">[docs]</a>    <span class="k">def</span> <span class="nf">printAllElements</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; print out all modeled elements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{id:&lt;3s}</span><span class="s2">: </span><span class="si">{name:&lt;12s}</span><span class="s2"> </span><span class="si">{type:&lt;10s}</span><span class="s2"> </span><span class="si">{classname:&lt;10s}</span><span class="s2">&quot;</span>
+              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;ID&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s1">&#39;Class Name&#39;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{cnt:&gt;03d}</span><span class="s2">: </span><span class="si">{name:&lt;12s}</span><span class="s2"> </span><span class="si">{type:&lt;10s}</span><span class="s2"> </span><span class="si">{classname:&lt;10s}</span><span class="s2">&quot;</span>
+                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cnt</span><span class="o">=</span><span class="n">cnt</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">typename</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+            <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Models.draw"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startpoint</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;plain&#39;</span><span class="p">,</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; lattice visualization</span>
+<span class="sd">            </span>
+<span class="sd">            :param startpoint: start drawing point coords, default: (0, 0)</span>
+<span class="sd">            :param showfig: show figure or not, default: False</span>
+<span class="sd">            :param mode: artist mode, &#39;plain&#39; or &#39;fancy&#39;, &#39;plain&#39; by default</span>
+<span class="sd">            :return: patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)</span>
+<span class="sd">                patchlist: list of element patches</span>
+<span class="sd">                anotelist: list of annotations</span>
+<span class="sd">                (xmin0, xmax0) and (ymin0, ymax0) are ploting range</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">p0</span> <span class="o">=</span> <span class="n">startpoint</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">patchlist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">anotelist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">xmin0</span><span class="p">,</span> <span class="n">xmax0</span><span class="p">,</span> <span class="n">ymin0</span><span class="p">,</span> <span class="n">ymax0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">ele</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lattice_eleobjlist</span><span class="p">:</span>
+            <span class="n">ele</span><span class="o">.</span><span class="n">setDraw</span><span class="p">(</span><span class="n">p0</span><span class="o">=</span><span class="n">p0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+            <span class="n">angle</span> <span class="o">+=</span> <span class="n">ele</span><span class="o">.</span><span class="n">next_inc_angle</span>
+            <span class="c1">#print ele.name, ele.next_inc_angle, angle</span>
+            <span class="n">patchlist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">ele</span><span class="o">.</span><span class="n">_patches</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ele</span><span class="p">,</span> <span class="s1">&#39;_anote&#39;</span><span class="p">):</span> <span class="n">anotelist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ele</span><span class="o">.</span><span class="n">_anote</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">p0</span> <span class="o">=</span> <span class="n">ele</span><span class="o">.</span><span class="n">next_p0</span>
+                <span class="n">xyrange</span> <span class="o">=</span> <span class="n">ele</span><span class="o">.</span><span class="n">_patches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_path</span><span class="p">()</span><span class="o">.</span><span class="n">get_extents</span><span class="p">()</span>
+                <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">xyrange</span><span class="o">.</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xyrange</span><span class="o">.</span><span class="n">xmax</span>
+                <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">xyrange</span><span class="o">.</span><span class="n">ymin</span><span class="p">,</span> <span class="n">xyrange</span><span class="o">.</span><span class="n">ymax</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="n">xmin0</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmin0</span><span class="p">)</span>
+            <span class="n">xmax0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">xmax</span><span class="p">,</span> <span class="n">xmax0</span><span class="p">)</span>
+            <span class="n">ymin0</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymin0</span><span class="p">)</span>
+            <span class="n">ymax0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ymax</span><span class="p">,</span> <span class="n">ymax0</span><span class="p">)</span>
+        
+        <span class="c1"># show figure or not</span>
+        <span class="k">if</span> <span class="n">showfig</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+            <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">patchlist</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                         <span class="n">xy</span><span class="o">=</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;xypos&#39;</span><span class="p">],</span>
+                         <span class="n">xytext</span><span class="o">=</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;textpos&#39;</span><span class="p">],</span>
+                         <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&gt;&#39;</span><span class="p">),</span>
+                         <span class="n">rotation</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
+                         <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;small&#39;</span><span class="p">)</span> 
+                         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">anotelist</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmin0</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">xmax0</span><span class="o">*</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">ymin0</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">ymax0</span><span class="o">*</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">patchlist</span><span class="p">,</span> <span class="n">anotelist</span><span class="p">,</span> <span class="p">(</span><span class="n">xmin0</span><span class="p">,</span> <span class="n">xmax0</span><span class="p">),</span> <span class="p">(</span><span class="n">ymin0</span><span class="p">,</span> <span class="n">ymax0</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Models.plotElements"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.plotElements">[docs]</a>    <span class="k">def</span> <span class="nf">plotElements</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">patchlist</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; plot elements&#39; drawings to axes</span>
+<span class="sd">            </span>
+<span class="sd">            :param ax: matplotlib axes object</span>
+<span class="sd">            :param patchlist: element patch object list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">ptch</span><span class="p">)</span> <span class="k">for</span> <span class="n">ptch</span> <span class="ow">in</span> <span class="n">patchlist</span><span class="p">]</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Models.anoteElements"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.Models.anoteElements">[docs]</a>    <span class="k">def</span> <span class="nf">anoteElements</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">anotelist</span><span class="p">,</span> <span class="n">showAccName</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">efilter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">textypos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; annotate elements to axes</span>
+<span class="sd">            </span>
+<span class="sd">            :param ax: matplotlib axes object</span>
+<span class="sd">            :param anotelist: element annotation object list</span>
+<span class="sd">            :param showAccName: tag name for accelerator tubes? default is False, </span>
+<span class="sd">                show acceleration band type, e.g. &#39;S&#39;, &#39;C&#39;, &#39;X&#39;, or for &#39;[S,C,X]D&#39; for cavity</span>
+<span class="sd">            :param efilter: element type filter, default is None, annotate all elements</span>
+<span class="sd">                could be defined to be one type name or type name list/tuple, e.g.</span>
+<span class="sd">                filter=&#39;QUAD&#39; or filter=(&#39;QUAD&#39;, &#39;CSRCSBEN&#39;)</span>
+<span class="sd">            :param textypos: y coordinator of annotated text string</span>
+<span class="sd">            :param kwargs:</span>
+<span class="sd">                alpha=0.8, arrowprops=dict(arrowstyle=&#39;-&gt;&#39;), rotation=-60, fontsize=&#39;small&#39;</span>
+
+<span class="sd">            return list of annotation objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">defaultstyle</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s1">&#39;arrowprops&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;-&gt;&#39;</span><span class="p">),</span> 
+                        <span class="s1">&#39;rotation&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="s1">&#39;small&#39;</span><span class="p">}</span>
+        <span class="n">defaultstyle</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">anote_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">efilter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">anote</span> <span class="ow">in</span> <span class="n">anotelist</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">textypos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">textxypos</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;textpos&#39;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">textxypos</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;textpos&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">textypos</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">showAccName</span> <span class="ow">and</span> <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;RFCW&#39;</span><span class="p">,</span> <span class="s1">&#39;RFDF&#39;</span><span class="p">):</span>
+                    <span class="n">kwstyle</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">defaultstyle</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                    <span class="n">kwstyle</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;arrowprops&#39;</span><span class="p">)</span>
+                    <span class="n">note_text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;atext&#39;</span><span class="p">][</span><span class="s1">&#39;xypos&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;atext&#39;</span><span class="p">][</span><span class="s1">&#39;xypos&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;atext&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwstyle</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">note_text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">xy</span><span class="o">=</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;xypos&#39;</span><span class="p">],</span> <span class="n">xytext</span><span class="o">=</span><span class="n">textxypos</span><span class="p">,</span> <span class="o">**</span><span class="n">defaultstyle</span><span class="p">)</span>
+                <span class="n">anote_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">note_text</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">efilter</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="nb">filter</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">efilter</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">anote</span> <span class="ow">in</span> <span class="n">anotelist</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">efilter</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">textypos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">textxypos</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;textpos&#39;</span><span class="p">])</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">textxypos</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;textpos&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">textypos</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">showAccName</span> <span class="ow">and</span> <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;RFCW&#39;</span><span class="p">,</span> <span class="s1">&#39;RFDF&#39;</span><span class="p">):</span>
+                        <span class="n">kwstyle</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">defaultstyle</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+                        <span class="n">kwstyle</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;arrowprops&#39;</span><span class="p">)</span>
+                        <span class="n">note_text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;atext&#39;</span><span class="p">][</span><span class="s1">&#39;xypos&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;atext&#39;</span><span class="p">][</span><span class="s1">&#39;xypos&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                <span class="n">anote</span><span class="p">[</span><span class="s1">&#39;atext&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwstyle</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">note_text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">xy</span><span class="o">=</span><span class="n">anote</span><span class="p">[</span><span class="s1">&#39;xypos&#39;</span><span class="p">],</span> <span class="n">xytext</span><span class="o">=</span><span class="n">textxypos</span><span class="p">,</span> <span class="o">**</span><span class="n">defaultstyle</span><span class="p">)</span> 
+                    <span class="n">anote_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">note_text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">anote_list</span></div></div>
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="c1">#pvs = (&#39;sxfel:lattice:Q01&#39;, &#39;sxfel:lattice:Q02&#39;)</span>
+    <span class="c1">#A = Models(*pvs)</span>
+    <span class="n">latline</span> <span class="o">=</span> <span class="n">Models</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;BL&#39;</span><span class="p">)</span>
+ 
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">ElementCharge</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;q&#39;</span><span class="p">,</span>  <span class="n">config</span><span class="o">=</span><span class="s2">&quot;total = 1e-9&quot;</span><span class="p">)</span>
+    <span class="n">d1</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">ElementDrift</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;d1&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;l = 1.0&quot;</span><span class="p">)</span>
+    <span class="n">q1</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">ElementQuad</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Q1&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="s2">&quot;l = 1.0, k1 = 10&quot;</span><span class="p">)</span>
+    <span class="n">lat1</span> <span class="o">=</span> <span class="p">[</span><span class="n">d1</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+    <span class="n">latline</span><span class="o">.</span><span class="n">addElement</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">lat1</span><span class="p">)</span>
+    <span class="n">latdict</span> <span class="o">=</span> <span class="n">latline</span><span class="o">.</span><span class="n">LatticeDict</span>
+
+    <span class="c1"># generate lattice</span>
+    <span class="kn">import</span> <span class="nn">lattice</span>
+    <span class="kn">import</span> <span class="nn">json</span>
+    <span class="n">latins</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">Lattice</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">latdict</span><span class="p">))</span>
+    <span class="c1">#print latins.getAllEle()</span>
+    <span class="c1">#print latins.getAllBl()</span>
+    <span class="n">latfile</span> <span class="o">=</span> <span class="s2">&quot;/home/tong/Programming/projects/beamline/tests/test_models/fortest.lte&quot;</span>
+    <span class="n">latins</span><span class="o">.</span><span class="n">generateLatticeFile</span><span class="p">(</span><span class="n">latline</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">latfile</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="test1"><a class="viewcode-back" href="../../src/apidocs/models.html#beamline.models.test1">[docs]</a><span class="k">def</span> <span class="nf">test1</span><span class="p">():</span>
+    <span class="c1">#</span>
+    <span class="kn">import</span> <span class="nn">lattice</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="c1">#</span>
+    <span class="n">latticepath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;../lattice&#39;</span><span class="p">)</span>
+    <span class="n">ltefile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latticepath</span><span class="p">,</span> <span class="s1">&#39;linac.lte&#39;</span><span class="p">)</span>
+    <span class="n">latticepath</span> <span class="o">=</span> <span class="s1">&#39;/home/tong/Programming/projects/vFEL/simulation/SXFEL&#39;</span>
+    <span class="n">ltefile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latticepath</span><span class="p">,</span> <span class="s1">&#39;sxfel_v14b.lte&#39;</span><span class="p">)</span>
+    <span class="n">lpins</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">LteParser</span><span class="p">(</span><span class="n">ltefile</span><span class="p">)</span>
+    <span class="n">allelements_str</span> <span class="o">=</span> <span class="n">lpins</span><span class="o">.</span><span class="n">file2json</span><span class="p">()</span>
+    <span class="c1">#print allelements_str</span>
+    <span class="n">latins</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">Lattice</span><span class="p">(</span><span class="n">allelements_str</span><span class="p">)</span>
+    <span class="n">outlatfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">latticepath</span><span class="p">,</span> <span class="s1">&#39;tmp.lte&#39;</span><span class="p">)</span>
+    <span class="c1">#latins.showBeamlines()</span>
+    
+    <span class="c1">#print latins.getFullBeamline(&#39;M1BI3&#39;, extend = True)</span>
+<span class="c1">#    print latins.getAllBl()</span>
+<span class="c1">#    print latins.getAllEle()</span>
+    <span class="c1">#print latins.getBeamline(&#39;l0&#39;)</span>
+    <span class="c1">#print latins.getFullBeamline(&#39;nl2&#39;, extend = True)</span>
+    
+    <span class="c1">#print lpins.getKwAsDict(&#39;Q01&#39;)</span>
+    <span class="c1">#print lpins.getKwAsJson(&#39;BC1&#39;)</span>
+    <span class="c1">#print lpins.getKwAsJson(&#39;testline&#39;)</span>
+
+    <span class="c1">#for e in latins.getFullBeamline(&#39;bl&#39;, extend = True):</span>
+    <span class="c1">#    print latins.getElementType(e)</span>
+    <span class="nb">print</span> <span class="n">latins</span><span class="o">.</span><span class="n">getElementConf</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">latins</span><span class="o">.</span><span class="n">getElementProperties</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    newbl1 = latins.generateLatticeLine(latname = &#39;nl1&#39;, line = [&#39;2*l0&#39;,&#39;l0&#39;])</span>
+<span class="sd">    newbl2 = latins.generateLatticeLine(latname = &#39;nl2&#39;, line = [&#39;2*nl1&#39;])</span>
+<span class="sd">    latins.generateLatticeFile(&#39;nl2&#39;, outlatfile)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1">#test1()</span>
+    <span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

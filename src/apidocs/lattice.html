@@ -1,0 +1,617 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.lattice module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.models module" href="models.html" />
+    <link rel="prev" title="beamline.element module" href="element.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="beamline.models module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="element.html" title="beamline.element module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="element.html"
+                        title="previous chapter">beamline.element module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="next chapter">beamline.models module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.lattice">
+<span id="beamline-lattice-module"></span><h1>beamline.lattice module<a class="headerlink" href="#module-beamline.lattice" title="Permalink to this headline">¶</a></h1>
+<p>Classes and routines to handle lattice issues for online modeling and runtime calculations.</p>
+<ul>
+<li><p class="first">class <code class="docutils literal"><span class="pre">LteParser</span></code>: parse <code class="docutils literal"><span class="pre">ELEGANT</span></code> lattice definition files for simulation:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>convert lte file into dict/json format for further usage;</li>
+<li>resolve rpn expressions within element definitions;</li>
+<li>retain prefixed information of lte file as &#8216;_prefixstr&#8217; key in json/dict;</li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">class <code class="docutils literal"><span class="pre">Lattice</span></code>: handle lattice issues from json/dict definitions:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>instantiate with json/dict lattice definition, e.g. from <code class="docutils literal"><span class="pre">LteParser.file2json()</span></code>;</li>
+<li>generate lte file for elegant simulation;</li>
+<li>iteratively expand the beamline definition in lte file;</li>
+<li>generate lte file after manipulations.</li>
+</ol>
+</div></blockquote>
+</li>
+</ul>
+<dl class="class">
+<dt id="beamline.lattice.Lattice">
+<em class="property">class </em><code class="descname">Lattice</code><span class="sig-paren">(</span><em>elements</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>class for handling lattice configurations and operations</p>
+<dl class="method">
+<dt id="beamline.lattice.Lattice.dumpAllElements">
+<code class="descname">dumpAllElements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.dumpAllElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.dumpAllElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump all element configuration lines as json format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.formatElement">
+<code class="descname">formatElement</code><span class="sig-paren">(</span><em>kw</em>, <em>format='elegant'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.formatElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.formatElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert json/dict of element configuration into elegant/mad format
+:param kw: keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.generateLatticeFile">
+<code class="descname">generateLatticeFile</code><span class="sig-paren">(</span><em>beamline</em>, <em>filename=None</em>, <em>format='elegant'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.generateLatticeFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.generateLatticeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate simulation files for lattice analysis,
+e.g. &#8221;.lte&#8221; for elegant, &#8221;.madx&#8221; for madx</p>
+<p>input parameters:
+:param beamline: keyword for beamline
+:param filename: name of lte/mad file,</p>
+<blockquote>
+<div>if None, output to stdout;
+if &#8216;sio&#8217;, output to a string as return value;
+other cases, output to filename;</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format</strong> &#8211; madx, elegant,
+&#8216;elegant&#8217; by default, generated lattice is for elegant tracking</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.generateLatticeLine">
+<code class="descname">generateLatticeLine</code><span class="sig-paren">(</span><em>latname='newline'</em>, <em>line=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.generateLatticeLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.generateLatticeLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>construct a new lattice line
+:param latname: name for generated new lattice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getAllBl">
+<code class="descname">getAllBl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getAllBl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getAllBl" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all beamline keywords</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getAllEle">
+<code class="descname">getAllEle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getAllEle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getAllEle" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all element keywords</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getAllKws">
+<code class="descname">getAllKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getAllKws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getAllKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract all keywords into two categories</p>
+<p>kws_ele: magnetic elements
+kws_bl: beamline elements</p>
+<p>return (kws_ele, kws_bl)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getBeamline">
+<code class="descname">getBeamline</code><span class="sig-paren">(</span><em>beamlineKw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getBeamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>get beamline definition from all_elements, return as a list
+:param beamlineKw: keyword of beamline</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getChargeElement">
+<code class="descname">getChargeElement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getChargeElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getChargeElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>return charge element name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementByName">
+<code class="descname">getElementByName</code><span class="sig-paren">(</span><em>beamline</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementByName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element list by literal name in beamline
+each element is tuple like (name, type, order)
+:param beamline: beamline name
+:param name: element literal name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementByOrder">
+<code class="descname">getElementByOrder</code><span class="sig-paren">(</span><em>beamline</em>, <em>type</em>, <em>irange</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementByOrder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementByOrder" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>return element list by appearance order in beamline, </dt>
+<dd><p class="first">which could be returned by orderLattice(beamline)</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param beamline:</th><td class="field-body">beamline name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param type:</th><td class="field-body">element type name</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param irange:</th><td class="field-body">selected element range</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>possible irange definitions:</dt>
+<dd>irange = 0,      first one &#8216;type&#8217; element;
+irange = -1,     last one
+irange = 0,2,3,  the first, third and fourth &#8216;type&#8217; element
+irange = 2:10:1, start:end:setp range
+irange = &#8216;all&#8217;,    all</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementConf">
+<code class="descname">getElementConf</code><span class="sig-paren">(</span><em>elementKw</em>, <em>raw=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>return configuration for given element keyword,
+e.g. getElementConf(&#8216;Q01&#8217;) should return dict: {u&#8217;k1&#8217;: 0.0, u&#8217;l&#8217;: 0.05}
+:param elementKw: element keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementCtrlConf">
+<code class="descname">getElementCtrlConf</code><span class="sig-paren">(</span><em>elementKw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementCtrlConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword&#8217;s EPICS control configs, 
+if not setup, return {}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementList">
+<code class="descname">getElementList</code><span class="sig-paren">(</span><em>bl</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementList" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the elements list according to the appearance order 
+in beamline named &#8216;bl&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bl</strong> &#8211; beamline name</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementProperties">
+<code class="descname">getElementProperties</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementProperties" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element properties
+:param name: element name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getElementType">
+<code class="descname">getElementType</code><span class="sig-paren">(</span><em>elementKw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getElementType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getElementType" title="Permalink to this definition">¶</a></dt>
+<dd><p>return type name for given element keyword,
+e.g. getElementType(&#8216;Q01&#8217;) should return string: &#8216;QUAD&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.getFullBeamline">
+<code class="descname">getFullBeamline</code><span class="sig-paren">(</span><em>beamlineKw</em>, <em>extend=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.getFullBeamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.getFullBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>get beamline definition from all_elements,
+expand iteratively with the elements from all_elements
+e.g. 
+element &#8216;doub1&#8217; in 
+chi   : line=(DBLL2 , doub1 , DP4FH , DP4SH , DBLL5 , DBD   ,</p>
+<blockquote>
+<div>B11   , DB11  , B12   , DB12  , PF2   , DB13  , 
+B13   , DB14  , B14   , DBD   , DBLL5 , doub2 ,
+DP5FH , DP5SH , DBLL2 , PSTN1)</div></blockquote>
+<p>should be expaned with &#8216;doub1&#8217; configuration:
+doub1 : line=(DQD3, Q05, DQD2, Q06, DQD3)</p>
+<p>since:
+getBeamline(&#8216;doub1&#8217;) = [u&#8217;dqd3&#8217;, u&#8217;q05&#8217;, u&#8217;dqd2&#8217;, u&#8217;q06&#8217;, u&#8217;dqd3&#8217;] = A
+getBeamline(&#8216;doub2&#8217;) = [u&#8217;dqd3&#8217;, u&#8217;q05&#8217;, u&#8217;dqd2&#8217;, u&#8217;q06&#8217;, u&#8217;dqd3&#8217;] = B
+getBeamline(&#8216;chi&#8217;) = [u&#8217;dbll2&#8217;, u&#8217;doub1&#8217;, u&#8217;dp4fh&#8217;, u&#8217;dp4sh&#8217;, u&#8217;dbll5&#8217;, u&#8217;dbd&#8217;, u&#8217;b11&#8217;, u&#8217;db11&#8217;, u&#8217;b12&#8217;,</p>
+<blockquote>
+<div>u&#8217;db12&#8217;, u&#8217;pf2&#8217;, u&#8217;db13&#8217;, u&#8217;b13&#8217;, u&#8217;db14&#8217;, u&#8217;b14&#8217;, u&#8217;dbd&#8217;, u&#8217;dbll5&#8217;, u&#8217;doub2&#8217;,
+u&#8217;dp5fh&#8217;, u&#8217;dp5sh&#8217;, u&#8217;dbll2&#8217;, u&#8217;pstn1&#8217;]</div></blockquote>
+<p>thus: getFullBeamline(&#8216;chi&#8217;) should return:
+[u&#8217;dbll2&#8217;, A, u&#8217;dp4fh&#8217;, u&#8217;dp4sh&#8217;, u&#8217;dbll5&#8217;, u&#8217;dbd&#8217;, u&#8217;b11&#8217;, u&#8217;db11&#8217;, u&#8217;b12&#8217;, u&#8217;db12&#8217;, u&#8217;pf2&#8217;, u&#8217;db13&#8217;,</p>
+<blockquote>
+<div>u&#8217;b13&#8217;, u&#8217;db14&#8217;, u&#8217;b14&#8217;, u&#8217;dbd&#8217;, u&#8217;dbll5&#8217;, B, u&#8217;dp5fh&#8217;, u&#8217;dp5sh&#8217;, u&#8217;dbll2&#8217;, u&#8217;pstn1&#8217;]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>extend</strong> &#8211; if extend mode should be envoked, by default False</td>
+</tr>
+</tbody>
+</table>
+<p>if extend = True, element like &#8216;2*D01&#8217; would be expended to be D01, D01</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.isBeamline">
+<code class="descname">isBeamline</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.isBeamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.isBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>test if kw is a beamline
+:param kw: keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.makeElement">
+<code class="descname">makeElement</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.makeElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.makeElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element object regarding the keyword configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.manipulateLattice">
+<code class="descname">manipulateLattice</code><span class="sig-paren">(</span><em>beamline</em>, <em>type='quad'</em>, <em>irange='all'</em>, <em>property='k1'</em>, <em>opstr='+0%'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.manipulateLattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.manipulateLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>manipulate element with type, e.g. quad</p>
+<p>input parameters:
+:param beamline: beamline definition keyword
+:param type: element type, case insensitive
+:param irange: slice index, see getElementByOrder()
+:param property: element property, e.g. &#8216;k1&#8217; for &#8216;quad&#8217; strength
+:param opstr: operation, &#8216;+[-]n%&#8217; or &#8216;+[-<a href="#id1"><span class="problematic" id="id2">*</span></a>/]n&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.orderLattice">
+<code class="descname">orderLattice</code><span class="sig-paren">(</span><em>beamline</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.orderLattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.orderLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>ordering element type appearance sequence for each element of beamline
+e.g. after getFullBeamline, 
+lattice list [&#8216;q&#8217;,&#8217;Q01&#8217;, &#8216;B11&#8217;, &#8216;Q02&#8217;, &#8216;B22&#8217;] will return:
+[(u&#8217;q&#8217;,   u&#8217;CHARGE&#8217;,   1),</p>
+<blockquote>
+<div>(u&#8217;q01&#8217;, u&#8217;QUAD&#8217;,     1), 
+(u&#8217;b11&#8217;, u&#8217;CSRCSBEN&#8217;, 1), 
+(u&#8217;q02&#8217;, u&#8217;QUAD&#8217;,     2), 
+(u&#8217;b12&#8217;, u&#8217;CSRCSBEN&#8217;, 2)]</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.rinseElement">
+<code class="descname">rinseElement</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.rinseElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.rinseElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>resolve element case with multiply format,
+e.g. rinseElement(&#8216;10*D01&#8217;) should return dict {&#8216;num&#8217;: 10; &#8216;name&#8217; = &#8216;D01&#8217;}
+:param ele: element string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.Lattice.showBeamlines">
+<code class="descname">showBeamlines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#Lattice.showBeamlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.Lattice.showBeamlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>show all defined beamlines</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.lattice.LteParser">
+<em class="property">class </em><code class="descname">LteParser</code><span class="sig-paren">(</span><em>infile</em>, <em>mode='f'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>infile</strong> &#8211; lte filename or list of lines of lte file</li>
+<li><strong>mode</strong> &#8211; &#8216;f&#8217;: treat infile as file,
+&#8216;s&#8217;: (else) treat as list of lines</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.lattice.LteParser.detectAllKws">
+<code class="descname">detectAllKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.detectAllKws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.detectAllKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect all keyword from infile, return as a list</p>
+<p>USAGE: kwslist = detectAllKws()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.dict2json">
+<code class="descname">dict2json</code><span class="sig-paren">(</span><em>idict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.dict2json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.dict2json" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert dict into json</p>
+<p>USAGE: rjson = dict2json(idict)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.file2json">
+<code class="descname">file2json</code><span class="sig-paren">(</span><em>jsonfile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.file2json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.file2json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert entire lte file into json like format</p>
+<dl class="docutils">
+<dt>USAGE: 1: kwsdictstr = file2json()</dt>
+<dd>2: kwsdictstr = file2json(jsonfile = &#8216;somefile&#8217;)</dd>
+</dl>
+<p>show pretty format with pipeline: | jshon, or | pjson
+if jsonfile is defined, dump to defined file before returning json string
+:param jsonfile: filename to dump json strings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKw">
+<code class="descname">getKw</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKw" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Extract doc snippet for element configuration,</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param kw:</th><td class="field-body">element name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">instance itself
+1 call getKwAsDict() to return config as a dict
+2 call getKwAsJson() to return config as json string
+3 call getKwAsString() to return config as a raw string</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>USAGE: getKw(&#8216;Q10&#8217;)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKwAsDict">
+<code class="descname">getKwAsDict</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKwAsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKwAsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword configuration as a dict</p>
+<p>Usage: rdict = getKwAsDict(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKwAsJson">
+<code class="descname">getKwAsJson</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKwAsJson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKwAsJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword configuration as a json</p>
+<p>Usage: rjson = getKwAsJson(kw)
+:param kw: element keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKwAsString">
+<code class="descname">getKwAsString</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKwAsString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKwAsString" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword configuration as a string</p>
+<p>Usage: rstr = getKwAsString(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKwConfig">
+<code class="descname">getKwConfig</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKwConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKwConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the configuration of kw, dict</p>
+<p>USAGE: rdict = getKwConfig(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKwCtrlConf">
+<code class="descname">getKwCtrlConf</code><span class="sig-paren">(</span><em>kw</em>, <em>fmt='dict'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKwCtrlConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKwCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword&#8217;s control configuration, followed after &#8216;!epics&#8217; notation
+:param kw: keyword name
+:param fmt: return format, &#8216;raw&#8217;, &#8216;dict&#8217;, &#8216;json&#8217;, default is &#8216;dict&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.getKwType">
+<code class="descname">getKwType</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.getKwType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.getKwType" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the type of kw, upper cased string</p>
+<p>USAGE: rtype = getKwType(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.get_rpndict_flag">
+<code class="descname">get_rpndict_flag</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.get_rpndict_flag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.get_rpndict_flag" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate flag set, the value is True or False,
+if rpndict value is not None, flag is True, or False</p>
+<p>if a set with only one item, i.e. True returns, 
+means values of rpndict are all valid float numbers,
+then finally return True, or False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.makeElement">
+<code class="descname">makeElement</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.makeElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.makeElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element object regarding the keyword configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.resolveEPICS">
+<code class="descname">resolveEPICS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.resolveEPICS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.resolveEPICS" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract epics control configs into</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.resolvePrefix">
+<code class="descname">resolvePrefix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.resolvePrefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.resolvePrefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract prefix information into dict with the key of &#8216;_prefixstr&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.resolve_rpn">
+<code class="descname">resolve_rpn</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.resolve_rpn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.resolve_rpn" title="Permalink to this definition">¶</a></dt>
+<dd><p>solve dict of rpn expressions to pure var to val dict
+:param rpndict: dict of rpn expressions
+return pure var to val dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.rinse_rpnexp">
+<code class="descname">rinse_rpnexp</code><span class="sig-paren">(</span><em>rpnexp</em>, <em>rpndict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.rinse_rpnexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.rinse_rpnexp" title="Permalink to this definition">¶</a></dt>
+<dd><p>replace valid keyword of rpnexp from rpndict
+e.g. rpnexp = &#8216;b a /&#8217;, rpndict = {&#8216;b&#8217;: 10}
+then after rinsing, rpnexp = &#8216;10 a /&#8217;</p>
+<p>return rinsed rpnexp</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.rpn2val">
+<code class="descname">rpn2val</code><span class="sig-paren">(</span><em>rdict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.rpn2val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.rpn2val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve the rpn string into calulated float number</p>
+<dl class="docutils">
+<dt>USAGE: rpn2val(rdict)</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param rdict:</th><td class="field-body">json like dict</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.scanStoVars">
+<code class="descname">scanStoVars</code><span class="sig-paren">(</span><em>strline</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.scanStoVars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.scanStoVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>scan input string line, replace sto parameters with calculated results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.solve_rpn">
+<code class="descname">solve_rpn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.solve_rpn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.solve_rpn" title="Permalink to this definition">¶</a></dt>
+<dd><p>solve rpn string in self.confdict, and update self.confdict</p>
+<dl class="docutils">
+<dt>USAGE: ins = LteParser(infile)</dt>
+<dd>ins.getKw(kw).toDict().solve_rpn()</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.str2dict">
+<code class="descname">str2dict</code><span class="sig-paren">(</span><em>rawstr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.str2dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.str2dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert str to dict format</p>
+<p>USAGE: rdict = str2dict(rawstr)
+:param rawstr: raw configuration string of element</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.toDict">
+<code class="descname">toDict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.toDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert self.confstr to dict, could apply chain rule, write to self.confdict</p>
+<dl class="docutils">
+<dt>USAGE: ins = LteParser(infile)</dt>
+<dd>ins.getKw(kw).toDict()</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.lattice.LteParser.update_rpndict">
+<code class="descname">update_rpndict</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#LteParser.update_rpndict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.LteParser.update_rpndict" title="Permalink to this definition">¶</a></dt>
+<dd><p>update rpndict, try to solve rpn expressions as many as possible,
+leave unsolvable unchanged.</p>
+<p>return new dict</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.lattice.main">
+<code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="beamline.lattice.test2">
+<code class="descname">test2</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/lattice.html#test2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.lattice.test2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="beamline.models module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="element.html" title="beamline.element module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Example 3 &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Examples and Demonstrations" href="../demo.html" />
+    <link rel="next" title="Example 4" href="demo4.html" />
+    <link rel="prev" title="Example 2" href="demo2.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo4.html" title="Example 4"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="demo2.html" title="Example 2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../demo.html" accesskey="U">Examples and Demonstrations</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="demo2.html"
+                        title="previous chapter">Example 2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="demo4.html"
+                        title="next chapter">Example 4</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-3">
+<h1>Example 3<a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h1>
+<p>Lattice/Twiss matching by using <code class="docutils literal"><span class="pre">matchutils</span></code> module of <code class="docutils literal"><span class="pre">beamline</span></code>
+package for free-electron laser facility.</p>
+<p>Module <code class="docutils literal"><span class="pre">matchutils</span></code> provides classes/functions to handle issues about
+numerical simulation of free-electron laser (FEL),
+including Twiss matching, to optimize an FEL, at the simulation stage.</p>
+<p>In this example, we will tune the FODO lattice of an high-gain harmonic
+generation (HGHG) FEL, to figure out the best Twiss parameters when the
+electron beam enters into the undulator line, such matched Twiss parameter
+could be used as the lattice matching goal of an matching application.</p>
+<p>Here is the code for demostration:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">beamline</span> <span class="kn">import</span> <span class="n">parseLattice</span><span class="p">,</span> <span class="n">ParseParams</span><span class="p">,</span> <span class="n">BeamMatch</span><span class="p">,</span> <span class="n">FELSimulator</span>
+
+
+<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="n">testParse</span> <span class="o">=</span> <span class="n">ParseParams</span><span class="p">(</span><span class="s1">&#39;rad.in&#39;</span><span class="p">,</span> <span class="s1">&#39;rad.lat&#39;</span><span class="p">)</span>
+    <span class="n">aw0</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getUndulatorParameter</span><span class="p">()</span>
+    <span class="n">xlamd</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getUndulatorPeriod</span><span class="p">()</span>
+    <span class="n">unitlength</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getUndulatorUnitlength</span><span class="p">()</span>
+    <span class="n">xlamds</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getFELwavelength</span><span class="p">()</span>
+    <span class="n">gamma0</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getElectronGamma</span><span class="p">()</span>
+    <span class="n">emitx</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getElectronEmitx</span><span class="p">()</span>
+    <span class="n">imagl</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getChicaneMagnetLength</span><span class="p">()</span>
+    <span class="n">idril</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getChicaneDriftLength</span><span class="p">()</span>
+    <span class="n">ibfield</span> <span class="o">=</span> <span class="n">testParse</span><span class="o">.</span><span class="n">getChicaneMagnetField</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    print(&quot;aw0    = %.3f&quot; % aw0   )</span>
+<span class="sd">    print(&quot;xlamd  = %.3f&quot; % xlamd )</span>
+<span class="sd">    print(&quot;xlamds = %.3e&quot; % xlamds)</span>
+<span class="sd">    print(&quot;gamma0 = %.3f&quot; % gamma0)</span>
+<span class="sd">    print(&quot;emitx  = %.3e&quot; % emitx )</span>
+<span class="sd">    print(&quot;imagl  = %.3f&quot; % imagl )</span>
+<span class="sd">    print(&quot;idril  = %.3f&quot; % idril )</span>
+<span class="sd">    print(&quot;ibfield= %.3f&quot; % ibfield)</span>
+<span class="sd">    print(&quot;unit   = %.3f&quot; % unitlength)</span>
+<span class="sd">    print parseLattice(&#39;fullat.hghg&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">qf</span><span class="p">,</span> <span class="n">qd</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+
+    <span class="n">testMatch</span> <span class="o">=</span> <span class="n">BeamMatch</span><span class="p">(</span><span class="s1">&#39;mod.in&#39;</span><span class="p">,</span> <span class="s1">&#39;rad.in&#39;</span><span class="p">,</span> <span class="s1">&#39;mod.lat&#39;</span><span class="p">,</span> <span class="s1">&#39;rad.lat&#39;</span><span class="p">,</span>
+                          <span class="s1">&#39;newmod.in&#39;</span><span class="p">,</span> <span class="s1">&#39;newrad.in&#39;</span><span class="p">,</span> <span class="s1">&#39;newrad.lat&#39;</span><span class="p">,</span> <span class="n">qf</span><span class="p">,</span> <span class="n">qd</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">testMatch</span><span class="o">.</span><span class="n">matchCalculate</span><span class="p">():</span>
+        <span class="n">testMatch</span><span class="o">.</span><span class="n">matchPerform</span><span class="p">()</span>
+        <span class="c1">#testMatch.matchPrintout()</span>
+        <span class="n">fel</span> <span class="o">=</span> <span class="n">FELSimulator</span><span class="p">()</span>
+        <span class="n">fel</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="n">fel</span><span class="o">.</span><span class="n">postProcess</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">fel</span><span class="o">.</span><span class="n">getMaxPower</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>The FEL physics related files:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference download internal" href="../../_downloads/mod.in" download=""><code class="xref download docutils literal"><span class="pre">Modulator</span> <span class="pre">input</span> <span class="pre">file</span></code></a></li>
+<li><a class="reference download internal" href="../../_downloads/mod.lat" download=""><code class="xref download docutils literal"><span class="pre">Modulator</span> <span class="pre">lattice</span> <span class="pre">file</span></code></a></li>
+<li><a class="reference download internal" href="../../_downloads/mod.in" download=""><code class="xref download docutils literal"><span class="pre">Radiator</span> <span class="pre">input</span> <span class="pre">file</span></code></a></li>
+<li><a class="reference download internal" href="../../_downloads/mod.lat" download=""><code class="xref download docutils literal"><span class="pre">Radiator</span> <span class="pre">lattice</span> <span class="pre">file</span></code></a></li>
+<li><a class="reference download internal" href="../../_downloads/fullat.hghg" download=""><code class="xref download docutils literal"><span class="pre">Lattice</span> <span class="pre">configuration</span> <span class="pre">file</span></code></a></li>
+</ul>
+</dd>
+<dt>Wrap it up:</dt>
+<dd><ul class="first last">
+<li><p class="first">Create <code class="docutils literal"><span class="pre">ParseParams()</span></code> instance to get needed parameter values;</p>
+</li>
+<li><dl class="first docutils">
+<dt>Create <code class="docutils literal"><span class="pre">BeamMatch()</span></code> instance to resolve matching issues:</dt>
+<dd><ul class="first last simple">
+<li>Invoke <code class="docutils literal"><span class="pre">mathCalculate()</span></code> to figure out the Twiss parameter
+required;</li>
+<li><code class="docutils literal"><span class="pre">run()</span></code> and <code class="docutils literal"><span class="pre">postProcess()</span></code> methods of <code class="docutils literal"><span class="pre">FELSimulator</span></code>
+to produce the simulation and get output files;</li>
+<li><code class="docutils literal"><span class="pre">genesis</span> <span class="pre">1.3</span></code> is used to handle the FEL simulation.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>Tips about the post processing with the <code class="docutils literal"><span class="pre">genesis</span> <span class="pre">1.3</span></code> generated files:</dt>
+<dd><ul class="first last">
+<li><p class="first">For steady-stat (single slice) simulation mode, use this shell script
+(name: <code class="docutils literal"><span class="pre">getssdata.sh</span></code>)to get well-formated output data by columns:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">tempdir</span><span class="o">=</span>/tmp/tmp.<span class="nv">$$</span>
+<span class="nv">outfile</span><span class="o">=</span><span class="s2">&quot;rad.out&quot;</span>
+awk <span class="s1">&#39;/z\[m\]/,/current/&#39;</span> <span class="si">${</span><span class="nv">outfile</span><span class="si">}</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r&#39;</span> <span class="p">|</span> sed <span class="s2">&quot;/^</span>$<span class="s2">/d;/[*,=,cur]/d;s/^[ ,\t]*//;1s/^/#/&quot;</span> &gt; <span class="si">${</span><span class="nv">tempdir</span><span class="si">}</span>/zaq
+awk <span class="s1">&#39;/current/,/\$/&#39;</span> <span class="si">${</span><span class="nv">outfile</span><span class="si">}</span> <span class="p">|</span> tr -d <span class="s1">&#39;\r&#39;</span> <span class="p">|</span> sed <span class="s2">&quot;1d;/^</span>$<span class="s2">/d;s/^[ ,\t]*//&quot;</span> &gt; <span class="si">${</span><span class="nv">tempdir</span><span class="si">}</span>/outdata
+paste <span class="si">${</span><span class="nv">tempdir</span><span class="si">}</span>/zaq <span class="si">${</span><span class="nv">tempdir</span><span class="si">}</span>/outdata
+</pre></div>
+</div>
+</li>
+<li><p class="first">Show the beam size variation along undulator:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>getssdata.sh rad.out <span class="p">|</span> awk <span class="s1">&#39;{print $1,$13}&#39;</span> <span class="p">|</span> graph -T X -C
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/xplot.png"><img alt="../../_images/xplot.png" src="../../_images/xplot.png" style="width: 400px;" /></a>
+</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Integrate FEL physics manipulation, like Twiss matching into
+online modeling framework, and develop online-modeling optimization
+modules.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo4.html" title="Example 4"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="demo2.html" title="Example 2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../demo.html" >Examples and Demonstrations</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

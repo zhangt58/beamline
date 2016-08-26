@@ -1,0 +1,9 @@
+Examples and Demonstrations
+===========================
+
+.. toctree::
+    
+    Example 1 (keywords: lattice visualization) <demos/demo1>
+    Example 2 (keywords: online modeling) <demos/demo2>
+    Example 3 (keywords: matching, FEL) <demos/demo3>
+    Example 4 (Keywords: CLI, file conversion) <demos/demo4>

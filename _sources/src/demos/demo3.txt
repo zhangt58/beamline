@@ -1,0 +1,61 @@
+Example 3
+=========
+
+Lattice/Twiss matching by using ``matchutils`` module of ``beamline`` 
+package for free-electron laser facility.
+
+Module ``matchutils`` provides classes/functions to handle issues about
+numerical simulation of free-electron laser (FEL), 
+including Twiss matching, to optimize an FEL, at the simulation stage.
+
+In this example, we will tune the FODO lattice of an high-gain harmonic
+generation (HGHG) FEL, to figure out the best Twiss parameters when the 
+electron beam enters into the undulator line, such matched Twiss parameter
+could be used as the lattice matching goal of an matching application.
+
+Here is the code for demostration:
+
+.. literalinclude:: ../../snippets/test_match.py
+    :language: python
+
+The FEL physics related files: 
+    * :download:`Modulator input file <../../../tests/felmatch/mod.in>`
+    * :download:`Modulator lattice file <../../../tests/felmatch/mod.lat>`
+    * :download:`Radiator input file <../../../tests/felmatch/mod.in>`
+    * :download:`Radiator lattice file <../../../tests/felmatch/mod.lat>`
+    * :download:`Lattice configuration file <../../../tests/felmatch/fullat.hghg>` 
+
+Wrap it up:
+    * Create ``ParseParams()`` instance to get needed parameter values;
+    * Create ``BeamMatch()`` instance to resolve matching issues:
+        * Invoke ``mathCalculate()`` to figure out the Twiss parameter
+          required;
+        * ``run()`` and ``postProcess()`` methods of ``FELSimulator`` 
+          to produce the simulation and get output files;
+        * ``genesis 1.3`` is used to handle the FEL simulation.
+
+Tips about the post processing with the ``genesis 1.3`` generated files:
+    * For steady-stat (single slice) simulation mode, use this shell script
+      (name: ``getssdata.sh``)to get well-formated output data by columns:
+
+      .. code-block:: bash
+        
+        tempdir=/tmp/tmp.$$
+        outfile="rad.out"
+        awk '/z\[m\]/,/current/' ${outfile} | tr -d '\r' | sed "/^$/d;/[*,=,cur]/d;s/^[ ,\t]*//;1s/^/#/" > ${tempdir}/zaq
+        awk '/current/,/\$/' ${outfile} | tr -d '\r' | sed "1d;/^$/d;s/^[ ,\t]*//" > ${tempdir}/outdata
+        paste ${tempdir}/zaq ${tempdir}/outdata
+    
+    * Show the beam size variation along undulator:
+
+      .. code-block:: bash
+        
+        getssdata.sh rad.out | awk '{print $1,$13}' | graph -T X -C
+
+      .. image:: ../../images/xplot.png
+        :width: 400px
+
+.. todo:: 
+    Integrate FEL physics manipulation, like Twiss matching into
+    online modeling framework, and develop online-modeling optimization
+    modules.

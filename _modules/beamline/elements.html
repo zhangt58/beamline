@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.elements &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.elements</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot; definition for magnetic elements (deprecated)</span>
+
+<span class="sd">.. Created Time: Sep. 22nd, 2014</span>
+<span class="sd">.. Author: Tong Zhang</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.path</span> <span class="k">as</span> <span class="nn">path</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Drift"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Drift">[docs]</a><span class="k">class</span> <span class="nc">Drift</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :element: drift section</span>
+
+<span class="sd">    :param _length: drift length, [m]</span>
+<span class="sd">    :param _angle:  angle between drawing line and horizontal plane, [deg]</span>
+<span class="sd">    :param _linkNode: ``(x,y)`` coordinates that drawing begins or linked to another element</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">length</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+                 <span class="n">angle</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">link_node</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                 <span class="n">line_color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                 <span class="n">line_width</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+                 <span class="n">_alpha</span> <span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">link_node</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+        <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">]</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span>
+                 <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span> <span class="p">]</span>
+        <span class="n">pathall</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">(</span><span class="n">pathall</span><span class="p">,</span>
+                                  <span class="n">facecolor</span><span class="o">=</span> <span class="n">line_color</span><span class="p">,</span>
+                                  <span class="n">edgecolor</span><span class="o">=</span> <span class="n">line_color</span><span class="p">,</span>
+                                  <span class="n">lw</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                                  <span class="n">alpha</span><span class="o">=</span><span class="n">_alpha</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link_node</span> <span class="o">=</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Drift.show"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Drift.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fignum</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fignum</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">inspatch</span><span class="p">)</span> <span class="k">for</span> <span class="n">inspatch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="Rbend"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Rbend">[docs]</a><span class="k">class</span> <span class="nc">Rbend</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :element: rectangle bend</span>
+
+<span class="sd">    :param _width: bend width, [m]</span>
+<span class="sd">    :param _height: bend hight, [m]</span>
+<span class="sd">    :param _angle: bend angle, [deg]</span>
+<span class="sd">    :param _linkNode: ``(x,y)`` coordinates that drawing begins or linked to another element</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">width</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">height</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+                 <span class="n">angle</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">link_node</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                 <span class="n">face_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                 <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                 <span class="n">line_width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                 <span class="n">_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+
+        <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">link_node</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">link_node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">height</span><span class="p">)</span>
+        <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">width</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+        <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span> <span class="o">+</span> <span class="n">width</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+
+        <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)]</span>
+        <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span>
+                 <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                 <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                 <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                 <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">,</span> <span class="p">]</span>
+        <span class="n">pathall</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">(</span><span class="n">pathall</span><span class="p">,</span>
+                                  <span class="n">facecolor</span><span class="o">=</span><span class="n">face_color</span><span class="p">,</span>
+                                  <span class="n">edgecolor</span><span class="o">=</span><span class="n">edge_color</span><span class="p">,</span>
+                                  <span class="n">lw</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                                  <span class="n">alpha</span><span class="o">=</span><span class="n">_alpha</span><span class="p">,</span> <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link_node</span> <span class="o">=</span> <span class="p">(</span><span class="n">x3</span> <span class="o">+</span> <span class="n">x2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> <span class="p">(</span><span class="n">y3</span> <span class="o">+</span> <span class="n">y2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Rbend.show"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Rbend.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fignum</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fignum</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">inspatch</span><span class="p">)</span> <span class="k">for</span> <span class="n">inspatch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Rbend.info"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Rbend.info">[docs]</a>    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
+<div class="viewcode-block" id="Undulator"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Undulator">[docs]</a><span class="k">class</span> <span class="nc">Undulator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :element: undulator (not included in ``element`` module)</span>
+
+<span class="sd">    :param period_length: undulator period length, [m]</span>
+<span class="sd">    :param period_number: undulator period number</span>
+<span class="sd">    :param north_color: color of north pole</span>
+<span class="sd">    :param south_color: color of south pole</span>
+<span class="sd">    :param link_node: ``(x,y)`` coordinates that drawing begins or linked to another element</span>
+<span class="sd">    :param ratio: ratio of pole_height v.s. pole_width, and gap v.s pole_width</span>
+<span class="sd">    :param spacing: spacing between pole, measured by pole_width,</span>
+<span class="sd">    :param gap: undulator gap only for visualization, not true magnetic gap</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">period_length</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
+                 <span class="n">period_number</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                 <span class="n">north_color</span>   <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                 <span class="n">south_color</span>   <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                 <span class="n">link_node</span>     <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                 <span class="n">ratio</span>         <span class="o">=</span> <span class="p">[</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">1.5</span><span class="p">],</span>
+                 <span class="n">spacing</span>       <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+                 <span class="n">_alpha</span>        <span class="o">=</span> <span class="mf">0.8</span><span class="p">):</span>
+        <span class="n">pole_width</span>  <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">period_length</span>
+        <span class="n">pole_height</span> <span class="o">=</span> <span class="n">ratio</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">pole_width</span>
+        <span class="n">gap</span>         <span class="o">=</span> <span class="n">ratio</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">pole_width</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span><span class="p">,</span> <span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="n">e100</span><span class="p">,</span> <span class="mi">1</span><span class="n">e100</span>
+        <span class="n">_x0</span><span class="p">,</span> <span class="n">_y0</span> <span class="o">=</span> <span class="n">link_node</span>
+        <span class="k">for</span> <span class="n">inum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">period_number</span><span class="o">*</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">_x0</span><span class="p">,</span> <span class="n">_y0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">gap</span><span class="p">)</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">pole_height</span><span class="p">)</span>
+            <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">+</span> <span class="n">pole_width</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+            <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+            <span class="n">verts1</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)]</span>
+            <span class="n">codes1</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">,</span> <span class="p">]</span>
+            <span class="n">pole_color</span> <span class="o">=</span> <span class="n">north_color</span>
+            <span class="n">patch1</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts1</span><span class="p">,</span><span class="n">codes1</span><span class="p">),</span>
+                                       <span class="n">facecolor</span><span class="o">=</span><span class="n">pole_color</span><span class="p">,</span>
+                                       <span class="n">edgecolor</span><span class="o">=</span><span class="n">pole_color</span><span class="p">,</span>
+                                       <span class="n">alpha</span><span class="o">=</span><span class="n">_alpha</span><span class="p">,)</span>
+            <span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxy</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+            <span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxx</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+            <span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+            <span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+            
+            <span class="n">x01</span><span class="p">,</span> <span class="n">y01</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_y0</span> <span class="o">-</span> <span class="n">y0</span>
+            <span class="n">x11</span><span class="p">,</span> <span class="n">y11</span> <span class="o">=</span> <span class="n">x1</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_y0</span> <span class="o">-</span> <span class="n">y1</span>
+            <span class="n">x21</span><span class="p">,</span> <span class="n">y21</span> <span class="o">=</span> <span class="n">x2</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_y0</span> <span class="o">-</span> <span class="n">y2</span>
+            <span class="n">x31</span><span class="p">,</span> <span class="n">y31</span> <span class="o">=</span> <span class="n">x3</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">_y0</span> <span class="o">-</span> <span class="n">y3</span>
+ 
+            <span class="n">verts2</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x01</span><span class="p">,</span> <span class="n">y01</span><span class="p">),</span> <span class="p">(</span><span class="n">x11</span><span class="p">,</span> <span class="n">y11</span><span class="p">),</span> <span class="p">(</span><span class="n">x21</span><span class="p">,</span> <span class="n">y21</span><span class="p">),</span> <span class="p">(</span><span class="n">x31</span><span class="p">,</span> <span class="n">y31</span><span class="p">),</span> <span class="p">(</span><span class="n">x01</span><span class="p">,</span> <span class="n">y01</span><span class="p">)]</span>
+            <span class="n">codes2</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                      <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">,</span> <span class="p">]</span>
+            <span class="n">pole_color</span> <span class="o">=</span> <span class="n">south_color</span>
+            <span class="n">patch2</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts2</span><span class="p">,</span><span class="n">codes2</span><span class="p">),</span>
+                                       <span class="n">facecolor</span><span class="o">=</span><span class="n">pole_color</span><span class="p">,</span>
+                                       <span class="n">edgecolor</span><span class="o">=</span><span class="n">pole_color</span><span class="p">,</span>
+                                       <span class="n">alpha</span><span class="o">=</span><span class="n">_alpha</span><span class="p">,)</span>
+            <span class="n">_x0</span> <span class="o">+=</span> <span class="n">pole_width</span> <span class="o">*</span> <span class="n">spacing</span>
+            <span class="n">_y0</span> <span class="o">=</span> <span class="n">_y0</span>
+            <span class="n">north_color</span><span class="p">,</span><span class="n">south_color</span> <span class="o">=</span> <span class="n">south_color</span><span class="p">,</span> <span class="n">north_color</span>
+ 
+            <span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxy</span><span class="p">,</span> <span class="n">y01</span><span class="p">,</span> <span class="n">y11</span><span class="p">,</span> <span class="n">y21</span><span class="p">,</span> <span class="n">y31</span><span class="p">)</span>
+            <span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxx</span><span class="p">,</span> <span class="n">x01</span><span class="p">,</span> <span class="n">x11</span><span class="p">,</span> <span class="n">x21</span><span class="p">,</span> <span class="n">x31</span><span class="p">)</span>
+            <span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">y01</span><span class="p">,</span> <span class="n">y11</span><span class="p">,</span> <span class="n">y21</span><span class="p">,</span> <span class="n">y31</span><span class="p">)</span>
+            <span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">x01</span><span class="p">,</span> <span class="n">x11</span><span class="p">,</span> <span class="n">x21</span><span class="p">,</span> <span class="n">x31</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch2</span><span class="p">)</span>
+
+        <span class="c1"># endfor</span>
+        <span class="c1"># draw horizon line</span>
+        <span class="n">verts3</span> <span class="o">=</span> <span class="p">[</span><span class="n">link_node</span><span class="p">,</span> <span class="p">(</span><span class="n">_x0</span><span class="p">,</span> <span class="n">_y0</span><span class="p">),]</span>
+        <span class="n">codes3</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,]</span>
+        <span class="n">patch3</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts3</span><span class="p">,</span><span class="n">codes3</span><span class="p">),</span>
+                                   <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                                   <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                                   <span class="n">lw</span>    <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
+                                   <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.8</span><span class="p">,)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link_node</span>  <span class="o">=</span> <span class="n">_x0</span><span class="p">,</span> <span class="n">_y0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxx</span><span class="p">,</span> <span class="n">_x0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">maxy</span><span class="p">,</span> <span class="n">_y0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">minx</span><span class="p">,</span> <span class="n">_x0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">miny</span><span class="p">,</span> <span class="n">_y0</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Undulator.show"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Undulator.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fignum</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fignum</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">inspatch</span><span class="p">)</span> <span class="k">for</span> <span class="n">inspatch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+
+<div class="viewcode-block" id="Quadrupole"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Quadrupole">[docs]</a><span class="k">class</span> <span class="nc">Quadrupole</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :element: quadrupole</span>
+
+<span class="sd">    :param width: quad width, [m]</span>
+<span class="sd">    :param angle: angle, [deg]</span>
+<span class="sd">    :param xy_sign: ``x``: x-focusing, ``K1&gt;0``; ``y``: y-focusing, ``K1&lt;0``</span>
+<span class="sd">    :param link_node: ``(x,y)`` coordinates that drawing begins or linked to another element</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">width</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">angle</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span>
+                 <span class="n">xysign</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+                 <span class="n">link_node</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+                 <span class="n">face_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                 <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                 <span class="n">line_width</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                 <span class="n">_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">xysign</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">link_node</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+            <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="n">y0</span>
+            <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">x1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">y1</span>
+
+            <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)]</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">,</span> <span class="p">]</span>
+            <span class="n">pathall</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">link_node</span> <span class="o">=</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">xysign</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">link_node</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span><span class="p">,</span> <span class="n">y0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mf">180.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+            <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">width</span><span class="p">,</span> <span class="n">y1</span>
+            <span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">=</span> <span class="n">x1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">y1</span> 
+            <span class="n">x4</span><span class="p">,</span> <span class="n">y4</span> <span class="o">=</span> <span class="n">x2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">y2</span>
+
+            <span class="n">verts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="p">(</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span><span class="p">),</span> <span class="p">(</span><span class="n">x4</span><span class="p">,</span> <span class="n">y4</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">),</span> <span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)]</span>
+            <span class="n">codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">MOVETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">LINETO</span><span class="p">,</span>
+                     <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">CLOSEPOLY</span><span class="p">,</span> <span class="p">]</span>
+            <span class="n">pathall</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">verts</span><span class="p">,</span> <span class="n">codes</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">link_node</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maxy</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">y4</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maxx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">miny</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">y4</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">minx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">patch</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">PathPatch</span><span class="p">(</span><span class="n">pathall</span><span class="p">,</span>
+                                  <span class="n">facecolor</span><span class="o">=</span><span class="n">face_color</span><span class="p">,</span>
+                                  <span class="n">edgecolor</span><span class="o">=</span><span class="n">edge_color</span><span class="p">,</span>
+                                  <span class="n">lw</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                                  <span class="n">alpha</span><span class="o">=</span><span class="n">_alpha</span><span class="p">,</span> <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Quadrupole.show"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.Quadrupole.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fignum</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">fignum</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="p">[</span><span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">inspatch</span><span class="p">)</span> <span class="k">for</span> <span class="n">inspatch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div></div>
+ 
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../src/apidocs/elements.html#beamline.elements.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Quadrupole</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

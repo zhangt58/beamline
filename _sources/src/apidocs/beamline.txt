@@ -1,0 +1,30 @@
+beamline package
+================
+
+.. automodule:: beamline
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+Subpackages
+-----------
+
+.. toctree::
+
+    UI package <beamline.ui>
+
+Submodules
+----------
+
+.. toctree::
+
+    blparser module (deprecated) <blparser> 
+    elements module (deprecated) <elements>
+    pltutils module (deprecated) <pltutils>
+    datautils module <datautils>
+    mathutils module <mathutils>
+    matchutils module <matchutils>
+    element module <element>
+    lattice module <lattice>
+    models module <models>
+    simulation module <simulation>

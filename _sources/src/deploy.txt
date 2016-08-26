@@ -1,0 +1,61 @@
+Deployment
+==========
+
+Deploy ``beamline`` to different operating systems is quite simple, both 
+online and offline approaches are provided. Before install this package
+into system, there may be packages/libraries dependence issues to be
+resolved first.
+
+Prerequisites
+-------------
+
+Python packages required: ``pyrpn``, ``h5py``, ``numpy``, 
+``scipy``, ``matplotlib``, ``wxPython``.
+
+Package with version infomation:
+
+.. code-block:: rest
+    
+    numpy      : 1.11.1
+    h5py       : 2.6.0
+    matplotlib : 1.5.1
+    pyepics    : 3.2.6
+    pyrpn      : 1.0.3
+    wxPython   : 3.0.2.0
+
+.. note:: 
+
+    * ``wxPython`` should be built with unicode support
+    * Install them by ``pip install <package_name>`` (recommanded)
+
+Installation
+------------
+
+**Online approach**
+
+.. code-block:: bash
+    
+    pip install beamline --prefix=/opt/high-level-apps -i https://pypi.python.org/pypi
+    
+or precisely define the version number:
+
+.. code-block:: bash
+
+    pip install beamline==1.3.5 --prefix=/opt/high-level-apps -i https://pypi.python.org/pypi
+
+
+**Offline approach**
+
+Download `beamline <https://pypi.python.org/pypi/beamline>`_ from PyPI.
+
+.. code-block:: bash
+
+    pip install beamline-1.3.5-py2.py3-none-any.whl --prefix=/opt/high-level-apps
+
+.. note::
+
+    * ``root`` privilege may be asked.
+    * System wide environment variables, like ``PATH``, ``PYTHONPATH``
+      and system menu integration issues are handled when deploying 
+      another package --- ``felapps``, details please see its 
+      documentation.

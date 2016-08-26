@@ -1,0 +1,8 @@
+beamline.lattice module
+-----------------------
+
+.. automodule:: beamline.lattice
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

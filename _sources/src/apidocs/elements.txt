@@ -1,0 +1,8 @@
+beamline.elements module
+------------------------
+
+.. automodule:: beamline.elements
+    :members:
+    :undoc-members:
+    :show-inheritance:
+

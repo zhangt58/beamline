@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.blparser module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.elements module" href="elements.html" />
+    <link rel="prev" title="beamline.ui package" href="beamline.ui.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="elements.html" title="beamline.elements module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="beamline.ui.html" title="beamline.ui package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="beamline.ui.html"
+                        title="previous chapter">beamline.ui package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="elements.html"
+                        title="next chapter">beamline.elements module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.blparser">
+<span id="beamline-blparser-module"></span><h1>beamline.blparser module<a class="headerlink" href="#module-beamline.blparser" title="Permalink to this headline">¶</a></h1>
+<p>Python module for parsing MAD-8 lattice file, only used by matchwizard app (deprecated).</p>
+<dl class="function">
+<dt id="beamline.blparser.madParser">
+<code class="descname">madParser</code><span class="sig-paren">(</span><em>mad_filename</em>, <em>idbl='BL'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/blparser.html#madParser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.blparser.madParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to parse beamline with MAD-8 input format</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mad_filename</strong> &#8211; lattice filename with mad-8 like format</li>
+<li><strong>idbl</strong> &#8211; beamline to be used that defined in lattice file, 
+default value is <code class="docutils literal"><span class="pre">BL</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of dict that contains magnetic elements</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">beamline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beamlinelist</span> <span class="o">=</span> <span class="n">beamline</span><span class="o">.</span><span class="n">blparser</span><span class="o">.</span><span class="n">madParser</span><span class="p">(</span><span class="s1">&#39;LPA.list&#39;</span><span class="p">,</span> <span class="s1">&#39;BL2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">beamlinelist</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d0&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="s1">&#39;k1&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;q1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.18&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d3&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="s1">&#39;k1&#39;</span><span class="p">:</span> <span class="s1">&#39;-75&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.27&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d6&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;rbend&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;b1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d8&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;rbend&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;-5&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;b2&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.45&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d4&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="s1">&#39;k1&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;q1&#39;</span><span class="p">}]</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/LPA.list" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">LPA.list</span></code></a> for reference.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.blparser.main">
+<code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/blparser.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.blparser.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="elements.html" title="beamline.elements module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="beamline.ui.html" title="beamline.ui package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

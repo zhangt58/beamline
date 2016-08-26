@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.datautils module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.mathutils module" href="mathutils.html" />
+    <link rel="prev" title="beamline.pltutils module" href="pltutils.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mathutils.html" title="beamline.mathutils module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pltutils.html" title="beamline.pltutils module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pltutils.html"
+                        title="previous chapter">beamline.pltutils module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mathutils.html"
+                        title="next chapter">beamline.mathutils module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.datautils">
+<span id="beamline-datautils-module"></span><h1>beamline.datautils module<a class="headerlink" href="#module-beamline.datautils" title="Permalink to this headline">¶</a></h1>
+<p>This module is created for data processing framework, 
+to make rules for data saving, visualization issues, etc.</p>
+<dl class="class">
+<dt id="beamline.datautils.DataExtracter">
+<em class="property">class </em><code class="descname">DataExtracter</code><span class="sig-paren">(</span><em>sddsfile</em>, <em>*kws</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Extract required data from a SDDS formated file,
+to put into hdf5 formated file or just dump into RAM
+for post-processing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sddsfile</strong> &#8211; filename of SDDS data file</li>
+<li><strong>kws</strong> &#8211; packed tuple/list options, usually sdds column names,
+e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="pre">'Sx')</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># *sddsquery -col* shows it has &#39;s&#39;, &#39;Sx&#39; data columns</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sddsfile</span> <span class="o">=</span> <span class="s1">&#39;output.sdds&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_list</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dh</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="n">sddsfile</span><span class="p">,</span> <span class="o">*</span><span class="n">param_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># *dh* is a newly created DataExtracter instance</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump extracted data into a single hdf5file,</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># dump data into an hdf5 formated file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datafields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">,</span> <span class="s1">&#39;Sy&#39;</span><span class="p">,</span> <span class="s1">&#39;enx&#39;</span><span class="p">,</span> <span class="s1">&#39;eny&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datascript</span> <span class="o">=</span> <span class="s1">&#39;sddsprintdata.sh&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datapath</span>   <span class="o">=</span> <span class="s1">&#39;./tests/tracking&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hdf5file</span>   <span class="o">=</span> <span class="s1">&#39;./tests/tracking/test.h5&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.sig&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">datafields</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">setDataScript</span><span class="p">(</span><span class="n">datascript</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">setDataPath</span>  <span class="p">(</span><span class="n">datapath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">setH5file</span>    <span class="p">(</span><span class="n">hdf5file</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">extractData</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># read dumped file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fd</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_s</span>  <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">][:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_sx</span> <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;Sx&#39;</span><span class="p">][:]</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># plot dumped data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d_s</span><span class="p">,</span> <span class="n">d_sx</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$s$&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\sigma_x$&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Just like the following figure shows:</p>
+<a class="reference internal image-reference" href="../../_images/test_DataExtracter.png"><img alt="../../_images/test_DataExtracter.png" src="../../_images/test_DataExtracter.png" style="width: 400px;" /></a>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.extractData">
+<code class="descname">extractData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.extractData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.extractData" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract data as numpy array, with given required fields,
+put data into <code class="docutils literal"><span class="pre">h5data</span></code> as a numpy array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">instance itself</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.getAllCols">
+<code class="descname">getAllCols</code><span class="sig-paren">(</span><em>sddsfile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.getAllCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.getAllCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>get all available column names from sddsfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sddsfile</strong> &#8211; sdds file name, if not given, rollback to the one that from <code class="docutils literal"><span class="pre">__init__()</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all sdds data col names</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dh</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.out&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dh</span><span class="o">.</span><span class="n">getAllCols</span><span class="p">())</span>
+<span class="go">[&#39;x&#39;, &#39;xp&#39;, &#39;y&#39;, &#39;yp&#39;, &#39;t&#39;, &#39;p&#39;, &#39;particleID&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dh</span><span class="o">.</span><span class="n">getAllCols</span><span class="p">(</span><span class="s1">&#39;test.twi&#39;</span><span class="p">))</span>
+<span class="go">[&#39;s&#39;, &#39;betax&#39;, &#39;alphax&#39;, &#39;psix&#39;, &#39;etax&#39;, &#39;etaxp&#39;, &#39;xAperture&#39;, &#39;betay&#39;, &#39;alphay&#39;, &#39;psiy&#39;, &#39;etay&#39;, &#39;etayp&#39;, &#39;yAperture&#39;, &#39;pCentral0&#39;, &#39;ElementName&#39;, &#39;ElementOccurence&#39;, &#39;ElementType&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.getH5Data">
+<code class="descname">getH5Data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.getH5Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.getH5Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>return extracted data as numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">numpy array after executing <code class="docutils literal"><span class="pre">extractData()</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.getKws">
+<code class="descname">getKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.getKws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.getKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>return data column fields that defined in constructor, e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="pre">'Sx')</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">data columns keyword</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.setDataPath">
+<code class="descname">setDataPath</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setDataPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setDataPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>set full dir path of data files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; data path, usually is the directory where numerical simulation was taken place</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.setDataScript">
+<code class="descname">setDataScript</code><span class="sig-paren">(</span><em>fullscriptpath='sddsprintdata.sh'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setDataScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setDataScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>configure script that should be utilized by DataExtracter,
+to extract data colums from sddsfile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fullscriptpath</strong> &#8211; full path of script that handles the data extraction of sddsfile,
+default value is <code class="docutils literal"><span class="pre">sddsprintdata.sh</span></code>, which is a script that distributed
+with <code class="docutils literal"><span class="pre">beamline</span></code> package.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.setH5file">
+<code class="descname">setH5file</code><span class="sig-paren">(</span><em>h5filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setH5file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setH5file" title="Permalink to this definition">¶</a></dt>
+<dd><p>set h5file full path name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>h5filepath</strong> &#8211; path for hdf5 file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.setKws">
+<code class="descname">setKws</code><span class="sig-paren">(</span><em>*kws</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setKws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>set keyword list, i.e. sdds field names, update <code class="docutils literal"><span class="pre">kwslist</span></code> property</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kws</strong> &#8211; packed tuple of sdds datafile column names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return None:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.datautils.DataStorage">
+<em class="property">class </em><code class="descname">DataStorage</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="docutils">
+<dt>for data storage management, to be implemented.</dt>
+<dd>communicate with database like mongodb, mysql, sqlite, etc.</dd>
+</dl>
+<dl class="method">
+<dt id="beamline.datautils.DataStorage.configDatabase">
+<code class="descname">configDatabase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage.configDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage.configDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>configure database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataStorage.getData">
+<code class="descname">getData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage.getData" title="Permalink to this definition">¶</a></dt>
+<dd><p>get data from database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataStorage.putData">
+<code class="descname">putData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage.putData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage.putData" title="Permalink to this definition">¶</a></dt>
+<dd><p>put data into database</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.datautils.DataVisualizer">
+<em class="property">class </em><code class="descname">DataVisualizer</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>for data visualization purposes, to be implemented</p>
+<dl class="method">
+<dt id="beamline.datautils.DataVisualizer.illustrate">
+<code class="descname">illustrate</code><span class="sig-paren">(</span><em>xlabel</em>, <em>ylabel</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer.illustrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer.illustrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot x, y w.r.t. xlabel and ylabel
+:param ylabel: xlabel
+:param xlabel: ylabel</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataVisualizer.inspectDataFile">
+<code class="descname">inspectDataFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer.inspectDataFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer.inspectDataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>inspect hdf5 data file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataVisualizer.saveArtwork">
+<code class="descname">saveArtwork</code><span class="sig-paren">(</span><em>name='image'</em>, <em>fmt='jpg'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer.saveArtwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer.saveArtwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>save figure by default name of image.jpg
+:param name: image name, &#8216;image&#8217; by default
+:param fmt: image format, &#8216;jpg&#8217; by default</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.datautils.test">
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="mathutils.html" title="beamline.mathutils module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pltutils.html" title="beamline.pltutils module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

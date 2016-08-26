@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deployment &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../index.html" />
+    <link rel="next" title="Examples and Demonstrations" href="demo.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo.html" title="Examples and Demonstrations"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">beamline 1.3.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deployment</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="demo.html"
+                        title="next chapter">Examples and Demonstrations</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
+<p>Deploy <code class="docutils literal"><span class="pre">beamline</span></code> to different operating systems is quite simple, both
+online and offline approaches are provided. Before install this package
+into system, there may be packages/libraries dependence issues to be
+resolved first.</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>Python packages required: <code class="docutils literal"><span class="pre">pyrpn</span></code>, <code class="docutils literal"><span class="pre">h5py</span></code>, <code class="docutils literal"><span class="pre">numpy</span></code>,
+<code class="docutils literal"><span class="pre">scipy</span></code>, <code class="docutils literal"><span class="pre">matplotlib</span></code>, <code class="docutils literal"><span class="pre">wxPython</span></code>.</p>
+<p>Package with version infomation:</p>
+<div class="highlight-rest"><div class="highlight"><pre><span></span>numpy      : 1.11.1
+h5py       : 2.6.0
+matplotlib : 1.5.1
+pyepics    : 3.2.6
+pyrpn      : 1.0.3
+wxPython   : 3.0.2.0
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">wxPython</span></code> should be built with unicode support</li>
+<li>Install them by <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&lt;package_name&gt;</span></code> (recommanded)</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p><strong>Online approach</strong></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install beamline --prefix<span class="o">=</span>/opt/high-level-apps -i https://pypi.python.org/pypi
+</pre></div>
+</div>
+<p>or precisely define the version number:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install <span class="nv">beamline</span><span class="o">==</span>1.3.5 --prefix<span class="o">=</span>/opt/high-level-apps -i https://pypi.python.org/pypi
+</pre></div>
+</div>
+<p><strong>Offline approach</strong></p>
+<p>Download <a class="reference external" href="https://pypi.python.org/pypi/beamline">beamline</a> from PyPI.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install beamline-1.3.5-py2.py3-none-any.whl --prefix<span class="o">=</span>/opt/high-level-apps
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">root</span></code> privilege may be asked.</li>
+<li>System wide environment variables, like <code class="docutils literal"><span class="pre">PATH</span></code>, <code class="docutils literal"><span class="pre">PYTHONPATH</span></code>
+and system menu integration issues are handled when deploying
+another package &#8212; <code class="docutils literal"><span class="pre">felapps</span></code>, details please see its
+documentation.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="demo.html" title="Examples and Demonstrations"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">beamline 1.3.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

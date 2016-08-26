@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.matchutils module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.element module" href="element.html" />
+    <link rel="prev" title="beamline.mathutils module" href="mathutils.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="element.html" title="beamline.element module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mathutils.html" title="beamline.mathutils module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="mathutils.html"
+                        title="previous chapter">beamline.mathutils module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="element.html"
+                        title="next chapter">beamline.element module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="beamline-matchutils-module">
+<h1>beamline.matchutils module<a class="headerlink" href="#beamline-matchutils-module" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-beamline.matchutils"></span><p>classes to do beam optics matching
+Tong Zhang
+Aug. 10, 2015</p>
+<dl class="class">
+<dt id="beamline.matchutils.BeamMatch">
+<em class="property">class </em><code class="descname">BeamMatch</code><span class="sig-paren">(</span><em>infile_mod</em>, <em>infile_rad</em>, <em>latfile_mod</em>, <em>latfile_rad</em>, <em>infile_mod_new</em>, <em>infile_rad_new</em>, <em>latfile_rad_new</em>, <em>qfval</em>, <em>qdval</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#BeamMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.BeamMatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.matchutils.BeamMatch.matchCalculate">
+<code class="descname">matchCalculate</code><span class="sig-paren">(</span><em>latlengthname='fullat.hghg'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#BeamMatch.matchCalculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.BeamMatch.matchCalculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.BeamMatch.matchPerform">
+<code class="descname">matchPerform</code><span class="sig-paren">(</span><em>qf_linenum=11</em>, <em>qd_linenum=13</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#BeamMatch.matchPerform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.BeamMatch.matchPerform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.BeamMatch.matchPrintout">
+<code class="descname">matchPrintout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#BeamMatch.matchPrintout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.BeamMatch.matchPrintout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.matchutils.FELSimulator">
+<em class="property">class </em><code class="descname">FELSimulator</code><span class="sig-paren">(</span><em>mode='HGHG'</em>, <em>modinfile='mod.in'</em>, <em>radinfile='rad.in'</em>, <em>modlatfile='mod.lat'</em>, <em>radlatfile='rad.lat'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#FELSimulator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.FELSimulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.matchutils.FELSimulator.getMaxPower">
+<code class="descname">getMaxPower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#FELSimulator.getMaxPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.FELSimulator.getMaxPower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.FELSimulator.grepParam">
+<code class="descname">grepParam</code><span class="sig-paren">(</span><em>param='entries'</em>, <em>outfile='rad.out'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#FELSimulator.grepParam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.FELSimulator.grepParam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.FELSimulator.plotPower">
+<code class="descname">plotPower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#FELSimulator.plotPower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.FELSimulator.plotPower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.FELSimulator.postProcess">
+<code class="descname">postProcess</code><span class="sig-paren">(</span><em>outfile='rad.out'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#FELSimulator.postProcess"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.FELSimulator.postProcess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.FELSimulator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#FELSimulator.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.FELSimulator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.matchutils.ParseParams">
+<em class="property">class </em><code class="descname">ParseParams</code><span class="sig-paren">(</span><em>*infilename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getChicaneDriftLength">
+<code class="descname">getChicaneDriftLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getChicaneDriftLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getChicaneDriftLength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getChicaneMagnetField">
+<code class="descname">getChicaneMagnetField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getChicaneMagnetField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getChicaneMagnetField" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getChicaneMagnetLength">
+<code class="descname">getChicaneMagnetLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getChicaneMagnetLength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getChicaneMagnetLength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getElectronEmitx">
+<code class="descname">getElectronEmitx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getElectronEmitx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getElectronEmitx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getElectronGamma">
+<code class="descname">getElectronGamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getElectronGamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getElectronGamma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getFELwavelength">
+<code class="descname">getFELwavelength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getFELwavelength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getFELwavelength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getUndulatorParameter">
+<code class="descname">getUndulatorParameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getUndulatorParameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getUndulatorParameter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getUndulatorPeriod">
+<code class="descname">getUndulatorPeriod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getUndulatorPeriod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getUndulatorPeriod" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.getUndulatorUnitlength">
+<code class="descname">getUndulatorUnitlength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.getUndulatorUnitlength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.getUndulatorUnitlength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.matchutils.ParseParams.onParseFile">
+<code class="descname">onParseFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#ParseParams.onParseFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.ParseParams.onParseFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.matchutils.parseLattice">
+<code class="descname">parseLattice</code><span class="sig-paren">(</span><em>latlengthname='fullat.hghg'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#parseLattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.parseLattice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="beamline.matchutils.test">
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/matchutils.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.matchutils.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="element.html" title="beamline.element module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mathutils.html" title="beamline.mathutils module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

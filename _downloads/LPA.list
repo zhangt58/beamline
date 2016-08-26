@@ -1,0 +1,26 @@
+D0:DRIFT,L=0.1
+D1:DRIFT,L=0.06
+D2:DRIFT,L=0.03
+D3:DRIFT,L=0.18
+D4:DRIFT,L=0.45
+D5:DRIFT,L=0.25
+D6:DRIFT,L=0.27
+D7:DRIFT,L=0.06
+D8:DRIFT,L=1.0
+
+
+Q1:QUAD,L=0.1,K1= 75,angle=75
+Q2:QUAD,L=0.1,K1=-75,angle=75
+Q3:QUAD,L=0.1,K1= 40,angle=75
+Q4:QUAD,L=0.1,K1=-35,angle=75
+Q5:QUAD,L=0.1,K1=-35,angle=75
+Q6:QUAD,L=0.1,K1= 40,angle=75
+
+U1: undulator, xlamd = 0.5, nwig = 20
+
+B1: rbend, l = 0.1, angle = 10
+B2: rbend, l = 0.1, angle = -5
+
+BL1: LINE=(D0,Q1,D1,Q2,D2,D3,Q3,D4,Q4,D5,Q5,D6,Q6,D7)
+BL2: line = (D0, Q1, D3, Q2, D6, B1, D8, B2, D4, Q1)
+BL3: line = (D0, Q1, D3, Q2, D6, B1, D8, Q1, D1, B2, D4, Q1)

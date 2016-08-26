@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.models module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.simulation module" href="simulation.html" />
+    <link rel="prev" title="beamline.lattice module" href="lattice.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="simulation.html" title="beamline.simulation module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lattice.html" title="beamline.lattice module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lattice.html"
+                        title="previous chapter">beamline.lattice module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="simulation.html"
+                        title="next chapter">beamline.simulation module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.models">
+<span id="beamline-models-module"></span><h1>beamline.models module<a class="headerlink" href="#module-beamline.models" title="Permalink to this headline">¶</a></h1>
+<dl class="docutils">
+<dt>This module is written for the purposes of elements modeling for accelerator:</dt>
+<dd>1: manually define magnetic elements one by one and model the machine;
+2: interpret lattice file (.lte file) to be modeled elements;
+2: update (EPICS databases)/(EPICS PVs) with new configuration.</dd>
+</dl>
+<p>Author      : Tong Zhang
+Created     : 2016-03-18</p>
+<dl class="class">
+<dt id="beamline.models.Models">
+<em class="property">class </em><code class="descname">Models</code><span class="sig-paren">(</span><em>name='BL'</em>, <em>mode='simu'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>make lattice configuration (json) for lattice.Lattice
+return instance as a json string file with all configuration.
+get lattice name by instance.name.</p>
+<dl class="attribute">
+<dt id="beamline.models.Models.LatticeDict">
+<code class="descname">LatticeDict</code><a class="headerlink" href="#beamline.models.Models.LatticeDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>show lattice configuration</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.models.Models.LatticeList">
+<code class="descname">LatticeList</code><a class="headerlink" href="#beamline.models.Models.LatticeList" title="Permalink to this definition">¶</a></dt>
+<dd><p>show lattice element list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.addElement">
+<code class="descname">addElement</code><span class="sig-paren">(</span><em>*ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.addElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.addElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>add element to lattice element list
+input parameters:
+:param ele: magnetic element defined in element module
+return total element number</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.models.Models.anoteElements">
+<em class="property">static </em><code class="descname">anoteElements</code><span class="sig-paren">(</span><em>ax</em>, <em>anotelist</em>, <em>showAccName=False</em>, <em>efilter=None</em>, <em>textypos=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.anoteElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.anoteElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>annotate elements to axes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> &#8211; matplotlib axes object</li>
+<li><strong>anotelist</strong> &#8211; element annotation object list</li>
+<li><strong>showAccName</strong> &#8211; tag name for accelerator tubes? default is False, 
+show acceleration band type, e.g. &#8216;S&#8217;, &#8216;C&#8217;, &#8216;X&#8217;, or for &#8216;[S,C,X]D&#8217; for cavity</li>
+<li><strong>efilter</strong> &#8211; element type filter, default is None, annotate all elements
+could be defined to be one type name or type name list/tuple, e.g.
+filter=&#8217;QUAD&#8217; or filter=(&#8216;QUAD&#8217;, &#8216;CSRCSBEN&#8217;)</li>
+<li><strong>textypos</strong> &#8211; y coordinator of annotated text string</li>
+<li><strong>kwargs</strong> &#8211; alpha=0.8, arrowprops=dict(arrowstyle=&#8217;-&gt;&#8217;), rotation=-60, fontsize=&#8217;small&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>return list of annotation objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>startpoint=(0</em>, <em>0)</em>, <em>mode='plain'</em>, <em>showfig=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>lattice visualization</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>startpoint</strong> &#8211; start drawing point coords, default: (0, 0)</li>
+<li><strong>showfig</strong> &#8211; show figure or not, default: False</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
+patchlist: list of element patches
+anotelist: list of annotations
+(xmin0, xmax0) and (ymin0, ymax0) are ploting range</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.models.Models.flatten">
+<em class="property">static </em><code class="descname">flatten</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.flatten" title="Permalink to this definition">¶</a></dt>
+<dd><p>flatten recursively defined list,
+e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,&#8217;x&#8217;]]]]]
+:param ele: recursive list, i.e. list in list in list ...
+return generator object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.getAllConfig">
+<code class="descname">getAllConfig</code><span class="sig-paren">(</span><em>fmt='json'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.getAllConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.getAllConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all element configurations as json string file.
+could be further processed by beamline.Lattice class
+input parameter:
+:param fmt: &#8216;json&#8217; (default) or &#8216;dict&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.getCtrlConf">
+<code class="descname">getCtrlConf</code><span class="sig-paren">(</span><em>msgout=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.getCtrlConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.getCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>get control configurations regarding to the PV names,
+read PV value
+:param msgout: print information if True (be default)
+return updated element object list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.getElementsByName">
+<code class="descname">getElementsByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.getElementsByName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.getElementsByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>get element with given name,
+return list of element objects regarding to &#8216;name&#8217;
+:param name: element name, case sensitive, if elements are</p>
+<blockquote>
+<div>auto-generated from LteParser, the name should be lower cased.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.initPos">
+<code class="descname">initPos</code><span class="sig-paren">(</span><em>startpos=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.initPos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.initPos" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize the elements position [m] in lattice, the starting
+point is 0 [m] for the first element by default.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>startpos</strong> &#8211; starting point, 0 [m] by default</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.models.Models.makeLatticeDict">
+<em class="property">static </em><code class="descname">makeLatticeDict</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.makeLatticeDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.makeLatticeDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>return lattice dict conf like {&#8220;lattice&#8221;: &#8220;(q b d)&#8221;}
+:param ele: element list</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.models.Models.makeLatticeString">
+<em class="property">static </em><code class="descname">makeLatticeString</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.makeLatticeString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.makeLatticeString" title="Permalink to this definition">¶</a></dt>
+<dd><p>return string like &#8220;lattice = (q b d)&#8221;
+:param ele: element list</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.models.Models.mode">
+<code class="descname">mode</code><a class="headerlink" href="#beamline.models.Models.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.models.Models.name">
+<code class="descname">name</code><a class="headerlink" href="#beamline.models.Models.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.models.Models.plotElements">
+<em class="property">static </em><code class="descname">plotElements</code><span class="sig-paren">(</span><em>ax</em>, <em>patchlist</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.plotElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.plotElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot elements&#8217; drawings to axes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> &#8211; matplotlib axes object</li>
+<li><strong>patchlist</strong> &#8211; element patch object list</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.printAllElements">
+<code class="descname">printAllElements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.printAllElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.printAllElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>print out all modeled elements</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.putCtrlConf">
+<code class="descname">putCtrlConf</code><span class="sig-paren">(</span><em>eleobj</em>, <em>ctrlkey</em>, <em>val</em>, <em>type='raw'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.putCtrlConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.putCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>put the value to control PV field
+:param eleobj: element object in lattice
+:param ctrlkey: element control property, PV name
+:param val: new value for ctrlkey
+:param type: set in &#8216;raw&#8217; or &#8216;real&#8217; mode, &#8216;raw&#8217; by default</p>
+<blockquote>
+<div>&#8216;raw&#8217;: set PV with the value of &#8216;val&#8217;,
+&#8216;real&#8217;: set PV with the value translated from &#8216;val&#8217;</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.models.Models.updateConfig">
+<code class="descname">updateConfig</code><span class="sig-paren">(</span><em>eleobj</em>, <em>config</em>, <em>type='simu'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.updateConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.updateConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>write new configuration to element
+input parameters:
+:param eleobj: define element object
+:param config: new configuration for element, string or dict
+:param type: &#8216;simu&#8217; by default, could be online, misc, comm, ctrl</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.models.test">
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="beamline.models.test1">
+<code class="descname">test1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#test1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.test1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="simulation.html" title="beamline.simulation module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lattice.html" title="beamline.lattice module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

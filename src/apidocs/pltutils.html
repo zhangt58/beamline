@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.pltutils module &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="beamline package" href="beamline.html" />
+    <link rel="next" title="beamline.datautils module" href="datautils.html" />
+    <link rel="prev" title="beamline.elements module" href="elements.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="datautils.html" title="beamline.datautils module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="elements.html" title="beamline.elements module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="elements.html"
+                        title="previous chapter">beamline.elements module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="datautils.html"
+                        title="next chapter">beamline.datautils module</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-beamline.pltutils">
+<span id="beamline-pltutils-module"></span><h1>beamline.pltutils module<a class="headerlink" href="#module-beamline.pltutils" title="Permalink to this headline">¶</a></h1>
+<p>functions for lattice visualization.</p>
+<dl class="function">
+<dt id="beamline.pltutils.main">
+<code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/pltutils.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.pltutils.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="beamline.pltutils.makeBeamline">
+<code class="descname">makeBeamline</code><span class="sig-paren">(</span><em>beamlinelist</em>, <em>startpoint=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/pltutils.html#makeBeamline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.pltutils.makeBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to construct patches for <code class="docutils literal"><span class="pre">plotLattice()</span></code>, from different elements like
+<code class="docutils literal"><span class="pre">rbend</span></code>, <code class="docutils literal"><span class="pre">quadrupole</span></code>,etc. parsing from lattice file, mad-8.
+drift sections are calculated from other elements.</p>
+<p>Input parameters:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>beamlinelist</strong> &#8211; list, which elements are dict, each dict is the description for magnetic element, should be returned from module <code class="docutils literal"><span class="pre">blparser</span></code>, function <code class="docutils literal"><span class="pre">madParser()</span></code></li>
+<li><strong>startpoint</strong> &#8211; pos to start drawing, <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">0)</span></code> by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of beamline patches list, xlim and ylim
+* beamline patches list: patches to be drawn
+* xlim: data limit along x-axis
+* ylim: data limit along y-axis</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.pltutils.plotLattice">
+<code class="descname">plotLattice</code><span class="sig-paren">(</span><em>beamlinepatchlist</em>, <em>fignum=1</em>, <em>fig_size=20</em>, <em>fig_ratio=0.5</em>, <em>xranges=(-10</em>, <em>10)</em>, <em>yranges=(-10</em>, <em>10)</em>, <em>zoomfac=1.5</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/pltutils.html#plotLattice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.pltutils.plotLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>function plot beamline defined by <code class="docutils literal"><span class="pre">beamlinepatchlist</span></code>, which is a set of patches for all elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>beamlinepatchlist</strong> &#8211; generated by function <code class="docutils literal"><span class="pre">makeBeamline()</span></code></li>
+<li><strong>fignum</strong> &#8211; figure number, 1 by default</li>
+<li><strong>fig_size</strong> &#8211; figure size, 20 inch by default</li>
+<li><strong>fig_ratio</strong> &#8211; figure ratio, 0.5 by default</li>
+<li><strong>xranges</strong> &#8211; axes x-ranges, <code class="docutils literal"><span class="pre">(-10,</span> <span class="pre">10)</span></code> by default</li>
+<li><strong>yranges</strong> &#8211; axes y-ranges, <code class="docutils literal"><span class="pre">(-10,</span> <span class="pre">10)</span></code> by default</li>
+<li><strong>zoomfac</strong> &#8211; zoom in factor, 1.5 by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="datautils.html" title="beamline.datautils module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="elements.html" title="beamline.elements module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

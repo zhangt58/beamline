@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>beamline.simulation &mdash; beamline 1.3.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.3.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for beamline.simulation</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module designed for online modeling:</span>
+<span class="sd">*elegant tracking with lte/ele files*:</span>
+<span class="sd">    1: lte file should be generated from lattice.Lattice.generateLatticeFile() method;</span>
+<span class="sd">    2: take ele file as initialization parameter, but could be changed;</span>
+<span class="sd">    3: output tracking results as hdf5 file (hard drive) and numpy array (memory);</span>
+<span class="sd">    </span>
+
+<span class="sd">Author      : Tong Zhang</span>
+<span class="sd">Created     : 2016-03-08</span>
+<span class="sd">Last updated: 2016-03-08</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">datautils</span>
+
+
+<div class="viewcode-block" id="Simulator"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator">[docs]</a><span class="k">class</span> <span class="nc">Simulator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;mad&#39;</span>           <span class="c1"># call setMode(mode = &#39;elegant&#39;) to change mode, or &#39;mad&#39; by default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice_file</span> <span class="o">=</span> <span class="n">infile</span>  <span class="c1"># .lte file for elegant mode, or .mad[x] file for mad mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elegant_file</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_file</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;elegant&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setElegant</span><span class="p">,</span>
+                        <span class="s1">&#39;mad&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_setMad</span>
+                        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_case</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s1">&#39;elegant&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doElegant</span><span class="p">,</span>
+                        <span class="s1">&#39;mad&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doMad</span>
+                        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_output</span> <span class="o">=</span> <span class="p">{</span>
+                          <span class="s1">&#39;elegant&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getOutputElegant</span><span class="p">,</span>
+                          <span class="s1">&#39;mad&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getOutputMad</span>
+                          <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_exec</span> <span class="o">=</span> <span class="s1">&#39;mad&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Simulator.setMode"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.setMode">[docs]</a>    <span class="k">def</span> <span class="nf">setMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;elegant&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set simulation mode, define mode parameter of &#39;elegant&#39; or &#39;mad&#39;</span>
+<span class="sd">        :param mode: simulation mode</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Simulator.setScript"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.setScript">[docs]</a>    <span class="k">def</span> <span class="nf">setScript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fullname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set bash shell script full path name for simulation</span>
+<span class="sd">        :param fullname: set &#39;runElegant.sh&#39;, which should be available after installed beamline package</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_script</span> <span class="o">=</span> <span class="n">fullname</span></div>
+
+<div class="viewcode-block" id="Simulator.setExec"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.setExec">[docs]</a>    <span class="k">def</span> <span class="nf">setExec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">execpath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set executable for simulation</span>
+<span class="sd">        :param execpath: elegant or madx full path</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_exec</span> <span class="o">=</span> <span class="n">execpath</span></div>
+
+<div class="viewcode-block" id="Simulator.setPath"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.setPath">[docs]</a>    <span class="k">def</span> <span class="nf">setPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">simpath</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set simulation path where data should be put into</span>
+<span class="sd">        :param simpath: where simulations take place, all data files should be found there</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_path</span> <span class="o">=</span> <span class="n">simpath</span></div>
+
+    <span class="k">def</span> <span class="nf">_setElegant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">infiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set input parameters for elegant tracking, available keys: &#39;ltefile&#39;, &#39;elefile&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ltefile</span><span class="p">,</span> <span class="n">elefile</span> <span class="o">=</span> <span class="n">infiles</span><span class="p">[</span><span class="s1">&#39;ltefile&#39;</span><span class="p">],</span> <span class="n">infiles</span><span class="p">[</span><span class="s1">&#39;elefile&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice_file</span> <span class="o">=</span> <span class="n">ltefile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">elegant_file</span> <span class="o">=</span> <span class="n">elefile</span>
+
+    <span class="k">def</span> <span class="nf">_setMad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">infiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; set input parameters for mad calculation, available keys: &#39;madfile&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice_file</span> <span class="o">=</span> <span class="n">infiles</span><span class="p">[</span><span class="s1">&#39;madfile&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_doElegant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; perform elegant tracking</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cmdlist</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;bash&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_script</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">elegant_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_exec</span><span class="p">]</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">cmdlist</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_doMad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; perform mad calculation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_getOutputElegant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; get results from elegant output according to the given keywords,</span>
+<span class="sd">            input parameter format: key = sdds field name tuple, e.g.:</span>
+<span class="sd">            available keywords are:</span>
+<span class="sd">             - &#39;file&#39;: sdds fielname, file = test.sig</span>
+<span class="sd">             - &#39;data&#39;: data array,    data = (&#39;s&#39;,&#39;Sx&#39;)</span>
+<span class="sd">             - &#39;dump&#39;: h5file name, if defined, dump data to hdf5 format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">datascript</span> <span class="o">=</span> <span class="s2">&quot;sddsprintdata.sh&quot;</span>
+        <span class="n">datapath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sim_path</span>
+        <span class="n">trajparam_list</span> <span class="o">=</span> <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">sddsfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sim_path</span><span class="p">,</span> <span class="n">kws</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]))</span>
+        <span class="n">dh</span> <span class="o">=</span> <span class="n">datautils</span><span class="o">.</span><span class="n">DataExtracter</span><span class="p">(</span><span class="n">sddsfile</span><span class="p">,</span> <span class="o">*</span><span class="n">trajparam_list</span><span class="p">)</span>
+        <span class="n">dh</span><span class="o">.</span><span class="n">setDataScript</span><span class="p">(</span><span class="n">datascript</span><span class="p">)</span>
+        <span class="n">dh</span><span class="o">.</span><span class="n">setDataPath</span><span class="p">(</span><span class="n">datapath</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;dump&#39;</span> <span class="ow">in</span> <span class="n">kws</span><span class="p">:</span>
+            <span class="n">dh</span><span class="o">.</span><span class="n">setH5file</span><span class="p">(</span><span class="n">kws</span><span class="p">[</span><span class="s1">&#39;dump&#39;</span><span class="p">])</span>
+            <span class="n">dh</span><span class="o">.</span><span class="n">extractData</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">dh</span><span class="o">.</span><span class="n">extractData</span><span class="p">()</span><span class="o">.</span><span class="n">getH5Data</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">_getOutputMad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Simulator.setInputfiles"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.setInputfiles">[docs]</a>    <span class="k">def</span> <span class="nf">setInputfiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">infiles</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; input parameters: </span>
+<span class="sd">        (elegant mode)</span>
+<span class="sd">            1: lte file</span>
+<span class="sd">            2: ele file</span>
+<span class="sd">        (mad mode)</span>
+<span class="sd">            1: mad file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_file</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">](</span><span class="o">**</span><span class="n">infiles</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="Simulator.doSimulation"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.doSimulation">[docs]</a>    <span class="k">def</span> <span class="nf">doSimulation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_case</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">]()</span></div>
+
+<div class="viewcode-block" id="Simulator.getOutput"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.Simulator.getOutput">[docs]</a>    <span class="k">def</span> <span class="nf">getOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_output</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">](</span><span class="o">**</span><span class="n">kws</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;mode = </span><span class="si">{mode:5s}</span><span class="se">\n</span><span class="s1">&#39;</span> 
+                <span class="s1">&#39;lat file = </span><span class="si">{lattice_file:5s}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="s1">&#39;ele file = </span><span class="si">{elegant_file:5s}</span><span class="se">\n</span><span class="s1">&#39;</span>
+                <span class="s1">&#39;sim exec = </span><span class="si">{sscript_path:5s}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
+                    <span class="n">lattice_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice_file</span><span class="p">,</span>
+                    <span class="n">elegant_file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">elegant_file</span><span class="p">,</span>
+                    <span class="n">sscript_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sim_script</span><span class="p">)</span></div>
+
+<span class="c1">#----------------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../src/apidocs/simulation.html#beamline.simulation.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="c1"># elegant workflow</span>
+    <span class="n">simtestpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;../tests/tracking/&#39;</span><span class="p">)</span>
+    <span class="n">ltefile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">simtestpath</span><span class="p">,</span> <span class="s1">&#39;newlat.lte&#39;</span><span class="p">)</span>
+    <span class="n">elefile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">simtestpath</span><span class="p">,</span> <span class="s1">&#39;test.ele&#39;</span><span class="p">)</span>
+    <span class="c1">#print ltefile, elefile</span>
+
+    <span class="n">A</span> <span class="o">=</span> <span class="n">Simulator</span><span class="p">()</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setMode</span><span class="p">(</span><span class="s1">&#39;elegant&#39;</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setScript</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;../scripts/runElegant.sh&#39;</span><span class="p">))</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setExec</span><span class="p">(</span><span class="s1">&#39;/home/tong/APS/epics/../oag/apps/bin/linux-x86_64/elegant&#39;</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setPath</span><span class="p">(</span><span class="n">simtestpath</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">setInputfiles</span><span class="p">(</span><span class="n">ltefile</span><span class="o">=</span><span class="n">ltefile</span><span class="p">,</span> <span class="n">elefile</span><span class="o">=</span><span class="n">elefile</span><span class="p">)</span>
+    <span class="n">A</span><span class="o">.</span><span class="n">doSimulation</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">getOutput</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;test.sig&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">getOutput</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;test.sig&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">),</span> <span class="n">dump</span><span class="o">=</span><span class="s1">&#39;test.h5&#39;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    # mad workflow 1</span>
+<span class="sd">    A = Simulator()</span>
+<span class="sd">    A.setMode(&#39;mad&#39;)</span>
+<span class="sd">    A.setScript(&#39;/home/tong/bin/madx64r&#39;)</span>
+<span class="sd">    A.setInputfiles(madfile = &#39;test.mad&#39;)</span>
+<span class="sd">    print A</span>
+
+<span class="sd">    # mad workflow 2</span>
+<span class="sd">    A = Simulator(&#39;test.mad&#39;)</span>
+<span class="sd">    A.setScript(&#39;/home/tong/bin/madx64r&#39;)</span>
+<span class="sd">    print A</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Tong Zhang.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
+    </div>
+  </body>
+</html>

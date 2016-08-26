@@ -1,0 +1,81 @@
+Example 4
+=========
+
+This example presents the scripts/commands that ``beamline`` provides,
+demonstrate how to make them useful.
+
+lte2json
+--------
+
+Convert ``.lte`` file into JSON string format.
+
+.. code-block:: bash
+
+    usage: lte2json [-h] [--lte LTEFILE] [--json JSONFILE]
+
+    Convert Elegant lte file into json string file
+
+    optional arguments:
+      -h, --help       show this help message and exit
+      --lte LTEFILE    .lte file to read
+      --json JSONFILE  .json file to generate, if None or omitted, write to stdout
+
+:Example:
+
+lte2json --lte sxfel_all.lte --json sxfel_all.json
+
+.. note::
+    * Download ``sxfel_all.lte`` :download:`here <../../snippets/sxfel_all.lte>`
+    * Recommand an online general JSON file viewer: `<http://jsonviewer.stack.hu/>`_
+    * Open the generated ``.json`` file by ``latticeviewer``, 
+      which is a GUI application distributed with ``beamline`` package
+
+.. image:: ../../images/json_viewer_01.png
+    :width: 450px
+
+.. image:: ../../images/json_viewer_02.png
+    :width: 450px
+
+json2lte
+--------
+
+.. code-block:: bash
+
+    usage: json2lte [-h] [--json JSONFILE] [--lte LTEFILE] [--bl BLNAME]
+                    [--show SHOW_FLAG]
+
+    Read json file and generate lte file with the given beamline name
+
+    optional arguments:
+      -h, --help        show this help message and exit
+      --json JSONFILE   .json file to read
+      --lte LTEFILE     .lte file to generate
+      --bl BLNAME       name of beamline
+      --show SHOW_FLAG  show all valid beamline names, --json should be valid
+
+:Example:
+
+To inspect the beamline names: 
+    
+.. code-block:: bash
+
+    json2lte --json sxfel_all.json --show True
+
+The output:
+
+.. code-block:: bash
+
+    M1BI3,M1BI1,BLEMIT1,D14DBC1,ASL1,LTU_BC1,LTU_BC2,BL1,ACL2_4,LTU,H07L3,AXL1,L2,L3,L0,L1,H03L3,D08DBC1,D12BC1,H01BI1,H01L3,SXFEL,H05L3,BI2,BI3,H04BI1,LTU_BL1,LTU_BL2,H02BI1,TESTLINE,H03BI1,M2BI1,BC1,BC2,H02L3,BL,FODOBI1,ACL2_1,ACL2_3,ACL2_2,ACL2_5,ACL3_2,ACL3_5,H04L3,BI1,H06L3,ACL3_1,ACL3_3,ACL3_4,ACL3_6,ACL3_7
+
+Generate ``.lte`` file with beamline ``SXFEL`` exclusively:
+
+.. code-block:: bash
+    
+    json2lte --json sxfel_all.json --lte sxfel.lte --bl SXFEL
+
+The generate files: :download:`sxfel.lte <../../snippets/sxfel.lte>`,
+could be read by ``Elegant``.
+
+.. note:: ``latticeviewer`` could read both ``.lte`` file 
+    and ``.json`` file, and accomplish the format conversion tasks.
+
