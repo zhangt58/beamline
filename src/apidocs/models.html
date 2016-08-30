@@ -87,7 +87,7 @@
 Created     : 2016-03-18</p>
 <dl class="class">
 <dt id="beamline.models.Models">
-<em class="property">class </em><code class="descname">Models</code><span class="sig-paren">(</span><em>name='BL'</em>, <em>mode='simu'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Models</code><span class="sig-paren">(</span><em>name='BL'</em>, <em>mode='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>make lattice configuration (json) for lattice.Lattice
 return instance as a json string file with all configuration.
@@ -106,7 +106,7 @@ get lattice name by instance.name.</p>
 
 <dl class="method">
 <dt id="beamline.models.Models.addElement">
-<code class="descname">addElement</code><span class="sig-paren">(</span><em>*ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.addElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.addElement" title="Permalink to this definition">¶</a></dt>
+<code class="descname">addElement</code><span class="sig-paren">(</span><em>*ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.addElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>add element to lattice element list
 input parameters:
 :param ele: magnetic element defined in element module
@@ -115,7 +115,7 @@ return total element number</p>
 
 <dl class="staticmethod">
 <dt id="beamline.models.Models.anoteElements">
-<em class="property">static </em><code class="descname">anoteElements</code><span class="sig-paren">(</span><em>ax</em>, <em>anotelist</em>, <em>showAccName=False</em>, <em>efilter=None</em>, <em>textypos=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.anoteElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.anoteElements" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">anoteElements</code><span class="sig-paren">(</span><em>ax</em>, <em>anotelist</em>, <em>showAccName=False</em>, <em>efilter=None</em>, <em>textypos=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.anoteElements" title="Permalink to this definition">¶</a></dt>
 <dd><p>annotate elements to axes</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -141,7 +141,7 @@ filter=&#8217;QUAD&#8217; or filter=(&#8216;QUAD&#8217;, &#8216;CSRCSBEN&#8217;)
 
 <dl class="method">
 <dt id="beamline.models.Models.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>startpoint=(0</em>, <em>0)</em>, <em>mode='plain'</em>, <em>showfig=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>startpoint=(0</em>, <em>0)</em>, <em>mode='plain'</em>, <em>showfig=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>lattice visualization</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -166,7 +166,7 @@ anotelist: list of annotations
 
 <dl class="staticmethod">
 <dt id="beamline.models.Models.flatten">
-<em class="property">static </em><code class="descname">flatten</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.flatten" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">flatten</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.flatten" title="Permalink to this definition">¶</a></dt>
 <dd><p>flatten recursively defined list,
 e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,&#8217;x&#8217;]]]]]
 :param ele: recursive list, i.e. list in list in list ...
@@ -175,7 +175,7 @@ return generator object</p>
 
 <dl class="method">
 <dt id="beamline.models.Models.getAllConfig">
-<code class="descname">getAllConfig</code><span class="sig-paren">(</span><em>fmt='json'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.getAllConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.getAllConfig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAllConfig</code><span class="sig-paren">(</span><em>fmt='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.getAllConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>return all element configurations as json string file.
 could be further processed by beamline.Lattice class
 input parameter:
@@ -184,7 +184,7 @@ input parameter:
 
 <dl class="method">
 <dt id="beamline.models.Models.getCtrlConf">
-<code class="descname">getCtrlConf</code><span class="sig-paren">(</span><em>msgout=True</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.getCtrlConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.getCtrlConf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getCtrlConf</code><span class="sig-paren">(</span><em>msgout=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.getCtrlConf" title="Permalink to this definition">¶</a></dt>
 <dd><p>get control configurations regarding to the PV names,
 read PV value
 :param msgout: print information if True (be default)
@@ -193,7 +193,7 @@ return updated element object list</p>
 
 <dl class="method">
 <dt id="beamline.models.Models.getElementsByName">
-<code class="descname">getElementsByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.getElementsByName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.getElementsByName" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getElementsByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.getElementsByName" title="Permalink to this definition">¶</a></dt>
 <dd><p>get element with given name,
 return list of element objects regarding to &#8216;name&#8217;
 :param name: element name, case sensitive, if elements are</p>
@@ -203,7 +203,7 @@ return list of element objects regarding to &#8216;name&#8217;
 
 <dl class="method">
 <dt id="beamline.models.Models.initPos">
-<code class="descname">initPos</code><span class="sig-paren">(</span><em>startpos=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.initPos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.initPos" title="Permalink to this definition">¶</a></dt>
+<code class="descname">initPos</code><span class="sig-paren">(</span><em>startpos=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.initPos" title="Permalink to this definition">¶</a></dt>
 <dd><p>initialize the elements position [m] in lattice, the starting
 point is 0 [m] for the first element by default.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -218,14 +218,14 @@ point is 0 [m] for the first element by default.</p>
 
 <dl class="staticmethod">
 <dt id="beamline.models.Models.makeLatticeDict">
-<em class="property">static </em><code class="descname">makeLatticeDict</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.makeLatticeDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.makeLatticeDict" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">makeLatticeDict</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.makeLatticeDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>return lattice dict conf like {&#8220;lattice&#8221;: &#8220;(q b d)&#8221;}
 :param ele: element list</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="beamline.models.Models.makeLatticeString">
-<em class="property">static </em><code class="descname">makeLatticeString</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.makeLatticeString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.makeLatticeString" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">makeLatticeString</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.makeLatticeString" title="Permalink to this definition">¶</a></dt>
 <dd><p>return string like &#8220;lattice = (q b d)&#8221;
 :param ele: element list</p>
 </dd></dl>
@@ -242,7 +242,7 @@ point is 0 [m] for the first element by default.</p>
 
 <dl class="staticmethod">
 <dt id="beamline.models.Models.plotElements">
-<em class="property">static </em><code class="descname">plotElements</code><span class="sig-paren">(</span><em>ax</em>, <em>patchlist</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.plotElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.plotElements" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">plotElements</code><span class="sig-paren">(</span><em>ax</em>, <em>patchlist</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.plotElements" title="Permalink to this definition">¶</a></dt>
 <dd><p>plot elements&#8217; drawings to axes</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -260,13 +260,13 @@ point is 0 [m] for the first element by default.</p>
 
 <dl class="method">
 <dt id="beamline.models.Models.printAllElements">
-<code class="descname">printAllElements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.printAllElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.printAllElements" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printAllElements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.printAllElements" title="Permalink to this definition">¶</a></dt>
 <dd><p>print out all modeled elements</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.models.Models.putCtrlConf">
-<code class="descname">putCtrlConf</code><span class="sig-paren">(</span><em>eleobj</em>, <em>ctrlkey</em>, <em>val</em>, <em>type='raw'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.putCtrlConf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.putCtrlConf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">putCtrlConf</code><span class="sig-paren">(</span><em>eleobj</em>, <em>ctrlkey</em>, <em>val</em>, <em>type='raw'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.putCtrlConf" title="Permalink to this definition">¶</a></dt>
 <dd><p>put the value to control PV field
 :param eleobj: element object in lattice
 :param ctrlkey: element control property, PV name
@@ -279,7 +279,7 @@ point is 0 [m] for the first element by default.</p>
 
 <dl class="method">
 <dt id="beamline.models.Models.updateConfig">
-<code class="descname">updateConfig</code><span class="sig-paren">(</span><em>eleobj</em>, <em>config</em>, <em>type='simu'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#Models.updateConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.Models.updateConfig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">updateConfig</code><span class="sig-paren">(</span><em>eleobj</em>, <em>config</em>, <em>type='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.updateConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>write new configuration to element
 input parameters:
 :param eleobj: define element object
@@ -291,12 +291,12 @@ input parameters:
 
 <dl class="function">
 <dt id="beamline.models.test">
-<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.test" title="Permalink to this definition">¶</a></dt>
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.test" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="beamline.models.test1">
-<code class="descname">test1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/models.html#test1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.models.test1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">test1</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.test1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

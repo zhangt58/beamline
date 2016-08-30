@@ -81,7 +81,7 @@
 to make rules for data saving, visualization issues, etc.</p>
 <dl class="class">
 <dt id="beamline.datautils.DataExtracter">
-<em class="property">class </em><code class="descname">DataExtracter</code><span class="sig-paren">(</span><em>sddsfile</em>, <em>*kws</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DataExtracter</code><span class="sig-paren">(</span><em>sddsfile</em>, <em>*kws</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Extract required data from a SDDS formated file,
 to put into hdf5 formated file or just dump into RAM
@@ -110,7 +110,7 @@ e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="
 </div>
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.dump">
-<code class="descname">dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.dump" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.dump" title="Permalink to this definition">¶</a></dt>
 <dd><p>dump extracted data into a single hdf5file,</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -153,7 +153,7 @@ e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.extractData">
-<code class="descname">extractData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.extractData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.extractData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">extractData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.extractData" title="Permalink to this definition">¶</a></dt>
 <dd><p>extract data as numpy array, with given required fields,
 put data into <code class="docutils literal"><span class="pre">h5data</span></code> as a numpy array.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -168,7 +168,7 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.getAllCols">
-<code class="descname">getAllCols</code><span class="sig-paren">(</span><em>sddsfile=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.getAllCols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.getAllCols" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getAllCols</code><span class="sig-paren">(</span><em>sddsfile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.getAllCols" title="Permalink to this definition">¶</a></dt>
 <dd><p>get all available column names from sddsfile</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -195,7 +195,7 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.getH5Data">
-<code class="descname">getH5Data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.getH5Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.getH5Data" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getH5Data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.getH5Data" title="Permalink to this definition">¶</a></dt>
 <dd><p>return extracted data as numpy array</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -209,7 +209,7 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.getKws">
-<code class="descname">getKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.getKws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.getKws" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.getKws" title="Permalink to this definition">¶</a></dt>
 <dd><p>return data column fields that defined in constructor, e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="pre">'Sx')</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -225,7 +225,7 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.setDataPath">
-<code class="descname">setDataPath</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setDataPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setDataPath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setDataPath</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.setDataPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>set full dir path of data files</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -241,7 +241,7 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.setDataScript">
-<code class="descname">setDataScript</code><span class="sig-paren">(</span><em>fullscriptpath='sddsprintdata.sh'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setDataScript"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setDataScript" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setDataScript</code><span class="sig-paren">(</span><em>fullscriptpath='sddsprintdata.sh'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.setDataScript" title="Permalink to this definition">¶</a></dt>
 <dd><p>configure script that should be utilized by DataExtracter,
 to extract data colums from sddsfile.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -260,7 +260,7 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.setH5file">
-<code class="descname">setH5file</code><span class="sig-paren">(</span><em>h5filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setH5file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setH5file" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setH5file</code><span class="sig-paren">(</span><em>h5filepath</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.setH5file" title="Permalink to this definition">¶</a></dt>
 <dd><p>set h5file full path name</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -276,7 +276,7 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.setKws">
-<code class="descname">setKws</code><span class="sig-paren">(</span><em>*kws</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataExtracter.setKws"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataExtracter.setKws" title="Permalink to this definition">¶</a></dt>
+<code class="descname">setKws</code><span class="sig-paren">(</span><em>*kws</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.setKws" title="Permalink to this definition">¶</a></dt>
 <dd><p>set keyword list, i.e. sdds field names, update <code class="docutils literal"><span class="pre">kwslist</span></code> property</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -294,7 +294,7 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 
 <dl class="class">
 <dt id="beamline.datautils.DataStorage">
-<em class="property">class </em><code class="descname">DataStorage</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DataStorage</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <dl class="docutils">
 <dt>for data storage management, to be implemented.</dt>
@@ -302,19 +302,19 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 </dl>
 <dl class="method">
 <dt id="beamline.datautils.DataStorage.configDatabase">
-<code class="descname">configDatabase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage.configDatabase"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage.configDatabase" title="Permalink to this definition">¶</a></dt>
+<code class="descname">configDatabase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataStorage.configDatabase" title="Permalink to this definition">¶</a></dt>
 <dd><p>configure database</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.datautils.DataStorage.getData">
-<code class="descname">getData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage.getData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage.getData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataStorage.getData" title="Permalink to this definition">¶</a></dt>
 <dd><p>get data from database</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.datautils.DataStorage.putData">
-<code class="descname">putData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataStorage.putData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataStorage.putData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">putData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataStorage.putData" title="Permalink to this definition">¶</a></dt>
 <dd><p>put data into database</p>
 </dd></dl>
 
@@ -322,12 +322,12 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 
 <dl class="class">
 <dt id="beamline.datautils.DataVisualizer">
-<em class="property">class </em><code class="descname">DataVisualizer</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DataVisualizer</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataVisualizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>for data visualization purposes, to be implemented</p>
 <dl class="method">
 <dt id="beamline.datautils.DataVisualizer.illustrate">
-<code class="descname">illustrate</code><span class="sig-paren">(</span><em>xlabel</em>, <em>ylabel</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer.illustrate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer.illustrate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">illustrate</code><span class="sig-paren">(</span><em>xlabel</em>, <em>ylabel</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataVisualizer.illustrate" title="Permalink to this definition">¶</a></dt>
 <dd><p>plot x, y w.r.t. xlabel and ylabel
 :param ylabel: xlabel
 :param xlabel: ylabel</p>
@@ -335,13 +335,13 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 
 <dl class="method">
 <dt id="beamline.datautils.DataVisualizer.inspectDataFile">
-<code class="descname">inspectDataFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer.inspectDataFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer.inspectDataFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">inspectDataFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataVisualizer.inspectDataFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>inspect hdf5 data file</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.datautils.DataVisualizer.saveArtwork">
-<code class="descname">saveArtwork</code><span class="sig-paren">(</span><em>name='image'</em>, <em>fmt='jpg'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#DataVisualizer.saveArtwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.DataVisualizer.saveArtwork" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveArtwork</code><span class="sig-paren">(</span><em>name='image'</em>, <em>fmt='jpg'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataVisualizer.saveArtwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>save figure by default name of image.jpg
 :param name: image name, &#8216;image&#8217; by default
 :param fmt: image format, &#8216;jpg&#8217; by default</p>
@@ -351,7 +351,7 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
 
 <dl class="function">
 <dt id="beamline.datautils.test">
-<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/beamline/datautils.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#beamline.datautils.test" title="Permalink to this definition">¶</a></dt>
+<code class="descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.test" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
