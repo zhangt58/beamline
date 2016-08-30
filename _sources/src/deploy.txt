@@ -2,17 +2,17 @@ Deployment
 ==========
 
 Deploy ``beamline`` to different operating systems is quite simple, both 
-online and offline approaches are provided. Before install this package
+online and offline approaches are provided. Before installing this package
 into system, there may be packages/libraries dependence issues to be
 resolved first.
 
 Prerequisites
 -------------
 
-Python packages required: ``pyrpn``, ``h5py``, ``numpy``, 
-``scipy``, ``matplotlib``, ``wxPython``.
+Required Python packages: ``pyrpn``, ``h5py``, ``numpy``, 
+``scipy``, ``matplotlib``, ``wxPython``, ``pyepics``.
 
-Package with version infomation:
+Packages with version infomation:
 
 .. code-block:: rest
     
