@@ -12,6 +12,8 @@ Welcome to beamline's documentation!
 
     Install: ``pip install beamline``
 
+    PDF documentation: :download:`Download <_build/latex/beamline.pdf>`
+
     :Author: Tong Zhang 
     :E-mail: zhangtong@sinap.ac.cn
     :Date: 2016
