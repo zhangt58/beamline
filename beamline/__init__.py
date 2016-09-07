@@ -35,13 +35,16 @@ from .matchutils import ParseParams, BeamMatch, FELSimulator, parseLattice
 __version__ = "1.3.5"
 __author__ = "Tong Zhang"
 
-__doc__ = """Python package created for lattice generation/operation/manipulation/visualization and accelerator online modeling,
-distributed with both console and graphical user interfaces environment.
+__doc__ = """Python package created for lattice generation, operation, 
+manipulation, visualization and accelerator online modeling, distributed
+with both console and graphical user interfaces environment.
 
 To evoke the GUI app:
 
-#. run ``lv`` or ``latticeviewer`` in terminal after ``beamline`` package is installed;
-#. ``beamline.ui_main.run()`` in [i]python terminal after ``beamline`` is imported.
+1. run ``lv`` or ``latticeviewer`` in terminal after ``beamline`` 
+   package is installed;
+2. ``beamline.ui_main.run()`` in [i]python terminal after ``beamline``
+   is imported.
 
 :Version: %s
 :Author: Tong Zhang (zhangtong@sinap.ac.cn)
