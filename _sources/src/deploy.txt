@@ -58,4 +58,4 @@ Download `beamline <https://pypi.python.org/pypi/beamline>`_ from PyPI.
     * System wide environment variables, like ``PATH``, ``PYTHONPATH``
       and system menu integration issues are handled when deploying 
       another package --- ``felapps``, details please see its 
-      documentation.
+      `documentation <https://archman.github.io/felapps>`_.

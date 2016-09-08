@@ -34,7 +34,8 @@ Below is the lattice definition file (``ele.list``)to be used:
              with all elements on the same line. To be more flexible,
              use the new parsing modules.
 
-Now visulization beamline named ``BL`` could be achieved by following steps:
+Now visualization beamline named ``BL`` could be achieved by 
+following steps:
 
 .. code-block:: python
     :linenos:
