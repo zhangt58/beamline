@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 import os
 
-scriptnames = ['runElegant.sh', 
-               'sddsprintdata.sh', 
+scriptnames = ['runElegant.sh',
+               'sddsprintdata.sh',
                'renametolower.sh',
                'file2lower.sh',
                'lte2json',
@@ -14,7 +14,7 @@ def readme():
     with open('README.rst') as f:
         return f.read()
 
-requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics']
+requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics', 'sdds']
 
 setup(
         name     = "beamline",
