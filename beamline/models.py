@@ -28,6 +28,7 @@ class Models(object):
     """
     def __init__(self, name='BL', mode='simu'):
         """ create Models instance,
+
             :param name: lattice name, 'BL' by defualt
             :param mode: 'simu' or 'online' mode,
                 if 'online' is defined, the lattice should be update the ctrl
@@ -62,7 +63,7 @@ class Models(object):
 
     def addElement(self, *ele):
         """ add element to lattice element list
-            input parameters:
+
             :param ele: magnetic element defined in element module
             return total element number
         """
@@ -97,7 +98,8 @@ class Models(object):
     def getCtrlConf(self, msgout=True):
         """ get control configurations regarding to the PV names,
             read PV value
-            :param msgout: print information if True (be default)
+
+            :param msgout: print information if True (by default)
             return updated element object list
         """
         _lattice_eleobjlist_copy = copy.deepcopy(self._lattice_eleobjlist)
@@ -123,6 +125,7 @@ class Models(object):
 
     def putCtrlConf(self, eleobj, ctrlkey, val, type='raw'):
         """ put the value to control PV field
+
             :param eleobj: element object in lattice
             :param ctrlkey: element control property, PV name
             :param val: new value for ctrlkey
@@ -144,7 +147,7 @@ class Models(object):
         """
             return all element configurations as json string file.
             could be further processed by beamline.Lattice class
-            input parameter:
+
             :param fmt: 'json' (default) or 'dict'
         """
         for e in self.getCtrlConf(msgout=False):
@@ -157,7 +160,7 @@ class Models(object):
 
     def updateConfig(self, eleobj, config, type='simu'):
         """ write new configuration to element
-            input parameters:
+
             :param eleobj: define element object
             :param config: new configuration for element, string or dict
             :param type: 'simu' by default, could be online, misc, comm, ctrl
@@ -167,6 +170,7 @@ class Models(object):
     @staticmethod
     def makeLatticeString(ele):
         """ return string like "lattice = (q b d)"
+
         :param ele: element list
         """
         return 'lattice = (' + ' '.join(ele) + ')'
@@ -174,6 +178,7 @@ class Models(object):
     @staticmethod
     def makeLatticeDict(ele):
         """ return lattice dict conf like {"lattice": "(q b d)"}
+
         :param ele: element list
         """
         return {"lattice": '(' + ' '.join(ele) + ')'}
@@ -182,8 +187,9 @@ class Models(object):
     def flatten(ele):
         """ flatten recursively defined list,
             e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,'x']]]]]
+
             :param ele: recursive list, i.e. list in list in list ...
-            return generator object
+            :return: generator object
         """
         for el in ele:
             if isinstance(el, list) or isinstance(el, tuple):
@@ -210,6 +216,7 @@ class Models(object):
     def getElementsByName(self, name):
         """ get element with given name,
             return list of element objects regarding to 'name'
+
             :param name: element name, case sensitive, if elements are
                 auto-generated from LteParser, the name should be lower cased.
         """

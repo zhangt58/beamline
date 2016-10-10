@@ -18,7 +18,7 @@ requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics']
 
 setup(
         name     = "beamline",
-        version  = "1.3.5.1",
+        version  = "1.3.5.2",
         description = "online model package for electron accelerator",
         long_description = readme() + '\n\n',
         author   = "Tong Zhang",
@@ -26,7 +26,7 @@ setup(
         platforms = ["Linux"],
         license  = "MIT",
         packages = find_packages(),
-        url = "http://archman.github.io/beamline/"
+        url = "http://archman.github.io/beamline/",
         scripts  = [os.path.join('scripts',sn) for sn in scriptnames],
         requires = requiredpackages,
 )

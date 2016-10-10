@@ -69,9 +69,8 @@ class File2jsonTest(BeamlineLteParserTest):
     # dump file content into json string format
     # dump to file: pins.file2json('jfile.json')
     def runTest(self):
-        self.assertEqual(self.pins.file2json(), open('jfile.json','r').read())
+        self.assertEqual(self.pins.file2json(), open('jfile_new.json','r').read())
 
-"""
 class GetAllKwsTest(BeamlineLatticeTest):
     # get all keywords
     # magnetic elements: kws_ele
@@ -81,6 +80,7 @@ class GetAllKwsTest(BeamlineLatticeTest):
         self.assertEqual(kws_ele, [u'DS1FH', u'DP3FH', u'W03', u'DP2SH', u'A4P', u'DBLL5', u'DBLL4', u'DBLL3', u'DBLL2', u'DBLL1', u'BPM02', u'BPM03', u'DP5FH', u'BPM01', u'DBD', u'DVALV', u'B0', u'DP1FH', u'B13', u'DBDM', u'A4E', u'W08', u'W09', u'W04', u'W05', u'W06', u'W07', u'W00', u'W01', u'W02', u'A4I', u'WA1E', u'WA1I', u'DP3SH', u'PRL2', u'PRL3', u'PRL1', u'PRL6', u'PRL7', u'PRL4', u'PRL5', u'DP6SH', u'DP4SH', u'Q03', u'_prefixstr', u'Q', u'WA2E', u'WA3P', u'Q05', u'A2P', u'DP2FH', u'B14', u'B12', u'A2E', u'B11', u'A2I', u'DB14', u'DB11', u'DB13', u'DB12', u'DF5', u'DF4', u'DF1', u'DF3', u'DF2', u'WA3I', u'Q10', u'WA3E', u'A3P', u'A3E', u'A3I', u'DP5SH', u'DP6FH', u'WA2P', u'Q08', u'Q09', u'WA2I', u'Q02', u'DP1SH', u'Q01', u'Q06', u'Q07', u'Q04', u'DP4FH', u'DS1SH', u'DQD1', u'DQD3', u'DQD2', u'PF1', u'PF2', u'PSTN2', u'DBPM1', u'DBPM2', u'DBPM3', u'DAM', u'PSTN1', u'A1P', u'A1E', u'WA1P', u'A1I', u'WA4I', u'WA4E', u'D2', u'DICT', u'WA4P', u'D3', u'D1'])
         self.assertEqual(kws_bl,  [u'BL', u'CHI', u'TRIP3', u'BI2S', u'BI2B', u'A1', u'A3', u'A2', u'A4', u'DOUB2', u'DOUB1'])
 
+"""
 class GetBeamlineTest(BeamlineLatticeTest):
     # get beamline
     def runTest(self):
