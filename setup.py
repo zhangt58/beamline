@@ -14,7 +14,7 @@ def readme():
     with open('README.rst') as f:
         return f.read()
 
-requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics', 'sdds']
+requiredpackages = ['pyrpn', 'h5py', 'numpy', 'matplotlib', 'pyepics']
 
 setup(
         name     = "beamline",
@@ -29,4 +29,5 @@ setup(
         url = "http://archman.github.io/beamline/",
         scripts  = [os.path.join('scripts',sn) for sn in scriptnames],
         requires = requiredpackages,
+        extras_require = {'sdds': ['sddswhl']},
 )

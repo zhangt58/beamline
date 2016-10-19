@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" This module is created for data processing framework, 
+""" This module is created for data processing framework,
 to make rules for data saving, visualization issues, etc.
 """
 
-import sdds
+try:
+    import sdds
+    SDDS_ = True
+except:
+    SDDS_ = False
+
 import h5py
 import numpy as np
 import subprocess
@@ -73,6 +78,8 @@ class DataExtracter(object):
         :return: all sdds data parameter names
         :rtype: list
 
+        .. warning:: `sdds` needs to be installed as an extra dependency.
+
         :Example:
 
         >>> dh = DataExtracter('test.w1')
@@ -101,6 +108,8 @@ class DataExtracter(object):
             If you mix types (e. g. float and str) then the minimal fitting type is
             taken for all columns.
 
+        .. warning:: Non float types need `sdds` as an extra dependency
+
         :return: instance of itself
 
         :Example:
@@ -126,13 +135,23 @@ class DataExtracter(object):
         >>> print(dh.extractData().h5data)
         array([['0', '1', '2'], ['1', '2', '1'], ['DR01']])
         """
-        columns = self.sddsobj.columnName
-        parameters = self.sddsobj.parameterName
-        data = [self.sddsobj.columnData[columns.index(col)][0]
-                for col in self.kwslist if col in columns]
-        data.append([self.sddsobj.parameterData[parameters.index(par)][0]
-                     for par in self.kwslist if par in parameters])
-        self.h5data = np.array(filter(None, data)).T
+        if SDDS_:
+            columns = self.sddsobj.columnName
+            parameters = self.sddsobj.parameterName
+            data = [self.sddsobj.columnData[columns.index(col)][0]
+                    for col in self.kwslist if col in columns]
+            data.append([self.sddsobj.parameterData[parameters.index(par)][0]
+                        for par in self.kwslist if par in parameters])
+            self.h5data = np.array(filter(None, data)).T
+        else:
+            for k in self.kwslist:
+                self.dcmdline += ' -col={kw},format={p}'.format(kw=k, p=self.precision)
+            cmdlist = ['bash', self.dscript, self.dpath, self.dcmdline]
+            retlist = []
+            proc = subprocess.Popen(cmdlist, stdout=subprocess.PIPE)
+            for line in proc.stdout:
+                retlist.append([float(i) for i in line.split()])
+            self.h5data = np.array(retlist)
         return self
 
     def getH5Data(self):
@@ -153,7 +172,7 @@ class DataExtracter(object):
     def setDataScript(self, fullscriptpath='sddsprintdata.sh'):
         """ configure script that should be utilized by DataExtracter,
         to extract data colums from sddsfile.
-        
+
         :param fullscriptpath: full path of script that handles the data extraction of sddsfile,
                                default value is ``sddsprintdata.sh``, which is a script that distributed
                                with ``beamline`` package.
@@ -187,7 +206,7 @@ class DataExtracter(object):
         self.kwslist = kws
 
     def dump(self):
-        """ dump extracted data into a single hdf5file, 
+        """ dump extracted data into a single hdf5file,
 
         :return: None
         :Example:
@@ -208,7 +227,7 @@ class DataExtracter(object):
         >>> fd = h5py.File(hdf5file, 'r')
         >>> d_s  = fd['s'][:]
         >>> d_sx = fd['Sx'][:]
-        >>> 
+        >>>
         >>> # plot dumped data
         >>> import matplotlib.pyplot as plt
         >>> plt.figure(1)
@@ -276,7 +295,7 @@ class DataStorage(object):
         pass
 
     def putData(self):
-        """ put data into database 
+        """ put data into database
         """
         pass
 

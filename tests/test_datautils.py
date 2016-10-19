@@ -13,9 +13,9 @@ class DataUtilsTest(unittest.TestCase):
         datascript   = os.path.join(package_path, 'scripts/sddsprintdata.sh')
         datapath     = os.path.join(package_path, 'tests/tracking')
         self.hdf5fullpath = os.path.join(os.path.expanduser(datapath), hdf5file)
-        sddsfullpath = os.path.join(os.path.expanduser(datapath), sddsfile)
+        self.sddsfullpath = os.path.join(os.path.expanduser(datapath), sddsfile)
 
-        self.A = beamline.DataExtracter(sddsfullpath, *datafields)
+        self.A = beamline.DataExtracter(self.sddsfullpath, *datafields)
         self.A.setDataScript(datascript)
         self.A.setDataPath  (datapath)
         self.A.setH5file    (self.hdf5fullpath)
@@ -54,6 +54,11 @@ class DataUtilsTest(unittest.TestCase):
         ret2 = self.A.extractData()
 
         self.assertListEqual(ret2.h5data.tolist(), self.sNamelist)
+
+        ret3 = beamline.datautils.DataExtracter(self.sddsfullpath, *('s'))
+        self.assertIsInstance(ret3, beamline.datautils.DataExtracter)
+        ret3.extractData()
+        self.assertListEqual(list(ret3.h5data), list(self.s))
 
     def test_getAllPars(self):
         ret = self.A.getAllPars()
