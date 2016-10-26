@@ -50,25 +50,27 @@ To evoke the GUI app:
 :Author: Tong Zhang (zhangtong@sinap.ac.cn)
 """ % (__version__)
 
-allElements = [ElementCharge,   ElementCsrcsben, ElementQuad, 
-               ElementCsrdrift, ElementCsrdrif,  ElementDrift,    
-               ElementDrif,     ElementLscdrift, ElementLscdrif,
-               ElementKicker,   ElementMark,     ElementWatch, 
-               ElementMoni,     ElementRfcw,     ElementRfdf, 
-               ElementWake,     ElementBeamline]
-
 __all__ = [
-           Drift, Rbend, Undulator, Quadrupole, 
-           plotLattice, makeBeamline, madParser, 
-           Lattice, LteParser,
-           Simulator,
-           DataExtracter, DataVisualizer, DataStorage,
-           Models,
-           ui_main,
-           ParseParams, BeamMatch, FELSimulator, parseLattice,
-           funTransQuadF, funTransQuadD, funTransDrift, funTransUnduH, 
-           funTransUnduV, funTransEdgeX, funTransEdgeY, funTransSectX, 
-           funTransSectY, funTransChica, 
-           transDrift, transQuad, transSect, transRbend, transFringe,
-           transChicane, Chicane,
-           ].extend(allElements)
+           "Drift", "Rbend", "Undulator", "Quadrupole", 
+           "plotLattice", "makeBeamline", "madParser", 
+           "Lattice", "LteParser",
+           "Simulator",
+           "DataExtracter", "DataVisualizer", "DataStorage",
+           "Models",
+           "ui_main",
+           "ParseParams", "BeamMatch", "FELSimulator", "parseLattice",
+           "funTransQuadF", "funTransQuadD", 
+           "funTransDrift", "funTransUnduH", 
+           "funTransUnduV", "funTransEdgeX", 
+           "funTransEdgeY", "funTransSectX", 
+           "funTransSectY", "funTransChica", 
+           "transDrift", "transQuad", "transSect", 
+           "transRbend", "transFringe",
+           "transChicane", "Chicane",
+           "ElementCharge",   "ElementCsrcsben", "ElementQuad", 
+           "ElementCsrdrift", "ElementCsrdrif",  "ElementDrift",    
+           "ElementDrif",     "ElementLscdrift", "ElementLscdrif",
+           "ElementKicker",   "ElementMark",     "ElementWatch", 
+           "ElementMoni",     "ElementRfcw",     "ElementRfdf", 
+           "ElementWake",     "ElementBeamline",
+           ]
