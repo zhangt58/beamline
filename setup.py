@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 import os
 
-scriptnames = ['runElegant.sh', 
-               'sddsprintdata.sh', 
+scriptnames = ['runElegant.sh',
+               'sddsprintdata.sh',
                'renametolower.sh',
                'file2lower.sh',
                'lte2json',
@@ -29,4 +29,5 @@ setup(
         url = "http://archman.github.io/beamline/",
         scripts  = [os.path.join('scripts',sn) for sn in scriptnames],
         requires = requiredpackages,
+        extras_require = {'sdds': ['sddswhl']},
 )
