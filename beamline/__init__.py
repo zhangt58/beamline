@@ -32,7 +32,7 @@ from .mathutils import transChicane
 from .mathutils import Chicane
 from .matchutils import ParseParams, BeamMatch, FELSimulator, parseLattice
 
-__version__ = "1.3.5"
+__version__ = "1.3.6"
 __author__ = "Tong Zhang"
 
 __doc__ = """Python package created for lattice generation, operation, 
