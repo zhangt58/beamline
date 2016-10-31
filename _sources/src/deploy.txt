@@ -12,7 +12,7 @@ Prerequisites
 Required Python packages: ``pyrpn``, ``h5py``, ``numpy``, 
 ``scipy``, ``matplotlib``, ``wxPython``, ``pyepics``.
 
-Optional Python packages: ``sdds``, one compiled wheel package by @smartsammler could be found
+Optional Python package: ``sdds``, one compiled wheel package by @smartsammler could be found
 at `sddswhl.zip <https://github.com/archman/beamline/blob/master/sddswhl.zip>`_, 
 or see more information at 
 `http://www.aps.anl.gov/Accelerator_Systems_Division/Accelerator_Operations_Physics/software.shtml#PythonBinaries <http://www.aps.anl.gov/Accelerator_Systems_Division/Accelerator_Operations_Physics/software.shtml#PythonBinaries>`_.
@@ -46,7 +46,7 @@ or precisely define the version number:
 
 .. code-block:: bash
 
-    pip install beamline==1.3.5 --prefix=/opt/high-level-apps -i https://pypi.python.org/pypi
+    pip install beamline==1.3.6 --prefix=/opt/high-level-apps -i https://pypi.python.org/pypi
 
 
 **Offline approach**
@@ -55,7 +55,7 @@ Download `beamline <https://pypi.python.org/pypi/beamline>`_ from PyPI.
 
 .. code-block:: bash
 
-    pip install beamline-1.3.5-py2.py3-none-any.whl --prefix=/opt/high-level-apps
+    pip install beamline-1.3.6-py2.py3-none-any.whl --prefix=/opt/high-level-apps
 
 .. note::
 
