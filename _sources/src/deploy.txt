@@ -12,6 +12,11 @@ Prerequisites
 Required Python packages: ``pyrpn``, ``h5py``, ``numpy``, 
 ``scipy``, ``matplotlib``, ``wxPython``, ``pyepics``.
 
+Optional Python packages: ``sdds``, one compiled wheel package by @smartsammler could be found
+at `sddswhl.zip <https://github.com/archman/beamline/blob/master/sddswhl.zip>`_, 
+or see more information at 
+`http://www.aps.anl.gov/Accelerator_Systems_Division/Accelerator_Operations_Physics/software.shtml#PythonBinaries <http://www.aps.anl.gov/Accelerator_Systems_Division/Accelerator_Operations_Physics/software.shtml#PythonBinaries>`_.
+
 Packages with version infomation:
 
 .. code-block:: rest

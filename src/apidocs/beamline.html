@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>beamline package &mdash; beamline 1.3.5 documentation</title>
+    <title>beamline package &mdash; beamline 1.3.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.3.5',
+        VERSION:     '1.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="top" title="beamline 1.3.6 documentation" href="../../index.html" />
     <link rel="up" title="API" href="../apidoc.html" />
     <link rel="next" title="beamline.ui package" href="beamline.ui.html" />
     <link rel="prev" title="API" href="../apidoc.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="../apidoc.html" title="API"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../apidoc.html" accesskey="U">API</a> &raquo;</li> 
       </ul>
     </div>
@@ -83,9 +83,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="beamline-package">
-<h1>beamline package<a class="headerlink" href="#beamline-package" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-beamline"></span><p>Python package created for lattice generation, operation, 
+  <div class="section" id="module-beamline">
+<span id="beamline-package"></span><h1>beamline package<a class="headerlink" href="#module-beamline" title="Permalink to this headline">¶</a></h1>
+<p>Python package created for lattice generation, operation, 
 manipulation, visualization and accelerator online modeling, distributed
 with both console and graphical user interfaces environment.</p>
 <p>To evoke the GUI app:</p>
@@ -99,12 +99,2678 @@ is imported.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Version:</th><td class="field-body">1.3.5</td>
+<tr class="field-odd field"><th class="field-name">Version:</th><td class="field-body">1.3.6</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Author:</th><td class="field-body">Tong Zhang (<a class="reference external" href="mailto:zhangtong&#37;&#52;&#48;sinap&#46;ac&#46;cn">zhangtong<span>&#64;</span>sinap<span>&#46;</span>ac<span>&#46;</span>cn</a>)</td>
 </tr>
 </tbody>
 </table>
+<dl class="class">
+<dt id="beamline.Drift">
+<em class="property">class </em><code class="descname">Drift</code><span class="sig-paren">(</span><em>length=2.0</em>, <em>angle=0.0</em>, <em>link_node=(0.0</em>, <em>0.0)</em>, <em>line_color='black'</em>, <em>line_width=1.5</em>, <em>_alpha=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Drift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><p class="first">drift section</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_length</strong> &#8211; drift length, [m]</li>
+<li><strong>_angle</strong> &#8211; angle between drawing line and horizontal plane, [deg]</li>
+<li><strong>_linkNode</strong> &#8211; <code class="docutils literal"><span class="pre">(x,y)</span></code> coordinates that drawing begins or linked to another element</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.Drift.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>fignum=1</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Drift.show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Rbend">
+<em class="property">class </em><code class="descname">Rbend</code><span class="sig-paren">(</span><em>width=1.0</em>, <em>height=2.0</em>, <em>angle=0.0</em>, <em>link_node=(0.0</em>, <em>1.0)</em>, <em>face_color='red'</em>, <em>edge_color='red'</em>, <em>line_width=0.1</em>, <em>_alpha=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Rbend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><p class="first">rectangle bend</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_width</strong> &#8211; bend width, [m]</li>
+<li><strong>_height</strong> &#8211; bend hight, [m]</li>
+<li><strong>_angle</strong> &#8211; bend angle, [deg]</li>
+<li><strong>_linkNode</strong> &#8211; <code class="docutils literal"><span class="pre">(x,y)</span></code> coordinates that drawing begins or linked to another element</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.Rbend.info">
+<code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Rbend.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.Rbend.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>fignum=1</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Rbend.show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Undulator">
+<em class="property">class </em><code class="descname">Undulator</code><span class="sig-paren">(</span><em>period_length=2.0, period_number=10, north_color='red', south_color='blue', link_node=(0, 0), ratio=[2.5, 1.5], spacing=1.5, _alpha=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Undulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><p class="first">undulator (not included in <code class="docutils literal"><span class="pre">element</span></code> module)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>period_length</strong> &#8211; undulator period length, [m]</li>
+<li><strong>period_number</strong> &#8211; undulator period number</li>
+<li><strong>north_color</strong> &#8211; color of north pole</li>
+<li><strong>south_color</strong> &#8211; color of south pole</li>
+<li><strong>link_node</strong> &#8211; <code class="docutils literal"><span class="pre">(x,y)</span></code> coordinates that drawing begins or linked to another element</li>
+<li><strong>ratio</strong> &#8211; ratio of pole_height v.s. pole_width, and gap v.s pole_width</li>
+<li><strong>spacing</strong> &#8211; spacing between pole, measured by pole_width,</li>
+<li><strong>gap</strong> &#8211; undulator gap only for visualization, not true magnetic gap</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.Undulator.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>fignum=1</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Undulator.show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Quadrupole">
+<em class="property">class </em><code class="descname">Quadrupole</code><span class="sig-paren">(</span><em>width=1.0</em>, <em>angle=75</em>, <em>xysign='x'</em>, <em>link_node=(0.0</em>, <em>1.0)</em>, <em>face_color='blue'</em>, <em>edge_color='blue'</em>, <em>line_width=0.1</em>, <em>_alpha=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Quadrupole" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><p class="first">quadrupole</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>width</strong> &#8211; quad width, [m]</li>
+<li><strong>angle</strong> &#8211; angle, [deg]</li>
+<li><strong>xy_sign</strong> &#8211; <code class="docutils literal"><span class="pre">x</span></code>: x-focusing, <code class="docutils literal"><span class="pre">K1&gt;0</span></code>; <code class="docutils literal"><span class="pre">y</span></code>: y-focusing, <code class="docutils literal"><span class="pre">K1&lt;0</span></code></li>
+<li><strong>link_node</strong> &#8211; <code class="docutils literal"><span class="pre">(x,y)</span></code> coordinates that drawing begins or linked to another element</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.Quadrupole.show">
+<code class="descname">show</code><span class="sig-paren">(</span><em>fignum=1</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Quadrupole.show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.plotLattice">
+<code class="descname">plotLattice</code><span class="sig-paren">(</span><em>beamlinepatchlist</em>, <em>fignum=1</em>, <em>fig_size=20</em>, <em>fig_ratio=0.5</em>, <em>xranges=(-10</em>, <em>10)</em>, <em>yranges=(-10</em>, <em>10)</em>, <em>zoomfac=1.5</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.plotLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>function plot beamline defined by <code class="docutils literal"><span class="pre">beamlinepatchlist</span></code>, which is a set of patches for all elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>beamlinepatchlist</strong> &#8211; generated by function <code class="docutils literal"><span class="pre">makeBeamline()</span></code></li>
+<li><strong>fignum</strong> &#8211; figure number, 1 by default</li>
+<li><strong>fig_size</strong> &#8211; figure size, 20 inch by default</li>
+<li><strong>fig_ratio</strong> &#8211; figure ratio, 0.5 by default</li>
+<li><strong>xranges</strong> &#8211; axes x-ranges, <code class="docutils literal"><span class="pre">(-10,</span> <span class="pre">10)</span></code> by default</li>
+<li><strong>yranges</strong> &#8211; axes y-ranges, <code class="docutils literal"><span class="pre">(-10,</span> <span class="pre">10)</span></code> by default</li>
+<li><strong>zoomfac</strong> &#8211; zoom in factor, 1.5 by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.makeBeamline">
+<code class="descname">makeBeamline</code><span class="sig-paren">(</span><em>beamlinelist</em>, <em>startpoint=(0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.makeBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to construct patches for <code class="docutils literal"><span class="pre">plotLattice()</span></code>, from different elements like
+<code class="docutils literal"><span class="pre">rbend</span></code>, <code class="docutils literal"><span class="pre">quadrupole</span></code>,etc. parsing from lattice file, mad-8.
+drift sections are calculated from other elements.</p>
+<p>Input parameters:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>beamlinelist</strong> &#8211; list, which elements are dict, each dict is the description for magnetic element, should be returned from module <code class="docutils literal"><span class="pre">blparser</span></code>, function <code class="docutils literal"><span class="pre">madParser()</span></code></li>
+<li><strong>startpoint</strong> &#8211; pos to start drawing, <code class="docutils literal"><span class="pre">(0,</span> <span class="pre">0)</span></code> by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of beamline patches list, xlim and ylim
+* beamline patches list: patches to be drawn
+* xlim: data limit along x-axis
+* ylim: data limit along y-axis</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.madParser">
+<code class="descname">madParser</code><span class="sig-paren">(</span><em>mad_filename</em>, <em>idbl='BL'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.madParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to parse beamline with MAD-8 input format</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mad_filename</strong> &#8211; lattice filename with mad-8 like format</li>
+<li><strong>idbl</strong> &#8211; beamline to be used that defined in lattice file, 
+default value is <code class="docutils literal"><span class="pre">BL</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of dict that contains magnetic elements</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">beamline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">beamlinelist</span> <span class="o">=</span> <span class="n">beamline</span><span class="o">.</span><span class="n">blparser</span><span class="o">.</span><span class="n">madParser</span><span class="p">(</span><span class="s1">&#39;LPA.list&#39;</span><span class="p">,</span> <span class="s1">&#39;BL2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="n">beamlinelist</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d0&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="s1">&#39;k1&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;q1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.18&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d3&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="s1">&#39;k1&#39;</span><span class="p">:</span> <span class="s1">&#39;-75&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;q2&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.27&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d6&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;rbend&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;10&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;b1&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;1.0&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d8&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;rbend&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;-5&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;b2&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;drift&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.45&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;d4&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;quad&#39;</span><span class="p">,</span> <span class="s1">&#39;k1&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="s1">&#39;75&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="s1">&#39;0.1&#39;</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="s1">&#39;q1&#39;</span><span class="p">}]</span>
+</pre></div>
+</div>
+<p><a class="reference download internal" href="../../_downloads/LPA.list" download=""><code class="xref download docutils literal"><span class="pre">Download</span> <span class="pre">LPA.list</span></code></a> for reference.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Lattice">
+<em class="property">class </em><code class="descname">Lattice</code><span class="sig-paren">(</span><em>elements</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>class for handling lattice configurations and operations</p>
+<dl class="method">
+<dt id="beamline.Lattice.dumpAllElements">
+<code class="descname">dumpAllElements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.dumpAllElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump all element configuration lines as json format.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.formatElement">
+<code class="descname">formatElement</code><span class="sig-paren">(</span><em>kw</em>, <em>format='elegant'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.formatElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert json/dict of element configuration into elegant/mad format
+:param kw: keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.generateLatticeFile">
+<code class="descname">generateLatticeFile</code><span class="sig-paren">(</span><em>beamline</em>, <em>filename=None</em>, <em>format='elegant'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.generateLatticeFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate simulation files for lattice analysis,
+e.g. &#8221;.lte&#8221; for elegant, &#8221;.madx&#8221; for madx</p>
+<p>input parameters:
+:param beamline: keyword for beamline
+:param filename: name of lte/mad file,</p>
+<blockquote>
+<div>if None, output to stdout;
+if &#8216;sio&#8217;, output to a string as return value;
+other cases, output to filename;</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>format</strong> &#8211; madx, elegant,
+&#8216;elegant&#8217; by default, generated lattice is for elegant tracking</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.generateLatticeLine">
+<code class="descname">generateLatticeLine</code><span class="sig-paren">(</span><em>latname='newline'</em>, <em>line=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.generateLatticeLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>construct a new lattice line
+:param latname: name for generated new lattice</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getAllBl">
+<code class="descname">getAllBl</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getAllBl" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all beamline keywords</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getAllEle">
+<code class="descname">getAllEle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getAllEle" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all element keywords</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getAllKws">
+<code class="descname">getAllKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getAllKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract all keywords into two categories</p>
+<p>kws_ele: magnetic elements
+kws_bl: beamline elements</p>
+<p>return (kws_ele, kws_bl)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getBeamline">
+<code class="descname">getBeamline</code><span class="sig-paren">(</span><em>beamlineKw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>get beamline definition from all_elements, return as a list
+:param beamlineKw: keyword of beamline</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getChargeElement">
+<code class="descname">getChargeElement</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getChargeElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>return charge element name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementByName">
+<code class="descname">getElementByName</code><span class="sig-paren">(</span><em>beamline</em>, <em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element list by literal name in beamline
+each element is tuple like (name, type, order)
+:param beamline: beamline name
+:param name: element literal name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementByOrder">
+<code class="descname">getElementByOrder</code><span class="sig-paren">(</span><em>beamline</em>, <em>type</em>, <em>irange</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementByOrder" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>return element list by appearance order in beamline, </dt>
+<dd><p class="first">which could be returned by orderLattice(beamline)</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param beamline:</th><td class="field-body">beamline name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">param type:</th><td class="field-body">element type name</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">param irange:</th><td class="field-body">selected element range</td>
+</tr>
+</tbody>
+</table>
+</dd>
+<dt>possible irange definitions:</dt>
+<dd>irange = 0,      first one &#8216;type&#8217; element;
+irange = -1,     last one
+irange = 0,2,3,  the first, third and fourth &#8216;type&#8217; element
+irange = 2:10:1, start:end:setp range
+irange = &#8216;all&#8217;,    all</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementConf">
+<code class="descname">getElementConf</code><span class="sig-paren">(</span><em>elementKw</em>, <em>raw=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>return configuration for given element keyword,
+e.g. getElementConf(&#8216;Q01&#8217;) should return dict: {u&#8217;k1&#8217;: 0.0, u&#8217;l&#8217;: 0.05}
+:param elementKw: element keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementCtrlConf">
+<code class="descname">getElementCtrlConf</code><span class="sig-paren">(</span><em>elementKw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword&#8217;s EPICS control configs, 
+if not setup, return {}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementList">
+<code class="descname">getElementList</code><span class="sig-paren">(</span><em>bl</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementList" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the elements list according to the appearance order 
+in beamline named &#8216;bl&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bl</strong> &#8211; beamline name</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementProperties">
+<code class="descname">getElementProperties</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementProperties" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element properties
+:param name: element name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getElementType">
+<code class="descname">getElementType</code><span class="sig-paren">(</span><em>elementKw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementType" title="Permalink to this definition">¶</a></dt>
+<dd><p>return type name for given element keyword,
+e.g. getElementType(&#8216;Q01&#8217;) should return string: &#8216;QUAD&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.getFullBeamline">
+<code class="descname">getFullBeamline</code><span class="sig-paren">(</span><em>beamlineKw</em>, <em>extend=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getFullBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>get beamline definition from all_elements,
+expand iteratively with the elements from all_elements
+e.g. 
+element &#8216;doub1&#8217; in 
+chi   : line=(DBLL2 , doub1 , DP4FH , DP4SH , DBLL5 , DBD   ,</p>
+<blockquote>
+<div>B11   , DB11  , B12   , DB12  , PF2   , DB13  , 
+B13   , DB14  , B14   , DBD   , DBLL5 , doub2 ,
+DP5FH , DP5SH , DBLL2 , PSTN1)</div></blockquote>
+<p>should be expaned with &#8216;doub1&#8217; configuration:
+doub1 : line=(DQD3, Q05, DQD2, Q06, DQD3)</p>
+<p>since:
+getBeamline(&#8216;doub1&#8217;) = [u&#8217;dqd3&#8217;, u&#8217;q05&#8217;, u&#8217;dqd2&#8217;, u&#8217;q06&#8217;, u&#8217;dqd3&#8217;] = A
+getBeamline(&#8216;doub2&#8217;) = [u&#8217;dqd3&#8217;, u&#8217;q05&#8217;, u&#8217;dqd2&#8217;, u&#8217;q06&#8217;, u&#8217;dqd3&#8217;] = B
+getBeamline(&#8216;chi&#8217;) = [u&#8217;dbll2&#8217;, u&#8217;doub1&#8217;, u&#8217;dp4fh&#8217;, u&#8217;dp4sh&#8217;, u&#8217;dbll5&#8217;, u&#8217;dbd&#8217;, u&#8217;b11&#8217;, u&#8217;db11&#8217;, u&#8217;b12&#8217;,</p>
+<blockquote>
+<div>u&#8217;db12&#8217;, u&#8217;pf2&#8217;, u&#8217;db13&#8217;, u&#8217;b13&#8217;, u&#8217;db14&#8217;, u&#8217;b14&#8217;, u&#8217;dbd&#8217;, u&#8217;dbll5&#8217;, u&#8217;doub2&#8217;,
+u&#8217;dp5fh&#8217;, u&#8217;dp5sh&#8217;, u&#8217;dbll2&#8217;, u&#8217;pstn1&#8217;]</div></blockquote>
+<p>thus: getFullBeamline(&#8216;chi&#8217;) should return:
+[u&#8217;dbll2&#8217;, A, u&#8217;dp4fh&#8217;, u&#8217;dp4sh&#8217;, u&#8217;dbll5&#8217;, u&#8217;dbd&#8217;, u&#8217;b11&#8217;, u&#8217;db11&#8217;, u&#8217;b12&#8217;, u&#8217;db12&#8217;, u&#8217;pf2&#8217;, u&#8217;db13&#8217;,</p>
+<blockquote>
+<div>u&#8217;b13&#8217;, u&#8217;db14&#8217;, u&#8217;b14&#8217;, u&#8217;dbd&#8217;, u&#8217;dbll5&#8217;, B, u&#8217;dp5fh&#8217;, u&#8217;dp5sh&#8217;, u&#8217;dbll2&#8217;, u&#8217;pstn1&#8217;]</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>extend</strong> &#8211; if extend mode should be envoked, by default False</td>
+</tr>
+</tbody>
+</table>
+<p>if extend = True, element like &#8216;2*D01&#8217; would be expended to be D01, D01</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.isBeamline">
+<code class="descname">isBeamline</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.isBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>test if kw is a beamline
+:param kw: keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.makeElement">
+<code class="descname">makeElement</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.makeElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element object regarding the keyword configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.manipulateLattice">
+<code class="descname">manipulateLattice</code><span class="sig-paren">(</span><em>beamline</em>, <em>type='quad'</em>, <em>irange='all'</em>, <em>property='k1'</em>, <em>opstr='+0%'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.manipulateLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>manipulate element with type, e.g. quad</p>
+<p>input parameters:
+:param beamline: beamline definition keyword
+:param type: element type, case insensitive
+:param irange: slice index, see getElementByOrder()
+:param property: element property, e.g. &#8216;k1&#8217; for &#8216;quad&#8217; strength
+:param opstr: operation, &#8216;+[-]n%&#8217; or &#8216;+[-<a href="#id1"><span class="problematic" id="id2">*</span></a>/]n&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.orderLattice">
+<code class="descname">orderLattice</code><span class="sig-paren">(</span><em>beamline</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.orderLattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>ordering element type appearance sequence for each element of beamline
+e.g. after getFullBeamline, 
+lattice list [&#8216;q&#8217;,&#8217;Q01&#8217;, &#8216;B11&#8217;, &#8216;Q02&#8217;, &#8216;B22&#8217;] will return:
+[(u&#8217;q&#8217;,   u&#8217;CHARGE&#8217;,   1),</p>
+<blockquote>
+<div>(u&#8217;q01&#8217;, u&#8217;QUAD&#8217;,     1), 
+(u&#8217;b11&#8217;, u&#8217;CSRCSBEN&#8217;, 1), 
+(u&#8217;q02&#8217;, u&#8217;QUAD&#8217;,     2), 
+(u&#8217;b12&#8217;, u&#8217;CSRCSBEN&#8217;, 2)]</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.rinseElement">
+<code class="descname">rinseElement</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.rinseElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>resolve element case with multiply format,
+e.g. rinseElement(&#8216;10*D01&#8217;) should return dict {&#8216;num&#8217;: 10; &#8216;name&#8217; = &#8216;D01&#8217;}
+:param ele: element string</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Lattice.showBeamlines">
+<code class="descname">showBeamlines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.showBeamlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>show all defined beamlines</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.LteParser">
+<em class="property">class </em><code class="descname">LteParser</code><span class="sig-paren">(</span><em>infile</em>, <em>mode='f'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>infile</strong> &#8211; lte filename or list of lines of lte file</li>
+<li><strong>mode</strong> &#8211; &#8216;f&#8217;: treat infile as file,
+&#8216;s&#8217;: (else) treat as list of lines</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.LteParser.detectAllKws">
+<code class="descname">detectAllKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.detectAllKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect all keyword from infile, return as a list</p>
+<p>USAGE: kwslist = detectAllKws()</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.dict2json">
+<code class="descname">dict2json</code><span class="sig-paren">(</span><em>idict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.dict2json" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert dict into json</p>
+<p>USAGE: rjson = dict2json(idict)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.file2json">
+<code class="descname">file2json</code><span class="sig-paren">(</span><em>jsonfile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.file2json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert entire lte file into json like format</p>
+<dl class="docutils">
+<dt>USAGE: 1: kwsdictstr = file2json()</dt>
+<dd>2: kwsdictstr = file2json(jsonfile = &#8216;somefile&#8217;)</dd>
+</dl>
+<p>show pretty format with pipeline: | jshon, or | pjson
+if jsonfile is defined, dump to defined file before returning json string
+:param jsonfile: filename to dump json strings</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKw">
+<code class="descname">getKw</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKw" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Extract doc snippet for element configuration,</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param kw:</th><td class="field-body">element name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">return:</th><td class="field-body">instance itself
+1 call getKwAsDict() to return config as a dict
+2 call getKwAsJson() to return config as json string
+3 call getKwAsString() to return config as a raw string</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+<p>USAGE: getKw(&#8216;Q10&#8217;)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKwAsDict">
+<code class="descname">getKwAsDict</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKwAsDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword configuration as a dict</p>
+<p>Usage: rdict = getKwAsDict(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKwAsJson">
+<code class="descname">getKwAsJson</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKwAsJson" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword configuration as a json</p>
+<p>Usage: rjson = getKwAsJson(kw)
+:param kw: element keyword</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKwAsString">
+<code class="descname">getKwAsString</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKwAsString" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword configuration as a string</p>
+<p>Usage: rstr = getKwAsString(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKwConfig">
+<code class="descname">getKwConfig</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKwConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the configuration of kw, dict</p>
+<p>USAGE: rdict = getKwConfig(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKwCtrlConf">
+<code class="descname">getKwCtrlConf</code><span class="sig-paren">(</span><em>kw</em>, <em>fmt='dict'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKwCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>return keyword&#8217;s control configuration, followed after &#8216;!epics&#8217; notation
+:param kw: keyword name
+:param fmt: return format, &#8216;raw&#8217;, &#8216;dict&#8217;, &#8216;json&#8217;, default is &#8216;dict&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.getKwType">
+<code class="descname">getKwType</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.getKwType" title="Permalink to this definition">¶</a></dt>
+<dd><p>return the type of kw, upper cased string</p>
+<p>USAGE: rtype = getKwType(kw)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.get_rpndict_flag">
+<code class="descname">get_rpndict_flag</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.get_rpndict_flag" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate flag set, the value is True or False,
+if rpndict value is not None, flag is True, or False</p>
+<p>if a set with only one item, i.e. True returns, 
+means values of rpndict are all valid float numbers,
+then finally return True, or False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.makeElement">
+<code class="descname">makeElement</code><span class="sig-paren">(</span><em>kw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.makeElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>return element object regarding the keyword configuration</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.resolveEPICS">
+<code class="descname">resolveEPICS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.resolveEPICS" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract epics control configs into</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.resolvePrefix">
+<code class="descname">resolvePrefix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.resolvePrefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>extract prefix information into dict with the key of &#8216;_prefixstr&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.resolve_rpn">
+<code class="descname">resolve_rpn</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.resolve_rpn" title="Permalink to this definition">¶</a></dt>
+<dd><p>solve dict of rpn expressions to pure var to val dict
+:param rpndict: dict of rpn expressions
+return pure var to val dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.rinse_rpnexp">
+<code class="descname">rinse_rpnexp</code><span class="sig-paren">(</span><em>rpnexp</em>, <em>rpndict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.rinse_rpnexp" title="Permalink to this definition">¶</a></dt>
+<dd><p>replace valid keyword of rpnexp from rpndict
+e.g. rpnexp = &#8216;b a /&#8217;, rpndict = {&#8216;b&#8217;: 10}
+then after rinsing, rpnexp = &#8216;10 a /&#8217;</p>
+<p>return rinsed rpnexp</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.rpn2val">
+<code class="descname">rpn2val</code><span class="sig-paren">(</span><em>rdict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.rpn2val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resolve the rpn string into calulated float number</p>
+<dl class="docutils">
+<dt>USAGE: rpn2val(rdict)</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param rdict:</th><td class="field-body">json like dict</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.scanStoVars">
+<code class="descname">scanStoVars</code><span class="sig-paren">(</span><em>strline</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.scanStoVars" title="Permalink to this definition">¶</a></dt>
+<dd><p>scan input string line, replace sto parameters with calculated results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.solve_rpn">
+<code class="descname">solve_rpn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.solve_rpn" title="Permalink to this definition">¶</a></dt>
+<dd><p>solve rpn string in self.confdict, and update self.confdict</p>
+<dl class="docutils">
+<dt>USAGE: ins = LteParser(infile)</dt>
+<dd>ins.getKw(kw).toDict().solve_rpn()</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.str2dict">
+<code class="descname">str2dict</code><span class="sig-paren">(</span><em>rawstr</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.str2dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert str to dict format</p>
+<p>USAGE: rdict = str2dict(rawstr)
+:param rawstr: raw configuration string of element</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.toDict">
+<code class="descname">toDict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.toDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert self.confstr to dict, could apply chain rule, write to self.confdict</p>
+<dl class="docutils">
+<dt>USAGE: ins = LteParser(infile)</dt>
+<dd>ins.getKw(kw).toDict()</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.LteParser.update_rpndict">
+<code class="descname">update_rpndict</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.update_rpndict" title="Permalink to this definition">¶</a></dt>
+<dd><p>update rpndict, try to solve rpn expressions as many as possible,
+leave unsolvable unchanged.</p>
+<p>return new dict</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Simulator">
+<em class="property">class </em><code class="descname">Simulator</code><span class="sig-paren">(</span><em>infile=''</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.Simulator.doSimulation">
+<code class="descname">doSimulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.doSimulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.Simulator.getOutput">
+<code class="descname">getOutput</code><span class="sig-paren">(</span><em>**kws</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.getOutput" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.Simulator.setExec">
+<code class="descname">setExec</code><span class="sig-paren">(</span><em>execpath</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.setExec" title="Permalink to this definition">¶</a></dt>
+<dd><p>set executable for simulation
+:param execpath: elegant or madx full path</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Simulator.setInputfiles">
+<code class="descname">setInputfiles</code><span class="sig-paren">(</span><em>**infiles</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.setInputfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>input parameters: 
+(elegant mode)</p>
+<blockquote>
+<div>1: lte file
+2: ele file</div></blockquote>
+<dl class="docutils">
+<dt>(mad mode)</dt>
+<dd>1: mad file</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Simulator.setMode">
+<code class="descname">setMode</code><span class="sig-paren">(</span><em>mode='elegant'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.setMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>set simulation mode, define mode parameter of &#8216;elegant&#8217; or &#8216;mad&#8217;
+:param mode: simulation mode</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Simulator.setPath">
+<code class="descname">setPath</code><span class="sig-paren">(</span><em>simpath</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.setPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>set simulation path where data should be put into
+:param simpath: where simulations take place, all data files should be found there</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Simulator.setScript">
+<code class="descname">setScript</code><span class="sig-paren">(</span><em>fullname</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.setScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bash shell script full path name for simulation
+:param fullname: set &#8216;runElegant.sh&#8217;, which should be available after installed beamline package</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.DataExtracter">
+<em class="property">class </em><code class="descname">DataExtracter</code><span class="sig-paren">(</span><em>sddsfile</em>, <em>*kws</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Extract required data from a SDDS formated file,
+to put into hdf5 formated file or just dump into RAM
+for post-processing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sddsfile</strong> &#8211; filename of SDDS data file</li>
+<li><strong>kws</strong> &#8211; packed tuple/list options, usually sdds column names,
+e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="pre">'Sx')</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># *sddsquery -col* shows it has &#39;s&#39;, &#39;Sx&#39; data columns</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sddsfile</span> <span class="o">=</span> <span class="s1">&#39;output.sdds&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">param_list</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dh</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="n">sddsfile</span><span class="p">,</span> <span class="o">*</span><span class="n">param_list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># *dh* is a newly created DataExtracter instance</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="beamline.DataExtracter.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump extracted data into a single hdf5file,</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># dump data into an hdf5 formated file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datafields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;Sx&#39;</span><span class="p">,</span> <span class="s1">&#39;Sy&#39;</span><span class="p">,</span> <span class="s1">&#39;enx&#39;</span><span class="p">,</span> <span class="s1">&#39;eny&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datascript</span> <span class="o">=</span> <span class="s1">&#39;sddsprintdata.sh&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">datapath</span>   <span class="o">=</span> <span class="s1">&#39;./tests/tracking&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hdf5file</span>   <span class="o">=</span> <span class="s1">&#39;./tests/tracking/test.h5&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.sig&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">datafields</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">setDataScript</span><span class="p">(</span><span class="n">datascript</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">setDataPath</span>  <span class="p">(</span><span class="n">datapath</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">setH5file</span>    <span class="p">(</span><span class="n">hdf5file</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">extractData</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># read dumped file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fd</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_s</span>  <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">][:]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d_sx</span> <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;Sx&#39;</span><span class="p">][:]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># plot dumped data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">d_s</span><span class="p">,</span> <span class="n">d_sx</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$s$&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\sigma_x$&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Just like the following figure shows:</p>
+<a class="reference internal image-reference" href="../../_images/test_DataExtracter.png"><img alt="../../_images/test_DataExtracter.png" src="../../_images/test_DataExtracter.png" style="width: 400px;" /></a>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.extractData">
+<code class="descname">extractData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.extractData" title="Permalink to this definition">¶</a></dt>
+<dd><p>return <cite>self</cite> with extracted data as <cite>numpy array</cite></p>
+<p>Extract the data of the columns and parameters of <cite>self.kws</cite> and put
+them in a <a href="#id3"><span class="problematic" id="id4">:np:func:`array`</span></a> with all columns as columns or parameters as
+columns. If columns and parameters are requested at the same then each column
+is one row and all parameters are in the last row. This
+<a href="#id5"><span class="problematic" id="id6">:np:func:`array`</span></a> is saved in <code class="docutils literal"><span class="pre">h5data</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you mix types (e. g. float and str) then the minimal fitting type is
+taken for all columns.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Non float types need <cite>sdds</cite> as an extra dependency</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">instance of itself</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<p>One column of the watch element
+&gt;&gt;&gt; dh = DataExtracter(&#8216;test.w1&#8217;)
+&gt;&gt;&gt; dh.kwslist = [&#8216;Step&#8217;]
+&gt;&gt;&gt; print(dh.extractData().h5data)
+array([[1]])</p>
+<p>Two columns of the watch element
+&gt;&gt;&gt; dh = DataExtracter(&#8216;test.w1&#8217;)
+&gt;&gt;&gt; dh.kwslist = [&#8216;s&#8217;, &#8216;betax&#8217;]
+&gt;&gt;&gt; print(dh.extractData().h5data)
+array([[0, 1], [1, 2], [2, 1]])</p>
+<p>Two columns of the watch element and one parameter.
+The columns transform to rows and the parameter row is at the end.
+Furthermore all elements are strings, because the type of
+<cite>PreviousElementName</cite> is str and not float.
+&gt;&gt;&gt; dh = DataExtracter(&#8216;test.w1&#8217;)
+&gt;&gt;&gt; dh.kwslist = [&#8216;s&#8217;, &#8216;PreviousElementName&#8217;, &#8216;betax&#8217;]
+&gt;&gt;&gt; print(dh.extractData().h5data)
+array([[&#8216;0&#8217;, &#8216;1&#8217;, &#8216;2&#8217;], [&#8216;1&#8217;, &#8216;2&#8217;, &#8216;1&#8217;], [&#8216;DR01&#8217;]])</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.getAllCols">
+<code class="descname">getAllCols</code><span class="sig-paren">(</span><em>sddsfile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.getAllCols" title="Permalink to this definition">¶</a></dt>
+<dd><p>get all available column names from sddsfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sddsfile</strong> &#8211; sdds file name, if not given, rollback to the one that from <code class="docutils literal"><span class="pre">__init__()</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all sdds data column names</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dh</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.out&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dh</span><span class="o">.</span><span class="n">getAllCols</span><span class="p">())</span>
+<span class="go">[&#39;x&#39;, &#39;xp&#39;, &#39;y&#39;, &#39;yp&#39;, &#39;t&#39;, &#39;p&#39;, &#39;particleID&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dh</span><span class="o">.</span><span class="n">getAllCols</span><span class="p">(</span><span class="s1">&#39;test.twi&#39;</span><span class="p">))</span>
+<span class="go">[&#39;s&#39;, &#39;betax&#39;, &#39;alphax&#39;, &#39;psix&#39;, &#39;etax&#39;, &#39;etaxp&#39;, &#39;xAperture&#39;, &#39;betay&#39;, &#39;alphay&#39;, &#39;psiy&#39;, &#39;etay&#39;, &#39;etayp&#39;, &#39;yAperture&#39;, &#39;pCentral0&#39;, &#39;ElementName&#39;, &#39;ElementOccurence&#39;, &#39;ElementType&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.getAllPars">
+<code class="descname">getAllPars</code><span class="sig-paren">(</span><em>sddsfile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.getAllPars" title="Permalink to this definition">¶</a></dt>
+<dd><p>get all available parameter names from sddsfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sddsfile</strong> &#8211; sdds file name, if not given, rollback to the one that from <code class="docutils literal"><span class="pre">__init__()</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all sdds data parameter names</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><cite>sdds</cite> needs to be installed as an extra dependency.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dh</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.w1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dh</span><span class="o">.</span><span class="n">getAllPars</span><span class="p">())</span>
+<span class="go">[&#39;Step&#39;, &#39;pCentral&#39;, &#39;Charge&#39;, &#39;Particles&#39;, &#39;IDSlotsPerBunch&#39;, &#39;SVNVersion&#39;, &#39;Pass&#39;, &#39;PassLength&#39;, &#39;PassCentralTime&#39;, &#39;ElapsedCoreTime&#39;, &#39;MemoryUsage&#39;, &#39;s&#39;, &#39;Description&#39;, &#39;PreviousElementName&#39;]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Seealso:</th><td class="field-body"><a class="reference internal" href="#beamline.DataExtracter.getAllCols" title="beamline.DataExtracter.getAllCols"><code class="xref py py-func docutils literal"><span class="pre">getAllCols()</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.getH5Data">
+<code class="descname">getH5Data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.getH5Data" title="Permalink to this definition">¶</a></dt>
+<dd><p>return extracted data as numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">numpy array after executing <code class="docutils literal"><span class="pre">extractData()</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.getKws">
+<code class="descname">getKws</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.getKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>return data column fields that defined in constructor, e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="pre">'Sx')</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">data columns keyword</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.setDataPath">
+<code class="descname">setDataPath</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.setDataPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>set full dir path of data files</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> &#8211; data path, usually is the directory where numerical simulation was taken place</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.setDataScript">
+<code class="descname">setDataScript</code><span class="sig-paren">(</span><em>fullscriptpath='sddsprintdata.sh'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.setDataScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>configure script that should be utilized by DataExtracter,
+to extract data colums from sddsfile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fullscriptpath</strong> &#8211; full path of script that handles the data extraction of sddsfile,
+default value is <code class="docutils literal"><span class="pre">sddsprintdata.sh</span></code>, which is a script that distributed
+with <code class="docutils literal"><span class="pre">beamline</span></code> package.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.setH5file">
+<code class="descname">setH5file</code><span class="sig-paren">(</span><em>h5filepath</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.setH5file" title="Permalink to this definition">¶</a></dt>
+<dd><p>set h5file full path name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>h5filepath</strong> &#8211; path for hdf5 file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataExtracter.setKws">
+<code class="descname">setKws</code><span class="sig-paren">(</span><em>*kws</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataExtracter.setKws" title="Permalink to this definition">¶</a></dt>
+<dd><p>set keyword list, i.e. sdds field names, update <code class="docutils literal"><span class="pre">kwslist</span></code> property</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kws</strong> &#8211; packed tuple of sdds datafile column names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return None:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.DataVisualizer">
+<em class="property">class </em><code class="descname">DataVisualizer</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataVisualizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>for data visualization purposes, to be implemented</p>
+<dl class="method">
+<dt id="beamline.DataVisualizer.illustrate">
+<code class="descname">illustrate</code><span class="sig-paren">(</span><em>xlabel</em>, <em>ylabel</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataVisualizer.illustrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot x, y w.r.t. xlabel and ylabel
+:param ylabel: xlabel
+:param xlabel: ylabel</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataVisualizer.inspectDataFile">
+<code class="descname">inspectDataFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataVisualizer.inspectDataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>inspect hdf5 data file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataVisualizer.saveArtwork">
+<code class="descname">saveArtwork</code><span class="sig-paren">(</span><em>name='image'</em>, <em>fmt='jpg'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataVisualizer.saveArtwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>save figure by default name of image.jpg
+:param name: image name, &#8216;image&#8217; by default
+:param fmt: image format, &#8216;jpg&#8217; by default</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.DataStorage">
+<em class="property">class </em><code class="descname">DataStorage</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="docutils">
+<dt>for data storage management, to be implemented.</dt>
+<dd>communicate with database like mongodb, mysql, sqlite, etc.</dd>
+</dl>
+<dl class="method">
+<dt id="beamline.DataStorage.configDatabase">
+<code class="descname">configDatabase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataStorage.configDatabase" title="Permalink to this definition">¶</a></dt>
+<dd><p>configure database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataStorage.getData">
+<code class="descname">getData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataStorage.getData" title="Permalink to this definition">¶</a></dt>
+<dd><p>get data from database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.DataStorage.putData">
+<code class="descname">putData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.DataStorage.putData" title="Permalink to this definition">¶</a></dt>
+<dd><p>put data into database</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Models">
+<em class="property">class </em><code class="descname">Models</code><span class="sig-paren">(</span><em>name='BL'</em>, <em>mode='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>make lattice configuration (json) for lattice.Lattice
+return instance as a json string file with all configuration.
+get lattice name by instance.name.</p>
+<dl class="attribute">
+<dt id="beamline.Models.LatticeDict">
+<code class="descname">LatticeDict</code><a class="headerlink" href="#beamline.Models.LatticeDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>show lattice configuration</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.Models.LatticeList">
+<code class="descname">LatticeList</code><a class="headerlink" href="#beamline.Models.LatticeList" title="Permalink to this definition">¶</a></dt>
+<dd><p>show lattice element list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.addElement">
+<code class="descname">addElement</code><span class="sig-paren">(</span><em>*ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.addElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>add element to lattice element list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; magnetic element defined in element module</td>
+</tr>
+</tbody>
+</table>
+<p>return total element number</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.Models.anoteElements">
+<em class="property">static </em><code class="descname">anoteElements</code><span class="sig-paren">(</span><em>ax</em>, <em>anotelist</em>, <em>showAccName=False</em>, <em>efilter=None</em>, <em>textypos=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.anoteElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>annotate elements to axes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> &#8211; matplotlib axes object</li>
+<li><strong>anotelist</strong> &#8211; element annotation object list</li>
+<li><strong>showAccName</strong> &#8211; tag name for accelerator tubes? default is False, 
+show acceleration band type, e.g. &#8216;S&#8217;, &#8216;C&#8217;, &#8216;X&#8217;, or for &#8216;[S,C,X]D&#8217; for cavity</li>
+<li><strong>efilter</strong> &#8211; element type filter, default is None, annotate all elements
+could be defined to be one type name or type name list/tuple, e.g.
+filter=&#8217;QUAD&#8217; or filter=(&#8216;QUAD&#8217;, &#8216;CSRCSBEN&#8217;)</li>
+<li><strong>textypos</strong> &#8211; y coordinator of annotated text string</li>
+<li><strong>kwargs</strong> &#8211; alpha=0.8, arrowprops=dict(arrowstyle=&#8217;-&gt;&#8217;), rotation=-60, fontsize=&#8217;small&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>return list of annotation objects</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>startpoint=(0</em>, <em>0)</em>, <em>mode='plain'</em>, <em>showfig=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>lattice visualization</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>startpoint</strong> &#8211; start drawing point coords, default: (0, 0)</li>
+<li><strong>showfig</strong> &#8211; show figure or not, default: False</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
+patchlist: list of element patches
+anotelist: list of annotations
+(xmin0, xmax0) and (ymin0, ymax0) are ploting range</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.Models.flatten">
+<em class="property">static </em><code class="descname">flatten</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.flatten" title="Permalink to this definition">¶</a></dt>
+<dd><p>flatten recursively defined list,
+e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,&#8217;x&#8217;]]]]]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; recursive list, i.e. list in list in list ...</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">generator object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.getAllConfig">
+<code class="descname">getAllConfig</code><span class="sig-paren">(</span><em>fmt='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.getAllConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>return all element configurations as json string file.
+could be further processed by beamline.Lattice class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fmt</strong> &#8211; &#8216;json&#8217; (default) or &#8216;dict&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.getCtrlConf">
+<code class="descname">getCtrlConf</code><span class="sig-paren">(</span><em>msgout=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.getCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>get control configurations regarding to the PV names,
+read PV value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msgout</strong> &#8211; print information if True (by default)</td>
+</tr>
+</tbody>
+</table>
+<p>return updated element object list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.getElementsByName">
+<code class="descname">getElementsByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.getElementsByName" title="Permalink to this definition">¶</a></dt>
+<dd><p>get element with given name,
+return list of element objects regarding to &#8216;name&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; element name, case sensitive, if elements are
+auto-generated from LteParser, the name should be lower cased.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.initPos">
+<code class="descname">initPos</code><span class="sig-paren">(</span><em>startpos=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.initPos" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize the elements position [m] in lattice, the starting
+point is 0 [m] for the first element by default.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>startpos</strong> &#8211; starting point, 0 [m] by default</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.Models.makeLatticeDict">
+<em class="property">static </em><code class="descname">makeLatticeDict</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.makeLatticeDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>return lattice dict conf like {&#8220;lattice&#8221;: &#8220;(q b d)&#8221;}</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; element list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.Models.makeLatticeString">
+<em class="property">static </em><code class="descname">makeLatticeString</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.makeLatticeString" title="Permalink to this definition">¶</a></dt>
+<dd><p>return string like &#8220;lattice = (q b d)&#8221;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; element list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.Models.mode">
+<code class="descname">mode</code><a class="headerlink" href="#beamline.Models.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.Models.name">
+<code class="descname">name</code><a class="headerlink" href="#beamline.Models.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="beamline.Models.plotElements">
+<em class="property">static </em><code class="descname">plotElements</code><span class="sig-paren">(</span><em>ax</em>, <em>patchlist</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.plotElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot elements&#8217; drawings to axes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ax</strong> &#8211; matplotlib axes object</li>
+<li><strong>patchlist</strong> &#8211; element patch object list</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.printAllElements">
+<code class="descname">printAllElements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.printAllElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>print out all modeled elements</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.putCtrlConf">
+<code class="descname">putCtrlConf</code><span class="sig-paren">(</span><em>eleobj</em>, <em>ctrlkey</em>, <em>val</em>, <em>type='raw'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.putCtrlConf" title="Permalink to this definition">¶</a></dt>
+<dd><p>put the value to control PV field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eleobj</strong> &#8211; element object in lattice</li>
+<li><strong>ctrlkey</strong> &#8211; element control property, PV name</li>
+<li><strong>val</strong> &#8211; new value for ctrlkey</li>
+<li><strong>type</strong> &#8211; set in &#8216;raw&#8217; or &#8216;real&#8217; mode, &#8216;raw&#8217; by default
+&#8216;raw&#8217;: set PV with the value of &#8216;val&#8217;,
+&#8216;real&#8217;: set PV with the value translated from &#8216;val&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Models.updateConfig">
+<code class="descname">updateConfig</code><span class="sig-paren">(</span><em>eleobj</em>, <em>config</em>, <em>type='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Models.updateConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>write new configuration to element</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eleobj</strong> &#8211; define element object</li>
+<li><strong>config</strong> &#8211; new configuration for element, string or dict</li>
+<li><strong>type</strong> &#8211; &#8216;simu&#8217; by default, could be online, misc, comm, ctrl</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ParseParams">
+<em class="property">class </em><code class="descname">ParseParams</code><span class="sig-paren">(</span><em>*infilename</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.ParseParams.getChicaneDriftLength">
+<code class="descname">getChicaneDriftLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getChicaneDriftLength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getChicaneMagnetField">
+<code class="descname">getChicaneMagnetField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getChicaneMagnetField" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getChicaneMagnetLength">
+<code class="descname">getChicaneMagnetLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getChicaneMagnetLength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getElectronEmitx">
+<code class="descname">getElectronEmitx</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getElectronEmitx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getElectronGamma">
+<code class="descname">getElectronGamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getElectronGamma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getFELwavelength">
+<code class="descname">getFELwavelength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getFELwavelength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getUndulatorParameter">
+<code class="descname">getUndulatorParameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getUndulatorParameter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getUndulatorPeriod">
+<code class="descname">getUndulatorPeriod</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getUndulatorPeriod" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.getUndulatorUnitlength">
+<code class="descname">getUndulatorUnitlength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.getUndulatorUnitlength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ParseParams.onParseFile">
+<code class="descname">onParseFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ParseParams.onParseFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.BeamMatch">
+<em class="property">class </em><code class="descname">BeamMatch</code><span class="sig-paren">(</span><em>infile_mod</em>, <em>infile_rad</em>, <em>latfile_mod</em>, <em>latfile_rad</em>, <em>infile_mod_new</em>, <em>infile_rad_new</em>, <em>latfile_rad_new</em>, <em>qfval</em>, <em>qdval</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.BeamMatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.BeamMatch.matchCalculate">
+<code class="descname">matchCalculate</code><span class="sig-paren">(</span><em>latlengthname='fullat.hghg'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.BeamMatch.matchCalculate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.BeamMatch.matchPerform">
+<code class="descname">matchPerform</code><span class="sig-paren">(</span><em>qf_linenum=11</em>, <em>qd_linenum=13</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.BeamMatch.matchPerform" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.BeamMatch.matchPrintout">
+<code class="descname">matchPrintout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.BeamMatch.matchPrintout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.FELSimulator">
+<em class="property">class </em><code class="descname">FELSimulator</code><span class="sig-paren">(</span><em>mode='HGHG'</em>, <em>modinfile='mod.in'</em>, <em>radinfile='rad.in'</em>, <em>modlatfile='mod.lat'</em>, <em>radlatfile='rad.lat'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.FELSimulator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="beamline.FELSimulator.getMaxPower">
+<code class="descname">getMaxPower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.FELSimulator.getMaxPower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.FELSimulator.grepParam">
+<code class="descname">grepParam</code><span class="sig-paren">(</span><em>param='entries'</em>, <em>outfile='rad.out'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.FELSimulator.grepParam" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.FELSimulator.plotPower">
+<code class="descname">plotPower</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.FELSimulator.plotPower" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.FELSimulator.postProcess">
+<code class="descname">postProcess</code><span class="sig-paren">(</span><em>outfile='rad.out'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.FELSimulator.postProcess" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.FELSimulator.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.FELSimulator.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.parseLattice">
+<code class="descname">parseLattice</code><span class="sig-paren">(</span><em>latlengthname='fullat.hghg'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.parseLattice" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransQuadF">
+<code class="descname">funTransQuadF</code><span class="sig-paren">(</span><em>k</em>, <em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransQuadF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Focusing quad in X, defocusing in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> &#8211; k1, in [T/m]</li>
+<li><strong>s</strong> &#8211; width, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransQuadD">
+<code class="descname">funTransQuadD</code><span class="sig-paren">(</span><em>k</em>, <em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransQuadD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defocusing quad in X, focusing in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> &#8211; k1, in [T/m]</li>
+<li><strong>s</strong> &#8211; width, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransDrift">
+<code class="descname">funTransDrift</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransDrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drift space</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; drift length, in [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">2x2 numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransUnduH">
+<code class="descname">funTransUnduH</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransUnduH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Planar undulator transport matrix in horizontal direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> &#8211; horizontal width, in [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">2x2 numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransUnduV">
+<code class="descname">funTransUnduV</code><span class="sig-paren">(</span><em>k</em>, <em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransUnduV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Planar undulator transport matrix in vertical direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>k</strong> &#8211; equivalent k1, in [T/m], i.e. natural focusing</li>
+<li><strong>s</strong> &#8211; horizontal width, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransEdgeX">
+<code class="descname">funTransEdgeX</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransEdgeX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fringe matrix in X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; fringe angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransEdgeY">
+<code class="descname">funTransEdgeY</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransEdgeY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fringe matrix in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; fringe angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransSectX">
+<code class="descname">funTransSectX</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransSectX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sector matrix in X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bend angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransSectY">
+<code class="descname">funTransSectY</code><span class="sig-paren">(</span><em>theta</em>, <em>rho</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransSectY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sector matrix in Y</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bend angle, in [rad]</li>
+<li><strong>rho</strong> &#8211; bend radius, in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.funTransChica">
+<code class="descname">funTransChica</code><span class="sig-paren">(</span><em>imagl</em>, <em>idril</em>, <em>ibfield</em>, <em>gamma0</em>, <em>xoy='x'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.funTransChica" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chicane matrix, composed of four rbends, seperated by drifts</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>imagl</strong> &#8211; rbend width, in [m]</li>
+<li><strong>idril</strong> &#8211; drift length between two adjacent rbends, in [m]</li>
+<li><strong>ibfield</strong> &#8211; rbend magnetic strength, in [T]</li>
+<li><strong>gamma0</strong> &#8211; electron energy, gamma</li>
+<li><strong>xoy</strong> &#8211; <code class="docutils literal"><span class="pre">'x'</span></code> or <code class="docutils literal"><span class="pre">'y'</span></code>, matrix in X or Y direction, <code class="docutils literal"><span class="pre">'x'</span></code> by default</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">2x2 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.transDrift">
+<code class="descname">transDrift</code><span class="sig-paren">(</span><em>length=0.0</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.transDrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of drift</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>length</strong> &#8211; drift length in [m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.transQuad">
+<code class="descname">transQuad</code><span class="sig-paren">(</span><em>length=0.0</em>, <em>k1=0.0</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.transQuad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of quadrupole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>length</strong> &#8211; quad width in [m]</li>
+<li><strong>k1</strong> &#8211; quad k1 strength in [T/m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.transSect">
+<code class="descname">transSect</code><span class="sig-paren">(</span><em>theta=None</em>, <em>rho=None</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.transSect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of sector dipole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bending angle in [RAD]</li>
+<li><strong>rho</strong> &#8211; bending radius in [m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.transRbend">
+<code class="descname">transRbend</code><span class="sig-paren">(</span><em>theta=None</em>, <em>rho=None</em>, <em>gamma=None</em>, <em>incsym=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.transRbend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of rectangle dipole</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>theta</strong> &#8211; bending angle in [RAD]</li>
+<li><strong>incsym</strong> &#8211; <p>incident symmetry, -1 by default,
+available options:</p>
+<blockquote>
+<div><ul>
+<li>-1: left half symmetry,</li>
+<li>0: full symmetry,</li>
+<li>1: right half symmetry</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>rho</strong> &#8211; bending radius in [m]</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.transFringe">
+<code class="descname">transFringe</code><span class="sig-paren">(</span><em>beta=None</em>, <em>rho=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.transFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transport matrix of fringe field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>beta</strong> &#8211; angle of rotation of pole-face in [RAD]</li>
+<li><strong>rho</strong> &#8211; bending radius in [m]</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="beamline.transChicane">
+<code class="descname">transChicane</code><span class="sig-paren">(</span><em>bend_length=None</em>, <em>bend_field=None</em>, <em>drift_length=None</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.transChicane" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Transport matrix of chicane</dt>
+<dd>composed of four rbends and three drifts between them</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bend_length</strong> &#8211; rbend width in [m]</li>
+<li><strong>bend_field</strong> &#8211; rbend magnetic field in [T]</li>
+<li><strong>drift_length</strong> &#8211; drift length, list or tuple of three elements, in [m]
+single float number stands for same length for three drifts</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">6x6 numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.Chicane">
+<em class="property">class </em><code class="descname">Chicane</code><span class="sig-paren">(</span><em>bend_length=None</em>, <em>bend_field=None</em>, <em>drift_length=None</em>, <em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Chicane class
+transport configuration of a chicane, comprising of four dipole with three drift sections</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">it&#8217;s better to issue <code class="docutils literal"><span class="pre">getMatrix()</span></code> before <code class="docutils literal"><span class="pre">getR()</span></code>, <code class="docutils literal"><span class="pre">getAngle()</span></code></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>bend_length</strong> &#8211; bend length, [m]</li>
+<li><strong>bend_field</strong> &#8211; bend field, [T]</li>
+<li><strong>drift_length</strong> &#8211; drift length [m], list: [1,2,1], [1], [1,2], 1</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma value</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="beamline.Chicane.getAngle">
+<code class="descname">getAngle</code><span class="sig-paren">(</span><em>mode='deg'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getAngle" title="Permalink to this definition">¶</a></dt>
+<dd><p>return bend angle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mode</strong> &#8211; &#8216;deg&#8217; or &#8216;rad&#8217;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">deflecting angle in RAD</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.getBendField">
+<code class="descname">getBendField</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getBendField" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bend magnetic field</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.getBendLength">
+<code class="descname">getBendLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getBendLength" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bend length</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.getDriftLength">
+<code class="descname">getDriftLength</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getDriftLength" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">drift lengths list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.getGamma">
+<code class="descname">getGamma</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getGamma" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">gamma value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.getMatrix">
+<code class="descname">getMatrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>get transport matrix with <code class="docutils literal"><span class="pre">mflag</span></code> flag,
+if <code class="docutils literal"><span class="pre">mflag</span></code> is True, return calculated matrix, else return unity matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">transport matrix</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.getR">
+<code class="descname">getR</code><span class="sig-paren">(</span><em>i=5</em>, <em>j=6</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.getR" title="Permalink to this definition">¶</a></dt>
+<dd><p>return transport matrix element, indexed by i, j,
+be default, return dispersion value, i.e. getR(5,6) in [m]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>i</strong> &#8211; row index, with initial index of 1</li>
+<li><strong>j</strong> &#8211; col indx, with initial index of 1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">transport matrix element</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.setBendField">
+<code class="descname">setBendField</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.setBendField" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bend magnetic field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; new bend field to be assigned, [T]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.setBendLength">
+<code class="descname">setBendLength</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.setBendLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>set bend length</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; new bend length to be assigned, [m]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.setDriftLength">
+<code class="descname">setDriftLength</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.setDriftLength" title="Permalink to this definition">¶</a></dt>
+<dd><p>set lengths for drift sections</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; single double or list</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">beamline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span> <span class="o">=</span> <span class="n">beamline</span><span class="o">.</span><span class="n">mathutils</span><span class="o">.</span><span class="n">Chicane</span><span class="p">(</span><span class="n">bend_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">bend_field</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span><span class="n">drift_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">gamma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r56</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">getR</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># r56 = -0.432</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chi</span><span class="o">.</span><span class="n">setDriftLength</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># same effect (to R56) as ``chi.setDriftLength([2,4])`` or ``chi.setDriftLength([2])``</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># or ``chi.setDriftLength(2)``</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r56</span> <span class="o">=</span> <span class="n">chi</span><span class="o">.</span><span class="n">getR</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># r56 = -0.620</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.setGamma">
+<code class="descname">setGamma</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.setGamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>set electron energy, gamma value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> &#8211; new energy, gamma value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.Chicane.setParams">
+<code class="descname">setParams</code><span class="sig-paren">(</span><em>bend_length</em>, <em>bend_field</em>, <em>drift_length</em>, <em>gamma</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Chicane.setParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>set chicane parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bend_length</strong> &#8211; bend length, [m]</li>
+<li><strong>bend_field</strong> &#8211; bend field, [T]</li>
+<li><strong>drift_length</strong> &#8211; drift length, [m], list</li>
+<li><strong>gamma</strong> &#8211; electron energy, gamma</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementCharge">
+<em class="property">class </em><code class="descname">ElementCharge</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCharge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>charge element</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; charge element name that could be used in other method, e.g. &#8216;C&#8217;, &#8216;Q&#8217;, etc.</li>
+<li><strong>config</strong> &#8211; </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">chconf</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;total&#39;</span><span class="p">:</span> <span class="mf">1.0e-9</span><span class="p">}</span>  <span class="c1"># total charge of 1.0 nC</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">q</span> <span class="o">=</span> <span class="n">ElementCharge</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">chconf</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementCsrcsben">
+<em class="property">class </em><code class="descname">ElementCsrcsben</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrcsben" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>csrcsben element</p>
+<dl class="method">
+<dt id="beamline.ElementCsrcsben.calcTransM">
+<code class="descname">calcTransM</code><span class="sig-paren">(</span><em>gamma=None</em>, <em>type='simu'</em>, <em>incsym=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrcsben.calcTransM" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate transport matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>gamma</strong> &#8211; electron energy measured by mc^2</li>
+<li><strong>type</strong> &#8211; configuration type, &#8216;simu&#8217; (simulation mode) or &#8216;online&#8217; (online mode)</li>
+<li><strong>incsym</strong> &#8211; incident symmetry, -1, 0, 1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">transport matrix</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementCsrcsben.field">
+<code class="descname">field</code><a class="headerlink" href="#beamline.ElementCsrcsben.field" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">magnetic field, [T]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementCsrcsben.rho">
+<code class="descname">rho</code><a class="headerlink" href="#beamline.ElementCsrcsben.rho" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bending radius, [m]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementCsrcsben.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrcsben.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; rotation angle [deg] of drawing central point, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementCsrcsben.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrcsben.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementCsrcsben.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementCsrcsben.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementQuad">
+<em class="property">class </em><code class="descname">ElementQuad</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementQuad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>quad element</p>
+<dl class="method">
+<dt id="beamline.ElementQuad.calcTransM">
+<code class="descname">calcTransM</code><span class="sig-paren">(</span><em>gamma=None</em>, <em>type='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementQuad.calcTransM" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate transport matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gamma</strong> &#8211; electron energy measured by mc^2</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">transport matrix</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementQuad.getK1">
+<code class="descname">getK1</code><span class="sig-paren">(</span><em>type='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementQuad.getK1" title="Permalink to this definition">¶</a></dt>
+<dd><p>get quad k1 value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>type</strong> &#8211; &#8216;simu&#8217; or &#8216;online&#8217;</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">quad strength,i.e. k1</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementQuad.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementQuad.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; rotation angle [deg] of drawing central point, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: anticlockwise, &#8216;-&#8216;: clockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementQuad.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementQuad.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementQuad.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementQuad.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementQuad.unitTrans">
+<code class="descname">unitTrans</code><span class="sig-paren">(</span><em>inval</em>, <em>direction='+'</em>, <em>transfun=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementQuad.unitTrans" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementCsrdrift">
+<em class="property">class </em><code class="descname">ElementCsrdrift</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrdrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>csrdrift element</p>
+<dl class="method">
+<dt id="beamline.ElementCsrdrift.calcTransM">
+<code class="descname">calcTransM</code><span class="sig-paren">(</span><em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrdrift.calcTransM" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate transport matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gamma</strong> &#8211; electron energy measured by mc^2</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">transport matrix</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementCsrdrift.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrdrift.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementCsrdrift.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementCsrdrift.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementCsrdrift.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementCsrdrift.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementCsrdrif">
+<code class="descname">ElementCsrdrif</code><a class="headerlink" href="#beamline.ElementCsrdrif" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#beamline.ElementCsrdrift" title="beamline.ElementCsrdrift"><code class="xref py py-class docutils literal"><span class="pre">ElementCsrdrift</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementDrift">
+<em class="property">class </em><code class="descname">ElementDrift</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementDrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>drift element</p>
+<dl class="method">
+<dt id="beamline.ElementDrift.calcTransM">
+<code class="descname">calcTransM</code><span class="sig-paren">(</span><em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementDrift.calcTransM" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate transport matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gamma</strong> &#8211; electron energy measured by mc^2</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">transport matrix</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementDrift.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementDrift.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementDrift.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementDrift.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementDrift.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementDrift.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementDrif">
+<code class="descname">ElementDrif</code><a class="headerlink" href="#beamline.ElementDrif" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#beamline.ElementDrift" title="beamline.ElementDrift"><code class="xref py py-class docutils literal"><span class="pre">ElementDrift</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementLscdrift">
+<em class="property">class </em><code class="descname">ElementLscdrift</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementLscdrift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>lscdrift element</p>
+<dl class="method">
+<dt id="beamline.ElementLscdrift.calcTransM">
+<code class="descname">calcTransM</code><span class="sig-paren">(</span><em>gamma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementLscdrift.calcTransM" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate transport matrix</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gamma</strong> &#8211; electron energy measured by mc^2</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">transport matrix</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementLscdrift.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementLscdrift.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementLscdrift.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementLscdrift.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementLscdrift.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementLscdrift.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementLscdrif">
+<code class="descname">ElementLscdrif</code><a class="headerlink" href="#beamline.ElementLscdrif" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="#beamline.ElementLscdrift" title="beamline.ElementLscdrift"><code class="xref py py-class docutils literal"><span class="pre">ElementLscdrift</span></code></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementKicker">
+<em class="property">class </em><code class="descname">ElementKicker</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementKicker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>kicker element</p>
+<dl class="method">
+<dt id="beamline.ElementKicker.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementKicker.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementKicker.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementKicker.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementKicker.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementKicker.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementMark">
+<em class="property">class </em><code class="descname">ElementMark</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementMark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>mark element</p>
+<dl class="method">
+<dt id="beamline.ElementMark.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementMark.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementMark.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementMark.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementMark.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementMark.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementWatch">
+<em class="property">class </em><code class="descname">ElementWatch</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementWatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>watch element</p>
+<dl class="method">
+<dt id="beamline.ElementWatch.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementWatch.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementWatch.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementWatch.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementWatch.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementWatch.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementMoni">
+<em class="property">class </em><code class="descname">ElementMoni</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementMoni" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>moni element</p>
+<dl class="method">
+<dt id="beamline.ElementMoni.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementMoni.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementMoni.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementMoni.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementMoni.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementMoni.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementRfcw">
+<em class="property">class </em><code class="descname">ElementRfcw</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementRfcw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>rfcw element</p>
+<dl class="method">
+<dt id="beamline.ElementRfcw.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementRfcw.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementRfcw.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementRfcw.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementRfcw.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementRfcw.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementRfdf">
+<em class="property">class </em><code class="descname">ElementRfdf</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementRfdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>rfdf element</p>
+<dl class="method">
+<dt id="beamline.ElementRfdf.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementRfdf.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementRfdf.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementRfdf.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementRfdf.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementRfdf.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementWake">
+<em class="property">class </em><code class="descname">ElementWake</code><span class="sig-paren">(</span><em>name=None</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementWake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>wake element</p>
+<dl class="method">
+<dt id="beamline.ElementWake.setDraw">
+<code class="descname">setDraw</code><span class="sig-paren">(</span><em>p0=(0</em>, <em>0)</em>, <em>angle=0</em>, <em>mode='plain'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementWake.setDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>set element visualization drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p0</strong> &#8211; start drawing position, (x,y)</li>
+<li><strong>angle</strong> &#8211; angle [deg] between x-axis, angle is rotating from x-axis to be &#8216;+&#8217; or &#8216;-&#8216;, &#8216;+&#8217;: clockwise, &#8216;-&#8216;: anticlockwise</li>
+<li><strong>mode</strong> &#8211; artist mode, &#8216;plain&#8217; or &#8216;fancy&#8217;, &#8216;plain&#8217; by default</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.ElementWake.setStyle">
+<code class="descname">setStyle</code><span class="sig-paren">(</span><em>**style</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementWake.setStyle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beamline.ElementWake.style">
+<code class="descname">style</code><a class="headerlink" href="#beamline.ElementWake.style" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="beamline.ElementBeamline">
+<em class="property">class </em><code class="descname">ElementBeamline</code><span class="sig-paren">(</span><em>name='bl'</em>, <em>config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.ElementBeamline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="element.html#beamline.element.MagBlock" title="beamline.element.MagBlock"><code class="xref py py-class docutils literal"><span class="pre">beamline.element.MagBlock</span></code></a></p>
+<p>beamline element, virtual element, does not present in ELEGANT</p>
+</dd></dl>
+
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -164,7 +2830,7 @@ is imported.</li>
         <li class="right" >
           <a href="../apidoc.html" title="API"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li> 
       </ul>
     </div>

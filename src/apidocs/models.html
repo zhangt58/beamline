@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>beamline.models module &mdash; beamline 1.3.5 documentation</title>
+    <title>beamline.models module &mdash; beamline 1.3.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.3.5',
+        VERSION:     '1.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="top" title="beamline 1.3.6 documentation" href="../../index.html" />
     <link rel="up" title="beamline package" href="beamline.html" />
     <link rel="next" title="beamline.simulation module" href="simulation.html" />
     <link rel="prev" title="beamline.lattice module" href="lattice.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="lattice.html" title="beamline.lattice module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
       </ul>
@@ -107,10 +107,16 @@ get lattice name by instance.name.</p>
 <dl class="method">
 <dt id="beamline.models.Models.addElement">
 <code class="descname">addElement</code><span class="sig-paren">(</span><em>*ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.addElement" title="Permalink to this definition">¶</a></dt>
-<dd><p>add element to lattice element list
-input parameters:
-:param ele: magnetic element defined in element module
-return total element number</p>
+<dd><p>add element to lattice element list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; magnetic element defined in element module</td>
+</tr>
+</tbody>
+</table>
+<p>return total element number</p>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -168,37 +174,64 @@ anotelist: list of annotations
 <dt id="beamline.models.Models.flatten">
 <em class="property">static </em><code class="descname">flatten</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.flatten" title="Permalink to this definition">¶</a></dt>
 <dd><p>flatten recursively defined list,
-e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,&#8217;x&#8217;]]]]]
-:param ele: recursive list, i.e. list in list in list ...
-return generator object</p>
+e.g. [1,2,3, [4,5], [6,[8,9,[10,[11,&#8217;x&#8217;]]]]]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; recursive list, i.e. list in list in list ...</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">generator object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.models.Models.getAllConfig">
 <code class="descname">getAllConfig</code><span class="sig-paren">(</span><em>fmt='json'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.getAllConfig" title="Permalink to this definition">¶</a></dt>
 <dd><p>return all element configurations as json string file.
-could be further processed by beamline.Lattice class
-input parameter:
-:param fmt: &#8216;json&#8217; (default) or &#8216;dict&#8217;</p>
+could be further processed by beamline.Lattice class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fmt</strong> &#8211; &#8216;json&#8217; (default) or &#8216;dict&#8217;</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.models.Models.getCtrlConf">
 <code class="descname">getCtrlConf</code><span class="sig-paren">(</span><em>msgout=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.getCtrlConf" title="Permalink to this definition">¶</a></dt>
 <dd><p>get control configurations regarding to the PV names,
-read PV value
-:param msgout: print information if True (be default)
-return updated element object list</p>
+read PV value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>msgout</strong> &#8211; print information if True (by default)</td>
+</tr>
+</tbody>
+</table>
+<p>return updated element object list</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.models.Models.getElementsByName">
 <code class="descname">getElementsByName</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.getElementsByName" title="Permalink to this definition">¶</a></dt>
 <dd><p>get element with given name,
-return list of element objects regarding to &#8216;name&#8217;
-:param name: element name, case sensitive, if elements are</p>
-<blockquote>
-<div>auto-generated from LteParser, the name should be lower cased.</div></blockquote>
+return list of element objects regarding to &#8216;name&#8217;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> &#8211; element name, case sensitive, if elements are
+auto-generated from LteParser, the name should be lower cased.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -219,15 +252,29 @@ point is 0 [m] for the first element by default.</p>
 <dl class="staticmethod">
 <dt id="beamline.models.Models.makeLatticeDict">
 <em class="property">static </em><code class="descname">makeLatticeDict</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.makeLatticeDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>return lattice dict conf like {&#8220;lattice&#8221;: &#8220;(q b d)&#8221;}
-:param ele: element list</p>
+<dd><p>return lattice dict conf like {&#8220;lattice&#8221;: &#8220;(q b d)&#8221;}</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; element list</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="beamline.models.Models.makeLatticeString">
 <em class="property">static </em><code class="descname">makeLatticeString</code><span class="sig-paren">(</span><em>ele</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.makeLatticeString" title="Permalink to this definition">¶</a></dt>
-<dd><p>return string like &#8220;lattice = (q b d)&#8221;
-:param ele: element list</p>
+<dd><p>return string like &#8220;lattice = (q b d)&#8221;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ele</strong> &#8211; element list</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -267,24 +314,42 @@ point is 0 [m] for the first element by default.</p>
 <dl class="method">
 <dt id="beamline.models.Models.putCtrlConf">
 <code class="descname">putCtrlConf</code><span class="sig-paren">(</span><em>eleobj</em>, <em>ctrlkey</em>, <em>val</em>, <em>type='raw'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.putCtrlConf" title="Permalink to this definition">¶</a></dt>
-<dd><p>put the value to control PV field
-:param eleobj: element object in lattice
-:param ctrlkey: element control property, PV name
-:param val: new value for ctrlkey
-:param type: set in &#8216;raw&#8217; or &#8216;real&#8217; mode, &#8216;raw&#8217; by default</p>
-<blockquote>
-<div>&#8216;raw&#8217;: set PV with the value of &#8216;val&#8217;,
-&#8216;real&#8217;: set PV with the value translated from &#8216;val&#8217;</div></blockquote>
+<dd><p>put the value to control PV field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eleobj</strong> &#8211; element object in lattice</li>
+<li><strong>ctrlkey</strong> &#8211; element control property, PV name</li>
+<li><strong>val</strong> &#8211; new value for ctrlkey</li>
+<li><strong>type</strong> &#8211; set in &#8216;raw&#8217; or &#8216;real&#8217; mode, &#8216;raw&#8217; by default
+&#8216;raw&#8217;: set PV with the value of &#8216;val&#8217;,
+&#8216;real&#8217;: set PV with the value translated from &#8216;val&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.models.Models.updateConfig">
 <code class="descname">updateConfig</code><span class="sig-paren">(</span><em>eleobj</em>, <em>config</em>, <em>type='simu'</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.models.Models.updateConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>write new configuration to element
-input parameters:
-:param eleobj: define element object
-:param config: new configuration for element, string or dict
-:param type: &#8216;simu&#8217; by default, could be online, misc, comm, ctrl</p>
+<dd><p>write new configuration to element</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>eleobj</strong> &#8211; define element object</li>
+<li><strong>config</strong> &#8211; new configuration for element, string or dict</li>
+<li><strong>type</strong> &#8211; &#8216;simu&#8217; by default, could be online, misc, comm, ctrl</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -322,7 +387,7 @@ input parameters:
         <li class="right" >
           <a href="lattice.html" title="beamline.lattice module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
       </ul>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>beamline.datautils module &mdash; beamline 1.3.5 documentation</title>
+    <title>beamline.datautils module &mdash; beamline 1.3.6 documentation</title>
     
     <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.3.5',
+        VERSION:     '1.3.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="beamline 1.3.5 documentation" href="../../index.html" />
+    <link rel="top" title="beamline 1.3.6 documentation" href="../../index.html" />
     <link rel="up" title="beamline package" href="beamline.html" />
     <link rel="next" title="beamline.mathutils module" href="mathutils.html" />
     <link rel="prev" title="beamline.pltutils module" href="pltutils.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pltutils.html" title="beamline.pltutils module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="beamline.html" accesskey="U">beamline package</a> &raquo;</li> 
       </ul>
@@ -77,7 +77,7 @@
             
   <div class="section" id="module-beamline.datautils">
 <span id="beamline-datautils-module"></span><h1>beamline.datautils module<a class="headerlink" href="#module-beamline.datautils" title="Permalink to this headline">¶</a></h1>
-<p>This module is created for data processing framework, 
+<p>This module is created for data processing framework,
 to make rules for data saving, visualization issues, etc.</p>
 <dl class="class">
 <dt id="beamline.datautils.DataExtracter">
@@ -137,7 +137,7 @@ e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fd</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">hdf5file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d_s</span>  <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">][:]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d_sx</span> <span class="o">=</span> <span class="n">fd</span><span class="p">[</span><span class="s1">&#39;Sx&#39;</span><span class="p">][:]</span>
-<span class="gp">&gt;&gt;&gt; </span>
+<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># plot dumped data</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -154,16 +154,49 @@ e.g. <code class="docutils literal"><span class="pre">('s',</span> <span class="
 <dl class="method">
 <dt id="beamline.datautils.DataExtracter.extractData">
 <code class="descname">extractData</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.extractData" title="Permalink to this definition">¶</a></dt>
-<dd><p>extract data as numpy array, with given required fields,
-put data into <code class="docutils literal"><span class="pre">h5data</span></code> as a numpy array.</p>
+<dd><p>return <cite>self</cite> with extracted data as <cite>numpy array</cite></p>
+<p>Extract the data of the columns and parameters of <cite>self.kws</cite> and put
+them in a <a href="#id1"><span class="problematic" id="id2">:np:func:`array`</span></a> with all columns as columns or parameters as
+columns. If columns and parameters are requested at the same then each column
+is one row and all parameters are in the last row. This
+<a href="#id3"><span class="problematic" id="id4">:np:func:`array`</span></a> is saved in <code class="docutils literal"><span class="pre">h5data</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you mix types (e. g. float and str) then the minimal fitting type is
+taken for all columns.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Non float types need <cite>sdds</cite> as an extra dependency</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">instance itself</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">instance of itself</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
+<p>One column of the watch element
+&gt;&gt;&gt; dh = DataExtracter(&#8216;test.w1&#8217;)
+&gt;&gt;&gt; dh.kwslist = [&#8216;Step&#8217;]
+&gt;&gt;&gt; print(dh.extractData().h5data)
+array([[1]])</p>
+<p>Two columns of the watch element
+&gt;&gt;&gt; dh = DataExtracter(&#8216;test.w1&#8217;)
+&gt;&gt;&gt; dh.kwslist = [&#8216;s&#8217;, &#8216;betax&#8217;]
+&gt;&gt;&gt; print(dh.extractData().h5data)
+array([[0, 1], [1, 2], [2, 1]])</p>
+<p>Two columns of the watch element and one parameter.
+The columns transform to rows and the parameter row is at the end.
+Furthermore all elements are strings, because the type of
+<cite>PreviousElementName</cite> is str and not float.
+&gt;&gt;&gt; dh = DataExtracter(&#8216;test.w1&#8217;)
+&gt;&gt;&gt; dh.kwslist = [&#8216;s&#8217;, &#8216;PreviousElementName&#8217;, &#8216;betax&#8217;]
+&gt;&gt;&gt; print(dh.extractData().h5data)
+array([[&#8216;0&#8217;, &#8216;1&#8217;, &#8216;2&#8217;], [&#8216;1&#8217;, &#8216;2&#8217;, &#8216;1&#8217;], [&#8216;DR01&#8217;]])</p>
 </dd></dl>
 
 <dl class="method">
@@ -176,7 +209,7 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sddsfile</strong> &#8211; sdds file name, if not given, rollback to the one that from <code class="docutils literal"><span class="pre">__init__()</span></code></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all sdds data col names</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all sdds data column names</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
@@ -191,6 +224,49 @@ put data into <code class="docutils literal"><span class="pre">h5data</span></co
 <span class="go">[&#39;s&#39;, &#39;betax&#39;, &#39;alphax&#39;, &#39;psix&#39;, &#39;etax&#39;, &#39;etaxp&#39;, &#39;xAperture&#39;, &#39;betay&#39;, &#39;alphay&#39;, &#39;psiy&#39;, &#39;etay&#39;, &#39;etayp&#39;, &#39;yAperture&#39;, &#39;pCentral0&#39;, &#39;ElementName&#39;, &#39;ElementOccurence&#39;, &#39;ElementType&#39;]</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beamline.datautils.DataExtracter.getAllPars">
+<code class="descname">getAllPars</code><span class="sig-paren">(</span><em>sddsfile=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.datautils.DataExtracter.getAllPars" title="Permalink to this definition">¶</a></dt>
+<dd><p>get all available parameter names from sddsfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sddsfile</strong> &#8211; sdds file name, if not given, rollback to the one that from <code class="docutils literal"><span class="pre">__init__()</span></code></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all sdds data parameter names</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><cite>sdds</cite> needs to be installed as an extra dependency.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dh</span> <span class="o">=</span> <span class="n">DataExtracter</span><span class="p">(</span><span class="s1">&#39;test.w1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dh</span><span class="o">.</span><span class="n">getAllPars</span><span class="p">())</span>
+<span class="go">[&#39;Step&#39;, &#39;pCentral&#39;, &#39;Charge&#39;, &#39;Particles&#39;, &#39;IDSlotsPerBunch&#39;, &#39;SVNVersion&#39;, &#39;Pass&#39;, &#39;PassLength&#39;, &#39;PassCentralTime&#39;, &#39;ElapsedCoreTime&#39;, &#39;MemoryUsage&#39;, &#39;s&#39;, &#39;Description&#39;, &#39;PreviousElementName&#39;]</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Seealso:</th><td class="field-body"><a class="reference internal" href="#beamline.datautils.DataExtracter.getAllCols" title="beamline.datautils.DataExtracter.getAllCols"><code class="xref py py-func docutils literal"><span class="pre">getAllCols()</span></code></a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -377,7 +453,7 @@ with <code class="docutils literal"><span class="pre">beamline</span></code> pac
         <li class="right" >
           <a href="pltutils.html" title="beamline.pltutils module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="beamline.html" >beamline package</a> &raquo;</li> 
       </ul>
