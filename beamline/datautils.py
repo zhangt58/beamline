@@ -46,8 +46,9 @@ class DataExtracter(object):
 
         self.h5data = ''
 
-        self.sddsobj = sdds.SDDS(1)
-        self.sddsobj.load(self.sddsfile)
+        if SDDS_:
+            self.sddsobj = sdds.SDDS(1)
+            self.sddsobj.load(self.sddsfile)
 
     def getAllCols(self, sddsfile=None):
         """ get all available column names from sddsfile
@@ -64,12 +65,17 @@ class DataExtracter(object):
         >>> print(dh.getAllCols('test.twi'))
         ['s', 'betax', 'alphax', 'psix', 'etax', 'etaxp', 'xAperture', 'betay', 'alphay', 'psiy', 'etay', 'etayp', 'yAperture', 'pCentral0', 'ElementName', 'ElementOccurence', 'ElementType']
         """
-        if sddsfile is not None:
-            sddsobj = sdds.SDDS(2)
-            sddsobj.load(sddsfile)
+        if SDDS_:
+            if sddsfile is not None:
+                sddsobj = sdds.SDDS(2)
+                sddsobj.load(sddsfile)
+            else:
+                sddsobj = self.sddsobj
+            return sddsobj.columnName
         else:
-            sddsobj = self.sddsobj
-        return sddsobj.columnName
+            if sddsfile is None:
+                sddsfile = self.sddsfile
+            return subprocess.check_output(['sddsquery', '-col', sddsfile]).split()
 
     def getAllPars(self, sddsfile=None):
         """ get all available parameter names from sddsfile
@@ -88,12 +94,17 @@ class DataExtracter(object):
 
         :seealso: :func:`getAllCols`
         """
-        if sddsfile is not None:
-            sddsobj = sdds.SDDS(2)
-            sddsobj.load(sddsfile)
+        if SDDS_:
+            if sddsfile is not None:
+                sddsobj = sdds.SDDS(2)
+                sddsobj.load(sddsfile)
+            else:
+                sddsobj = self.sddsobj
+            return sddsobj.parameterName
         else:
-            sddsobj = self.sddsobj
-        return sddsobj.parameterName
+            if sddsfile is None:
+                sddsfile = self.sddsfile
+            return subprocess.check_output(['sddsquery', '-par', sddsfile]).split()
 
     def extractData(self):
         """ return `self` with extracted data as `numpy array`
