@@ -6,7 +6,7 @@ Developing language: <code>Python 2.7</code>
 
 Author: Tong Zhang &copy; 2015-2016
 
-Documentation: http://archman.github.io/beamline/
+Documentation: https://archman.github.io/beamline/
 
 ### Main Features:
 
