@@ -604,7 +604,7 @@ class Lattice(object):
                                                                        :-2])
             # [:-2] slicing to remove trailing space and ','
         elif format == 'mad':
-            pass
+            raise NotImplementedError("Not implemented, yet")
 
         return fmtstring
 
