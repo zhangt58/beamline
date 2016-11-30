@@ -6,19 +6,21 @@
 Welcome to beamline's documentation!
 ====================================
 
-.. sidebar:: beamline Python package
+.. only:: latex
 
-    ``beamline``: accelerator online-modeling toolkits.
+    .. sidebar:: beamline Python package
 
-    Install: ``pip install beamline``
+        ``beamline``: accelerator online-modeling toolkits.
 
-    PDF documentation: :download:`Download <_build/latex/beamline.pdf>`
+        Install: ``pip install beamline``
 
-    Github repo: `https://github.com/archman/beamline <https://github.com/archman/beamline>`_
+        PDF documentation: :download:`Download <_build/latex/beamline.pdf>`
 
-    :Author: Tong Zhang 
-    :E-mail: zhangtong@sinap.ac.cn
-    :Date: 2016
+        Github repo: `https://github.com/archman/beamline <https://github.com/archman/beamline>`_
+
+        :Author: Tong Zhang 
+        :E-mail: zhangtong@sinap.ac.cn
+        :Date: 2016
 
 .. toctree::
     :maxdepth: 2
