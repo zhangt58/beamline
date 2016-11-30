@@ -1,96 +1,166 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>beamline package &mdash; beamline 1.3.6 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
     
-    <title>beamline package &mdash; beamline 1.3.6 documentation</title>
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="beamline 1.3.6 documentation" href="../../index.html"/>
+        <link rel="up" title="API" href="../apidoc.html"/>
+        <link rel="next" title="beamline.ui package" href="beamline.ui.html"/>
+        <link rel="prev" title="API" href="../apidoc.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
     
-    <link rel="stylesheet" href="../../_static/sphinxdoc.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '1.3.6',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="beamline 1.3.6 documentation" href="../../index.html" />
-    <link rel="up" title="API" href="../apidoc.html" />
-    <link rel="next" title="beamline.ui package" href="beamline.ui.html" />
-    <link rel="prev" title="API" href="../apidoc.html" /> 
-  </head>
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="beamline.ui.html" title="beamline.ui package"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../apidoc.html" title="API"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../apidoc.html" accesskey="U">API</a> &raquo;</li> 
-      </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">beamline package</a><ul>
-<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> beamline
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../deploy.html">Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">Examples and Demonstrations</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../apidoc.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">beamline package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="beamline.ui.html">UI package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blparser.html">blparser module (deprecated)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="elements.html">elements module (deprecated)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pltutils.html">pltutils module (deprecated)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datautils.html">datautils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mathutils.html">mathutils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matchutils.html">matchutils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="element.html">element module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="lattice.html">lattice module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="models.html">models module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="simulation.html">simulation module</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../apidoc.html"
-                        title="previous chapter">API</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="beamline.ui.html"
-                        title="next chapter">beamline.ui package</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+            
+          
         </div>
       </div>
+    </nav>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">beamline</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../apidoc.html">API</a> &raquo;</li>
+      
+    <li>beamline package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="module-beamline">
 <span id="beamline-package"></span><h1>beamline package<a class="headerlink" href="#module-beamline" title="Permalink to this headline">¶</a></h1>
-<p>Python package created for lattice generation, operation, 
+<p>Python package created for lattice generation, operation,
 manipulation, visualization and accelerator online modeling, distributed
 with both console and graphical user interfaces environment.</p>
 <p>To evoke the GUI app:</p>
 <ol class="arabic simple">
-<li>run <code class="docutils literal"><span class="pre">lv</span></code> or <code class="docutils literal"><span class="pre">latticeviewer</span></code> in terminal after <code class="docutils literal"><span class="pre">beamline</span></code> 
+<li>run <code class="docutils literal"><span class="pre">lv</span></code> or <code class="docutils literal"><span class="pre">latticeviewer</span></code> in terminal after <code class="docutils literal"><span class="pre">beamline</span></code>
 package is installed;</li>
 <li><code class="docutils literal"><span class="pre">beamline.ui_main.run()</span></code> in [i]python terminal after <code class="docutils literal"><span class="pre">beamline</span></code>
 is imported.</li>
@@ -285,7 +355,7 @@ drift sections are calculated from other elements.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>mad_filename</strong> &#8211; lattice filename with mad-8 like format</li>
-<li><strong>idbl</strong> &#8211; beamline to be used that defined in lattice file, 
+<li><strong>idbl</strong> &#8211; beamline to be used that defined in lattice file,
 default value is <code class="docutils literal"><span class="pre">BL</span></code></li>
 </ul>
 </td>
@@ -404,7 +474,7 @@ each element is tuple like (name, type, order)
 <dt id="beamline.Lattice.getElementByOrder">
 <code class="descname">getElementByOrder</code><span class="sig-paren">(</span><em>beamline</em>, <em>type</em>, <em>irange</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementByOrder" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
-<dt>return element list by appearance order in beamline, </dt>
+<dt>return element list by appearance order in beamline,</dt>
 <dd><p class="first">which could be returned by orderLattice(beamline)</p>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -439,14 +509,14 @@ e.g. getElementConf(&#8216;Q01&#8217;) should return dict: {u&#8217;k1&#8217;: 0
 <dl class="method">
 <dt id="beamline.Lattice.getElementCtrlConf">
 <code class="descname">getElementCtrlConf</code><span class="sig-paren">(</span><em>elementKw</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementCtrlConf" title="Permalink to this definition">¶</a></dt>
-<dd><p>return keyword&#8217;s EPICS control configs, 
+<dd><p>return keyword&#8217;s EPICS control configs,
 if not setup, return {}</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="beamline.Lattice.getElementList">
 <code class="descname">getElementList</code><span class="sig-paren">(</span><em>bl</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getElementList" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the elements list according to the appearance order 
+<dd><p>return the elements list according to the appearance order
 in beamline named &#8216;bl&#8217;</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -477,11 +547,11 @@ e.g. getElementType(&#8216;Q01&#8217;) should return string: &#8216;QUAD&#8217;<
 <code class="descname">getFullBeamline</code><span class="sig-paren">(</span><em>beamlineKw</em>, <em>extend=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.getFullBeamline" title="Permalink to this definition">¶</a></dt>
 <dd><p>get beamline definition from all_elements,
 expand iteratively with the elements from all_elements
-e.g. 
-element &#8216;doub1&#8217; in 
+e.g.
+element &#8216;doub1&#8217; in
 chi   : line=(DBLL2 , doub1 , DP4FH , DP4SH , DBLL5 , DBD   ,</p>
 <blockquote>
-<div>B11   , DB11  , B12   , DB12  , PF2   , DB13  , 
+<div>B11   , DB11  , B12   , DB12  , PF2   , DB13  ,
 B13   , DB14  , B14   , DBD   , DBLL5 , doub2 ,
 DP5FH , DP5SH , DBLL2 , PSTN1)</div></blockquote>
 <p>should be expaned with &#8216;doub1&#8217; configuration:
@@ -537,13 +607,13 @@ u&#8217;dp5fh&#8217;, u&#8217;dp5sh&#8217;, u&#8217;dbll2&#8217;, u&#8217;pstn1&
 <dt id="beamline.Lattice.orderLattice">
 <code class="descname">orderLattice</code><span class="sig-paren">(</span><em>beamline</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Lattice.orderLattice" title="Permalink to this definition">¶</a></dt>
 <dd><p>ordering element type appearance sequence for each element of beamline
-e.g. after getFullBeamline, 
+e.g. after getFullBeamline,
 lattice list [&#8216;q&#8217;,&#8217;Q01&#8217;, &#8216;B11&#8217;, &#8216;Q02&#8217;, &#8216;B22&#8217;] will return:
 [(u&#8217;q&#8217;,   u&#8217;CHARGE&#8217;,   1),</p>
 <blockquote>
-<div>(u&#8217;q01&#8217;, u&#8217;QUAD&#8217;,     1), 
-(u&#8217;b11&#8217;, u&#8217;CSRCSBEN&#8217;, 1), 
-(u&#8217;q02&#8217;, u&#8217;QUAD&#8217;,     2), 
+<div>(u&#8217;q01&#8217;, u&#8217;QUAD&#8217;,     1),
+(u&#8217;b11&#8217;, u&#8217;CSRCSBEN&#8217;, 1),
+(u&#8217;q02&#8217;, u&#8217;QUAD&#8217;,     2),
 (u&#8217;b12&#8217;, u&#8217;CSRCSBEN&#8217;, 2)]</div></blockquote>
 </dd></dl>
 
@@ -679,7 +749,7 @@ if jsonfile is defined, dump to defined file before returning json string
 <code class="descname">get_rpndict_flag</code><span class="sig-paren">(</span><em>rpndict</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.LteParser.get_rpndict_flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate flag set, the value is True or False,
 if rpndict value is not None, flag is True, or False</p>
-<p>if a set with only one item, i.e. True returns, 
+<p>if a set with only one item, i.e. True returns,
 means values of rpndict are all valid float numbers,
 then finally return True, or False</p>
 </dd></dl>
@@ -805,7 +875,7 @@ leave unsolvable unchanged.</p>
 <dl class="method">
 <dt id="beamline.Simulator.setInputfiles">
 <code class="descname">setInputfiles</code><span class="sig-paren">(</span><em>**infiles</em><span class="sig-paren">)</span><a class="headerlink" href="#beamline.Simulator.setInputfiles" title="Permalink to this definition">¶</a></dt>
-<dd><p>input parameters: 
+<dd><p>input parameters:
 (elegant mode)</p>
 <blockquote>
 <div>1: lte file
@@ -1230,7 +1300,7 @@ get lattice name by instance.name.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>ax</strong> &#8211; matplotlib axes object</li>
 <li><strong>anotelist</strong> &#8211; element annotation object list</li>
-<li><strong>showAccName</strong> &#8211; tag name for accelerator tubes? default is False, 
+<li><strong>showAccName</strong> &#8211; tag name for accelerator tubes? default is False,
 show acceleration band type, e.g. &#8216;S&#8217;, &#8216;C&#8217;, &#8216;X&#8217;, or for &#8216;[S,C,X]D&#8217; for cavity</li>
 <li><strong>efilter</strong> &#8211; element type filter, default is None, annotate all elements
 could be defined to be one type name or type name list/tuple, e.g.
@@ -2203,27 +2273,13 @@ be default, return dispersion value, i.e. getR(5,6) in [m]</p>
 <dl class="attribute">
 <dt id="beamline.ElementCsrcsben.field">
 <code class="descname">field</code><a class="headerlink" href="#beamline.ElementCsrcsben.field" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">magnetic field, [T]</td>
-</tr>
-</tbody>
-</table>
+<dd><p><em>return</em> &#8211; magnetic field, [T]</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="beamline.ElementCsrcsben.rho">
 <code class="descname">rho</code><a class="headerlink" href="#beamline.ElementCsrcsben.rho" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bending radius, [m]</td>
-</tr>
-</tbody>
-</table>
+<dd><p><em>return</em> &#8211; bending radius, [m]</p>
 </dd></dl>
 
 <dl class="method">
@@ -2810,33 +2866,72 @@ be default, return dispersion value, i.e. getR(5,6) in [m]</p>
 </div>
 
 
+           </div>
           </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="beamline.ui.html" class="btn btn-neutral float-right" title="beamline.ui package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../apidoc.html" class="btn btn-neutral" title="API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Tong Zhang.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="beamline.ui.html" title="beamline.ui package"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../apidoc.html" title="API"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">beamline 1.3.6 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../apidoc.html" >API</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2016, Tong Zhang.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.5.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.3.6',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
