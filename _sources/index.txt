@@ -30,6 +30,9 @@ Welcome to beamline's documentation!
     src/demo
     src/apidoc
 
+.. only:: html
+
+    PDF documentation: :download:`Download <_build/latex/beamline.pdf>`
 
 Indices and tables
 ==================
