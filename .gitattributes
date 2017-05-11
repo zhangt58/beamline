@@ -1,2 +1,2 @@
-contrib/* linguist-vendored=false
-contrib/* linguist-language=Python
+#contrib/* linguist-vendored=false
+*.lte linguist-vendored=false
