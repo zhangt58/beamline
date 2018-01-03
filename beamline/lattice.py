@@ -9,6 +9,9 @@
     2. resolve rpn expressions within element definitions;
     3. retain prefixed information of lte file as '_prefixstr' key in json/dict;
 
+* class ``MadParser``: parse ``MAD-8`` and ``MAD-X`` lattice definition files for simulation:
+    1. convert .mad[.madx] file into dict/json format for further usage;
+
 * class ``Lattice``: handle lattice issues from json/dict definitions:
 
     1. instantiate with json/dict lattice definition, e.g. from ``LteParser.file2json()``;
@@ -33,7 +36,8 @@ from . import element
 
 
 class LteParser(object):
-    """
+    """ Parse ``Elegant`` lattice file (.lte) to dict/json
+
     :param infile: lte filename or list of lines of lte file
     :param mode: 'f': treat infile as file,
                  's': (else) treat as list of lines
@@ -413,6 +417,59 @@ class LteParser(object):
         """
         self.rpn2val(self.confdict)
         return self
+
+class MadParser(object):
+    """ Parse ``MAD`` lattice file (.[mad,madx]) to dict/json
+
+    :param infile: lte filename or list of lines of lte file
+    :param mode: 'f': treat infile as file,
+                 's': (else) treat as list of lines
+    """
+    def __init__(self, infile, mode='f'):
+        if mode == 'f':  # read lines from infile
+            self.file_lines = open(infile, 'r').readlines()
+        elif mode == 's': # infile is the output of generateLatticeFile(bl,'sio','mad')
+            self.file_lines = infile.split('\n')  # string to list of lines
+
+    def getKw(self, kw):
+        """ Extract keyword configuration from lattice file
+        """
+        pass
+    
+    def toDict(self):
+        pass
+
+    def str2dict(self):
+        pass
+
+    def dict2json(self):
+        pass
+
+    def getKwAsDict(self):
+        pass
+
+    def getKwAsJson(self):
+        pass
+
+    def getKwAsString(self):
+        pass
+
+    def detectAllKws(self):
+        pass
+
+    def file2json(self):
+        pass
+
+    def getKwType(self, kw):
+        pass
+
+    def getKwConfig(self, kw):
+        pass
+
+    def makeElement(self, kw):
+        pass
+
+
 
 
 # ===========================================================================
