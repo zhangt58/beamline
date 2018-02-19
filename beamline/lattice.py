@@ -25,7 +25,10 @@ import os
 import time
 import ast
 import sys
-import cStringIO
+try:
+    import cStringIO
+except ImportError:
+    from io import StringIO
 
 from pyrpn import rpn
 

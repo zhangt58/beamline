@@ -149,7 +149,7 @@ def test():
     simtestpath = os.path.join(os.getcwd(), '../tests/tracking/')
     ltefile = os.path.join(simtestpath, 'newlat.lte')
     elefile = os.path.join(simtestpath, 'test.ele')
-    #print ltefile, elefile
+    #print(ltefile + elefile)
 
     A = Simulator()
     A.setMode('elegant')
@@ -167,12 +167,12 @@ def test():
     A.setMode('mad')
     A.setScript('/home/tong/bin/madx64r')
     A.setInputfiles(madfile = 'test.mad')
-    print A
+    print(A)
 
     # mad workflow 2
     A = Simulator('test.mad')
     A.setScript('/home/tong/bin/madx64r')
-    print A
+    print(A)
     """
 
 if __name__ == '__main__':

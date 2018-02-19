@@ -539,16 +539,16 @@ def test():
     f2 = funTransQuadD(k, s)
     f3 = funTransUnduV(k, s)
     f4 = funTransChica(imagl, idril, ibfield, gamma0, xoy)
-    print f1
-    print f2
-    print f3
+    print(f1)
+    print(f2)
+    print(f3)
     print("-"*40)
-    print f1.dot(f2).dot(f3)
-    print reduce(np.dot, [f1, f2, f3])
+    print(f1.dot(f2).dot(f3))
+    print(reduce(np.dot, [f1, f2, f3]))
     print("-"*40)
-    print f4
+    print(f4)
     print("-"*40)
-    print funTransQuadF(k, s) - funTransQuadD(-k, s)
+    print(funTransQuadF(k, s) - funTransQuadD(-k, s))
 
 if __name__ == "__main__":
     test()

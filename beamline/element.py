@@ -405,7 +405,7 @@ class MagBlock(object):
         :param fignum: define figure number to show element drawing
         """
         if self._patches == []:
-            print "Please setDraw() before showDraw(), then try again."
+            print("Please setDraw() before showDraw(), then try again.")
             return
         else:
             fig = plt.figure(fignum)
@@ -1713,9 +1713,9 @@ def test():
     bl = ElementBeamline(name='bl', config={'lattice': latstr})
     # bl = ElementBeamline(name = 'bl1', config = "lattice = (q d0 q1)")
     # bl.setConf("lattice = (d,q,b)", type = 'simu')
-    print bl
+    print(bl)
 
-    # print MagBlock.sumObjNum()
+    # print(MagBlock.sumObjNum())
 
 
 if __name__ == '__main__':
