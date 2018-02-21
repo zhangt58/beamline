@@ -6,6 +6,7 @@
 .. :Created Time: Sep. 23rd, 2014
 .. :Author: Tong Zhang
 """
+from __future__ import print_function
 
 
 def madParser(mad_filename, idbl="BL"):
@@ -21,7 +22,7 @@ def madParser(mad_filename, idbl="BL"):
 
     >>> import beamline
     >>> beamlinelist = beamline.blparser.madParser('LPA.list', 'BL2')
-    >>> print beamlinelist
+    >>> print(beamlinelist)
     >>> [{'type': 'drift', 'l': '0.1', 'ID': 'd0'}, {'type': 'quad', 'k1': '75', 'angle': '75', 'l': '0.1', 'ID': 'q1'}, {'type': 'drift', 'l': '0.18', 'ID': 'd3'}, {'type': 'quad', 'k1': '-75', 'angle': '75', 'l': '0.1', 'ID': 'q2'}, {'type': 'drift', 'l': '0.27', 'ID': 'd6'}, {'type': 'rbend', 'angle': '10', 'l': '0.1', 'ID': 'b1'}, {'type': 'drift', 'l': '1.0', 'ID': 'd8'}, {'type': 'rbend', 'angle': '-5', 'l': '0.1', 'ID': 'b2'}, {'type': 'drift', 'l': '0.45', 'ID': 'd4'}, {'type': 'quad', 'k1': '75', 'angle': '75', 'l': '0.1', 'ID': 'q1'}]
 
     .. only:: builder_html
@@ -70,9 +71,9 @@ def madParser(mad_filename, idbl="BL"):
             elementlist.append(elementparams)
         fid.close()
     except UnboundLocalError:
-        print "beamline " + idbl + " not found"
+        print("beamline " + idbl + " not found")
         exit()
-    
+
     return elementlist
 
 
@@ -81,7 +82,7 @@ def main():
     mad_filename = sys.argv[1]
     elementlist = madParse(mad_filename)
     for i in range(len(elementlist)):
-        print elementlist[i]
+        print(elementlist[i])
 
 if __name__ == '__main__':
     main()

@@ -214,7 +214,7 @@ class BeamMatch(object):
         km      = 2.0*np.pi/lambdam
         Kbetam  = 0.5*(Km*km/gamma0)**2
 
-        #print Kp,Kn,lambdas,ku,Ku,Kbetau,Km,km,Kbetam,lambdau,lambdam
+        #print(" ".join([Kp,Kn,lambdas,ku,Ku,Kbetau,Km,km,Kbetam,lambdau,lambdam])
 
         N = np.array([lo3, lf*0.5, lo4, lur, lo5, ld, lo4, lur, lo5, 0.5*lf])
         # one FODO period: N[1:], N[0]: drift length before QF
@@ -228,9 +228,9 @@ class BeamMatch(object):
         if (my[0,0] + my[1,1])**2 > 4 or my[0,1] <= 0:
             self.matchOK = False
             return self.matchOK
-        
-        #print mx
-        #print my
+
+        #print(mx)
+        #print(my)
 
         ## twiss parameters of FODO
         # mx
@@ -423,7 +423,7 @@ def test():
     print("ibfield= %.3f" % ibfield)
     print("unit   = %.3f" % unitlength)
 
-    print parseLattice('fullat.hghg')
+    print(parseLattice('fullat.hghg'))
     """
     
     qf, qd = -1, 2
@@ -438,7 +438,7 @@ def test():
         fel = FELSimulator()
         fel.run()
         fel.postProcess()
-        print fel.getMaxPower()
+        print(fel.getMaxPower())
 
 if __name__ == '__main__':
     test()

@@ -11,7 +11,7 @@ Tong Zhang
 2016-05-27 15:54:59 PM CST
 """
 
-import myappframe
+from . import myappframe
 # noinspection PyPackageRequirements
 import wx
 

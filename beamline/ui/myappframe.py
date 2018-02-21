@@ -249,9 +249,9 @@ class MyAppFrame(appui.MainFrame):
             pass
 
     def nodeview_lcOnListColRightClick(self, event):
-        print event.GetColumn()
+        print(event.GetColumn())
         item = self.nodeview_lc.GetColumn(event.GetColumn())
-        print item
+        print(item)
         # obj.SetTextColour('RED')
 
     def nodeview_lcOnListItemSelected(self, event):

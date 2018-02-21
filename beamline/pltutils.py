@@ -7,8 +7,9 @@ functions for lattice visualization.
 .. Re-organized: Oct. 8, 2015
 .. Author: Tong Zhang
 """
+from __future__ import print_function
 
-import elements
+from . import elements
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -104,7 +105,7 @@ def makeBeamline(beamlinelist, startpoint=(0, 0)):
             maxy = max(maxy, newelement.maxy)
 
         else:
-            print "unknown element\n"
+            print("unknown element\n")
 
         startpoint = newelement.link_node
         latticelist.append(newelement)
@@ -118,7 +119,7 @@ def main():
         beamlineplot, xlim, ylim = makeBeamline(beamlinelist, startpoint=(5, 5))
         plotLattice(beamlineplot, xranges=xlim, yranges=ylim, zoomfac=1.2, fig_size=8, fig_ratio=0.4)
     except ImportError:
-        print "Import blparser error!"
+        print("Import blparser error!")
 
 if __name__ == '__main__':
     main()

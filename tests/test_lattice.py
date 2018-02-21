@@ -243,7 +243,7 @@ def test1():
     pins = beamline.LteParser(infilename)
     lins = beamline.Lattice(pins.file2json())
 
-    print lins.dumpAllElements()
+    print(lins.dumpAllElements())
     #print lins.getChargeElement()
     #print lins.getElementByOrder('bl','charge',0)
     #newline = lins.generateLatticeLine('l0','l0')

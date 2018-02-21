@@ -256,7 +256,7 @@ class Models(object):
         for ele in self._lattice_eleobjlist:
             ele.setDraw(p0=p0, angle=angle, mode=mode)
             angle += ele.next_inc_angle
-            #print ele.name, ele.next_inc_angle, angle
+            #print(ele.name + ele.next_inc_angle + angle)
             patchlist.extend(ele._patches)
             if hasattr(ele, '_anote'): anotelist.append(ele._anote)
             try:
@@ -368,8 +368,8 @@ def test():
     import lattice
     import json
     latins = lattice.Lattice(json.dumps(latdict))
-    #print latins.getAllEle()
-    #print latins.getAllBl()
+    #print(latins.getAllEle())
+    #print(latins.getAllBl())
     latfile = "/home/tong/Programming/projects/beamline/tests/test_models/fortest.lte"
     latins.generateLatticeFile(latline.name, latfile)
 
@@ -385,25 +385,25 @@ def test1():
     ltefile = os.path.join(latticepath, 'sxfel_v14b.lte')
     lpins = lattice.LteParser(ltefile)
     allelements_str = lpins.file2json()
-    #print allelements_str
+    #print(allelements_str)
     latins = lattice.Lattice(allelements_str)
     outlatfile = os.path.join(latticepath, 'tmp.lte')
     #latins.showBeamlines()
-    
-    #print latins.getFullBeamline('M1BI3', extend = True)
-#    print latins.getAllBl()
-#    print latins.getAllEle()
-    #print latins.getBeamline('l0')
-    #print latins.getFullBeamline('nl2', extend = True)
-    
-    #print lpins.getKwAsDict('Q01')
-    #print lpins.getKwAsJson('BC1')
-    #print lpins.getKwAsJson('testline')
+
+    #print(latins.getFullBeamline('M1BI3', extend = True))
+#    print(latins.getAllBl())
+#    print(latins.getAllEle())
+    #print(latins.getBeamline('l0'))
+    #print(latins.getFullBeamline('nl2', extend = True))
+
+    #print(lpins.getKwAsDict('Q01'))
+    #print(lpins.getKwAsJson('BC1'))
+    #print(lpins.getKwAsJson('testline'))
 
     #for e in latins.getFullBeamline('bl', extend = True):
-    #    print latins.getElementType(e)
-    print latins.getElementConf('c', raw=True)
-    print latins.getElementProperties('c')
+    #    print(latins.getElementType(e))
+    print(latins.getElementConf('c', raw=True))
+    print(latins.getElementProperties('c'))
 
     """
     newbl1 = latins.generateLatticeLine(latname = 'nl1', line = ['2*l0','l0'])
