@@ -11,7 +11,7 @@ import re
 import numpy as np
 from numpy import sqrt
 from numpy.linalg import inv
-import mathutils
+from . import mathutils
 
 import os
 
