@@ -50,3 +50,7 @@ Documentation: https://archman.github.io/beamline/
     <img src=/screenshots/05.png?raw=true alt="incremental search"       width="400"></img>
     <img src=/screenshots/06.png?raw=true alt="lattice visualization"    width="400"></img>
 </p>
+
+### Installation and Usage:
+
+For the installation and the list of dependencies which partially need manual interaction see the [documentation](https://archman.github.io/beamline/), please.

@@ -28,6 +28,6 @@ setup(
         packages = find_packages(),
         url = "http://archman.github.io/beamline/",
         scripts  = [os.path.join('scripts',sn) for sn in scriptnames],
-        requires = requiredpackages,
+        install_requires = requiredpackages,
         extras_require = {'sdds': ['sddswhl']},
 )
