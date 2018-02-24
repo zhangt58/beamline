@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" Classes and routines to handle lattice issues for online modeling and runtime calculations.
+""" Classes and routines to handle lattice issues for online modeling and
+runtime calculations.
 
-* class ``LteParser``: parse ``ELEGANT`` lattice definition files for simulation:
-
+* ``LteParser``: parse ``ELEGANT`` lattice definition files for simulation:
     1. convert lte file into dict/json format for further usage;
     2. resolve rpn expressions within element definitions;
     3. retain prefixed information of lte file as '_prefixstr' key in json/dict;
 
-* class ``Lattice``: handle lattice issues from json/dict definitions:
-
+* ``Lattice``: handle lattice issues from json/dict definitions:
     1. instantiate with json/dict lattice definition, e.g. from ``LteParser.file2json()``;
     2. generate lte file for elegant simulation;
     3. iteratively expand the beamline definition in lte file;
@@ -394,7 +393,7 @@ class LteParser(object):
             :param rdict: json like dict
         """
 
-        kw_name = rdict.keys()[0]  # b11
+        kw_name = list(rdict.keys())[0]  # b11
         kw_val = rdict[kw_name]
         try:
             kw_type = kw_val.keys()[0]  # csrcsben
@@ -456,7 +455,7 @@ class Lattice(object):
         """ get beamline definition from all_elements, return as a list
         :param beamlineKw: keyword of beamline
         """
-        lattice_string = self.all_elements.get(beamlineKw.upper()).values()[0].get('lattice')
+        lattice_string = list(self.all_elements.get(beamlineKw.upper()).values())[0].get('lattice')
         return lattice_string[1:-1].split()  # drop leading '(' and trailing ')' and split into list
 
     def getFullBeamline(self, beamlineKw, extend=False):
@@ -557,7 +556,7 @@ class Lattice(object):
             e.g. getElementType('Q01') should return string: 'QUAD'
         """
         try:
-            etype = self.all_elements.get(elementKw.upper()).keys()[0]
+            etype = list(self.all_elements.get(elementKw.upper()).keys())[0]
         except:
             etype = self.all_elements.get(elementKw.upper())
         return etype.upper()
@@ -574,7 +573,7 @@ class Lattice(object):
                 return {}
         else:
             try:
-                econf = self.all_elements.get(elementKw.upper()).values()[0]
+                econf = list(self.all_elements.get(elementKw.upper()).values())[0]
             except:
                 return {}
         return econf
@@ -596,6 +595,7 @@ class Lattice(object):
         """
         etype = self.getElementType(kw)
         econf_dict = self.getElementConf(kw)
+        print(econf_dict)
         econf_str = ''
         for k, v in econf_dict.items():
             econf_str += (k + ' = ' + '"' + str(v) + '"' + ', ')
