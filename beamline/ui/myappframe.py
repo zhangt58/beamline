@@ -549,8 +549,8 @@ class MyAppFrame(appui.MainFrame):
                 k, v = [s.strip() for s in text.split(':')]
             except ValueError:
                 k, v = text, '...'
-            idx = lc.InsertStringItem(MAXNROW, v)
-            lc.SetStringItem(idx, 1, k)
+            idx = lc.InsertItem(MAXNROW, v)
+            lc.SetItem(idx, 1, k)
 
     def get_filetype(self, filename):
         """ return file type according to extension
