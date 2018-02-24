@@ -25,7 +25,7 @@ import time
 import ast
 import sys
 try:
-    import cStringIO
+    from cStringIO import StringIO
 except ImportError:
     from io import StringIO
 
@@ -547,8 +547,6 @@ class Lattice(object):
                 pass
         retstr = '{total:<3d}beamlines: {allbl}'.format(total=cnt,
                                                         allbl=';'.join(blidlist))
-        print(retstr)
-
         return retstr
 
     def getElementType(self, elementKw):
@@ -595,7 +593,6 @@ class Lattice(object):
         """
         etype = self.getElementType(kw)
         econf_dict = self.getElementConf(kw)
-        print(econf_dict)
         econf_str = ''
         for k, v in econf_dict.items():
             econf_str += (k + ' = ' + '"' + str(v) + '"' + ', ')
@@ -650,7 +647,7 @@ class Lattice(object):
         if filename is None:
             f = sys.stdout
         elif filename == 'sio':
-            f = cStringIO.StringIO()
+            f = StringIO()
         else:
             f = open(os.path.expanduser(filename), 'w')
 
