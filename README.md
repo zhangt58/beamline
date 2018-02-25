@@ -2,9 +2,9 @@
 
 Accelerator online model and lattice visualization package developed by <code>Python</code>.
 
-Developing language: <code>Python 2.7</code>
+Developing language: <code>Python 2.7 and 3.x</code>
 
-Author: Tong Zhang &copy; 2015-2016
+As of release 2.0.0, Python 3.x is supported, (1.x.y supports Python 2.7).
 
 Documentation: https://archman.github.io/beamline/
 
