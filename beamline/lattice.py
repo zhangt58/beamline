@@ -24,6 +24,7 @@ import os
 import time
 import ast
 import sys
+
 try:
     from cStringIO import StringIO
 except ImportError:
@@ -40,13 +41,14 @@ class LteParser(object):
     :param mode: 'f': treat infile as file,
                  's': (else) treat as list of lines
     """
+
     def __init__(self, infile, mode='f'):
         if mode == 'f':  # read lines from infile
             self.file_lines = open(infile, 'r').readlines()
-        elif mode == 's': # infile is the output of generateLatticeFile(bl,'sio')
+        elif mode == 's':  # infile is the output of generateLatticeFile(bl,'sio')
             self.file_lines = infile.split('\n')  # string to list of lines
 
-        self.confstr = ''        # configuration string line for given element excluding control part
+        self.confstr = ''  # configuration string line for given element excluding control part
         self.confstr_epics = ''  # configuration string line for given element, epics control part
         self.ctrlconf_dict = {}  # epics control config dict
         self.confdict = {}  # configuration string line to dict
@@ -55,7 +57,7 @@ class LteParser(object):
 
         self.stodict = {}  # sto key-value dict
         self.resolvePrefix()  # sto string information
-        self.resolveEPICS()   # handle line starts with !!epics
+        self.resolveEPICS()  # handle line starts with !!epics
 
     def resolvePrefix(self):
         """ extract prefix information into dict with the key of '_prefixstr'
@@ -80,7 +82,7 @@ class LteParser(object):
                 # solve the 'sto chain' assignment issue.
 
         self.stodict = self.resolve_rpn(tmpstodict)
-        for k,v in self.stodict.items():
+        for k, v in self.stodict.items():
             stostr = '% {val} sto {var}'.format(val=v, var=k)
             tmpstrlist.append(stostr)
         self.prestrdict['_prefixstr'] = tmpstrlist
@@ -124,7 +126,7 @@ class LteParser(object):
 
         retflag = self.get_rpndict_flag(rpndict)
         cnt = 0
-        tmpdict = {k:v for k,v in rpndict.items()}
+        tmpdict = {k: v for k, v in rpndict.items()}
         while not retflag:
             # update rpndict
             cnt += 1
@@ -139,8 +141,8 @@ class LteParser(object):
 
             return new dict
         """
-        tmpdict = {k:v for k,v in rpndict.items()}
-        for k,v in rpndict.items():
+        tmpdict = {k: v for k, v in rpndict.items()}
+        for k, v in rpndict.items():
             v_str = str(v)
             if rpn.Rpn.solve_rpn(v_str) is None:
                 tmpdict[k] = self.rinse_rpnexp(v_str, tmpdict)
@@ -155,7 +157,7 @@ class LteParser(object):
         kw_ctrlconf_list = []
         for line in self.file_lines:
             if line.startswith('!!epics'):
-                el = line.replace('!!epics','').replace(':',';;',1).split(';;')
+                el = line.replace('!!epics', '').replace(':', ';;', 1).split(';;')
                 kw_name_list.append(el[0].strip())
                 kw_ctrlconf_list.append(json.loads(el[1].strip()))
         self.ctrlconf_dict = dict(zip(kw_name_list, kw_ctrlconf_list))
@@ -196,7 +198,7 @@ class LteParser(object):
         except:
             conf_str = ''
 
-        #print conf_str
+        # print conf_str
 
         # split('!epics'): second part is epics control conf
         splitedparts = conf_str.split('!epics')
@@ -272,7 +274,7 @@ class LteParser(object):
             confd = self.ctrlconf_dict[kw]
             if fmt == 'dict':
                 retval = confd
-            else: # 'json' string for other options
+            else:  # 'json' string for other options
                 retval = json.dumps(confd)
         except KeyError:
             # try to get from raw line string
@@ -310,7 +312,7 @@ class LteParser(object):
             # if ':' in line and not "line" in line:
             if ':' in line:
                 kw_name = line.split(':')[0]
-                if set(kw_name).difference(set(['=','-','*','/','+'])) == set(kw_name):
+                if set(kw_name).difference({'=', '-', '*', '/', '+'}) == set(kw_name):
                     kwslist.append(kw_name)
         return kwslist
 
@@ -328,7 +330,7 @@ class LteParser(object):
         kwsdict = {}
         idx = 0
         for kw in sorted(kwslist, key=str.lower):
-            #print kw
+            # print kw
             idx += 1
             tdict = self.getKwAsDict(kw)
             self.rpn2val(tdict)
@@ -336,9 +338,9 @@ class LteParser(object):
             if kw not in self.ctrlconf_dict:
                 ctrlconf = self.getKwCtrlConf(kw, fmt='dict')
                 if ctrlconf is not None:
-                    self.ctrlconf_dict.update({kw:ctrlconf})
+                    self.ctrlconf_dict.update({kw: ctrlconf})
         kwsdict.update(self.prestrdict)
-        ctrlconfdict = {'_epics':self.ctrlconf_dict} # all epics contrl config in self.ctrlconfdict
+        ctrlconfdict = {'_epics': self.ctrlconf_dict}  # all epics contrl config in self.ctrlconfdict
         kwsdict.update(ctrlconfdict)
         try:
             with open(os.path.expanduser(jsonfile), 'w') as outfile:
@@ -360,15 +362,15 @@ class LteParser(object):
         USAGE: rdict = getKwConfig(kw)
         """
         confd = self.getKwAsDict(kw).values()[0].values()[0]
-        return {k.lower():v for k,v in confd.items()}
+        return {k.lower(): v for k, v in confd.items()}
 
     def makeElement(self, kw):
         """ return element object regarding the keyword configuration
         """
         kw_name = kw
         kw_type = self.getKwType(kw_name)
-        kw_config = {k.lower():v for k,v in self.getKwConfig(kw_name).items()}
-        objtype='Element' + kw_type.capitalize()
+        kw_config = {k.lower(): v for k, v in self.getKwConfig(kw_name).items()}
+        objtype = 'Element' + kw_type.capitalize()
         retobj = getattr(element, objtype)(name=kw_name, config=kw_config)
         # set up EPICS control configs
         ctrlconf = self.getKwCtrlConf(kw_name)
@@ -402,7 +404,7 @@ class LteParser(object):
                     v = self.scanStoVars(v)
                     rpnval = rpn.Rpn.solve_rpn(v)
                     if rpnval is not None:
-                        kw_param[k] = rpnval # update rpn string to float if not None
+                        kw_param[k] = rpnval  # update rpn string to float if not None
         except:
             pass  # element that only has type name, e.g. {'bpm01': 'moni'}
 
@@ -598,9 +600,9 @@ class Lattice(object):
 
         if format == 'elegant':
             fmtstring = '{eid:<10s}:{etype:>10s}, {econf}'.format(eid=kw.upper(),
-                                                                 etype=etype.upper(),
-                                                                 econf=econf_str[
-                                                                       :-2])
+                                                                  etype=etype.upper(),
+                                                                  econf=econf_str[
+                                                                        :-2])
             # [:-2] slicing to remove trailing space and ','
         elif format == 'mad':
             raise NotImplementedError("Not implemented, yet")
@@ -675,9 +677,9 @@ class Lattice(object):
 
         # write EPICS control configuration part if contains '_epics' key
         if '_epics' in self.all_elements:
-            f.write('! {str1:<73s}\n'.format(str1= 'EPICS control definitions:'))
-            for k,v in self.all_elements['_epics'].items():
-                f.write('!!epics {k:<10s}:{v:>50s}\n'.format(k=k,v=json.dumps(v)))
+            f.write('! {str1:<73s}\n'.format(str1='EPICS control definitions:'))
+            for k, v in self.all_elements['_epics'].items():
+                f.write('!!epics {k:<10s}:{v:>50s}\n'.format(k=k, v=json.dumps(v)))
             f.write('\n')
 
         # write element definitions and lattice
@@ -693,7 +695,7 @@ class Lattice(object):
         f.write('\n')
         f.write('! {str1:<72s}\n'.format(str1='Beamline definitions:'))
         f.write('{bl:<10s}: line = ({lattice})'.format(bl=beamline.upper(),
-                                                      lattice=', '.join(elelist)))
+                                                       lattice=', '.join(elelist)))
         if filename == 'sio':
             retval = f.getvalue()
         else:
@@ -874,8 +876,8 @@ class Lattice(object):
         """
         kw_name = kw
         kw_type = self.getElementType(kw_name)
-        kw_config = {k.lower():v for k,v in self.getElementConf(kw_name).items()}
-        objtype='Element' + kw_type.capitalize()
+        kw_config = {k.lower(): v for k, v in self.getElementConf(kw_name).items()}
+        objtype = 'Element' + kw_type.capitalize()
         retobj = getattr(element, objtype)(name=kw_name, config=kw_config)
         # set up EPICS control configs
         ctrlconf = self.getElementCtrlConf(kw)

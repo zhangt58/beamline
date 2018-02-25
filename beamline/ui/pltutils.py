@@ -18,7 +18,7 @@ from bisect import bisect
 
 
 class MyPlotPanel(wx.Panel):
-    def __init__(self, parent, figsize=None, dpi=None, 
+    def __init__(self, parent, figsize=None, dpi=None,
                  bgcolor=None, type=None, toolbar=None, aspect=1,
                  **kwargs):
         """ construction method of MyPlotPanel class
@@ -90,11 +90,11 @@ class MyPlotPanel(wx.Panel):
         """
         if rgb_tuple is None:
             rgb_tuple = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE).Get()
-        clr = [c/255.0 for c in rgb_tuple]
+        clr = [c / 255.0 for c in rgb_tuple]
         self.figure.set_facecolor(clr)
         self.figure.set_edgecolor(clr)
         self.canvas.SetBackgroundColour(wx.Colour(*rgb_tuple))
-        
+
     def on_size(self, event):
         self.fit_canvas()
         self.canvas.draw_idle()
@@ -113,29 +113,29 @@ class MyPlotPanel(wx.Panel):
     def fit_canvas(self):
         """ tight fit canvas layout
         """
-        #self.canvas.SetSize(self.GetSize())
+        # self.canvas.SetSize(self.GetSize())
         self.figure.set_tight_layout(True)
-        
+
     def _func_peaks(self, x, y):
-        return 3.0 * (1.0 - x)**2.0 * np.exp(-(x**2) - (y+1)**2) \
-             - 10*(x/5 - x**3 - y**5) * np.exp(-x**2-y**2) \
-             - 1.0/3.0*np.exp(-(x+1)**2 - y**2)
+        return 3.0 * (1.0 - x) ** 2.0 * np.exp(-(x ** 2) - (y + 1) ** 2) \
+               - 10 * (x / 5 - x ** 3 - y ** 5) * np.exp(-x ** 2 - y ** 2) \
+               - 1.0 / 3.0 * np.exp(-(x + 1) ** 2 - y ** 2)
 
 
 class MyToolbar(Toolbar):
     def __init__(self, canvas):
         Toolbar.__init__(self, canvas)
-        
-        #self.AddTool(wx.ID_ANY, '')
+
+        # self.AddTool(wx.ID_ANY, '')
 
 
 class LatticePlotPanel(MyPlotPanel):
     def __init__(self, parent, **kwargs):
         MyPlotPanel.__init__(self, parent, **kwargs)
 
-        #self.canvas.mpl_connect('pick_event', self.on_pick)
-    
-    #def on_pick(self, event):
+        # self.canvas.mpl_connect('pick_event', self.on_pick)
+
+    # def on_pick(self, event):
     #    print event.mouseevent.xdata, event.mouseevent.ydata
     #    obj = event.artist
     #    if hasattr(self, 'anote_list'):
@@ -151,9 +151,10 @@ class LatticePlotPanel(MyPlotPanel):
             else:
                 self.pos_st.SetLabel("({x:<.4f}, {y:<.4f})".format(
                     x=event.xdata, y=event.ydata))
-    
+
     def identify_obj(self, x):
-        if self.x_pos_list is None: return None,None
+        if self.x_pos_list is None:
+            return None, None
         else:
             try:
                 idx = bisect(self.x_pos_list, x)
@@ -169,8 +170,8 @@ class TestFrame(wx.Frame):
         wx.Frame.__init__(self, parent, **kwargs)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
-        m_panel = MyPlotPanel(self, figsize=None, 
-                               type='line', toolbar=True)
+        m_panel = MyPlotPanel(self, figsize=None,
+                              type='line', toolbar=True)
         sizer.Add(m_panel, 1, wx.ALIGN_CENTER | wx.EXPAND, 10)
         self.SetSizerAndFit(sizer)
 
@@ -180,6 +181,7 @@ def test():
     frame = TestFrame(None, title="Matplotlib Panel Test")
     frame.Show()
     app.MainLoop()
+
 
 if __name__ == '__main__':
     test()

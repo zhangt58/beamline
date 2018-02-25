@@ -13,6 +13,7 @@ functions for mathematical calculations:
 """
 
 import numpy as np
+from functools import reduce
 
 
 def funTransQuadF(k, s):
@@ -23,10 +24,10 @@ def funTransQuadF(k, s):
     :return: 2x2 numpy array
     """
     sqrtk = np.sqrt(complex(k))
-    a = np.cos(sqrtk*s)
-    b = np.sin(sqrtk*s)/sqrtk
-    c = -sqrtk*np.sin(sqrtk*s)
-    d = np.cos(sqrtk*s)
+    a = np.cos(sqrtk * s)
+    b = np.sin(sqrtk * s) / sqrtk
+    c = -sqrtk * np.sin(sqrtk * s)
+    d = np.cos(sqrtk * s)
     return np.matrix([[a.real, b.real], [c.real, d.real]], dtype=np.double)
 
 
@@ -38,10 +39,10 @@ def funTransQuadD(k, s):
     :return: 2x2 numpy array
     """
     sqrtk = np.sqrt(complex(k))
-    a = np.cosh(sqrtk*s)
-    b = np.sinh(sqrtk*s)/sqrtk
-    c = sqrtk*np.sinh(sqrtk*s)
-    d = np.cosh(sqrtk*s)
+    a = np.cosh(sqrtk * s)
+    b = np.sinh(sqrtk * s) / sqrtk
+    c = sqrtk * np.sinh(sqrtk * s)
+    d = np.cosh(sqrtk * s)
     return np.matrix([[a.real, b.real], [c.real, d.real]], dtype=np.double)
 
 
@@ -81,7 +82,7 @@ def funTransEdgeX(theta, rho):
     :param rho: bend radius, in [m]
     :return: 2x2 numpy array
     """
-    return np.matrix([[1, 0], [np.tan(theta)/rho, 1]], dtype=np.double)
+    return np.matrix([[1, 0], [np.tan(theta) / rho, 1]], dtype=np.double)
 
 
 def funTransEdgeY(theta, rho):
@@ -91,7 +92,7 @@ def funTransEdgeY(theta, rho):
     :param rho: bend radius, in [m]
     :return: 2x2 numpy array
     """
-    return np.matrix([[1, 0], [-np.tan(theta)/rho, 1]], dtype=np.double)
+    return np.matrix([[1, 0], [-np.tan(theta) / rho, 1]], dtype=np.double)
 
 
 def funTransSectX(theta, rho):
@@ -101,7 +102,7 @@ def funTransSectX(theta, rho):
     :param rho: bend radius, in [m]
     :return: 2x2 numpy array
     """
-    return np.matrix([[np.cos(theta), rho*np.sin(theta)], [-np.sin(theta)/rho, np.cos(theta)]], dtype=np.double)
+    return np.matrix([[np.cos(theta), rho * np.sin(theta)], [-np.sin(theta) / rho, np.cos(theta)]], dtype=np.double)
 
 
 def funTransSectY(theta, rho):
@@ -111,7 +112,7 @@ def funTransSectY(theta, rho):
     :param rho: bend radius, in [m]
     :return: 2x2 numpy array
     """
-    return np.matrix([[1, rho*theta], [0, 1]], dtype=np.double)
+    return np.matrix([[1, rho * theta], [0, 1]], dtype=np.double)
 
 
 def funTransChica(imagl, idril, ibfield, gamma0, xoy='x'):
@@ -127,17 +128,17 @@ def funTransChica(imagl, idril, ibfield, gamma0, xoy='x'):
     m0 = 9.10938215e-31
     e0 = 1.602176487e-19
     c0 = 299792458
-    rho = np.sqrt(gamma0**2-1)*m0*c0/ibfield/e0
-    theta = np.arcsin(imagl/rho)
+    rho = np.sqrt(gamma0 ** 2 - 1) * m0 * c0 / ibfield / e0
+    theta = np.arcsin(imagl / rho)
     ld = idril
-    mx = reduce(np.dot, [funTransDrift(idril), 
+    mx = reduce(np.dot, [funTransDrift(idril),
                          funTransSectX(theta, rho), funTransEdgeX(theta, rho),
                          funTransDrift(ld),
                          funTransEdgeX(-theta, -rho), funTransSectX(-theta, -rho),
                          funTransDrift(ld),
-                         funTransSectX(-theta, -rho), funTransEdgeX(-theta, -rho), 
+                         funTransSectX(-theta, -rho), funTransEdgeX(-theta, -rho),
                          funTransDrift(ld),
-                         funTransEdgeX(theta, rho), funTransSectX(theta, rho), 
+                         funTransEdgeX(theta, rho), funTransSectX(theta, rho),
                          funTransDrift(idril)])
     my = reduce(np.dot, [funTransDrift(idril),
                          funTransSectY(theta, rho), funTransEdgeY(theta, rho),
@@ -169,7 +170,7 @@ def transDrift(length=0.0, gamma=None):
         print("warning: 'length' should be a positive float number.")
     elif gamma is not None and gamma != 0.0:
         m[0, 1] = m[2, 3] = length
-        m[4, 5] = float(length)/gamma/gamma
+        m[4, 5] = float(length) / gamma / gamma
     else:
         print("warning: 'gamma' should be a positive float number.")
     return m
@@ -190,17 +191,17 @@ def transQuad(length=0.0, k1=0.0, gamma=None):
         if k1 == 0:
             print("warning: 'k1' should be a positive float number.")
             m[0, 1] = m[2, 3] = 1.0
-            m[4, 5] = float(length)/gamma/gamma
+            m[4, 5] = float(length) / gamma / gamma
         else:
             sqrtk = np.sqrt(complex(k1))
             sqrtkl = sqrtk * length
             m[0, 0] = m[1, 1] = (np.cos(sqrtkl)).real
-            m[0, 1] = (np.sin(sqrtkl)/sqrtk).real
-            m[1, 0] = (-np.sin(sqrtkl)*sqrtk).real
+            m[0, 1] = (np.sin(sqrtkl) / sqrtk).real
+            m[1, 0] = (-np.sin(sqrtkl) * sqrtk).real
             m[2, 2] = m[3, 3] = (np.cosh(sqrtkl)).real
-            m[2, 3] = (np.sinh(sqrtkl)/sqrtk).real
-            m[3, 2] = (-np.sinh(sqrtkl)*sqrtk).real
-            m[4, 5] = float(length)/gamma/gamma
+            m[2, 3] = (np.sinh(sqrtkl) / sqrtk).real
+            m[3, 2] = (-np.sinh(sqrtkl) * sqrtk).real
+            m[4, 5] = float(length) / gamma / gamma
     else:
         print("warning: 'gamma' should be a positive float number.")
     return m
@@ -221,15 +222,15 @@ def transSect(theta=None, rho=None, gamma=None):
     else:
         rc = rho * np.cos(theta)
         rs = rho * np.sin(theta)
-        m[0, 0] = m[1, 1] = rc/rho
+        m[0, 0] = m[1, 1] = rc / rho
         m[0, 1] = rs
-        m[0, 5] = rho-rc
-        m[1, 0] = -np.sin(theta)/rho
-        m[1, 5] = rs/rho
-        m[2, 3] = rho*np.sin(theta)
+        m[0, 5] = rho - rc
+        m[1, 0] = -np.sin(theta) / rho
+        m[1, 5] = rs / rho
+        m[2, 3] = rho * np.sin(theta)
         m[4, 0] = m[1, 5]
         m[4, 1] = m[0, 5]
-        m[4, 5] = rho*np.sin(theta)/gamma/gamma - rho*theta + rs
+        m[4, 5] = rho * np.sin(theta) / gamma / gamma - rho * theta + rs
         return m
 
 
@@ -251,7 +252,7 @@ def transRbend(theta=None, rho=None, gamma=None, incsym=-1):
         m = np.eye(6, 6, dtype=np.float64)
         return m
     else:
-        beta12d = {'-1': (0, theta), '0': (theta*0.5, theta*0.5), '1': (theta, 0)}
+        beta12d = {'-1': (0, theta), '0': (theta * 0.5, theta * 0.5), '1': (theta, 0)}
         (beta1, beta2) = beta12d[str(incsym)]
         mf1 = transFringe(beta=beta1, rho=rho)
         mf2 = transFringe(beta=beta2, rho=rho)
@@ -272,8 +273,8 @@ def transFringe(beta=None, rho=None):
         print("warning: 'theta', 'rho' should be positive float numbers.")
         return m
     else:
-        m[1, 0] = np.tan(beta)/rho
-        m[3, 2] = -np.tan(beta)/rho
+        m[1, 0] = np.tan(beta) / rho
+        m[3, 2] = -np.tan(beta) / rho
         return m
 
 
@@ -313,13 +314,13 @@ def transChicane(bend_length=None, bend_field=None, drift_length=None, gamma=Non
         m0 = 9.10938215e-31
         e0 = 1.602176487e-19
         c0 = 299792458.0
-        rho = np.sqrt(gamma**2-1)*m0*c0/bend_field/e0
-        theta = np.arcsin(bend_length/rho)
+        rho = np.sqrt(gamma ** 2 - 1) * m0 * c0 / bend_field / e0
+        theta = np.arcsin(bend_length / rho)
 
-        m_rb_1 = transRbend( theta,  rho, gamma, -1)
-        m_rb_2 = transRbend(-theta, -rho, gamma,  1)
+        m_rb_1 = transRbend(theta, rho, gamma, -1)
+        m_rb_2 = transRbend(-theta, -rho, gamma, 1)
         m_rb_3 = transRbend(-theta, -rho, gamma, -1)
-        m_rb_4 = transRbend( theta,  rho, gamma,  1)
+        m_rb_4 = transRbend(theta, rho, gamma, 1)
         m_df_12 = transDrift(dflist[0], gamma)
         m_df_23 = transDrift(dflist[1], gamma)
         m_df_34 = transDrift(dflist[2], gamma)
@@ -339,12 +340,13 @@ class Chicane(object):
     :param drift_length: drift length [m], list: [1,2,1], [1], [1,2], 1
     :param gamma: electron energy, gamma value
     """
+
     def __init__(self, bend_length=None, bend_field=None, drift_length=None, gamma=None):
         self.transM = np.eye(6, 6, dtype=np.float64)
         self.setParams(bend_length, bend_field, drift_length, gamma)
         self.mflag = True  # if calculate m or return eye matrix
         self.refresh = False  # refresh or not
-    
+
     def setParams(self, bend_length, bend_field, drift_length, gamma):
         """ set chicane parameters
 
@@ -396,22 +398,22 @@ class Chicane(object):
             m0 = 9.10938215e-31
             e0 = 1.602176487e-19
             c0 = 299792458.0
-            rho = np.sqrt(self.gamma**2-1)*m0*c0/self.bend_field/e0
-            theta = np.arcsin(self.bend_length/rho)
+            rho = np.sqrt(self.gamma ** 2 - 1) * m0 * c0 / self.bend_field / e0
+            theta = np.arcsin(self.bend_length / rho)
             self.bangle = theta
 
-            m_rb_1 = transRbend( theta,  rho, self.gamma, -1)
-            m_rb_2 = transRbend(-theta, -rho, self.gamma,  1)
+            m_rb_1 = transRbend(theta, rho, self.gamma, -1)
+            m_rb_2 = transRbend(-theta, -rho, self.gamma, 1)
             m_rb_3 = transRbend(-theta, -rho, self.gamma, -1)
-            m_rb_4 = transRbend( theta,  rho, self.gamma,  1)
+            m_rb_4 = transRbend(theta, rho, self.gamma, 1)
             m_df_12 = transDrift(self.dflist[0], self.gamma)
             m_df_23 = transDrift(self.dflist[1], self.gamma)
             m_df_34 = transDrift(self.dflist[2], self.gamma)
 
             self.transM = reduce(np.dot, [m_rb_1, m_df_12, m_rb_2, m_df_23, m_rb_3, m_df_34, m_rb_4])
-     
+
             return self.transM
-            
+
     def getAngle(self, mode='deg'):
         """ return bend angle
 
@@ -432,7 +434,6 @@ class Chicane(object):
         except AttributeError:
             print("Please execute getMatrix() first.")
 
-
     def getR(self, i=5, j=6):
         """ return transport matrix element, indexed by i, j,
         be default, return dispersion value, i.e. getR(5,6) in [m]
@@ -443,7 +444,7 @@ class Chicane(object):
         """
         if self.refresh is True:
             self.getMatrix()
-        return self.transM[i-1, j-1]
+        return self.transM[i - 1, j - 1]
 
     def setBendLength(self, x):
         """ set bend length
@@ -523,17 +524,18 @@ class Chicane(object):
         """
         return self.gamma
 
+
 def test():
     k = -10
     s = 1
-    
-    theta   = 2
-    rho     = 9
-    imagl   = 0.5
-    idril   = 1.0
+
+    theta = 2
+    rho = 9
+    imagl = 0.5
+    idril = 1.0
     ibfield = 0.8
-    gamma0  = 500
-    xoy     = 'y'
+    gamma0 = 500
+    xoy = 'y'
 
     f1 = funTransQuadF(k, s)
     f2 = funTransQuadD(k, s)
@@ -542,13 +544,14 @@ def test():
     print(f1)
     print(f2)
     print(f3)
-    print("-"*40)
+    print("-" * 40)
     print(f1.dot(f2).dot(f3))
     print(reduce(np.dot, [f1, f2, f3]))
-    print("-"*40)
+    print("-" * 40)
     print(f4)
-    print("-"*40)
+    print("-" * 40)
     print(funTransQuadF(k, s) - funTransQuadD(-k, s))
+
 
 if __name__ == "__main__":
     test()

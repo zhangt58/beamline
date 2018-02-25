@@ -24,6 +24,7 @@ else:
     from wx import AboutDialogInfo
     from wx import AboutBox
 
+
 # Implementing MyFrame
 class MyAppFrame(appui.MainFrame):
     def __init__(self, parent, title):

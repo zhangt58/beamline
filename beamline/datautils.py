@@ -63,7 +63,8 @@ class DataExtracter(object):
         >>> print(dh.getAllCols())
         ['x', 'xp', 'y', 'yp', 't', 'p', 'particleID']
         >>> print(dh.getAllCols('test.twi'))
-        ['s', 'betax', 'alphax', 'psix', 'etax', 'etaxp', 'xAperture', 'betay', 'alphay', 'psiy', 'etay', 'etayp', 'yAperture', 'pCentral0', 'ElementName', 'ElementOccurence', 'ElementType']
+        ['s', 'betax', 'alphax', 'psix', 'etax', 'etaxp', 'xAperture', 'betay', 'alphay', 'psiy', 'etay', 'etayp',
+         'yAperture', 'pCentral0', 'ElementName', 'ElementOccurence', 'ElementType']
         """
         if SDDS_:
             if sddsfile is not None:
@@ -90,7 +91,8 @@ class DataExtracter(object):
 
         >>> dh = DataExtracter('test.w1')
         >>> print(dh.getAllPars())
-        ['Step', 'pCentral', 'Charge', 'Particles', 'IDSlotsPerBunch', 'SVNVersion', 'Pass', 'PassLength', 'PassCentralTime', 'ElapsedCoreTime', 'MemoryUsage', 's', 'Description', 'PreviousElementName']
+        ['Step', 'pCentral', 'Charge', 'Particles', 'IDSlotsPerBunch', 'SVNVersion', 'Pass', 'PassLength',
+         'PassCentralTime', 'ElapsedCoreTime', 'MemoryUsage', 's', 'Description', 'PreviousElementName']
 
         :seealso: :func:`getAllCols`
         """
@@ -315,23 +317,21 @@ class DataStorage(object):
         """
         pass
 
-#--------------------------------------------------------------------------------------
-
 
 def test():
     # workflow
     datafields = ['s', 'Sx', 'Sy', 'enx', 'eny']
     datascript = '~/Programming/projects/beamline/scripts/sddsprintdata.sh'
-    datapath   = '~/Programming/projects/beamline/tests/tracking'
-    hdf5file   = os.path.join(os.path.expanduser(datapath), 'test.h5')
+    datapath = '~/Programming/projects/beamline/tests/tracking'
+    hdf5file = os.path.join(os.path.expanduser(datapath), 'test.h5')
     A = DataExtracter('test.sig', *datafields)
     A.setDataScript(datascript)
-    A.setDataPath  (datapath)
-    A.setH5file    (hdf5file)
+    A.setDataPath(datapath)
+    A.setH5file(hdf5file)
     A.extractData().dump()
 
     fd = h5py.File(hdf5file, 'r')
-    d_s  = fd['s'][:]
+    d_s = fd['s'][:]
     d_sx = fd['Sx'][:]
 
     import matplotlib.pyplot as plt

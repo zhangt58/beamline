@@ -16,7 +16,7 @@ from . import myappframe
 import wx
 
 
-def run(debug=True, icon=None):
+def run(icon=None):
     app = wx.App()
     frame = myappframe.MyAppFrame(None,
                                   u'Lattice Viewer \u2014 Accelerator Online Modeling Tool')

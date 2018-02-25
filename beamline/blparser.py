@@ -23,7 +23,16 @@ def madParser(mad_filename, idbl="BL"):
     >>> import beamline
     >>> beamlinelist = beamline.blparser.madParser('LPA.list', 'BL2')
     >>> print(beamlinelist)
-    >>> [{'type': 'drift', 'l': '0.1', 'ID': 'd0'}, {'type': 'quad', 'k1': '75', 'angle': '75', 'l': '0.1', 'ID': 'q1'}, {'type': 'drift', 'l': '0.18', 'ID': 'd3'}, {'type': 'quad', 'k1': '-75', 'angle': '75', 'l': '0.1', 'ID': 'q2'}, {'type': 'drift', 'l': '0.27', 'ID': 'd6'}, {'type': 'rbend', 'angle': '10', 'l': '0.1', 'ID': 'b1'}, {'type': 'drift', 'l': '1.0', 'ID': 'd8'}, {'type': 'rbend', 'angle': '-5', 'l': '0.1', 'ID': 'b2'}, {'type': 'drift', 'l': '0.45', 'ID': 'd4'}, {'type': 'quad', 'k1': '75', 'angle': '75', 'l': '0.1', 'ID': 'q1'}]
+    [{'type': 'drift', 'l': '0.1', 'ID': 'd0'},
+    {'type': 'quad', 'k1': '75', 'angle': '75', 'l': '0.1', 'ID': 'q1'},
+    {'type': 'drift', 'l': '0.18', 'ID': 'd3'},
+    {'type': 'quad', 'k1': '-75', 'angle': '75', 'l': '0.1', 'ID': 'q2'},
+    {'type': 'drift', 'l': '0.27', 'ID': 'd6'},
+    {'type': 'rbend', 'angle': '10', 'l': '0.1', 'ID': 'b1'},
+    {'type': 'drift', 'l': '1.0', 'ID': 'd8'},
+    {'type': 'rbend', 'angle': '-5', 'l': '0.1', 'ID': 'b2'},
+    {'type': 'drift', 'l': '0.45', 'ID': 'd4'},
+    {'type': 'quad', 'k1': '75', 'angle': '75', 'l': '0.1', 'ID': 'q1'}]
 
     .. only:: builder_html
 
@@ -43,8 +52,8 @@ def madParser(mad_filename, idbl="BL"):
     idbl = idbl.lower()
     for line in open(mad_filename, 'r'):
         line = ''.join(line.lower().strip().split())
-        if line.startswith(idbl+':line'):
-            beamline = line.replace(idbl + ':line=','').replace('(','').replace(')','').split(',')
+        if line.startswith(idbl + ':line'):
+            beamline = line.replace(idbl + ':line=', '').replace('(', '').replace(')', '').split(',')
             break
 
     try:
@@ -60,11 +69,11 @@ def madParser(mad_filename, idbl="BL"):
                 print("element: " + element + " not found.")
                 exit()
 
-            fid.seek(0,0)
+            fid.seek(0, 0)
             idx1 = elementline.find(':')
             idx2 = elementline.find(',')
-            elementtype = elementline[idx1+1:idx2]
-            ltmp1 = elementline[idx2+1:].replace('=',' ').replace(',',' ').split()
+            elementtype = elementline[idx1 + 1:idx2]
+            ltmp1 = elementline[idx2 + 1:].replace('=', ' ').replace(',', ' ').split()
             elementparams = dict(zip(ltmp1[0::2], ltmp1[1::2]))
             elementparams["type"] = elementtype
             elementparams["ID"] = element
@@ -80,9 +89,10 @@ def madParser(mad_filename, idbl="BL"):
 def main():
     import sys
     mad_filename = sys.argv[1]
-    elementlist = madParse(mad_filename)
+    elementlist = madParser(mad_filename)
     for i in range(len(elementlist)):
         print(elementlist[i])
+
 
 if __name__ == '__main__':
     main()

@@ -13,7 +13,8 @@ from . import elements
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plotLattice(beamlinepatchlist, 
+
+def plotLattice(beamlinepatchlist,
                 fignum=1, fig_size=20, fig_ratio=0.5,
                 xranges=(-10, 10), yranges=(-10, 10),
                 zoomfac=1.5):
@@ -28,7 +29,7 @@ def plotLattice(beamlinepatchlist,
     :param yranges: axes y-ranges, ``(-10, 10)`` by default
     :param zoomfac: zoom in factor, 1.5 by default
     """
-    fig = plt.figure(fignum,figsize=(fig_size,fig_size*fig_ratio))
+    fig = plt.figure(fignum, figsize=(fig_size, fig_size * fig_ratio))
     ax = fig.add_subplot(111)
     for ins in beamlinepatchlist:
         [ax.add_patch(inspatch) for inspatch in ins.patch]
@@ -41,6 +42,7 @@ def plotLattice(beamlinepatchlist,
     ax.set_xlim([minx, maxx])
     ax.set_ylim([miny, maxy])
     plt.show()
+
 
 def makeBeamline(beamlinelist, startpoint=(0, 0)):
     """
@@ -68,7 +70,7 @@ def makeBeamline(beamlinelist, startpoint=(0, 0)):
         if elementtype == "rben":
             newelement = elements.Rbend(width=float(element["l"]), height=1.5 * float(element["l"]),
                                         angle=float(element["angle"]),
-                                        link_node=startpoint,)
+                                        link_node=startpoint, )
             anglenow += newelement.angle
             minx = min(minx, newelement.minx)
             miny = min(miny, newelement.miny)
@@ -77,7 +79,7 @@ def makeBeamline(beamlinelist, startpoint=(0, 0)):
 
         elif elementtype == "drif":
             newelement = elements.Drift(length=float(element["l"]), angle=anglenow,
-                                        link_node=startpoint,)
+                                        link_node=startpoint, )
             minx = min(minx, newelement.minx)
             miny = min(miny, newelement.miny)
             maxx = max(maxx, newelement.maxx)
@@ -85,20 +87,21 @@ def makeBeamline(beamlinelist, startpoint=(0, 0)):
 
         elif elementtype == "quad":
             xory = "x"
-            if float(element["k1"]) < 0: xory = "y"
+            if float(element["k1"]) < 0:
+                xory = "y"
             newelement = elements.Quadrupole(width=float(element["l"]),
                                              angle=float(element["angle"]),
                                              xysign=xory,
-                                             link_node=startpoint,)
+                                             link_node=startpoint, )
             minx = min(minx, newelement.minx)
             miny = min(miny, newelement.miny)
             maxx = max(maxx, newelement.maxx)
             maxy = max(maxy, newelement.maxy)
-        
+
         elif elementtype == "undu":
-            newelement = elements.Undulator(period_length = float(element["xlamd"]), 
-                                            period_number = int(element["nwig"]),
-                                            link_node=startpoint,)
+            newelement = elements.Undulator(period_length=float(element["xlamd"]),
+                                            period_number=int(element["nwig"]),
+                                            link_node=startpoint, )
             minx = min(minx, newelement.minx)
             miny = min(miny, newelement.miny)
             maxx = max(maxx, newelement.maxx)
@@ -112,6 +115,7 @@ def makeBeamline(beamlinelist, startpoint=(0, 0)):
 
     return latticelist, np.array([minx, maxx]), np.array([miny, maxy])
 
+
 def main():
     try:
         import blparser
@@ -120,6 +124,7 @@ def main():
         plotLattice(beamlineplot, xranges=xlim, yranges=ylim, zoomfac=1.2, fig_size=8, fig_ratio=0.4)
     except ImportError:
         print("Import blparser error!")
+
 
 if __name__ == '__main__':
     main()
