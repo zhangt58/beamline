@@ -17,6 +17,12 @@ from .. import models
 
 MAXNROW = 65536  # max row number
 
+if 'phoenix' in wx.version():
+    from wx.adv import AboutDialogInfo
+    from wx.adv import AboutBox
+else:
+    from wx import AboutDialogInfo
+    from wx import AboutBox
 
 # Implementing MyFrame
 class MyAppFrame(appui.MainFrame):
@@ -133,7 +139,7 @@ class MyAppFrame(appui.MainFrame):
         try:
             # noinspection PyPackageRequirements
             from wx.lib.wordwrap import wordwrap
-            info = wx.AboutDialogInfo()
+            info = AboutDialogInfo()
             info.Name = "Lattice Viewer"
             info.Version = "0.1.0"
             info.Copyright = "(C) 2016 Tong Zhang, SINAP, CAS"
@@ -154,7 +160,7 @@ class MyAppFrame(appui.MainFrame):
                  + "along with Lattice Viewer; if not, write to the Free Software " \
                  + "Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA"
             info.License = wordwrap(lt, 500, wx.ClientDC(self))
-            wx.AboutBox(info)
+            AboutBox(info)
         except:
             dial = wx.MessageDialog(self,
                                     "Cannot show about informaion, sorry!",
@@ -559,7 +565,7 @@ class MyAppFrame(appui.MainFrame):
             return filename.split('.')[-1]
 
     def read_json(self, filename):
-        """ return dict the first line of json file, 
+        """ return dict the first line of json file,
             which defined by filename
         """
         return json.loads(open(filename, 'r').read().strip())
@@ -674,7 +680,7 @@ class MyAppFrame(appui.MainFrame):
             self.info_st.SetToolTip(wx.ToolTip(info_str))
 
     def _file_stat(self, mode, infostr, stat):
-        """ update stat regarding to file operation, 
+        """ update stat regarding to file operation,
             e.g. open, save, saveas, etc.
         """
         action_str = mode.upper()
@@ -760,7 +766,7 @@ class MyAppFrame(appui.MainFrame):
         """ make online model according to the lattice.Lattice instance
             :param lattice_instance: lattice.Lattice instance, created from lte/json file
             :param use_bl: selected beamline name
-            :param simu: online modeling type, 'simu': simulation, 
+            :param simu: online modeling type, 'simu': simulation,
                          'online': online (incorporate control fields)
         """
         new_model = models.Models(name=use_bl, mode=mode)
@@ -787,11 +793,11 @@ class MyAppFrame(appui.MainFrame):
             # create online model, 'simu', 'online'
             lattice_model = self._create_online_model(new_latins, use_bl, mode='simu')
             self.lattice_model = lattice_model
-        except:
-            return
+        except AttributeError as e:
+            print("Failed modeling..." + str(e))
 
 
-# functions copied from felapps.funutils: 
+# functions copied from felapps.funutils:
 # - getFileToLoad
 # - getFileToSave
 def getFileToLoad(parent, ext='*', flag='single'):
