@@ -292,7 +292,7 @@ class MagBlock(object):
         :param type: comm, simu, ctrl, misc, all, online (default)
         :param format: elegant/mad, elegant by default
         """
-        return self.dumpConfigDict[type](format).values()[0].values()[0]
+        return list(list(self.dumpConfigDict[type](format).values())[0].values())[0]
 
     def _setSimuConf(self, conf):
         self.simuinfo.update(conf)

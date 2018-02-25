@@ -68,7 +68,7 @@ class LteParser(object):
                 rpnexp = stolist[0].strip()  # rpn expression
                 rpnvar = stolist[1].strip()  # rpn variable
                 tmpstodict[rpnvar] = rpnexp
-                # bug: rpnval in rpnexp 
+                # bug: rpnval in rpnexp
                 # raises error when converting string convert to float
                 # Found: 2016-06-08 22:29:25 PM CST
                 # Fixed: 2016-06-12 11:51:01 AM CST
@@ -78,7 +78,7 @@ class LteParser(object):
                 # then b should be 0.1,
                 # i.e. b -> a -> 0.1
                 # solve the 'sto chain' assignment issue.
-        
+
         self.stodict = self.resolve_rpn(tmpstodict)
         for k,v in self.stodict.items():
             stostr = '% {val} sto {var}'.format(val=v, var=k)
@@ -88,8 +88,7 @@ class LteParser(object):
     def get_rpndict_flag(self, rpndict):
         """ calculate flag set, the value is True or False,
             if rpndict value is not None, flag is True, or False
-            
-            if a set with only one item, i.e. True returns, 
+            if set with only one item, i.e. True returns,
             means values of rpndict are all valid float numbers,
             then finally return True, or False
         """
@@ -137,7 +136,7 @@ class LteParser(object):
     def update_rpndict(self, rpndict):
         """ update rpndict, try to solve rpn expressions as many as possible,
             leave unsolvable unchanged.
-    
+
             return new dict
         """
         tmpdict = {k:v for k,v in rpndict.items()}
@@ -150,7 +149,7 @@ class LteParser(object):
         return tmpdict
 
     def resolveEPICS(self):
-        """ extract epics control configs into 
+        """ extract epics control configs into
         """
         kw_name_list = []
         kw_ctrlconf_list = []
@@ -196,7 +195,7 @@ class LteParser(object):
                            ::-1]  # avoid the case with bl keyword has 'line'
         except:
             conf_str = ''
-        
+
         #print conf_str
 
         # split('!epics'): second part is epics control conf
@@ -211,7 +210,7 @@ class LteParser(object):
 
     def toDict(self):
         """ convert self.confstr to dict, could apply chain rule, write to self.confdict
-        
+
         USAGE: ins = LteParser(infile)
                ins.getKw(kw).toDict()
         """
@@ -286,7 +285,7 @@ class LteParser(object):
                 else:  # raw string
                     retval = self.confstr_epics
             else:
-                retval = None 
+                retval = None
 
         return retval
 
@@ -299,7 +298,7 @@ class LteParser(object):
 
     def detectAllKws(self):
         """ Detect all keyword from infile, return as a list
-        
+
         USAGE: kwslist = detectAllKws()
         """
         kwslist = []
@@ -317,7 +316,7 @@ class LteParser(object):
 
     def file2json(self, jsonfile=None):
         """ Convert entire lte file into json like format
-        
+
         USAGE: 1: kwsdictstr = file2json()
                2: kwsdictstr = file2json(jsonfile = 'somefile')
 
@@ -396,20 +395,20 @@ class LteParser(object):
         kw_name = list(rdict.keys())[0]  # b11
         kw_val = rdict[kw_name]
         try:
-            kw_type = kw_val.keys()[0]  # csrcsben
-            kw_param = kw_val.values()[0]
+            kw_type = list(kw_val.keys())[0]  # csrcsben
+            kw_param = list(kw_val.values())[0]
             if kw_type != 'beamline':
                 for k, v in kw_param.items():
                     v = self.scanStoVars(v)
                     rpnval = rpn.Rpn.solve_rpn(v)
                     if rpnval is not None:
-                        kw_param[k] = rpnval# update rpn string to float if not None
+                        kw_param[k] = rpnval # update rpn string to float if not None
         except:
             pass  # element that only has type name, e.g. {'bpm01': 'moni'}
 
     def solve_rpn(self):
         """ solve rpn string in self.confdict, and update self.confdict
-        
+
         USAGE: ins = LteParser(infile)
                ins.getKw(kw).toDict().solve_rpn()
         """
@@ -426,7 +425,7 @@ class Lattice(object):
     def __init__(self, elements):
         """ initialize the class with input elements
 
-            elements should be dict converted from json, 
+            elements should be dict converted from json,
             if not convert first by json.loads(elements)
         """
         if isinstance(elements, str):
@@ -461,10 +460,10 @@ class Lattice(object):
     def getFullBeamline(self, beamlineKw, extend=False):
         """ get beamline definition from all_elements,
             expand iteratively with the elements from all_elements
-            e.g. 
-            element 'doub1' in 
-            chi   : line=(DBLL2 , doub1 , DP4FH , DP4SH , DBLL5 , DBD   , 
-                          B11   , DB11  , B12   , DB12  , PF2   , DB13  , 
+            e.g.
+            element 'doub1' in
+            chi   : line=(DBLL2 , doub1 , DP4FH , DP4SH , DBLL5 , DBD   ,
+                          B11   , DB11  , B12   , DB12  , PF2   , DB13  ,
                           B13   , DB14  , B14   , DBD   , DBLL5 , doub2 ,
                           DP5FH , DP5SH , DBLL2 , PSTN1)
             should be expaned with 'doub1' configuration:
@@ -515,7 +514,7 @@ class Lattice(object):
 
     def getAllKws(self):
         """ extract all keywords into two categories
-            
+
             kws_ele: magnetic elements
             kws_bl: beamline elements
 
@@ -577,7 +576,7 @@ class Lattice(object):
         return econf
 
     def getElementCtrlConf(self, elementKw):
-        """ return keyword's EPICS control configs, 
+        """ return keyword's EPICS control configs,
             if not setup, return {}
         """
         try:
@@ -630,7 +629,7 @@ class Lattice(object):
 
             input parameters:
             :param beamline: keyword for beamline
-            :param filename: name of lte/mad file, 
+            :param filename: name of lte/mad file,
                 if None, output to stdout;
                 if 'sio', output to a string as return value;
                 other cases, output to filename;
@@ -673,7 +672,7 @@ class Lattice(object):
         f.write('\n')
         f.write('\n')
         """
-        
+
         # write EPICS control configuration part if contains '_epics' key
         if '_epics' in self.all_elements:
             f.write('! {str1:<73s}\n'.format(str1= 'EPICS control definitions:'))
@@ -705,7 +704,7 @@ class Lattice(object):
         return retval
 
     def getElementList(self, bl):
-        """ return the elements list according to the appearance order 
+        """ return the elements list according to the appearance order
             in beamline named 'bl'
 
             :param bl: beamline name
@@ -727,12 +726,12 @@ class Lattice(object):
 
     def orderLattice(self, beamline):
         """ ordering element type appearance sequence for each element of beamline
-            e.g. after getFullBeamline, 
+            e.g. after getFullBeamline,
             lattice list ['q','Q01', 'B11', 'Q02', 'B22'] will return:
-            [(u'q',   u'CHARGE',   1), 
-             (u'q01', u'QUAD',     1), 
-             (u'b11', u'CSRCSBEN', 1), 
-             (u'q02', u'QUAD',     2), 
+            [(u'q',   u'CHARGE',   1),
+             (u'q01', u'QUAD',     1),
+             (u'b11', u'CSRCSBEN', 1),
+             (u'q02', u'QUAD',     2),
              (u'b12', u'CSRCSBEN', 2)]
 
         """
@@ -756,7 +755,7 @@ class Lattice(object):
         return ''
 
     def getElementByOrder(self, beamline, type, irange):
-        """ return element list by appearance order in beamline, 
+        """ return element list by appearance order in beamline,
             which could be returned by orderLattice(beamline)
 
             :param beamline: beamline name
