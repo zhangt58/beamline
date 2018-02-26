@@ -17,6 +17,10 @@ import wx
 
 
 def run(icon=None):
+    """
+    .. versionchanged:: 2.0.0
+       Remove parameter *debug*.
+    """
     app = wx.App()
     frame = myappframe.MyAppFrame(None,
                                   u'Lattice Viewer \u2014 Accelerator Online Modeling Tool')
