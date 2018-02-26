@@ -26,6 +26,7 @@ class Models(object):
         return instance as a json string file with all configuration.
         get lattice name by instance.name.
     """
+
     def __init__(self, name='BL', mode='simu'):
         """ create Models instance,
 
@@ -35,15 +36,15 @@ class Models(object):
                 configuration before dumping configuration string by calling
                 method: getCtrlConf()
         """
-        self._mode = mode.lower()           # 'simu' (simulation) or 'online' (online) mode
-        self._lattice_name = name.upper()   # lattice name
-        self._lattice_elecnt = 0            # lattice element counter
-        self._lattice_elenamelist = []      # lattice element name list
-        self._lattice_eleobjlist = []       # lattice element object list
-        self._lattice_confdict = {}         # lattice configuration dict
+        self._mode = mode.lower()  # 'simu' (simulation) or 'online' (online) mode
+        self._lattice_name = name.upper()  # lattice name
+        self._lattice_elecnt = 0  # lattice element counter
+        self._lattice_elenamelist = []  # lattice element name list
+        self._lattice_eleobjlist = []  # lattice element object list
+        self._lattice_confdict = {}  # lattice configuration dict
         self._lattice = element.ElementBeamline(
-                            name=self._lattice_name,
-                            config="lattice = ()")  # initial lattice configuration
+            name=self._lattice_name,
+            config="lattice = ()")  # initial lattice configuration
 
     @property
     def mode(self):
@@ -74,14 +75,14 @@ class Models(object):
             self._lattice_elecnt += 1
         # update lattice, i.e. beamline element
 
-        #self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
+        # self._lattice.setConf(Models.makeLatticeString(self._lattice_elenamelist))
         self._lattice.setConf(Models.makeLatticeDict(self._lattice_elenamelist))
 
         # positioning elements
         self.initPos()
 
         return self._lattice_elecnt
-    
+
     def initPos(self, startpos=0.0):
         """ initialize the elements position [m] in lattice, the starting
             point is 0 [m] for the first element by default.
@@ -90,11 +91,10 @@ class Models(object):
         """
         spos = startpos
         for ele in self._lattice_eleobjlist:
-            #print("{name:<10s}: {pos:<10.3f}".format(name=ele.name, pos=spos))
+            # print("{name:<10s}: {pos:<10.3f}".format(name=ele.name, pos=spos))
             ele.setPosition(spos)
             spos += ele.getLength()
 
-    
     def getCtrlConf(self, msgout=True):
         """ get control configurations regarding to the PV names,
             read PV value
@@ -113,8 +113,8 @@ class Models(object):
                         if pvval is not None:
                             e.simuinfo[k] = e.unitTrans(pvval, direction='+')
                             if msgout:
-                                print("  Done.") 
-                        else: 
+                                print("  Done.")
+                        else:
                             if msgout:
                                 print("  Failed.")
                     except:
@@ -174,7 +174,7 @@ class Models(object):
         :param ele: element list
         """
         return 'lattice = (' + ' '.join(ele) + ')'
-    
+
     @staticmethod
     def makeLatticeDict(ele):
         """ return lattice dict conf like {"lattice": "(q b d)"}
@@ -194,9 +194,9 @@ class Models(object):
         for el in ele:
             if isinstance(el, list) or isinstance(el, tuple):
                 for e in Models.flatten(el):
-                    yield(e)
+                    yield e
             else:
-                yield(el)
+                yield el
 
     @property
     def LatticeList(self):
@@ -256,9 +256,10 @@ class Models(object):
         for ele in self._lattice_eleobjlist:
             ele.setDraw(p0=p0, angle=angle, mode=mode)
             angle += ele.next_inc_angle
-            #print(ele.name + ele.next_inc_angle + angle)
+            # print(ele.name + ele.next_inc_angle + angle)
             patchlist.extend(ele._patches)
-            if hasattr(ele, '_anote'): anotelist.append(ele._anote)
+            if hasattr(ele, '_anote'):
+                anotelist.append(ele._anote)
             try:
                 p0 = ele.next_p0
                 xyrange = ele._patches[0].get_path().get_extents()
@@ -270,7 +271,7 @@ class Models(object):
             xmax0 = max(xmax, xmax0)
             ymin0 = min(ymin, ymin0)
             ymax0 = max(ymax, ymax0)
-        
+
         # show figure or not
         if showfig:
             fig = plt.figure()
@@ -281,10 +282,10 @@ class Models(object):
                          xytext=i['textpos'],
                          arrowprops=dict(arrowstyle='->'),
                          rotation=-90,
-                         fontsize='small') 
-                         for i in anotelist]
-            ax.set_xlim([xmin0*2, xmax0*2])
-            ax.set_ylim([ymin0*2, ymax0*2])
+                         fontsize='small')
+             for i in anotelist]
+            ax.set_xlim([xmin0 * 2, xmax0 * 2])
+            ax.set_ylim([ymin0 * 2, ymax0 * 2])
             plt.show()
 
         return patchlist, anotelist, (xmin0, xmax0), (ymin0, ymax0)
@@ -315,7 +316,7 @@ class Models(object):
 
             return list of annotation objects
         """
-        defaultstyle = {'alpha': 0.8, 'arrowprops': dict(arrowstyle='->'), 
+        defaultstyle = {'alpha': 0.8, 'arrowprops': dict(arrowstyle='->'),
                         'rotation': -60, 'fontsize': 'small'}
         defaultstyle.update(kwargs)
         anote_list = []
@@ -326,10 +327,10 @@ class Models(object):
                 else:
                     textxypos = tuple((anote['textpos'][0], textypos))
                 if not showAccName and anote['type'] in ('RFCW', 'RFDF'):
-                    kwstyle = {k:v for k,v in defaultstyle.items()}
+                    kwstyle = {k: v for k, v in defaultstyle.items()}
                     kwstyle.pop('arrowprops')
                     note_text = ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
-                            anote['atext']['text'], **kwstyle)
+                                        anote['atext']['text'], **kwstyle)
                 else:
                     note_text = ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle)
                 anote_list.append(note_text)
@@ -343,21 +344,22 @@ class Models(object):
                     else:
                         textxypos = tuple((anote['textpos'][0], textypos))
                     if not showAccName and anote['type'] in ('RFCW', 'RFDF'):
-                        kwstyle = {k:v for k,v in defaultstyle.items()}
+                        kwstyle = {k: v for k, v in defaultstyle.items()}
                         kwstyle.pop('arrowprops')
                         note_text = ax.text(anote['atext']['xypos'][0], anote['atext']['xypos'][1],
-                                anote['atext']['text'], **kwstyle)
+                                            anote['atext']['text'], **kwstyle)
                     else:
-                        note_text = ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle) 
+                        note_text = ax.annotate(s=anote['name'], xy=anote['xypos'], xytext=textxypos, **defaultstyle)
                     anote_list.append(note_text)
         return anote_list
 
+
 def test():
-    #pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
-    #A = Models(*pvs)
+    # pvs = ('sxfel:lattice:Q01', 'sxfel:lattice:Q02')
+    # A = Models(*pvs)
     latline = Models(name='BL')
- 
-    ch = element.ElementCharge(name='q',  config="total = 1e-9")
+
+    ch = element.ElementCharge(name='q', config="total = 1e-9")
     d1 = element.ElementDrift(name='d1', config="l = 1.0")
     q1 = element.ElementQuad(name='Q1', config="l = 1.0, k1 = 10")
     lat1 = [d1, q1, q1] * 10
@@ -368,8 +370,8 @@ def test():
     import lattice
     import json
     latins = lattice.Lattice(json.dumps(latdict))
-    #print(latins.getAllEle())
-    #print(latins.getAllBl())
+    # print(latins.getAllEle())
+    # print(latins.getAllBl())
     latfile = "/home/tong/Programming/projects/beamline/tests/test_models/fortest.lte"
     latins.generateLatticeFile(latline.name, latfile)
 
@@ -385,22 +387,22 @@ def test1():
     ltefile = os.path.join(latticepath, 'sxfel_v14b.lte')
     lpins = lattice.LteParser(ltefile)
     allelements_str = lpins.file2json()
-    #print(allelements_str)
+    # print(allelements_str)
     latins = lattice.Lattice(allelements_str)
     outlatfile = os.path.join(latticepath, 'tmp.lte')
-    #latins.showBeamlines()
+    # latins.showBeamlines()
 
-    #print(latins.getFullBeamline('M1BI3', extend = True))
-#    print(latins.getAllBl())
-#    print(latins.getAllEle())
-    #print(latins.getBeamline('l0'))
-    #print(latins.getFullBeamline('nl2', extend = True))
+    # print(latins.getFullBeamline('M1BI3', extend = True))
+    #    print(latins.getAllBl())
+    #    print(latins.getAllEle())
+    # print(latins.getBeamline('l0'))
+    # print(latins.getFullBeamline('nl2', extend = True))
 
-    #print(lpins.getKwAsDict('Q01'))
-    #print(lpins.getKwAsJson('BC1'))
-    #print(lpins.getKwAsJson('testline'))
+    # print(lpins.getKwAsDict('Q01'))
+    # print(lpins.getKwAsJson('BC1'))
+    # print(lpins.getKwAsJson('testline'))
 
-    #for e in latins.getFullBeamline('bl', extend = True):
+    # for e in latins.getFullBeamline('bl', extend = True):
     #    print(latins.getElementType(e))
     print(latins.getElementConf('c', raw=True))
     print(latins.getElementProperties('c'))
@@ -413,5 +415,5 @@ def test1():
 
 
 if __name__ == '__main__':
-    #test1()
+    # test1()
     test()

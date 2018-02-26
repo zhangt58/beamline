@@ -2,9 +2,9 @@
 
 Accelerator online model and lattice visualization package developed by <code>Python</code>.
 
-Developing language: <code>Python 2.7</code>
+Developing language: <code>Python 2.7 and 3.x</code>
 
-Author: Tong Zhang &copy; 2015-2016
+As of release 2.0.0, Python 3.x is supported, (1.x.y supports Python 2.7).
 
 Documentation: https://archman.github.io/beamline/
 
@@ -31,13 +31,12 @@ Documentation: https://archman.github.io/beamline/
 <p>
     <img src=/contrib/demo1_screenshot.png?raw=true alt="tracking output" width="400"></img>
     <img src=/contrib/sxfel_lattice_layout.png?raw=true alt="sxfel lattice" width="800"></img>
-    <img src=/contrib/dcls_lattice_layout.png?raw=true alt="dcls lattice with annotations" width="800"></img>
 </p>
 
 * With annotations,
 <p>
-    <img src=/contrib/SXFEL_lattice_layout.png?raw=true alt="sxfel lattice" width="800"></img>
-    <img src=/contrib/DCLS_lattice_layout.png?raw=true alt="dcls lattice with annotations" width="800"></img>
+    <img src=/contrib/SXFEL_lattice_layout_anote.png?raw=true alt="sxfel lattice" width="800"></img>
+    <img src=/contrib/DCLS_lattice_layout_anote.png?raw=true alt="dcls lattice with annotations" width="800"></img>
 </p>
 
 

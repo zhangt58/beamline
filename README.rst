@@ -3,9 +3,9 @@ beamline
 
 Accelerator online model and lattice visualization package developed by Python.
 
-Developing language: *Python 2.7*
+Developing language: *Python 2.7 and 3.x*
 
-Author: Tong Zhang 2015-2016
+As of release 2.0.0, Python 3.x is supported, 1.x.y supports Python 2.7.
 
 **Main Features:**
 
@@ -20,3 +20,5 @@ Author: Tong Zhang 2015-2016
    the close-loop online system.
 +  Visualizing the lattice layout by predefined elements' style.
 +  Friendly native-look GUI application to facilitate these functionalities.
+
+

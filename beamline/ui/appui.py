@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# noinspection PyPackageRequirements
 import wx
-# noinspection PyPackageRequirements
 import wx.xrc
 from . import pltutils
-# noinspection PyPackageRequirements
 import wx.richtext
 
 
@@ -19,7 +16,7 @@ class MainFrame(wx.Frame):
                           size=wx.Size(800, 600),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-        self.SetSizeHintsSz(wx.Size(500, 300), wx.DefaultSize)
+        self.SetSizeHints(wx.Size(500, 300), wx.DefaultSize)
 
         vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -190,9 +187,9 @@ class MainFrame(wx.Frame):
         info_hbox.Add(self.info_st, 4, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_LEFT
                       | wx.ALL, 5)
 
-        self.showlog_btn = wx.Button(
-            self, wx.ID_ANY, u"...", wx.DefaultPosition, wx.Size(
-                -1, -1), wx.BU_EXACTFIT | wx.NO_BORDER)
+        self.showlog_btn = wx.Button(self, wx.ID_ANY, u"...",
+                                     wx.DefaultPosition, wx.Size(-1, -1),
+                                     wx.BU_EXACTFIT | wx.NO_BORDER)
         info_hbox.Add(self.showlog_btn, 0, wx.ALIGN_CENTER_VERTICAL | wx.RIGHT,
                       10)
 
@@ -207,29 +204,29 @@ class MainFrame(wx.Frame):
         self.open_mitem = wx.MenuItem(self.file_menu, wx.ID_OPEN,
                                       u"Open" + u"\t" + u"Ctrl+O",
                                       wx.EmptyString, wx.ITEM_NORMAL)
-        self.file_menu.AppendItem(self.open_mitem)
+        self.file_menu.Append(self.open_mitem)
 
         self.reopen_mitem = wx.MenuItem(self.file_menu, wx.ID_ANY,
                                         u"Reopen" + u"\t" + u"Ctrl+R",
                                         wx.EmptyString, wx.ITEM_NORMAL)
-        self.file_menu.AppendItem(self.reopen_mitem)
+        self.file_menu.Append(self.reopen_mitem)
 
         self.save_mitem = wx.MenuItem(self.file_menu, wx.ID_SAVE,
                                       u"Save" + u"\t" + u"Ctrl+S",
                                       wx.EmptyString, wx.ITEM_NORMAL)
-        self.file_menu.AppendItem(self.save_mitem)
+        self.file_menu.Append(self.save_mitem)
 
         self.saveas_mitem = wx.MenuItem(self.file_menu, wx.ID_ANY,
                                         u"Save As" + u"\t" + u"Ctrl+Shift+S",
                                         wx.EmptyString, wx.ITEM_NORMAL)
-        self.file_menu.AppendItem(self.saveas_mitem)
+        self.file_menu.Append(self.saveas_mitem)
 
         self.file_menu.AppendSeparator()
 
         self.quit_mitem = wx.MenuItem(self.file_menu, wx.ID_ANY,
                                       u"Quit" + u"\t" + u"Ctrl+W",
                                       wx.EmptyString, wx.ITEM_NORMAL)
-        self.file_menu.AppendItem(self.quit_mitem)
+        self.file_menu.Append(self.quit_mitem)
 
         self.menu_bar.Append(self.file_menu, u"&File")
 
@@ -237,7 +234,7 @@ class MainFrame(wx.Frame):
         self.bl_mitem = wx.MenuItem(self.edit_menu, wx.ID_ANY,
                                     u"Beamline" + u"\t" + u"Ctrl+Shift+B",
                                     wx.EmptyString, wx.ITEM_NORMAL)
-        self.edit_menu.AppendItem(self.bl_mitem)
+        self.edit_menu.Append(self.bl_mitem)
 
         self.menu_bar.Append(self.edit_menu, u"&Edit")
 
@@ -245,35 +242,35 @@ class MainFrame(wx.Frame):
         self.lte_mitem = wx.MenuItem(self.view_menu, wx.ID_ANY,
                                      u"Lattice File" + u"\t" + u"Ctrl+Shift+L",
                                      wx.EmptyString, wx.ITEM_NORMAL)
-        self.view_menu.AppendItem(self.lte_mitem)
+        self.view_menu.Append(self.lte_mitem)
 
         self.raw_mitem = wx.MenuItem(self.view_menu, wx.ID_ANY,
                                      u"Raw String" + u"\t" + u"Ctrl+Shift+R",
                                      wx.EmptyString, wx.ITEM_NORMAL)
-        self.view_menu.AppendItem(self.raw_mitem)
+        self.view_menu.Append(self.raw_mitem)
 
         self.dict_mitem = wx.MenuItem(self.view_menu, wx.ID_ANY,
                                       u"Dictionary" + u"\t" + u"Ctrl+Shift+D",
                                       wx.EmptyString, wx.ITEM_NORMAL)
-        self.view_menu.AppendItem(self.dict_mitem)
+        self.view_menu.Append(self.dict_mitem)
 
         self.view_menu.AppendSeparator()
 
         self.expand_mitem = wx.MenuItem(
             self.view_menu, wx.ID_ANY, u"Expand Tree" + u"\t" +
             u"Ctrl+Shift+X", wx.EmptyString, wx.ITEM_RADIO)
-        self.view_menu.AppendItem(self.expand_mitem)
+        self.view_menu.Append(self.expand_mitem)
         self.expand_mitem.Check(True)
 
         self.collapse_mitem = wx.MenuItem(
             self.view_menu, wx.ID_ANY, u"Collpase Tree" + u"\t" +
             u"Ctrl+Shift+P", wx.EmptyString, wx.ITEM_RADIO)
-        self.view_menu.AppendItem(self.collapse_mitem)
+        self.view_menu.Append(self.collapse_mitem)
 
         self.pt_mitem = wx.MenuItem(
             self.view_menu, wx.ID_ANY, u"Show path as title" + u"\t" +
             u"Ctrl+Shift+T", wx.EmptyString, wx.ITEM_CHECK)
-        self.view_menu.AppendItem(self.pt_mitem)
+        self.view_menu.Append(self.pt_mitem)
 
         self.menu_bar.Append(self.view_menu, u"&View")
 
@@ -281,7 +278,7 @@ class MainFrame(wx.Frame):
         self.draw_mitem = wx.MenuItem(
             self.tools_menu, wx.ID_ANY, u"Visualization" + u"\t" +
             u"Ctrl+Shift+V", wx.EmptyString, wx.ITEM_NORMAL)
-        self.tools_menu.AppendItem(self.draw_mitem)
+        self.tools_menu.Append(self.draw_mitem)
 
         self.menu_bar.Append(self.tools_menu, u"&Tools")
 
@@ -289,12 +286,12 @@ class MainFrame(wx.Frame):
         self.guide_mitem = wx.MenuItem(self.help_menu, wx.ID_ANY,
                                        u"Guide" + u"\t" + u"F1",
                                        wx.EmptyString, wx.ITEM_NORMAL)
-        self.help_menu.AppendItem(self.guide_mitem)
+        self.help_menu.Append(self.guide_mitem)
 
         self.about_mitem = wx.MenuItem(self.help_menu, wx.ID_ABOUT,
                                        u"About" + u"\t" + u"Ctrl+A",
                                        wx.EmptyString, wx.ITEM_NORMAL)
-        self.help_menu.AppendItem(self.about_mitem)
+        self.help_menu.Append(self.about_mitem)
 
         self.menu_bar.Append(self.help_menu, u"&Help")
 
@@ -481,13 +478,13 @@ class DrawFrame(wx.Frame):
                           size=wx.Size(800, 600),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-        self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
         main_vbox = wx.BoxSizer(wx.VERTICAL)
 
         info_svbox = wx.StaticBoxSizer(
-            wx.StaticBox(self, wx.ID_ANY,
-                         u"Visualization Options"), wx.VERTICAL)
+            wx.StaticBox(self, wx.ID_ANY, u"Visualization Options"),
+            wx.VERTICAL)
 
         self.m_panel = wx.Panel(info_svbox.GetStaticBox(), wx.ID_ANY,
                                 wx.DefaultPosition, wx.DefaultSize,
@@ -522,8 +519,8 @@ class DrawFrame(wx.Frame):
         hbox_bottom.Add(self.mode_rb, 1, wx.BOTTOM | wx.LEFT | wx.RIGHT, 5)
 
         annote_sb = wx.StaticBoxSizer(
-            wx.StaticBox(self.m_panel, wx.ID_ANY,
-                         u"Tag Options"), wx.HORIZONTAL)
+            wx.StaticBox(self.m_panel, wx.ID_ANY, u"Tag Options"),
+            wx.HORIZONTAL)
 
         self.quad_ckb = wx.CheckBox(annote_sb.GetStaticBox(), wx.ID_ANY,
                                     u"Quad", wx.DefaultPosition,
@@ -623,7 +620,7 @@ class BeamlineFrame(wx.Frame):
                           size=wx.Size(700, 500),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-        self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
         choice_vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -678,14 +675,15 @@ class LogFrame(wx.Frame):
                           size=wx.Size(800, 600),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-        self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
         main_vbox = wx.BoxSizer(wx.VERTICAL)
 
         self.log_tc = wx.TextCtrl(
             self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition,
             wx.DefaultSize, wx.HSCROLL | wx.TE_MULTILINE | wx.TE_READONLY)
-        self.log_tc.SetFont(wx.Font(wx.NORMAL_FONT.GetPointSize(), 70, 90, 90,
+        self.log_tc.SetFont(wx.Font(wx.NORMAL_FONT.GetPointSize(
+        ), wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL,
                                     False, "Monospace"))
         self.log_tc.SetForegroundColour(wx.SystemSettings.GetColour(
             wx.SYS_COLOUR_WINDOWTEXT))
@@ -736,7 +734,7 @@ class DataFrame(wx.Frame):
                           size=wx.Size(950, 700),
                           style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL)
 
-        self.SetSizeHintsSz(wx.DefaultSize, wx.DefaultSize)
+        self.SetSizeHints(wx.DefaultSize, wx.DefaultSize)
 
         main_vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -744,7 +742,9 @@ class DataFrame(wx.Frame):
             self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition,
             wx.DefaultSize, wx.TE_READONLY | wx.VSCROLL | wx.HSCROLL |
             wx.NO_BORDER | wx.WANTS_CHARS)
-        self.data_rtc.SetFont(wx.Font(12, 76, 90, 90, False, "Monospace"))
+        self.data_rtc.SetFont(wx.Font(
+            12, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL,
+            wx.FONTWEIGHT_NORMAL, False, "Monospace"))
 
         main_vbox.Add(self.data_rtc, 1, wx.EXPAND | wx.ALL, 5)
 

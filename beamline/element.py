@@ -21,10 +21,9 @@ class MagBlock(object):
     """ Super class of all elements, part of configuration parameters are
     defined here:
 
-    * objcnt: object counter, if create/add element one by one, objcnt will return the total element number by sumObjNum() method;
-
+    * objcnt: object counter, if create/add element one by one,
+      objcnt will return the total element number by sumObjNum() method;
     * comminfo: the shared common information for all elements, could be defined by calling setCommInfo() static method;
-
     * __styleconfig_dict: style configurations for element drawing, could be defined by setStyleConfig() static method;
 
     New element should inherit MagBlock, and define following methods:
@@ -37,9 +36,9 @@ class MagBlock(object):
     comminfo = {}  # common information
     __styleconfig_dict = {
         'quad':
-            {'h': 0.6, 'fc': 'red', 'ec': 'red', 'alpha': 0.50,},
+            {'h': 0.6, 'fc': 'red', 'ec': 'red', 'alpha': 0.50, },
         'bend':
-            {'h': 0.5, 'fc': 'blue', 'ec':'blue', 'alpha': 0.50,},
+            {'h': 0.5, 'fc': 'blue', 'ec': 'blue', 'alpha': 0.50, },
         'drift':
             {'h': 0.1, 'lw': 1, 'color': 'black', 'alpha': 0.75},
         'moni':
@@ -53,7 +52,7 @@ class MagBlock(object):
         """
 
         MagBlock.objcnt += 1
-        self._name = name     # element name
+        self._name = name  # element name
         self.typename = None  # element type name
         self.comminfo = {k: v for k, v in MagBlock.comminfo.items()}  # common information
 
@@ -84,12 +83,12 @@ class MagBlock(object):
                                'online': self._dumpOnlineConf}
 
         self.styledict = {}  # style dict
-        self._patches = []   # patches list, empty
+        self._patches = []  # patches list, empty
         self.next_inc_angle = 0  # for visualization, initial incremental angle
 
-        self._spos = None # element position along beamline/lattice, in [m]
-        self.transM = np.eye(6, 6, dtype = np.float64) # default element transport matrix
-        self.transM_flag = False # if calcTransM() is called
+        self._spos = None  # element position along beamline/lattice, in [m]
+        self.transM = np.eye(6, 6, dtype=np.float64)  # default element transport matrix
+        self.transM_flag = False  # if calcTransM() is called
 
     @property
     def name(self):
@@ -122,12 +121,12 @@ class MagBlock(object):
         if not isinstance(pc, np.ndarray):
             pc = np.array(pc)
 
-        theta = theta/180.0*np.pi  # degree to rad
+        theta = theta / 180.0 * np.pi  # degree to rad
         mr = np.array([
-                [np.cos(theta), -np.sin(theta)],
-                [np.sin(theta),  np.cos(theta)],
-                ])
-        return np.dot(mr, (inputArray-pc).transpose()).transpose() + pc.transpose()
+            [np.cos(theta), -np.sin(theta)],
+            [np.sin(theta), np.cos(theta)],
+        ])
+        return np.dot(mr, (inputArray - pc).transpose()).transpose() + pc.transpose()
 
     @staticmethod
     def copy_patches(ptches0):
@@ -292,7 +291,7 @@ class MagBlock(object):
         :param type: comm, simu, ctrl, misc, all, online (default)
         :param format: elegant/mad, elegant by default
         """
-        return self.dumpConfigDict[type](format).values()[0].values()[0]
+        return list(list(self.dumpConfigDict[type](format).values())[0].values())[0]
 
     def _setSimuConf(self, conf):
         self.simuinfo.update(conf)
@@ -413,8 +412,8 @@ class MagBlock(object):
             ax = fig.add_subplot(111, aspect='equal')
             [ax.add_patch(i) for i in self._patches]
             bbox = self._patches[0].get_path().get_extents()
-            x0 = 2.0*min(bbox.xmin, bbox.ymin)
-            x1 = 2.0*max(bbox.xmax, bbox.ymax)
+            x0 = 2.0 * min(bbox.xmin, bbox.ymin)
+            x1 = 2.0 * max(bbox.xmax, bbox.ymax)
             ax.set_xlim(x0, x1)
             ax.set_ylim(x0, x1)
             # x1,y1=tuple(self.nextp0)
@@ -443,7 +442,7 @@ class MagBlock(object):
         i.e. valid position in [m] would return after lattice modeled.
         """
         return self._spos
-    
+
     def setPosition(self, s):
         """ set element position along beamline/lattice, in [m]
 
@@ -467,7 +466,7 @@ class MagBlock(object):
         if self.transM_flag is not True:
             print("warning: invoke calcTransM() to update transport matrix.")
         return self.transM
-    
+
     def getR(self, i, j):
         """ return transport matrix element, indexed by i(row) and j(col),
             with the initial index of 1
@@ -475,7 +474,8 @@ class MagBlock(object):
         :param i: row index
         :param j: col index
         """
-        return self.transM[i-1,j-1]
+        return self.transM[i - 1, j - 1]
+
 
 class ElementCharge(MagBlock):
     """ charge element
@@ -494,13 +494,16 @@ class ElementCharge(MagBlock):
         self.typename = 'CHARGE'
         self.setConf(config)
 
+
 class ElementCenter(MagBlock):
     """ center element
     """
+
     def __init__(self, name=None, config=None):
         MagBlock.__init__(self, name)
         self.typename = 'CENTER'
         self.setConf(config)
+
 
 class ElementCsrcsben(MagBlock):
     """ csrcsben element
@@ -530,7 +533,7 @@ class ElementCsrcsben(MagBlock):
         """
         sconf = self.getConfig(type='simu')
         self._style['w'] = float(sconf['l'])  # element width
-        self._style['angle'] = float(sconf['angle'])/np.pi*180  # bending angle, [deg]
+        self._style['angle'] = float(sconf['angle']) / np.pi * 180  # bending angle, [deg]
         _width = self._style['w']
         _height = self._style['h']
         _fc = self._style['fc']
@@ -552,13 +555,13 @@ class ElementCsrcsben(MagBlock):
             #     |    |
             #     p1---p2
             x0, y0 = p0
-            pc = x0 + _width*0.5, y0
+            pc = x0 + _width * 0.5, y0
 
             if _angle >= 0:
                 x1, y1 = x0, y0 + _height
             else:  # _angle < 0
                 x1, y1 = x0, y0 - _height
-            
+
             x2, y2 = x0 + _width, y1
             x3, y3 = x2, y0
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x0, y0)]
@@ -577,38 +580,38 @@ class ElementCsrcsben(MagBlock):
             #   p5---p7---p4
 
             x0, y0 = p0
-            x1, y1 = x0, y0 + _height*0.5
-            x6, y6 = x1 + _width*0.5, y1
+            x1, y1 = x0, y0 + _height * 0.5
+            x6, y6 = x1 + _width * 0.5, y1
             x2, y2 = x0 + _width, y1
             x3, y3 = x2, y0
-            x4, y4 = x3, y0 - _height*0.5
+            x4, y4 = x3, y0 - _height * 0.5
             x7, y7 = x6, y4
             x5, y5 = x0, y4
-            pc = x0 + _width*0.5, y0
+            pc = x0 + _width * 0.5, y0
 
             vs0 = [
-                    (x0, y0),
-                    (x1, y1),
-                    (x6, y6),
-                    (x2, y2),
-                    (x3, y3),
-                    (x4, y4),
-                    (x7, y7),
-                    (x5, y5),
-                    (x0, y0),
-                ]
+                (x0, y0),
+                (x1, y1),
+                (x6, y6),
+                (x2, y2),
+                (x3, y3),
+                (x4, y4),
+                (x7, y7),
+                (x5, y5),
+                (x0, y0),
+            ]
             vs = MagBlock.rot(vs0, theta=angle, pc=p0)
             cs = [
-                    Path.MOVETO,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                    Path.CURVE3,
-                ]
+                Path.MOVETO,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+            ]
             pth = Path(vs, cs)
             ptch = patches.PathPatch(pth, fc=_fc, ec=_ec, alpha=_alpha, lw=_lw)
             self._patches = []
@@ -630,17 +633,17 @@ class ElementCsrcsben(MagBlock):
         sconf = self.getConfig(type=type)
         bend_length = sconf['l']
         theta = sconf['angle']
-        rho = bend_length/np.sin(theta)
-        #rho = np.sqrt(gamma**2-1)*m0*c0/bend_field/e0
-        #theta = np.arcsin(bend_length/rho)
+        rho = bend_length / np.sin(theta)
+        # rho = np.sqrt(gamma**2-1)*m0*c0/bend_field/e0
+        # theta = np.arcsin(bend_length/rho)
         self.transM = mathutils.transRbend(theta, rho, gamma, incsym)
         if gamma is not None:
             m0 = 9.10938215e-31
             e0 = 1.602176487e-19
             c0 = 299792458.0
-            self._bend_field = np.sqrt(gamma**2-1)*m0*c0/rho/e0
+            self._bend_field = np.sqrt(gamma ** 2 - 1) * m0 * c0 / rho / e0
             self._rho = rho
-            self.setConf({'rho':self._rho, 'field':self._bend_field}, type='misc')
+            self.setConf({'rho': self._rho, 'field': self._bend_field}, type='misc')
         self.transM_flag = True
         return self.transM
 
@@ -657,6 +660,7 @@ class ElementCsrcsben(MagBlock):
         :return: bending radius, [m]
         """
         return self._rho
+
 
 class ElementCsrdrift(MagBlock):
     """ csrdrift element
@@ -689,12 +693,12 @@ class ElementCsrdrift(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -721,7 +725,7 @@ class ElementCsrdrift(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None):
@@ -739,6 +743,7 @@ class ElementCsrdrift(MagBlock):
         self.transM = mathutils.transDrift(l, gamma)
         self.transM_flag = True
         return self.transM
+
 
 class ElementDrift(MagBlock):
     """ drift element
@@ -771,12 +776,12 @@ class ElementDrift(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -803,9 +808,9 @@ class ElementDrift(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
-        
+
     def calcTransM(self, gamma=None):
         """calculate transport matrix
 
@@ -821,6 +826,7 @@ class ElementDrift(MagBlock):
         self.transM = mathutils.transDrift(l, gamma)
         self.transM_flag = True
         return self.transM
+
 
 class ElementKicker(MagBlock):
     """ kicker element
@@ -853,12 +859,12 @@ class ElementKicker(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -885,8 +891,9 @@ class ElementKicker(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+
 
 class ElementLscdrift(MagBlock):
     """ lscdrift element
@@ -919,12 +926,12 @@ class ElementLscdrift(MagBlock):
         else:
             self._style['lemgth'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -951,7 +958,7 @@ class ElementLscdrift(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None):
@@ -969,6 +976,7 @@ class ElementLscdrift(MagBlock):
         self.transM = mathutils.transDrift(l, gamma)
         self.transM_flag = True
         return self.transM
+
 
 class ElementMark(MagBlock):
     """ mark element
@@ -1001,12 +1009,12 @@ class ElementMark(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -1033,8 +1041,9 @@ class ElementMark(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+
 
 class ElementMoni(MagBlock):
     """ moni element
@@ -1067,13 +1076,13 @@ class ElementMoni(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _fancyc = self._style['color']
         _alpha = self._style['alpha']
         _plainc = MagBlock._MagBlock__styleconfig_dict['drift']['color']
-        
+
         #
         #   |
         # --p0--p1--
@@ -1082,7 +1091,7 @@ class ElementMoni(MagBlock):
         if mode == 'plain':
             x0, y0 = p0
             x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            pc = x0 + 0.5*_length, (y0 + y1)*0.5
+            pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
             vs = [(x0, y0), (x1, y1)]
             cs = [Path.MOVETO, Path.LINETO]
             pth = Path(vs, cs)
@@ -1093,64 +1102,65 @@ class ElementMoni(MagBlock):
             self.next_inc_angle = 0
         else:  # fancy mode, same as plain, could be more fancy(Apr.08, 2016)
             x0, y0 = p0
-            #x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
-            #pc = x0 + 0.5*_length, (y0 + y1)*0.5
+            # x1, y1 = x0 + _length, y0 + _length * np.tan(_theta)
+            # pc = x0 + 0.5*_length, (y0 + y1)*0.5
 
             x1, y1 = x0, y0 + 0.5 * _length
-            x2, y2 = x1 + 1./3.0 * _length, y1
-            x3, y3 = x2 + 1./3.0 * _length, y1
-            x4, y4 = x3 + 1./3.0 * _length, y1
+            x2, y2 = x1 + 1. / 3.0 * _length, y1
+            x3, y3 = x2 + 1. / 3.0 * _length, y1
+            x4, y4 = x3 + 1. / 3.0 * _length, y1
             x5, y5 = x4, y0
             x6, y6 = x5, y5 - 0.5 * _length
             x7, y7 = x3, y6
-            x8, y8 = x3, y7 + 1./3.0 * _length
+            x8, y8 = x3, y7 + 1. / 3.0 * _length
             x9, y9 = x2, y8
             x10, y10 = x9, y7
             x11, y11 = x0, y7
-            pc = (x0 + x5) *0.5, (y0 + y5) * 0.5
+            pc = (x0 + x5) * 0.5, (y0 + y5) * 0.5
 
             verts1 = [
-                    (x0, y0),
-                    (x1, y1),
-                    (x2, y2),
-                    pc,
-                    (x3, y3),
-                    (x4, y4),
-                    (x5, y5),
-                    (x6, y6),
-                    (x7, y7),
-                    (x8, y8),
-                    (x9, y9),
-                    (x10, y10),
-                    (x11, y11),
-                    (x0, y0),
-                ]
+                (x0, y0),
+                (x1, y1),
+                (x2, y2),
+                pc,
+                (x3, y3),
+                (x4, y4),
+                (x5, y5),
+                (x6, y6),
+                (x7, y7),
+                (x8, y8),
+                (x9, y9),
+                (x10, y10),
+                (x11, y11),
+                (x0, y0),
+            ]
 
             codes1 = [
-                     Path.MOVETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.LINETO,
-                     Path.CLOSEPOLY,
-                    ]
+                Path.MOVETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.LINETO,
+                Path.CLOSEPOLY,
+            ]
             pth = Path(verts1, codes1)
             ptch = patches.PathPatch(pth, lw=_lw, fc=_fancyc, ec=_fancyc, alpha=_alpha)
             self._patches = []
             self._patches.append(ptch)
-            #self.next_p0 = x1, y1
+            # self.next_p0 = x1, y1
             self.next_p0 = x5, y5
             self.next_inc_angle = 0
 
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+
 
 class ElementQuad(MagBlock):
     """ quad element
@@ -1240,36 +1250,36 @@ class ElementQuad(MagBlock):
             #       p3
 
             x0, y0 = p0
-            x1, y1 = x0 + _width*0.5, y0 + _height*0.5
-            x2, y2 = x1 + _width*0.5, y0
-            x3, y3 = x1, y0 - _height*0.5
-            pc = x0 + _width*0.5, y0
+            x1, y1 = x0 + _width * 0.5, y0 + _height * 0.5
+            x2, y2 = x1 + _width * 0.5, y0
+            x3, y3 = x1, y0 - _height * 0.5
+            pc = x0 + _width * 0.5, y0
 
             vs0 = [
-                  (x0, y0),
-                  (x1, y1), 
-                  (x2, y2), 
-                  (x3, y3), 
-                  (x0, y0)
-                  ]
+                (x0, y0),
+                (x1, y1),
+                (x2, y2),
+                (x3, y3),
+                (x0, y0)
+            ]
             vs = MagBlock.rot(vs0, theta=angle, pc=p0)
             cs = [
-                  Path.MOVETO,
-                  Path.CURVE3,
-                  Path.CURVE3,
-                  Path.CURVE3,
-                  Path.CURVE3
-                  ]
+                Path.MOVETO,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3,
+                Path.CURVE3
+            ]
             pth = Path(vs, cs)
             ptch = patches.PathPatch(pth, fc=_fc, ec=_ec, alpha=_alpha, lw=_lw)
 
             self._patches = []
             self._patches.append(ptch)
-            pout = x0+_width, y0   # the right most point in x-axis
+            pout = x0 + _width, y0  # the right most point in x-axis
             self.next_p0 = tuple(MagBlock.rot(pout, theta=angle, pc=p0).tolist())
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_width, y0
+        pc = x0 + 0.5 * _width, y0
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
 
     def calcTransM(self, gamma=None, type='simu'):
@@ -1298,10 +1308,11 @@ class ElementQuad(MagBlock):
             if rval is None:
                 val = self.getConfig(type='simu')['k1']
             else:
-                val = self.unitTrans(rval, direction = '+')
+                val = self.unitTrans(rval, direction='+')
             return val
         else:
             return self.getConfig(type='simu')['k1']
+
 
 class ElementRfcw(MagBlock):
     """ rfcw element
@@ -1334,30 +1345,30 @@ class ElementRfcw(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
         _height = self._style['h']
         if 'freq' in sconf:
-            freqi = int(float(sconf['freq'])/2856.0e6)
+            freqi = int(float(sconf['freq']) / 2856.0e6)
         else:
             freqi = 0
-        
+
         if freqi == 1:
-            _fancyc = '#FFDDBB' # S band
+            _fancyc = '#FFDDBB'  # S band
             _text = 'S'
         elif freqi == 2:
-            _fancyc = '#5E5EFF' # C band
+            _fancyc = '#5E5EFF'  # C band
             _text = 'C'
         elif freqi == 4:
-            _fancyc = '#8800FF' # X band
+            _fancyc = '#8800FF'  # X band
             _text = 'X'
         else:
-            _fancyc = '#FFBB00' # other
+            _fancyc = '#FFBB00'  # other
             _text = '..'
-        
+
         #
         #   p1-------p2
         #   |        |
@@ -1367,10 +1378,10 @@ class ElementRfcw(MagBlock):
         #
         if mode == 'plain':
             x0, y0 = p0
-            x1, y1 = x0, y0 + 0.5*_height
+            x1, y1 = x0, y0 + 0.5 * _height
             x2, y2 = x0 + _length, y1
             x3, y3 = x2, y0
-            x4, y4 = x3, y0 - 0.5*_height
+            x4, y4 = x3, y0 - 0.5 * _height
             x5, y5 = x0, y4
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
             cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
@@ -1380,13 +1391,13 @@ class ElementRfcw(MagBlock):
             self._patches.append(ptch)
             self.next_p0 = x3, y3
             self.next_inc_angle = 0
-            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
+            pc = (x0 + x3) * 0.5, (y0 + y3) * 0.5
         else:  # fancy mode, 
             x0, y0 = p0
-            x1, y1 = x0, y0 + 0.5*_height
+            x1, y1 = x0, y0 + 0.5 * _height
             x2, y2 = x0 + _length, y1
             x3, y3 = x2, y0
-            x4, y4 = x3, y0 - 0.5*_height
+            x4, y4 = x3, y0 - 0.5 * _height
             x5, y5 = x0, y4
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
             cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
@@ -1396,11 +1407,12 @@ class ElementRfcw(MagBlock):
             self._patches.append(ptch)
             self.next_p0 = x3, y3
             self.next_inc_angle = 0
-            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
+            pc = (x0 + x3) * 0.5, (y0 + y3) * 0.5
 
         self._atext = {'xypos': pc, 'text': _text}
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename,
                        'atext': self._atext}
+
 
 class ElementRfdf(MagBlock):
     """ rfdf element
@@ -1433,32 +1445,32 @@ class ElementRfdf(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
         _height = self._style['h']
         if 'freq' in sconf:
-            freqi = int(float(sconf['freq'])/2856.0e6)
+            freqi = int(float(sconf['freq']) / 2856.0e6)
         elif 'frequency' in sconf:
-            freqi = int(float(sconf['frequency'])/2856.0e6)
+            freqi = int(float(sconf['frequency']) / 2856.0e6)
         else:
             freqi = 0
-        
+
         if freqi == 1:
-            _fancyc = '#FFDDBB' # S band
+            _fancyc = '#FFDDBB'  # S band
             _text = 'SD'
         elif freqi == 2:
-            _fancyc = '#5E5EFF' # C band
+            _fancyc = '#5E5EFF'  # C band
             _text = 'CD'
         elif freqi == 4:
-            _fancyc = '#8800FF' # X band
+            _fancyc = '#8800FF'  # X band
             _text = 'XD'
         else:
-            _fancyc = '#FFBB00' # other
+            _fancyc = '#FFBB00'  # other
             _text = '..'
-        
+
         #
         #   p1-------p2
         #   |        |
@@ -1468,10 +1480,10 @@ class ElementRfdf(MagBlock):
         #
         if mode == 'plain':
             x0, y0 = p0
-            x1, y1 = x0, y0 + 0.5*_height
+            x1, y1 = x0, y0 + 0.5 * _height
             x2, y2 = x0 + _length, y1
             x3, y3 = x2, y0
-            x4, y4 = x3, y0 - 0.5*_height
+            x4, y4 = x3, y0 - 0.5 * _height
             x5, y5 = x0, y4
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
             cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
@@ -1481,13 +1493,13 @@ class ElementRfdf(MagBlock):
             self._patches.append(ptch)
             self.next_p0 = x3, y3
             self.next_inc_angle = 0
-            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
+            pc = (x0 + x3) * 0.5, (y0 + y3) * 0.5
         else:  # fancy mode, 
             x0, y0 = p0
-            x1, y1 = x0, y0 + 0.5*_height
+            x1, y1 = x0, y0 + 0.5 * _height
             x2, y2 = x0 + _length, y1
             x3, y3 = x2, y0
-            x4, y4 = x3, y0 - 0.5*_height
+            x4, y4 = x3, y0 - 0.5 * _height
             x5, y5 = x0, y4
             vs = [(x0, y0), (x1, y1), (x2, y2), (x3, y3), (x4, y4), (x5, y5), (x0, y0)]
             cs = [Path.MOVETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.LINETO, Path.CLOSEPOLY]
@@ -1497,11 +1509,12 @@ class ElementRfdf(MagBlock):
             self._patches.append(ptch)
             self.next_p0 = x3, y3
             self.next_inc_angle = 0
-            pc = (x0 + x3)*0.5, (y0 + y3)*0.5
+            pc = (x0 + x3) * 0.5, (y0 + y3) * 0.5
 
         self._atext = {'xypos': pc, 'text': _text}
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename,
                        'atext': self._atext}
+
 
 class ElementWake(MagBlock):
     """ wake element
@@ -1534,12 +1547,12 @@ class ElementWake(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -1565,6 +1578,7 @@ class ElementWake(MagBlock):
             self._patches.append(ptch)
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
+
 
 class ElementWatch(MagBlock):
     """ watch element
@@ -1597,12 +1611,12 @@ class ElementWatch(MagBlock):
         else:
             self._style['length'] = 0
         self._style['angle'] = angle
-        _theta = angle/180.0*np.pi  # deg to rad
+        _theta = angle / 180.0 * np.pi  # deg to rad
         _length = self._style['length']
         _lw = self._style['lw']
         _color = self._style['color']
         _alpha = self._style['alpha']
-        
+
         #
         # --p0-------p1--
         # 
@@ -1629,8 +1643,9 @@ class ElementWatch(MagBlock):
             self.next_p0 = x1, y1
             self.next_inc_angle = 0
 
-        pc = x0 + 0.5*_length, (y0 + y1)*0.5
+        pc = x0 + 0.5 * _length, (y0 + y1) * 0.5
         self._anote = {'xypos': pc, 'textpos': pc, 'name': self.name.upper(), 'type': self.typename}
+
 
 class ElementBeamline(MagBlock):
     """ beamline element, virtual element, does not present in ELEGANT
@@ -1640,6 +1655,7 @@ class ElementBeamline(MagBlock):
         MagBlock.__init__(self, name)
         self.typename = 'BEAMLINE'
         self.setConf(config)
+
 
 ElementDrif = ElementDrift
 ElementLscdrif = ElementLscdrift
@@ -1720,4 +1736,3 @@ def test():
 
 if __name__ == '__main__':
     test()
-

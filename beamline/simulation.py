@@ -22,23 +22,23 @@ from . import datautils
 
 class Simulator(object):
     def __init__(self, infile=''):
-        self.mode = 'mad'           # call setMode(mode = 'elegant') to change mode, or 'mad' by default
+        self.mode = 'mad'  # call setMode(mode = 'elegant') to change mode, or 'mad' by default
         self.lattice_file = infile  # .lte file for elegant mode, or .mad[x] file for mad mode
         self.elegant_file = ''
         self.set_file = {
-                        'elegant': self._setElegant,
-                        'mad': self._setMad
-                        }
+            'elegant': self._setElegant,
+            'mad': self._setMad
+        }
 
         self.sim_case = {
-                        'elegant': self._doElegant,
-                        'mad': self._doMad
-                        }
+            'elegant': self._doElegant,
+            'mad': self._doMad
+        }
 
         self.get_output = {
-                          'elegant': self._getOutputElegant,
-                          'mad': self._getOutputMad
-                          }
+            'elegant': self._getOutputElegant,
+            'mad': self._getOutputMad
+        }
         self.sim_exec = 'mad'
         self.sim_path = os.path.expanduser('~')
 
@@ -122,7 +122,7 @@ class Simulator(object):
             1: mad file
         """
         self.set_file[self.mode](**infiles)
-        
+
     def doSimulation(self):
         self.sim_case[self.mode]()
 
@@ -130,16 +130,14 @@ class Simulator(object):
         return self.get_output[self.mode](**kws)
 
     def __str__(self):
-        return ('mode = {mode:5s}\n' 
+        return ('mode = {mode:5s}\n'
                 'lat file = {lattice_file:5s}\n'
                 'ele file = {elegant_file:5s}\n'
                 'sim exec = {sscript_path:5s}\n').format(
-                    mode=self.mode,
-                    lattice_file=self.lattice_file,
-                    elegant_file=self.elegant_file,
-                    sscript_path=self.sim_script)
-
-#----------------------------------------------------------------------------------------
+            mode=self.mode,
+            lattice_file=self.lattice_file,
+            elegant_file=self.elegant_file,
+            sscript_path=self.sim_script)
 
 
 def test():
@@ -149,7 +147,7 @@ def test():
     simtestpath = os.path.join(os.getcwd(), '../tests/tracking/')
     ltefile = os.path.join(simtestpath, 'newlat.lte')
     elefile = os.path.join(simtestpath, 'test.ele')
-    #print(ltefile + elefile)
+    # print(ltefile + elefile)
 
     A = Simulator()
     A.setMode('elegant')
@@ -174,6 +172,7 @@ def test():
     A.setScript('/home/tong/bin/madx64r')
     print(A)
     """
+
 
 if __name__ == '__main__':
     test()
