@@ -194,9 +194,9 @@ class Models(object):
         for el in ele:
             if isinstance(el, list) or isinstance(el, tuple):
                 for e in Models.flatten(el):
-                    yield (e)
+                    yield e
             else:
-                yield (el)
+                yield el
 
     @property
     def LatticeList(self):
